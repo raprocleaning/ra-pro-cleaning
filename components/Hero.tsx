@@ -29,20 +29,22 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex flex-col">
-      {/* Background — Replace bg-gradient with actual image */}
+      {/* Background Photo */}
       <div
         className="absolute inset-0 z-0"
         style={{
-          background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 60%, #111111 100%)',
+          backgroundImage: 'url(/gallery/kitchen-1.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'grayscale(40%)',
         }}
       />
 
-      {/* Subtle texture overlay */}
+      {/* Dark overlay for text readability */}
       <div
-        className="absolute inset-0 z-0 opacity-30"
+        className="absolute inset-0 z-0"
         style={{
-          backgroundImage:
-            'radial-gradient(ellipse at 20% 50%, rgba(200,169,110,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(200,169,110,0.05) 0%, transparent 50%)',
+          background: 'linear-gradient(135deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.65) 60%, rgba(10,10,10,0.75) 100%)',
         }}
       />
 

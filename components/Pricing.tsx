@@ -3,7 +3,7 @@ import Link from 'next/link'
 const plans = [
   {
     name: 'Standard Cleaning',
-    price: 'From $600',
+    price: 'From $200',
     highlight: false,
     desc: 'Perfect for regular maintenance — keeps your home consistently clean between deep cleans.',
     features: [
@@ -17,7 +17,7 @@ const plans = [
   },
   {
     name: 'Deep Cleaning',
-    price: 'From $700',
+    price: 'From $300',
     highlight: true,
     desc: 'A thorough top-to-bottom clean — every surface, corner, cabinet interior, baseboard, and appliance.',
     features: [
