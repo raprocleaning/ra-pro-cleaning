@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import VirtualAssistant from '@/components/VirtualAssistant'
 
 export const metadata: Metadata = {
   title: "R A Pro Cleaning Services | Denver's Premium Cleaning",
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navigation />
         {children}
         <Footer />
+        <VirtualAssistant />
       </body>
     </html>
   )
