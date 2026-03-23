@@ -213,6 +213,28 @@ const servicesData: Record<string, ServiceData> = {
     ],
     relatedSlugs: ['standard-cleaning', 'house-cleaning', 'deep-cleaning'],
   },
+  'carpet-cleaning': {
+    slug: 'carpet-cleaning',
+    name: 'Carpet Cleaning',
+    tagline: 'Deep clean carpets that look, feel, and smell brand new.',
+    description:
+      'Our professional carpet cleaning service uses hot water extraction to remove deep-set stains, allergens, pet dander, and embedded dirt from all carpet types.',
+    longDescription:
+      "Carpets trap more dirt, allergens, and bacteria than any other surface in your home. Vacuuming alone doesn't cut it — our deep extraction method gets all the way down to the carpet fibers, lifting out what regular cleaning leaves behind. Whether you're dealing with pet stains, high-traffic wear, or just want a full refresh, we restore your carpets to their best condition.",
+    price: 'Custom quote',
+    priceNote: 'Pricing based on number of rooms and carpet condition.',
+    includes: [
+      'Pre-treatment of stains and high-traffic areas',
+      'Hot water extraction (steam cleaning) of all carpet fibers',
+      'Pet odor and dander treatment available',
+      'Furniture moved and cleaned underneath (light pieces)',
+      'Edges and corners hand-cleaned',
+      'Post-clean grooming for even drying and appearance',
+      'Fast dry time — typically 2–4 hours',
+      'All carpet types: plush, berber, frieze, and more',
+    ],
+    relatedSlugs: ['deep-cleaning', 'house-cleaning', 'bedroom-cleaning'],
+  },
 }
 
 export async function generateStaticParams() {

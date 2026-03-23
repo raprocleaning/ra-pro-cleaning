@@ -111,6 +111,18 @@ const services = [
       </svg>
     ),
   },
+  {
+    slug: 'carpet-cleaning',
+    name: 'Carpet Cleaning',
+    description:
+      'Deep extraction cleaning to remove stains, allergens, and embedded dirt — leaving your carpets fresh, soft, and like new.',
+    price: 'Custom quote',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M3 14h18M10 3v18M14 3v18M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
+      </svg>
+    ),
+  },
 ]
 
 const ServicesGrid = () => {

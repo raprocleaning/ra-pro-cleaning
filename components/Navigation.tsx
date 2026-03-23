@@ -32,6 +32,7 @@ const Navigation = () => {
     { name: 'Office Cleaning', href: '/services/office-cleaning' },
     { name: 'Move In/Out Cleaning', href: '/services/move-in-out' },
     { name: 'Airbnb Cleaning', href: '/services/airbnb-cleaning' },
+    { name: 'Carpet Cleaning', href: '/services/carpet-cleaning' },
   ]
 
   const whyUs = [
