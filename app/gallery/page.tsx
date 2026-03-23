@@ -2,22 +2,30 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
-const categories = ['All', 'Kitchen', 'Bathroom', 'Living Room']
+const categories = ['All', 'Kitchen', 'Bathroom', 'Living Room', 'Carpet Cleaning']
 
 const galleryItems = [
-  { id: 1,  src: '/gallery/kitchen-1.jpg',           category: 'Kitchen',     label: 'Kitchen Deep Clean',      desc: 'Dark wood cabinets, granite island and appliances restored' },
-  { id: 2,  src: '/gallery/fridge-before-after.jpg', category: 'Kitchen',     label: 'Fridge Before & After',   desc: 'Full fridge interior sanitized and deodorized' },
-  { id: 3,  src: '/gallery/kitchen-2.jpg',           category: 'Kitchen',     label: 'Custom Cabinetry Clean',  desc: 'Ornate wood cabinetry dusted and polished throughout' },
-  { id: 4,  src: '/gallery/kitchen-3.jpg',           category: 'Kitchen',     label: 'Kitchen After Clean',     desc: 'Modern kitchen with stainless appliances polished' },
-  { id: 5,  src: '/gallery/room-3.jpg',              category: 'Kitchen',     label: 'Kitchen Refresh',         desc: 'White cabinets, counters and stainless fridge spotless' },
-  { id: 6,  src: '/gallery/room-9.jpg',              category: 'Kitchen',     label: 'Refrigerator Detail',     desc: 'Stainless exterior, handles and top polished to a shine' },
-  { id: 7,  src: '/gallery/bathroom-2.jpg',          category: 'Bathroom',    label: 'Double Vanity Clean',     desc: 'Double sink, marble countertop and mirrors gleaming' },
-  { id: 8,  src: '/gallery/bathroom-3.jpg',          category: 'Bathroom',    label: 'Tub & Shower Clean',      desc: 'Clawfoot tub and glass shower enclosure sanitized' },
-  { id: 9,  src: '/gallery/bathroom-4.jpg',          category: 'Bathroom',    label: 'Bathroom Deep Clean',     desc: 'Full bathroom detail from floor tiles to every fixture' },
-  { id: 10, src: '/gallery/room-2.jpg',              category: 'Bathroom',    label: 'Bathroom Restored',       desc: 'Clawfoot tub, toilet and all surfaces scrubbed clean' },
-  { id: 11, src: '/gallery/room-4.jpg',              category: 'Bathroom',    label: 'Artisan Bathroom',        desc: 'Decorative mosaic tile and hand-painted sink polished' },
-  { id: 12, src: '/gallery/room-6.jpg',              category: 'Bathroom',    label: 'Bathroom Sanitized',      desc: 'Black granite vanity, sink and toilet fully sanitized' },
-  { id: 13, src: '/gallery/room-7.jpg',              category: 'Living Room', label: 'Wine Storage Clean',      desc: 'Built-in wine rack dusted and wiped down' },
+  { id: 1,  src: '/gallery/kitchen-1.jpg',           category: 'Kitchen',          label: 'Kitchen Deep Clean',        desc: 'Dark wood cabinets, granite island and appliances restored' },
+  { id: 2,  src: '/gallery/fridge-before-after.jpg', category: 'Kitchen',          label: 'Fridge Before & After',     desc: 'Full fridge interior sanitized and deodorized' },
+  { id: 3,  src: '/gallery/kitchen-2.jpg',           category: 'Kitchen',          label: 'Custom Cabinetry Clean',    desc: 'Ornate wood cabinetry dusted and polished throughout' },
+  { id: 4,  src: '/gallery/kitchen-3.jpg',           category: 'Kitchen',          label: 'Kitchen After Clean',       desc: 'Modern kitchen with stainless appliances polished' },
+  { id: 5,  src: '/gallery/room-3.jpg',              category: 'Kitchen',          label: 'Kitchen Refresh',           desc: 'White cabinets, counters and stainless fridge spotless' },
+  { id: 6,  src: '/gallery/room-9.jpg',              category: 'Kitchen',          label: 'Refrigerator Detail',       desc: 'Stainless exterior, handles and top polished to a shine' },
+  { id: 7,  src: '/gallery/bathroom-2.jpg',          category: 'Bathroom',         label: 'Double Vanity Clean',       desc: 'Double sink, marble countertop and mirrors gleaming' },
+  { id: 8,  src: '/gallery/bathroom-3.jpg',          category: 'Bathroom',         label: 'Tub & Shower Clean',        desc: 'Clawfoot tub and glass shower enclosure sanitized' },
+  { id: 9,  src: '/gallery/bathroom-4.jpg',          category: 'Bathroom',         label: 'Bathroom Deep Clean',       desc: 'Full bathroom detail from floor tiles to every fixture' },
+  { id: 10, src: '/gallery/room-2.jpg',              category: 'Bathroom',         label: 'Bathroom Restored',         desc: 'Clawfoot tub, toilet and all surfaces scrubbed clean' },
+  { id: 11, src: '/gallery/room-4.jpg',              category: 'Bathroom',         label: 'Artisan Bathroom',          desc: 'Decorative mosaic tile and hand-painted sink polished' },
+  { id: 12, src: '/gallery/room-6.jpg',              category: 'Bathroom',         label: 'Bathroom Sanitized',        desc: 'Black granite vanity, sink and toilet fully sanitized' },
+  { id: 13, src: '/gallery/room-7.jpg',              category: 'Living Room',      label: 'Wine Storage Clean',        desc: 'Built-in wine rack dusted and wiped down' },
+  { id: 14, src: '/gallery/carpet-living-room-1.jpg', category: 'Carpet Cleaning', label: 'Living Room Carpet',        desc: 'Hot water extraction leaving fresh diamond-pattern finish' },
+  { id: 15, src: '/gallery/carpet-fireplace-room.jpg', category: 'Carpet Cleaning', label: 'Fireplace Room Carpet',   desc: 'Full living room carpet deep-cleaned around fireplace' },
+  { id: 16, src: '/gallery/carpet-living-room-2.jpg', category: 'Carpet Cleaning', label: 'Open Living Area Carpet',  desc: 'Large open-plan carpet restored to like-new condition' },
+  { id: 17, src: '/gallery/carpet-before-after.jpg',  category: 'Carpet Cleaning', label: 'Before & After Clean',     desc: 'Side-by-side result showing dramatic carpet transformation' },
+  { id: 18, src: '/gallery/carpet-stairs.jpg',         category: 'Carpet Cleaning', label: 'Stair Carpet Clean',      desc: 'Carpeted stairs deep-extracted and groomed step by step' },
+  { id: 19, src: '/gallery/carpet-bedroom.jpg',        category: 'Carpet Cleaning', label: 'Bedroom Carpet',          desc: 'Bedroom and hallway carpet freshened with hot water extraction' },
+  { id: 20, src: '/gallery/carpet-hallway.jpg',        category: 'Carpet Cleaning', label: 'Hallway Carpet',          desc: 'High-traffic entry hallway carpet restored and refreshed' },
+  { id: 21, src: '/gallery/carpet-room.jpg',           category: 'Carpet Cleaning', label: 'Room Carpet Refresh',     desc: 'Full room carpet cleaned — stains lifted, fibers restored' },
 ]
 
 export default function GalleryPage() {
