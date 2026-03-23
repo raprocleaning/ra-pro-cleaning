@@ -139,7 +139,50 @@ export default function TermsPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">13. Contact Us</h2>
+              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">13. SMS Communications Program</h2>
+              <p className="mb-3">
+                By providing your phone number and opting in through our contact form or booking system,
+                you consent to receive SMS text messages from R A Pro Cleaning Services LLC. Our SMS
+                program includes the following types of messages:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mb-3">
+                <li>Appointment confirmations and booking reminders</li>
+                <li>Cleaning schedule updates and notifications</li>
+                <li>Promotional offers and service announcements</li>
+                <li>Follow-up messages regarding your service experience</li>
+              </ul>
+              <p className="mb-3">
+                <strong>Message Frequency:</strong> Message frequency varies based on your bookings and
+                account activity. You may receive up to 5 messages per month.
+              </p>
+              <p className="mb-3">
+                <strong>Message &amp; Data Rates:</strong> Message and data rates may apply depending
+                on your mobile carrier and plan. R A Pro Cleaning Services LLC is not responsible for
+                any charges incurred by your mobile carrier.
+              </p>
+              <p className="mb-3">
+                <strong>Opt-Out Instructions:</strong> You may opt out of receiving SMS messages at
+                any time by replying <strong>STOP</strong> to any message. After opting out, you will
+                receive a one-time confirmation message. For assistance, reply <strong>HELP</strong> or
+                contact us at ra@raprocleaningservices.com or 720-677-8799.
+              </p>
+              <p className="mb-3">
+                <strong>Carrier Liability Disclaimer:</strong> Carriers are not liable for delayed or
+                undelivered messages. Message delivery is subject to network availability and carrier
+                transmission limitations.
+              </p>
+              <p className="mb-3">
+                <strong>Age Restriction:</strong> Our SMS program is intended for individuals 18 years
+                of age or older. By opting in, you confirm that you are at least 18 years old.
+              </p>
+              <p>
+                For more information on how we handle your data, please review our{' '}
+                <a href="/privacy" className="text-[#4A90D9] hover:underline">Privacy Policy</a>.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">14. Contact Us</h2>
               <p>If you have questions about these Terms of Service, please contact us:</p>
               <div className="mt-3 space-y-1">
                 <p><strong>R A Pro Cleaning Services LLC</strong></p>

@@ -287,9 +287,13 @@ const ContactForm = () => {
                   />
                   <label htmlFor="smsOptIn" className="text-xs text-[#4A6583] leading-relaxed">
                     I agree to receive SMS text messages from R A Pro Cleaning Services LLC at the
-                    phone number provided. Message and data rates may apply. Reply STOP to opt out
-                    at any time. View our{' '}
-                    <a href="/privacy" className="text-[#4A90D9] hover:underline">Privacy Policy</a>.
+                    phone number provided, including appointment confirmations, booking reminders,
+                    cleaning updates, and promotional offers. Message frequency varies. Message and
+                    data rates may apply. Reply STOP to opt out or HELP for assistance at any time.
+                    View our{' '}
+                    <a href="/privacy" className="text-[#4A90D9] hover:underline">Privacy Policy</a>
+                    {' '}and{' '}
+                    <a href="/terms" className="text-[#4A90D9] hover:underline">Terms of Service</a>.
                   </label>
                 </div>
 
