@@ -215,7 +215,7 @@ export default function VirtualAssistant() {
       {/* Floating Button */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#C8A96E] hover:bg-[#B8935A] text-white shadow-lg flex items-center justify-center transition-all duration-300 rounded-full"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#4A90D9] hover:bg-[#357ABD] text-white shadow-lg flex items-center justify-center transition-all duration-300 rounded-full"
         aria-label="Open chat"
       >
         {open ? (
@@ -231,10 +231,10 @@ export default function VirtualAssistant() {
 
       {/* Chat Window */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-[340px] max-w-[calc(100vw-24px)] bg-white shadow-2xl flex flex-col border border-[#E0E0E0] rounded-lg overflow-hidden">
+        <div className="fixed bottom-24 right-6 z-50 w-[340px] max-w-[calc(100vw-24px)] bg-white shadow-2xl flex flex-col border border-[#C8DFEF] rounded-lg overflow-hidden">
           {/* Header */}
-          <div className="bg-[#0A0A0A] px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 bg-[#C8A96E] rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+          <div className="bg-[#1A2B4B] px-4 py-3 flex items-center gap-3">
+            <div className="w-9 h-9 bg-[#4A90D9] rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
               RA
             </div>
             <div>
@@ -253,8 +253,8 @@ export default function VirtualAssistant() {
                 <div
                   className={`max-w-[85%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line rounded-2xl ${
                     msg.from === 'user'
-                      ? 'bg-[#C8A96E] text-white rounded-br-sm'
-                      : 'bg-white text-[#0A0A0A] border border-[#E0E0E0] rounded-bl-sm'
+                      ? 'bg-[#4A90D9] text-white rounded-br-sm'
+                      : 'bg-white text-[#1A2B4B] border border-[#C8DFEF] rounded-bl-sm'
                   }`}
                 >
                   {msg.text}
@@ -265,7 +265,7 @@ export default function VirtualAssistant() {
                       <button
                         key={opt}
                         onClick={() => handleOption(opt)}
-                        className="text-xs px-3 py-1.5 border border-[#C8A96E] text-[#C8A96E] hover:bg-[#C8A96E] hover:text-white transition-colors rounded-full"
+                        className="text-xs px-3 py-1.5 border border-[#4A90D9] text-[#4A90D9] hover:bg-[#4A90D9] hover:text-white transition-colors rounded-full"
                       >
                         {opt}
                       </button>
@@ -278,19 +278,19 @@ export default function VirtualAssistant() {
           </div>
 
           {/* Input */}
-          <div className="border-t border-[#E0E0E0] p-3 flex gap-2 bg-white">
+          <div className="border-t border-[#C8DFEF] p-3 flex gap-2 bg-white">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage(input)}
               placeholder="Type a message..."
-              className="flex-1 text-sm border border-[#E0E0E0] px-3 py-2 rounded-full outline-none focus:border-[#C8A96E] transition-colors"
+              className="flex-1 text-sm border border-[#C8DFEF] px-3 py-2 rounded-full outline-none focus:border-[#4A90D9] transition-colors"
             />
             <button
               onClick={() => sendMessage(input)}
               disabled={!input.trim()}
-              className="w-9 h-9 bg-[#C8A96E] disabled:opacity-40 hover:bg-[#B8935A] text-white rounded-full flex items-center justify-center transition-colors flex-shrink-0"
+              className="w-9 h-9 bg-[#4A90D9] disabled:opacity-40 hover:bg-[#357ABD] text-white rounded-full flex items-center justify-center transition-colors flex-shrink-0"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

@@ -16,14 +16,14 @@ const GallerySection = () => {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 bg-[#0A0A0A]"
+      className="py-24 bg-[#1A2B4B]"
       id="gallery"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 fade-in-up">
           <div>
-            <p className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               Our Work
             </p>
             <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
@@ -32,7 +32,7 @@ const GallerySection = () => {
           </div>
           <Link
             href="/gallery"
-            className="self-start md:self-auto text-sm font-medium text-white/60 hover:text-[#C8A96E] transition-colors flex items-center gap-2"
+            className="self-start md:self-auto text-sm font-medium text-white/60 hover:text-[#93C5FD] transition-colors flex items-center gap-2"
           >
             View Full Gallery
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +58,7 @@ const GallerySection = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4">
-                <span className="text-xs font-semibold text-[#C8A96E] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#4A90D9] uppercase tracking-wider">
                   {photo.tag}
                 </span>
                 <p className="text-white text-sm font-medium mt-1">{photo.label}</p>

@@ -40,23 +40,23 @@ const WhyChooseUs = () => {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 bg-[#0A0A0A]"
+      className="py-24 bg-[#EBF4FF]"
       id="why-us"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
           <div className="fade-in-up">
-            <p className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               Why Choose Us
             </p>
-            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+            <h2 className="text-4xl md:text-5xl font-black text-[#1A2B4B] tracking-tight leading-tight">
               The R A Pro<br />
-              <span className="text-[#C8A96E]">Difference</span>
+              <span className="text-[#4A90D9]">Difference</span>
             </h2>
           </div>
           <div className="fade-in-up">
-            <p className="text-white/60 text-lg leading-relaxed">
+            <p className="text-[#4A6583] text-lg leading-relaxed">
               We don&apos;t just clean — we transform your space. With over 24 five-star reviews
               and years of experience serving Denver, our commitment to excellence speaks for itself.
             </p>
@@ -65,13 +65,13 @@ const WhyChooseUs = () => {
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
-                    className="w-8 h-8 rounded-full bg-[#C8A96E]/20 border-2 border-[#C8A96E] flex items-center justify-center"
+                    className="w-8 h-8 rounded-full bg-[#4A90D9]/10 border-2 border-[#4A90D9] flex items-center justify-center"
                   >
-                    <span className="text-[#C8A96E] text-xs">★</span>
+                    <span className="text-[#4A90D9] text-xs">★</span>
                   </div>
                 ))}
               </div>
-              <span className="text-white/60 text-sm">24 verified 5-star reviews</span>
+              <span className="text-[#4A6583] text-sm">24 verified 5-star reviews</span>
             </div>
           </div>
         </div>
@@ -81,29 +81,29 @@ const WhyChooseUs = () => {
           {reasons.map((reason, idx) => (
             <div
               key={idx}
-              className="fade-in-up group border border-white/10 p-10 hover:border-[#C8A96E]/40 transition-all duration-300 relative overflow-hidden"
+              className="fade-in-up group border border-[#C8DFEF] p-10 hover:border-[#4A90D9]/40 transition-all duration-300 relative overflow-hidden bg-white"
             >
               {/* Background hover effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#C8A96E]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#4A90D9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
               <div className="relative z-10">
-                <div className="text-[#C8A96E] mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-[#4A90D9] mb-6 group-hover:scale-110 transition-transform duration-300">
                   {reason.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 tracking-tight">
+                <h3 className="text-xl font-bold text-[#1A2B4B] mb-3 tracking-tight">
                   {reason.title}
                 </h3>
-                <p className="text-white/50 leading-relaxed text-sm">{reason.description}</p>
+                <p className="text-[#4A6583] leading-relaxed text-sm">{reason.description}</p>
               </div>
 
               {/* Corner accent */}
-              <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#C8A96E]/0 group-hover:border-[#C8A96E]/30 transition-all duration-300" />
+              <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#4A90D9]/0 group-hover:border-[#4A90D9]/30 transition-all duration-300" />
             </div>
           ))}
         </div>
 
         {/* Stats row */}
-        <div className="mt-20 pt-16 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mt-20 pt-16 border-t border-[#C8DFEF] grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { stat: '24', label: '5-Star Reviews' },
             { stat: '100%', label: 'Insured & Licensed' },
@@ -111,8 +111,8 @@ const WhyChooseUs = () => {
             { stat: '200+', label: 'Homes Cleaned' },
           ].map((item) => (
             <div key={item.label} className="fade-in-up text-center">
-              <div className="text-4xl font-black text-[#C8A96E] mb-2">{item.stat}</div>
-              <div className="text-white/40 text-sm tracking-wide">{item.label}</div>
+              <div className="text-4xl font-black text-[#4A90D9] mb-2">{item.stat}</div>
+              <div className="text-[#4A6583] text-sm tracking-wide">{item.label}</div>
             </div>
           ))}
         </div>

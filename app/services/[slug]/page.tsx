@@ -267,7 +267,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="bg-[#0A0A0A] py-28 relative overflow-hidden">
+      <section className="bg-[#1A2B4B] py-28 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -283,7 +283,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <span>/</span>
             <span className="text-white/70">{service.name}</span>
           </div>
-          <p className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             Our Services
           </p>
           <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-4">
@@ -299,27 +299,27 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           <div className="grid lg:grid-cols-3 gap-16">
             {/* Main Content */}
             <div className="lg:col-span-2">
-              <p className="text-[#6B6B6B] text-lg leading-relaxed mb-6">
+              <p className="text-[#4A6583] text-lg leading-relaxed mb-6">
                 {service.description}
               </p>
-              <p className="text-[#6B6B6B] leading-relaxed mb-12">
+              <p className="text-[#4A6583] leading-relaxed mb-12">
                 {service.longDescription}
               </p>
 
               {/* What's Included */}
               <div>
-                <h2 className="text-2xl font-bold text-[#0A0A0A] mb-6 tracking-tight">
+                <h2 className="text-2xl font-bold text-[#1A2B4B] mb-6 tracking-tight">
                   What&apos;s Included
                 </h2>
                 <ul className="space-y-3">
                   {service.includes.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-[#C8A96E] flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-5 h-5 bg-[#4A90D9] flex items-center justify-center flex-shrink-0 mt-0.5">
                         <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
-                      <span className="text-[#0A0A0A] text-sm leading-relaxed">{item}</span>
+                      <span className="text-[#1A2B4B] text-sm leading-relaxed">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -328,40 +328,40 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
             {/* Sidebar */}
             <div>
-              <div className="bg-[#F5F5F5] p-8 sticky top-28">
-                <h3 className="text-lg font-bold text-[#0A0A0A] mb-2">Pricing</h3>
-                <p className="text-3xl font-black text-[#C8A96E] mb-2">{service.price}</p>
-                <p className="text-xs text-[#6B6B6B] mb-8">{service.priceNote}</p>
+              <div className="bg-[#EBF4FF] p-8 sticky top-28">
+                <h3 className="text-lg font-bold text-[#1A2B4B] mb-2">Pricing</h3>
+                <p className="text-3xl font-black text-[#4A90D9] mb-2">{service.price}</p>
+                <p className="text-xs text-[#4A6583] mb-8">{service.priceNote}</p>
 
                 <a
                   href="https://raprocleaningservices.bookingkoala.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full text-center bg-[#C8A96E] text-white font-semibold py-4 hover:bg-[#B8935A] transition-colors mb-4"
+                  className="block w-full text-center bg-[#4A90D9] text-white font-semibold py-4 hover:bg-[#357ABD] transition-colors mb-4"
                 >
                   Book Now
                 </a>
                 <a
                   href="tel:7206778799"
-                  className="block w-full text-center border border-[#E0E0E0] text-[#0A0A0A] font-medium py-4 hover:border-[#C8A96E] hover:text-[#C8A96E] transition-colors mb-4"
+                  className="block w-full text-center border border-[#C8DFEF] text-[#1A2B4B] font-medium py-4 hover:border-[#4A90D9] hover:text-[#4A90D9] transition-colors mb-4"
                 >
                   Call 720-677-8799
                 </a>
                 <a
                   href="/contact"
-                  className="block w-full text-center text-sm text-[#6B6B6B] hover:text-[#C8A96E] transition-colors"
+                  className="block w-full text-center text-sm text-[#4A6583] hover:text-[#4A90D9] transition-colors"
                 >
                   Get a custom quote &rarr;
                 </a>
 
-                <div className="mt-8 pt-8 border-t border-[#E0E0E0]">
-                  <p className="text-xs font-semibold text-[#0A0A0A] tracking-wider uppercase mb-3">
+                <div className="mt-8 pt-8 border-t border-[#C8DFEF]">
+                  <p className="text-xs font-semibold text-[#1A2B4B] tracking-wider uppercase mb-3">
                     We Are
                   </p>
                   <ul className="space-y-2">
                     {['Licensed & Insured', 'Background Checked', 'Locally Owned', '5-Star Rated'].map((badge) => (
-                      <li key={badge} className="flex items-center gap-2 text-sm text-[#6B6B6B]">
-                        <div className="w-4 h-4 bg-[#C8A96E] flex items-center justify-center flex-shrink-0">
+                      <li key={badge} className="flex items-center gap-2 text-sm text-[#4A6583]">
+                        <div className="w-4 h-4 bg-[#4A90D9] flex items-center justify-center flex-shrink-0">
                           <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                           </svg>
@@ -379,9 +379,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* Related Services */}
       {related.length > 0 && (
-        <section className="py-20 bg-[#F5F5F5]">
+        <section className="py-20 bg-[#EBF4FF]">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-[#0A0A0A] mb-10 tracking-tight">
+            <h2 className="text-2xl font-bold text-[#1A2B4B] mb-10 tracking-tight">
               Related Services
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -389,13 +389,13 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <Link
                   key={rel.slug}
                   href={`/services/${rel.slug}`}
-                  className="bg-white border border-[#E0E0E0] p-6 hover:border-[#C8A96E] hover:shadow-md transition-all duration-300 group"
+                  className="bg-white border border-[#C8DFEF] p-6 hover:border-[#4A90D9] hover:shadow-md transition-all duration-300 group"
                 >
-                  <h3 className="font-bold text-[#0A0A0A] mb-2 group-hover:text-[#C8A96E] transition-colors">
+                  <h3 className="font-bold text-[#1A2B4B] mb-2 group-hover:text-[#4A90D9] transition-colors">
                     {rel.name}
                   </h3>
-                  <p className="text-[#6B6B6B] text-sm leading-relaxed mb-4">{rel.description}</p>
-                  <span className="text-[#C8A96E] text-xs font-semibold">{rel.price}</span>
+                  <p className="text-[#4A6583] text-sm leading-relaxed mb-4">{rel.description}</p>
+                  <span className="text-[#4A90D9] text-xs font-semibold">{rel.price}</span>
                 </Link>
               ))}
             </div>

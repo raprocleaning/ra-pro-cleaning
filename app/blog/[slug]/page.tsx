@@ -182,7 +182,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="bg-[#0A0A0A] py-24 relative overflow-hidden">
+      <section className="bg-[#1A2B4B] py-24 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -199,7 +199,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <span className="text-white/70 truncate max-w-xs">{post.title}</span>
           </div>
           <div className="mb-4">
-            <span className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase">
+            <span className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase">
               {post.category}
             </span>
           </div>
@@ -218,7 +218,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <section className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-6 lg:px-8">
           {/* Intro */}
-          <p className="text-xl text-[#0A0A0A] leading-relaxed mb-12 font-light">
+          <p className="text-xl text-[#1A2B4B] leading-relaxed mb-12 font-light">
             {post.intro}
           </p>
 
@@ -226,11 +226,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="space-y-12">
             {post.sections.map((section, idx) => (
               <div key={idx}>
-                <h2 className="text-2xl font-bold text-[#0A0A0A] mb-4 tracking-tight">
+                <h2 className="text-2xl font-bold text-[#1A2B4B] mb-4 tracking-tight">
                   {section.heading}
                 </h2>
                 {section.content.map((paragraph, pIdx) => (
-                  <p key={pIdx} className="text-[#6B6B6B] leading-relaxed mb-4">
+                  <p key={pIdx} className="text-[#4A6583] leading-relaxed mb-4">
                     {paragraph}
                   </p>
                 ))}
@@ -239,24 +239,24 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
 
           {/* Conclusion */}
-          <div className="mt-12 pt-12 border-t border-[#E0E0E0]">
-            <p className="text-[#0A0A0A] leading-relaxed">{post.conclusion}</p>
+          <div className="mt-12 pt-12 border-t border-[#C8DFEF]">
+            <p className="text-[#1A2B4B] leading-relaxed">{post.conclusion}</p>
           </div>
 
           {/* Author CTA */}
-          <div className="mt-12 bg-[#F5F5F5] p-8">
-            <p className="text-xs font-semibold text-[#C8A96E] tracking-[0.2em] uppercase mb-2">
+          <div className="mt-12 bg-[#EBF4FF] p-8">
+            <p className="text-xs font-semibold text-[#4A90D9] tracking-[0.2em] uppercase mb-2">
               Written by
             </p>
-            <p className="font-bold text-[#0A0A0A] mb-1">R A Pro Cleaning Services</p>
-            <p className="text-[#6B6B6B] text-sm mb-6">
+            <p className="font-bold text-[#1A2B4B] mb-1">R A Pro Cleaning Services</p>
+            <p className="text-[#4A6583] text-sm mb-6">
               Denver&apos;s trusted professional cleaning team with 24 five-star reviews.
             </p>
             <a
               href="https://raprocleaningservices.bookingkoala.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#C8A96E] text-white font-semibold px-6 py-3 hover:bg-[#B8935A] transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors text-sm"
             >
               Book a Professional Clean
             </a>
@@ -266,9 +266,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       {/* Related Posts */}
       {otherPosts.length > 0 && (
-        <section className="py-20 bg-[#F5F5F5]">
+        <section className="py-20 bg-[#EBF4FF]">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-[#0A0A0A] mb-10 tracking-tight">
+            <h2 className="text-2xl font-bold text-[#1A2B4B] mb-10 tracking-tight">
               More Articles
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -276,18 +276,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <Link
                   key={related.slug}
                   href={`/blog/${related.slug}`}
-                  className="bg-white border border-[#E0E0E0] p-6 hover:border-[#C8A96E] hover:shadow-md transition-all duration-300 group"
+                  className="bg-white border border-[#C8DFEF] p-6 hover:border-[#4A90D9] hover:shadow-md transition-all duration-300 group"
                 >
-                  <span className="text-xs font-semibold text-[#C8A96E] tracking-widest uppercase">
+                  <span className="text-xs font-semibold text-[#4A90D9] tracking-widest uppercase">
                     {related.category}
                   </span>
-                  <h3 className="text-lg font-bold text-[#0A0A0A] mt-2 mb-3 leading-tight group-hover:text-[#C8A96E] transition-colors">
+                  <h3 className="text-lg font-bold text-[#1A2B4B] mt-2 mb-3 leading-tight group-hover:text-[#4A90D9] transition-colors">
                     {related.title}
                   </h3>
-                  <p className="text-[#6B6B6B] text-sm leading-relaxed line-clamp-2">
+                  <p className="text-[#4A6583] text-sm leading-relaxed line-clamp-2">
                     {related.intro}
                   </p>
-                  <div className="mt-4 flex items-center gap-2 text-xs text-[#6B6B6B]">
+                  <div className="mt-4 flex items-center gap-2 text-xs text-[#4A6583]">
                     <span>{related.date}</span>
                     <span>&middot;</span>
                     <span>{related.readTime}</span>

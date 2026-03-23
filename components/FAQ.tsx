@@ -39,20 +39,20 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="border-b border-[#E0E0E0] last:border-0">
+    <div className="border-b border-[#C8DFEF] last:border-0">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between py-6 text-left group"
         aria-expanded={open}
       >
-        <span className={`font-semibold text-base transition-colors ${open ? 'text-[#C8A96E]' : 'text-[#0A0A0A] group-hover:text-[#C8A96E]'}`}>
+        <span className={`font-semibold text-base transition-colors ${open ? 'text-[#4A90D9]' : 'text-[#1A2B4B] group-hover:text-[#4A90D9]'}`}>
           {question}
         </span>
         <div
           className={`flex-shrink-0 ml-4 w-8 h-8 border flex items-center justify-center transition-all duration-300 ${
             open
-              ? 'border-[#C8A96E] text-[#C8A96E] rotate-45'
-              : 'border-[#E0E0E0] text-[#6B6B6B] group-hover:border-[#C8A96E] group-hover:text-[#C8A96E]'
+              ? 'border-[#4A90D9] text-[#4A90D9] rotate-45'
+              : 'border-[#C8DFEF] text-[#4A6583] group-hover:border-[#4A90D9] group-hover:text-[#4A90D9]'
           }`}
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,7 +65,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
           open ? 'max-h-96 opacity-100 pb-6' : 'max-h-0 opacity-0'
         }`}
       >
-        <p className="text-[#6B6B6B] leading-relaxed">{answer}</p>
+        <p className="text-[#4A6583] leading-relaxed">{answer}</p>
       </div>
     </div>
   )
@@ -77,20 +77,20 @@ const FAQ = () => {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 bg-[#FAFAFA]"
+      className="py-24 bg-[#F5F9FF]"
       id="faq"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Left: Header + CTA */}
           <div className="fade-in-up">
-            <p className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               FAQ
             </p>
-            <h2 className="text-4xl md:text-5xl font-black text-[#0A0A0A] tracking-tight mb-6">
+            <h2 className="text-4xl md:text-5xl font-black text-[#1A2B4B] tracking-tight mb-6">
               Frequently Asked<br />Questions
             </h2>
-            <p className="text-[#6B6B6B] leading-relaxed mb-10">
+            <p className="text-[#4A6583] leading-relaxed mb-10">
               Have a question we haven&apos;t answered here? We&apos;d love to hear from you.
             </p>
             <div className="space-y-4">
@@ -98,14 +98,14 @@ const FAQ = () => {
                 href="https://raprocleaningservices.bookingkoala.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#C8A96E] text-white font-semibold px-6 py-3 hover:bg-[#B8935A] transition-colors"
+                className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors"
               >
                 Book a Clean
               </a>
               <div>
                 <a
                   href="tel:7206778799"
-                  className="flex items-center gap-2 text-[#0A0A0A] font-medium hover:text-[#C8A96E] transition-colors mt-4"
+                  className="flex items-center gap-2 text-[#1A2B4B] font-medium hover:text-[#4A90D9] transition-colors mt-4"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />

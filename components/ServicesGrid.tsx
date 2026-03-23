@@ -137,40 +137,40 @@ const ServicesGrid = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 fade-in-up">
-          <p className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             What We Offer
           </p>
-          <h2 className="text-4xl md:text-5xl font-black text-[#0A0A0A] tracking-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-black text-[#1A2B4B] tracking-tight mb-4">
             Our Services
           </h2>
-          <p className="text-[#6B6B6B] text-lg max-w-xl mx-auto">
+          <p className="text-[#4A6583] text-lg max-w-xl mx-auto">
             From routine maintenance to deep restoration — we handle every corner of your space.
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#E0E0E0]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#C8DFEF]">
           {services.map((service) => (
             <div
               key={service.slug}
-              className="fade-in-up bg-white p-8 group hover:shadow-lg hover:z-10 relative transition-all duration-300 border-t-2 border-t-transparent hover:border-t-[#C8A96E]"
+              className="fade-in-up bg-white p-8 group hover:shadow-lg hover:z-10 relative transition-all duration-300 border-t-2 border-t-transparent hover:border-t-[#4A90D9]"
             >
-              <div className="text-[#C8A96E] mb-5 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-[#4A90D9] mb-5 group-hover:scale-110 transition-transform duration-300">
                 {service.icon}
               </div>
-              <h3 className="text-lg font-bold text-[#0A0A0A] mb-2 tracking-tight">
+              <h3 className="text-lg font-bold text-[#1A2B4B] mb-2 tracking-tight">
                 {service.name}
               </h3>
-              <p className="text-[#6B6B6B] text-sm leading-relaxed mb-5">
+              <p className="text-[#4A6583] text-sm leading-relaxed mb-5">
                 {service.description}
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#C8A96E] tracking-wide">
+                <span className="text-xs font-semibold text-[#4A90D9] tracking-wide">
                   {service.price}
                 </span>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="text-xs font-semibold text-[#0A0A0A] tracking-wide hover:text-[#C8A96E] transition-colors flex items-center gap-1"
+                  className="text-xs font-semibold text-[#1A2B4B] tracking-wide hover:text-[#4A90D9] transition-colors flex items-center gap-1"
                 >
                   Learn More
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -188,7 +188,7 @@ const ServicesGrid = () => {
             href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#C8A96E] text-white font-semibold px-8 py-4 hover:bg-[#B8935A] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
           >
             Book Any Service
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

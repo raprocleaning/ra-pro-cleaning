@@ -40,16 +40,16 @@ const Hero = () => {
         }}
       />
 
-      {/* Dark overlay for text readability */}
+      {/* Light blue-white overlay */}
       <div
         className="absolute inset-0 z-0"
         style={{
-          background: 'linear-gradient(135deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.65) 60%, rgba(10,10,10,0.75) 100%)',
+          background: 'linear-gradient(135deg, rgba(235,244,255,0.75) 0%, rgba(240,248,255,0.65) 100%)',
         }}
       />
 
-      {/* Gold accent line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#C8A96E] z-10" />
+      {/* Sky blue accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#4A90D9] z-10" />
 
       {/* Main Content */}
       <div className="relative z-10 flex-1 flex items-center">
@@ -61,8 +61,8 @@ const Hero = () => {
               className="inline-flex items-center gap-2 mb-8"
               style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}
             >
-              <div className="w-8 h-[1px] bg-[#C8A96E]" />
-              <span className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase">
+              <div className="w-8 h-[1px] bg-[#4A90D9]" />
+              <span className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase">
                 Denver&apos;s Premium Cleaning Experience
               </span>
             </div>
@@ -70,20 +70,20 @@ const Hero = () => {
             {/* Main Headline */}
             <h1
               ref={headlineRef}
-              className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6"
+              className="text-5xl md:text-6xl lg:text-7xl font-black text-[#1A2B4B] leading-[1.05] tracking-tight mb-6"
               style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
             >
               Denver&apos;s Premier<br />
-              <span className="text-[#C8A96E]">Cleaning</span> Service
+              <span className="text-[#4A90D9]">Cleaning</span> Service
             </h1>
 
             {/* Sub-headline */}
             <p
               ref={subRef}
-              className="text-xl md:text-2xl text-white/70 font-light tracking-wide mb-10"
+              className="text-xl md:text-2xl text-[#4A6583] font-light tracking-wide mb-10"
               style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
             >
-              Residential. Commercial. <span className="text-white font-medium">Spotless.</span>
+              Residential. Commercial. <span className="text-[#1A2B4B] font-medium">Spotless.</span>
             </p>
 
             {/* CTAs */}
@@ -96,7 +96,7 @@ const Hero = () => {
                 href="https://raprocleaningservices.bookingkoala.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-[#C8A96E] text-white font-semibold text-base px-8 py-4 hover:bg-[#B8935A] transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-[#4A90D9] text-white font-semibold text-base px-8 py-4 hover:bg-[#357ABD] transition-colors"
               >
                 Book Your Clean
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,7 +105,7 @@ const Hero = () => {
               </a>
               <a
                 href="tel:7206778799"
-                className="inline-flex items-center justify-center gap-2 border border-white/30 text-white font-medium text-base px-8 py-4 hover:border-white hover:bg-white/5 transition-colors"
+                className="inline-flex items-center justify-center gap-2 border border-[#C8DFEF] text-[#1A2B4B] font-medium text-base px-8 py-4 hover:border-[#4A90D9] hover:text-[#4A90D9] transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -120,7 +120,7 @@ const Hero = () => {
       {/* Trust Badge Strip */}
       <div
         ref={badgeRef}
-        className="relative z-10 border-t border-white/10"
+        className="relative z-10 border-t border-[#C8DFEF]"
         style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
@@ -132,10 +132,10 @@ const Hero = () => {
               { value: '24h', label: 'Booking Response' },
             ].map((badge) => (
               <div key={badge.label} className="flex items-center gap-3">
-                <div className="w-[1px] h-8 bg-[#C8A96E]" />
+                <div className="w-[1px] h-8 bg-[#4A90D9]" />
                 <div>
-                  <div className="text-white font-bold text-lg leading-none">{badge.value}</div>
-                  <div className="text-white/40 text-xs tracking-wide mt-0.5">{badge.label}</div>
+                  <div className="text-[#1A2B4B] font-bold text-lg leading-none">{badge.value}</div>
+                  <div className="text-[#4A6583] text-xs tracking-wide mt-0.5">{badge.label}</div>
                 </div>
               </div>
             ))}
