@@ -1,6 +1,8 @@
 import Hero from '@/components/Hero'
 import ServicesGrid from '@/components/ServicesGrid'
 import WhyChooseUs from '@/components/WhyChooseUs'
+import BeforeAfter from '@/components/BeforeAfter'
+import Pricing from '@/components/Pricing'
 import Reviews from '@/components/Reviews'
 import GallerySection from '@/components/GallerySection'
 import HowItWorks from '@/components/HowItWorks'
@@ -25,7 +27,7 @@ export default function Home() {
             <p className="text-[#6B6B6B] text-lg leading-relaxed">
               R A Pro Cleaning Services LLC brings Denver homeowners and businesses a premium
               cleaning experience built on trust, attention to detail, and exceptional results.
-              With 24 five-star reviews and a team of fully licensed and insured professionals,
+              With 41 five-star reviews and a team of fully licensed and insured professionals,
               we deliver the kind of clean that makes you proud of your space.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
@@ -50,6 +52,8 @@ export default function Home() {
 
       <ServicesGrid />
       <WhyChooseUs />
+      <BeforeAfter />
+      <Pricing />
       <Reviews />
       <GallerySection />
       <HowItWorks />

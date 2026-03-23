@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5',
-      reviewCount: '24',
+      reviewCount: '41',
     },
     priceRange: '$$',
     areaServed: 'Denver Metro Area, CO',
