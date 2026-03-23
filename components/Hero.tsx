@@ -1,0 +1,147 @@
+'use client'
+import { useEffect, useRef } from 'react'
+
+const Hero = () => {
+  const eyebrowRef = useRef<HTMLDivElement>(null)
+  const headlineRef = useRef<HTMLHeadingElement>(null)
+  const subRef = useRef<HTMLParagraphElement>(null)
+  const ctaRef = useRef<HTMLDivElement>(null)
+  const badgeRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const els = [eyebrowRef.current, headlineRef.current, subRef.current, ctaRef.current]
+    els.forEach((el, i) => {
+      if (!el) return
+      setTimeout(() => {
+        el.style.opacity = '1'
+        el.style.transform = 'translateY(0)'
+      }, 100 + i * 150)
+    })
+    if (badgeRef.current) {
+      setTimeout(() => {
+        if (badgeRef.current) {
+          badgeRef.current.style.opacity = '1'
+          badgeRef.current.style.transform = 'translateY(0)'
+        }
+      }, 800)
+    }
+  }, [])
+
+  return (
+    <section className="relative min-h-screen flex flex-col">
+      {/* Background — Replace bg-gradient with actual image */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 60%, #111111 100%)',
+        }}
+      />
+
+      {/* Subtle texture overlay */}
+      <div
+        className="absolute inset-0 z-0 opacity-30"
+        style={{
+          backgroundImage:
+            'radial-gradient(ellipse at 20% 50%, rgba(200,169,110,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(200,169,110,0.05) 0%, transparent 50%)',
+        }}
+      />
+
+      {/* Gold accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#C8A96E] z-10" />
+
+      {/* Main Content */}
+      <div className="relative z-10 flex-1 flex items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-32 w-full">
+          <div className="max-w-3xl">
+            {/* Eyebrow */}
+            <div
+              ref={eyebrowRef}
+              className="inline-flex items-center gap-2 mb-8"
+              style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}
+            >
+              <div className="w-8 h-[1px] bg-[#C8A96E]" />
+              <span className="text-[#C8A96E] text-xs font-semibold tracking-[0.3em] uppercase">
+                Denver&apos;s Premium Cleaning Experience
+              </span>
+            </div>
+
+            {/* Main Headline */}
+            <h1
+              ref={headlineRef}
+              className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6"
+              style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+            >
+              Denver&apos;s Premier<br />
+              <span className="text-[#C8A96E]">Cleaning</span> Service
+            </h1>
+
+            {/* Sub-headline */}
+            <p
+              ref={subRef}
+              className="text-xl md:text-2xl text-white/70 font-light tracking-wide mb-10"
+              style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+            >
+              Residential. Commercial. <span className="text-white font-medium">Spotless.</span>
+            </p>
+
+            {/* CTAs */}
+            <div
+              ref={ctaRef}
+              className="flex flex-col sm:flex-row gap-4"
+              style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+            >
+              <a
+                href="https://raprocleaningservices.bookingkoala.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-[#C8A96E] text-white font-semibold text-base px-8 py-4 hover:bg-[#B8935A] transition-colors"
+              >
+                Book Your Clean
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+              <a
+                href="tel:7206778799"
+                className="inline-flex items-center justify-center gap-2 border border-white/30 text-white font-medium text-base px-8 py-4 hover:border-white hover:bg-white/5 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                720-677-8799
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Trust Badge Strip */}
+      <div
+        ref={badgeRef}
+        className="relative z-10 border-t border-white/10"
+        style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { value: '24', label: 'Five-Star Reviews' },
+              { value: '100%', label: 'Licensed & Insured' },
+              { value: '5★', label: 'Google Rating' },
+              { value: '24h', label: 'Booking Response' },
+            ].map((badge) => (
+              <div key={badge.label} className="flex items-center gap-3">
+                <div className="w-[1px] h-8 bg-[#C8A96E]" />
+                <div>
+                  <div className="text-white font-bold text-lg leading-none">{badge.value}</div>
+                  <div className="text-white/40 text-xs tracking-wide mt-0.5">{badge.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default Hero
