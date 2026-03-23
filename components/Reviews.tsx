@@ -3,10 +3,16 @@ import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
 
 const reviews = [
   {
-    name: 'Ali Sandoval',
-    initials: 'AS',
+    name: 'Kelli Ramona',
+    initials: 'KR',
     rating: 5,
-    text: "I'm thoroughly impressed with the service. They dusted places I've never thought of dusting, my shower and toilet looked brand new, and every surface sparkled. Absolutely worth every penny — will be booking regularly.",
+    text: "Houda and her team did an AMAZING job deep cleaning our family home. We have 3 boys and needless to say, our house needed help! They cleaned every nook and cranny. Professional, friendly, positive and an absolute pleasure to work with. Highly recommend!",
+  },
+  {
+    name: 'Angela Csargo',
+    initials: 'AC',
+    rating: 5,
+    text: "Houda is the best cleaning lady I've ever had. She is detailed, precise, and has a high level of integrity. She is someone you can count on for a service that will exceed your expectations. I am so blessed she was referred to me.",
   },
   {
     name: 'Josh Hamilton',
@@ -15,16 +21,34 @@ const reviews = [
     text: "We have been working with Houda for over a year now. She does an exceptional job going above and beyond! Our home always looks incredible after each visit. Highly recommend to anyone.",
   },
   {
+    name: 'Regan Dean',
+    initials: 'RD',
+    rating: 5,
+    text: "Highly recommend RA Pros! After maintenance work in our home, they were able to come in quickly and leave everything spotless and ready for future renters. Fast response time, friendly team, easy scheduling, and truly top-quality work.",
+  },
+  {
     name: 'Jeannie Smitheram',
     initials: 'JS',
     rating: 5,
     text: "She and her staff were very professional and got the entire house cleaned spotlessly. She even cleaned the windows and all the baseboards — details most cleaners skip entirely. Outstanding service.",
   },
   {
-    name: 'Kaltoum Loraoui',
-    initials: 'KL',
+    name: 'Melanie Wheeler',
+    initials: 'MW',
     rating: 5,
-    text: "The team did a wonderful job — Alex and Nicolas worked hard, were very efficient and left our home sparkling. Communication was excellent from start to finish. Five stars without hesitation.",
+    text: "My new purchase was horrific with junk, dirt, grime, and trash. The team was professional and incredibly detailed. An overall great experience. Highly recommend.",
+  },
+  {
+    name: 'Mack Limon',
+    initials: 'ML',
+    rating: 5,
+    text: "She's professional, affordable, and reliable. Her team did so good — I'd definitely recommend RA Pro Cleaning to anyone looking for a trustworthy cleaning service.",
+  },
+  {
+    name: 'Leah Stallone',
+    initials: 'LS',
+    rating: 5,
+    text: "They left my house clean as can be. Very happy and will be a repeat client. Thank you!",
   },
 ]
 
@@ -57,13 +81,13 @@ const Reviews = () => {
               ))}
             </div>
             <p className="text-[#6B6B6B] text-base">
-              <span className="font-bold text-[#0A0A0A]">24</span> Five-Star Google Reviews
+              <span className="font-bold text-[#0A0A0A]">41</span> Five-Star Google Reviews
             </p>
           </div>
         </div>
 
         {/* Review Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review, idx) => (
             <div
               key={idx}
