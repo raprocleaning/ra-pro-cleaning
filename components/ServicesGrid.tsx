@@ -8,7 +8,7 @@ const services = [
     name: 'Deep Cleaning',
     description:
       'Thorough cleaning of every room, surface, and corner. We get to the hard-to-reach spots others miss.',
-    price: 'Starting at $700',
+    price: 'Starting at $300',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -20,7 +20,7 @@ const services = [
     name: 'Standard Cleaning',
     description:
       'Recurring maintenance cleaning to keep your home consistently pristine and welcoming.',
-    price: 'Starting at $600',
+    price: 'Starting at $200',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -185,7 +185,7 @@ const ServicesGrid = () => {
         {/* CTA */}
         <div className="text-center mt-12 fade-in-up">
           <a
-            href="https://raprocleaningservices.bookingkoala.com"
+            href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"

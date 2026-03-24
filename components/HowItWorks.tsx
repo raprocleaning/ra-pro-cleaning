@@ -91,7 +91,7 @@ const HowItWorks = () => {
         {/* CTA */}
         <div className="text-center mt-16 fade-in-up">
           <a
-            href="https://raprocleaningservices.bookingkoala.com"
+            href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#1A2B4B] text-white font-semibold px-8 py-4 hover:bg-[#4A90D9] transition-colors duration-300"

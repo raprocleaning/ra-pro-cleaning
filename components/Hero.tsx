@@ -93,7 +93,7 @@ const Hero = () => {
               style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
             >
               <a
-                href="https://raprocleaningservices.bookingkoala.com"
+                href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#4A90D9] text-white font-semibold text-base px-8 py-4 hover:bg-[#357ABD] transition-colors"
@@ -126,7 +126,7 @@ const Hero = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { value: '24', label: 'Five-Star Reviews' },
+              { value: '41', label: 'Five-Star Reviews' },
               { value: '100%', label: 'Licensed & Insured' },
               { value: '5★', label: 'Google Rating' },
               { value: '24h', label: 'Booking Response' },

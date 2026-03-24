@@ -8,6 +8,8 @@ type Message = {
 }
 
 const BOT_NAME = 'RA Pro Assistant'
+const CONTACT_PHONE = '720-677-8799'
+const CONTACT_EMAIL = 'ra@raprocleaningservices.com'
 
 const INITIAL_MESSAGE: Message = {
   from: 'bot',
@@ -22,6 +24,14 @@ const INITIAL_MESSAGE: Message = {
 
 function getBotReply(userText: string): Message {
   const t = userText.toLowerCase()
+
+  if (t.includes('price') || t.includes('cost') || t.includes('much') || t.includes('rate') || t.includes('fee')) {
+    return {
+      from: 'bot',
+      text: "Here's a quick overview:\n\n• Deep Cleaning — from $300\n• Standard Cleaning — from $200\n• Carpet Cleaning — custom quote\n• Move In/Out — custom quote\n• Airbnb Cleaning — custom quote\n\nFor an exact quote, I recommend booking a free consultation!",
+      options: ['How do I book?', 'Get a free quote', 'What services do you offer?'],
+    }
+  }
 
   if (t.includes('service') || t.includes('offer') || t.includes('clean')) {
     return {
@@ -55,14 +65,6 @@ function getBotReply(userText: string): Message {
     }
   }
 
-  if (t.includes('price') || t.includes('cost') || t.includes('much') || t.includes('rate') || t.includes('fee')) {
-    return {
-      from: 'bot',
-      text: "Here's a quick overview:\n\n• Deep Cleaning — from $300\n• Standard Cleaning — from $200\n• Carpet Cleaning — custom quote\n• Move In/Out — custom quote\n• Airbnb Cleaning — custom quote\n\nFor an exact quote, I recommend booking a free consultation!",
-      options: ['How do I book?', 'Get a free quote', 'What services do you offer?'],
-    }
-  }
-
   if (t.includes('book') || t.includes('schedul') || t.includes('appoint') || t.includes('quote') || t.includes('consult')) {
     return {
       from: 'bot',
@@ -82,7 +84,7 @@ function getBotReply(userText: string): Message {
   if (t.includes('call') || t.includes('phone') || t.includes('number') || t.includes('contact')) {
     return {
       from: 'bot',
-      text: "You can reach us at:\n\n📞 (929) 489-8268\n📧 raprocleaningservices@gmail.com\n\nOr visit our Contact page — we respond quickly!",
+      text: `You can reach us at:\n\n📞 ${CONTACT_PHONE}\n📧 ${CONTACT_EMAIL}\n\nOr visit our Contact page — we respond quickly!`,
       options: ['How do I book?', 'What services do you offer?'],
     }
   }
@@ -120,7 +122,7 @@ function getBotReply(userText: string): Message {
   }
 
   if (t.includes('open') || t.includes('booking page')) {
-    window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+    window.open('https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3', '_blank')
     return {
       from: 'bot',
       text: "Opening the booking page now! 🎉 Let us know if you have any other questions.",
@@ -152,7 +154,7 @@ function getBotReply(userText: string): Message {
   // Default fallback
   return {
     from: 'bot',
-    text: "Great question! For the most accurate answer, feel free to reach us directly:\n\n📞 (929) 489-8268\n📧 raprocleaningservices@gmail.com\n\nOr I can help you with:",
+    text: `Great question! For the most accurate answer, feel free to reach us directly:\n\n📞 ${CONTACT_PHONE}\n📧 ${CONTACT_EMAIL}\n\nOr I can help you with:`,
     options: [
       'What services do you offer?',
       'How much does it cost?',
@@ -182,7 +184,7 @@ export default function VirtualAssistant() {
 
   const handleOption = (option: string) => {
     if (option === 'Open booking page →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      window.open('https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3', '_blank')
       setMessages((prev) => [
         ...prev,
         { from: 'user', text: option },
@@ -195,7 +197,7 @@ export default function VirtualAssistant() {
       return
     }
     if (option === 'Book Now →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      window.open('https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3', '_blank')
       setMessages((prev) => [
         ...prev,
         { from: 'user', text: option },

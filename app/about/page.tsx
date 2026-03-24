@@ -131,14 +131,14 @@ export default function AboutPage() {
                 surface, paying attention to the details that other cleaners overlook.
               </p>
               <p className="text-[#4A6583] leading-relaxed">
-                With 24 five-star reviews, a fully licensed and insured team, and a track record of
+                With 41 five-star reviews, a fully licensed and insured team, and a track record of
                 excellence throughout the Denver metro area, we&apos;re proud to be the cleaning service
                 that Denver trusts.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { value: '24', label: '5-Star Reviews' },
+                { value: '41', label: '5-Star Reviews' },
                 { value: '100%', label: 'Licensed & Insured' },
                 { value: '5+', label: 'Years in Denver' },
                 { value: '200+', label: 'Homes Cleaned' },
@@ -219,7 +219,7 @@ export default function AboutPage() {
             insurance. Your home and your peace of mind are fully protected.
           </p>
           <a
-            href="https://raprocleaningservices.bookingkoala.com"
+            href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
@@ -277,7 +277,7 @@ export default function AboutPage() {
           </div>
           <div className="flex gap-4">
             <a
-              href="https://raprocleaningservices.bookingkoala.com"
+              href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors"

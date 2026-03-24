@@ -10,12 +10,12 @@ const GA_ID = 'G-50JSSQ15K6'
 export const metadata: Metadata = {
   title: "R A Pro Cleaning Services | Denver's Premium Cleaning",
   description:
-    'Professional cleaning services in Denver, CO. 24 five-star reviews. Residential, commercial, deep cleaning, Airbnb turnover, and more. Licensed & insured.',
+    'Professional cleaning services in Denver, CO. 41 five-star reviews. Residential, commercial, deep cleaning, Airbnb turnover, and more. Licensed & insured.',
   keywords:
     'cleaning services Denver, house cleaning Denver, deep cleaning Denver, professional cleaners Denver CO',
   openGraph: {
     title: "R A Pro Cleaning Services | Denver's Premium Cleaning",
-    description: 'Professional cleaning services in Denver, CO. 24 five-star reviews.',
+    description: 'Professional cleaning services in Denver, CO. 41 five-star reviews.',
     url: 'https://www.raprocleaningservices.com',
     siteName: 'R A Pro Cleaning Services',
     locale: 'en_US',

@@ -45,20 +45,10 @@ const ContactForm = () => {
     e.preventDefault()
     setStatus('sending')
     try {
-      // Replace the action URL with your actual Formspree endpoint
-      const res = await fetch('https://formspree.io/f/meerbldr', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.fullName,
-          phone: formData.phone,
-          email: formData.email,
-          zip: formData.zipCode,
-          squareFootage: formData.squareFootage,
-          propertyType: formData.propertyType,
-          message: formData.message,
-          smsOptIn: formData.smsOptIn,
-        }),
+        body: JSON.stringify(formData),
       })
       if (res.ok) {
         setStatus('success')

@@ -98,7 +98,7 @@ export default function Pricing() {
                 </ul>
 
                 <a
-                  href={plan.name === 'Specialty Services' ? '/contact' : 'https://raprocleaningservices.bookingkoala.com'}
+                  href={plan.name === 'Specialty Services' ? '/contact' : 'https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3'}
                   target={plan.name === 'Specialty Services' ? undefined : '_blank'}
                   rel={plan.name === 'Specialty Services' ? undefined : 'noopener noreferrer'}
                   className={`w-full text-center py-3.5 font-semibold text-sm tracking-wide transition-colors ${

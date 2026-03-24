@@ -26,7 +26,7 @@ const faqs = [
   {
     question: 'How do I book a cleaning?',
     answer:
-      'Booking is quick and easy — you can schedule online in just 60 seconds at raprocleaningservices.bookingkoala.com, or you can call or text us at 720-677-8799. We\'ll confirm your appointment and send a reminder before your scheduled clean.',
+      'Booking is quick and easy — you can schedule online in just 60 seconds at raprocleaningservices.com/contact, or you can call or text us at 720-677-8799. We\'ll confirm your appointment and send a reminder before your scheduled clean.',
   },
   {
     question: "What's your cancellation policy?",
@@ -95,7 +95,7 @@ const FAQ = () => {
             </p>
             <div className="space-y-4">
               <a
-                href="https://raprocleaningservices.bookingkoala.com"
+                href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors"

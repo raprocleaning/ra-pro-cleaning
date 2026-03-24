@@ -104,7 +104,7 @@ const Footer = () => {
               ))}
               <li>
                 <a
-                  href="https://raprocleaningservices.bookingkoala.com"
+                  href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-[#4A90D9] hover:text-[#357ABD] transition-colors font-medium"

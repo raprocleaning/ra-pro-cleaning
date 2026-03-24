@@ -334,7 +334,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <p className="text-xs text-[#4A6583] mb-8">{service.priceNote}</p>
 
                 <a
-                  href="https://raprocleaningservices.bookingkoala.com"
+                  href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full text-center bg-[#4A90D9] text-white font-semibold py-4 hover:bg-[#357ABD] transition-colors mb-4"

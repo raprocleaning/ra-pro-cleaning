@@ -32,7 +32,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <a
-                href="https://raprocleaningservices.bookingkoala.com"
+                href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
