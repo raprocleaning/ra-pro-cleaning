@@ -168,6 +168,14 @@ const Navigation = () => {
               </a>
 
               <a
+                href="https://raprocleaningservices.bookingkoala.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-[#4A90D9] text-[#4A90D9] text-sm font-semibold tracking-wide px-5 py-2.5 hover:bg-[#EBF4FF] transition-colors"
+              >
+                Pay Now
+              </a>
+              <a
                 href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -234,14 +242,24 @@ const Navigation = () => {
               </Link>
             ))}
           </div>
-          <a
-            href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-[#4A90D9] text-white text-lg font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
-          >
-            Book Now &rarr;
-          </a>
+          <div className="flex flex-col gap-4">
+            <a
+              href="https://raprocleaningservices.bookingkoala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block border border-[#4A90D9] text-[#4A90D9] text-lg font-semibold px-8 py-4 hover:bg-[#4A90D9]/10 transition-colors"
+            >
+              Pay Now
+            </a>
+            <a
+              href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-[#4A90D9] text-white text-lg font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
+            >
+              Book Now &rarr;
+            </a>
+          </div>
         </div>
       </div>
     </>

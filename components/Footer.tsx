@@ -112,6 +112,16 @@ const Footer = () => {
                   Book Now &rarr;
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://raprocleaningservices.bookingkoala.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/60 hover:text-[#4A90D9] transition-colors font-medium"
+                >
+                  Pay Now &rarr;
+                </a>
+              </li>
             </ul>
           </div>
 
