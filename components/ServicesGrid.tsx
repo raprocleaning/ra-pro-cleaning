@@ -185,7 +185,7 @@ const ServicesGrid = () => {
         {/* CTA */}
         <div className="text-center mt-12 fade-in-up">
           <a
-            href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
+            href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"

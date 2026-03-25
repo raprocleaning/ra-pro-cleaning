@@ -158,7 +158,7 @@ export default function ServicesPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
+              href="https://raprocleaningservices.bookingkoala.com"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white text-[#4A90D9] font-bold px-8 py-4 hover:bg-[#EBF4FF] transition-colors"

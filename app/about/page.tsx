@@ -219,7 +219,7 @@ export default function AboutPage() {
             insurance. Your home and your peace of mind are fully protected.
           </p>
           <a
-            href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
+            href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
@@ -277,7 +277,7 @@ export default function AboutPage() {
           </div>
           <div className="flex gap-4">
             <a
-              href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
+              href="https://raprocleaningservices.bookingkoala.com"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors"

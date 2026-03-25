@@ -176,7 +176,7 @@ const Navigation = () => {
                 Pay Now
               </a>
               <a
-                href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
+                href="https://raprocleaningservices.bookingkoala.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#4A90D9] text-white text-sm font-semibold tracking-wide px-6 py-2.5 hover:bg-[#357ABD] transition-colors"
@@ -252,7 +252,7 @@ const Navigation = () => {
               Pay Now
             </a>
             <a
-              href="https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3"
+              href="https://raprocleaningservices.bookingkoala.com"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-[#4A90D9] text-white text-lg font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"

@@ -122,7 +122,7 @@ function getBotReply(userText: string): Message {
   }
 
   if (t.includes('open') || t.includes('booking page')) {
-    window.open('https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3', '_blank')
+    window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
     return {
       from: 'bot',
       text: "Opening the booking page now! 🎉 Let us know if you have any other questions.",
@@ -184,7 +184,7 @@ export default function VirtualAssistant() {
 
   const handleOption = (option: string) => {
     if (option === 'Open booking page →') {
-      window.open('https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3', '_blank')
+      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
       setMessages((prev) => [
         ...prev,
         { from: 'user', text: option },
@@ -197,7 +197,7 @@ export default function VirtualAssistant() {
       return
     }
     if (option === 'Book Now →') {
-      window.open('https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3', '_blank')
+      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
       setMessages((prev) => [
         ...prev,
         { from: 'user', text: option },
