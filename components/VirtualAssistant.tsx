@@ -1,273 +1,512 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 
+// ─── PRICING TABLES ─────────────────────────────────────────────────────────
+const PRICING: Record<string, { max: number; price: number }[]> = {
+  'Standard Cleaning': [
+    { max: 1249, price: 130 },
+    { max: 1499, price: 145 },
+    { max: 1749, price: 160 },
+    { max: 1999, price: 175 },
+    { max: 2249, price: 190 },
+    { max: 2499, price: 210 },
+    { max: 2749, price: 230 },
+    { max: 2999, price: 250 },
+    { max: 3499, price: 275 },
+    { max: Infinity, price: 310 },
+  ],
+  'Deep Cleaning': [
+    { max: 1249, price: 200 },
+    { max: 1499, price: 225 },
+    { max: 1749, price: 250 },
+    { max: 1999, price: 280 },
+    { max: 2249, price: 310 },
+    { max: 2499, price: 340 },
+    { max: 2749, price: 375 },
+    { max: 2999, price: 415 },
+    { max: 3499, price: 460 },
+    { max: Infinity, price: 520 },
+  ],
+  'Move In/Out Cleaning': [
+    { max: 1249, price: 250 },
+    { max: 1499, price: 285 },
+    { max: 1749, price: 315 },
+    { max: 1999, price: 350 },
+    { max: 2249, price: 385 },
+    { max: 2499, price: 420 },
+    { max: 2749, price: 460 },
+    { max: 2999, price: 505 },
+    { max: 3499, price: 560 },
+    { max: Infinity, price: 630 },
+  ],
+  'Airbnb Cleaning': [
+    { max: 1249, price: 150 },
+    { max: 1499, price: 165 },
+    { max: 1749, price: 185 },
+    { max: 1999, price: 205 },
+    { max: 2249, price: 225 },
+    { max: 2499, price: 250 },
+    { max: 2749, price: 275 },
+    { max: 2999, price: 300 },
+    { max: 3499, price: 335 },
+    { max: Infinity, price: 380 },
+  ],
+  'Office Cleaning': [
+    { max: 999, price: 180 },
+    { max: 1499, price: 220 },
+    { max: 1999, price: 265 },
+    { max: 2499, price: 310 },
+    { max: 2999, price: 360 },
+    { max: Infinity, price: 420 },
+  ],
+}
+
+function getPrice(service: string, sqft: number): number | null {
+  const table = PRICING[service]
+  if (!table) return null
+  const tier = table.find((t) => sqft <= t.max)
+  return tier ? tier.price : null
+}
+
+// ─── TYPES ──────────────────────────────────────────────────────────────────
+type Step =
+  | 'greeting'
+  | 'service'
+  | 'sqft'
+  | 'price'
+  | 'confirm'
+  | 'name'
+  | 'phone'
+  | 'email'
+  | 'done'
+
 type Message = {
   from: 'bot' | 'user'
   text: string
   options?: string[]
+  isPrice?: boolean
+  price?: number
+  service?: string
+  sqft?: number
 }
 
-const BOT_NAME = 'RA Pro Assistant'
-const CONTACT_PHONE = '720-677-8799'
-const CONTACT_EMAIL = 'ra@raprocleaningservices.com'
-
-const INITIAL_MESSAGE: Message = {
-  from: 'bot',
-  text: "Hi there! 👋 I'm the RA Pro Cleaning assistant. How can I help you today?",
-  options: [
-    'What services do you offer?',
-    'How much does it cost?',
-    'How do I book?',
-    'Do you serve my area?',
-  ],
+type BookingData = {
+  service: string
+  sqft: number
+  price: number
+  name: string
+  phone: string
+  email: string
 }
 
-function getBotReply(userText: string): Message {
-  const t = userText.toLowerCase()
+const SERVICES = [
+  'Standard Cleaning',
+  'Deep Cleaning',
+  'Move In/Out Cleaning',
+  'Airbnb Cleaning',
+  'Office Cleaning',
+  'Carpet Cleaning',
+]
 
-  if (t.includes('price') || t.includes('cost') || t.includes('much') || t.includes('rate') || t.includes('fee')) {
-    return {
-      from: 'bot',
-      text: "Here's a quick overview:\n\n• Deep Cleaning — from $300\n• Standard Cleaning — from $200\n• Carpet Cleaning — custom quote\n• Move In/Out — custom quote\n• Airbnb Cleaning — custom quote\n\nFor an exact quote, I recommend booking a free consultation!",
-      options: ['How do I book?', 'Get a free quote', 'What services do you offer?'],
-    }
-  }
+const SQFT_OPTIONS = [
+  'Under 1,000 sqft',
+  '1,000 – 1,500 sqft',
+  '1,500 – 2,000 sqft',
+  '2,000 – 2,500 sqft',
+  '2,500 – 3,000 sqft',
+  '3,000 – 3,500 sqft',
+  '3,500+ sqft',
+]
 
-  if (t.includes('service') || t.includes('offer') || t.includes('clean')) {
-    return {
-      from: 'bot',
-      text: "We offer a full range of cleaning services:\n\n• 🏠 House Cleaning\n• 🔍 Deep Cleaning\n• ✨ Standard Cleaning\n• 🏢 Office Cleaning\n• 📦 Move In/Out Cleaning\n• 🏨 Airbnb Cleaning\n• 🧹 Carpet Cleaning\n\nWhich service would you like to know more about?",
-      options: ['Deep Cleaning', 'Carpet Cleaning', 'Move In/Out', 'How much does it cost?'],
-    }
-  }
-
-  if (t.includes('deep')) {
-    return {
-      from: 'bot',
-      text: "Our Deep Cleaning is a thorough top-to-bottom clean — every surface, corner, cabinet interior, baseboards, and appliance. Starting at $300. Perfect for first-time clients or seasonal resets.",
-      options: ['How do I book?', 'What else do you offer?', 'Do you serve my area?'],
-    }
-  }
-
-  if (t.includes('carpet')) {
-    return {
-      from: 'bot',
-      text: "Our Carpet Cleaning uses hot water extraction to remove deep stains, allergens, and embedded dirt from all carpet types. Pricing is custom based on rooms and carpet condition. Fast dry time — typically 2–4 hours!",
-      options: ['How do I book?', 'What else do you offer?', 'How much does it cost?'],
-    }
-  }
-
-  if (t.includes('move') || t.includes('moving')) {
-    return {
-      from: 'bot',
-      text: "Our Move In/Out Cleaning is a deep clean designed for transitions — we'll leave your old place spotless or get your new home ready before you unpack. Custom pricing based on size.",
-      options: ['How do I book?', 'How much does it cost?', 'What else do you offer?'],
-    }
-  }
-
-  if (t.includes('book') || t.includes('schedul') || t.includes('appoint') || t.includes('quote') || t.includes('consult')) {
-    return {
-      from: 'bot',
-      text: "Booking is easy! You can:\n\n1️⃣ Click the button below to book online instantly\n2️⃣ Or call/text us directly for a free quote\n\nWe'll confirm your appointment within a few hours!",
-      options: ['Book Now →', 'Call us', 'What services do you offer?'],
-    }
-  }
-
-  if (t.includes('book now') || t.includes('book →')) {
-    return {
-      from: 'bot',
-      text: "Great! Clicking the link below will take you to our online booking page. It only takes a few minutes! 🎉",
-      options: ['Open booking page →', 'Ask another question'],
-    }
-  }
-
-  if (t.includes('call') || t.includes('phone') || t.includes('number') || t.includes('contact')) {
-    return {
-      from: 'bot',
-      text: `You can reach us at:\n\n📞 ${CONTACT_PHONE}\n📧 ${CONTACT_EMAIL}\n\nOr visit our Contact page — we respond quickly!`,
-      options: ['How do I book?', 'What services do you offer?'],
-    }
-  }
-
-  if (t.includes('area') || t.includes('denver') || t.includes('location') || t.includes('serve') || t.includes('where')) {
-    return {
-      from: 'bot',
-      text: "We proudly serve Denver and the surrounding areas, including:\n\n📍 Denver · Aurora · Centennial · Littleton · Englewood · Highlands Ranch · Parker\n\nNot sure if we cover your area? Just ask!",
-      options: ['How do I book?', 'How much does it cost?', 'What services do you offer?'],
-    }
-  }
-
-  if (t.includes('airbnb') || t.includes('rental') || t.includes('host')) {
-    return {
-      from: 'bot',
-      text: "Our Airbnb Cleaning is fast, thorough, and designed to keep your 5-star rating! We handle full turnover cleaning between guest stays — linens, surfaces, bathrooms, and more. Custom pricing.",
-      options: ['How do I book?', 'How much does it cost?', 'What else do you offer?'],
-    }
-  }
-
-  if (t.includes('office') || t.includes('commercial') || t.includes('business')) {
-    return {
-      from: 'bot',
-      text: "Our Office Cleaning creates a productive, healthy workspace for your team. We handle desks, common areas, restrooms, floors, and more on a schedule that works for you. Custom pricing.",
-      options: ['How do I book?', 'How much does it cost?', 'What else do you offer?'],
-    }
-  }
-
-  if (t.includes('standard') || t.includes('regular') || t.includes('recurring')) {
-    return {
-      from: 'bot',
-      text: "Our Standard Cleaning is perfect for recurring maintenance — keeping your home consistently clean between deep cleans. Starting at $200. We can set up weekly, bi-weekly, or monthly visits!",
-      options: ['How do I book?', 'How much does it cost?', 'What else do you offer?'],
-    }
-  }
-
-  if (t.includes('open') || t.includes('booking page')) {
-    window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
-    return {
-      from: 'bot',
-      text: "Opening the booking page now! 🎉 Let us know if you have any other questions.",
-      options: ['What services do you offer?', 'How much does it cost?'],
-    }
-  }
-
-  if (t.includes('thank') || t.includes('great') || t.includes('awesome') || t.includes('perfect')) {
-    return {
-      from: 'bot',
-      text: "You're welcome! We look forward to making your space shine ✨ Is there anything else I can help you with?",
-      options: ['How do I book?', 'What services do you offer?', 'How much does it cost?'],
-    }
-  }
-
-  if (t.includes('another question') || t.includes('else')) {
-    return {
-      from: 'bot',
-      text: "Of course! What would you like to know?",
-      options: [
-        'What services do you offer?',
-        'How much does it cost?',
-        'How do I book?',
-        'Do you serve my area?',
-      ],
-    }
-  }
-
-  // Default fallback
-  return {
-    from: 'bot',
-    text: `Great question! For the most accurate answer, feel free to reach us directly:\n\n📞 ${CONTACT_PHONE}\n📧 ${CONTACT_EMAIL}\n\nOr I can help you with:`,
-    options: [
-      'What services do you offer?',
-      'How much does it cost?',
-      'How do I book?',
-      'Do you serve my area?',
-    ],
-  }
+function sqftFromOption(opt: string): number {
+  if (opt.startsWith('Under')) return 900
+  if (opt.startsWith('1,000')) return 1250
+  if (opt.startsWith('1,500')) return 1650
+  if (opt.startsWith('2,000')) return 2200
+  if (opt.startsWith('2,500')) return 2750
+  if (opt.startsWith('3,000')) return 3200
+  return 4000
 }
 
+function sqftFromText(text: string): number | null {
+  const num = parseInt(text.replace(/[^0-9]/g, ''), 10)
+  return isNaN(num) || num < 100 || num > 20000 ? null : num
+}
+
+// ─── COMPONENT ───────────────────────────────────────────────────────────────
 export default function VirtualAssistant() {
   const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE])
+  const [step, setStep] = useState<Step>('greeting')
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      from: 'bot',
+      text: "👋 Hi! I'll get you an instant price quote and collect your booking info.\n\nWhat service are you interested in?",
+      options: SERVICES,
+    },
+  ])
+  const [booking, setBooking] = useState<Partial<BookingData>>({})
   const [input, setInput] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, open])
 
-  const sendMessage = (text: string) => {
-    if (!text.trim()) return
-    const userMsg: Message = { from: 'user', text }
-    const botReply = getBotReply(text)
-    setMessages((prev) => [...prev, userMsg, botReply])
-    setInput('')
+  // Reset when closed
+  const handleClose = () => {
+    setOpen(false)
   }
 
-  const handleOption = (option: string) => {
-    if (option === 'Open booking page →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
-      setMessages((prev) => [
-        ...prev,
-        { from: 'user', text: option },
-        {
-          from: 'bot',
-          text: "Booking page opened! 🎉 Is there anything else I can help you with?",
-          options: ['What services do you offer?', 'How much does it cost?'],
-        },
-      ])
-      return
-    }
-    if (option === 'Book Now →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
-      setMessages((prev) => [
-        ...prev,
-        { from: 'user', text: option },
-        {
-          from: 'bot',
-          text: "Booking page opened in a new tab! We look forward to hearing from you ✨",
-          options: ['What services do you offer?', 'Ask another question'],
-        },
-      ])
-      return
-    }
-    sendMessage(option)
+  const handleOpen = () => {
+    setOpen(true)
+    // Reset to fresh state each open
+    setStep('service')
+    setBooking({})
+    setInput('')
+    setMessages([
+      {
+        from: 'bot',
+        text: "👋 Hi! I'll get you an instant price quote and collect your booking info.\n\nWhat service are you interested in?",
+        options: SERVICES,
+      },
+    ])
   }
+
+  const addMessages = (...msgs: Message[]) => {
+    setMessages((prev) => [...prev, ...msgs])
+    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 50)
+  }
+
+  // ── Handle option clicks ──
+  const handleOption = (opt: string) => {
+    if (step === 'service') {
+      const userMsg: Message = { from: 'user', text: opt }
+      setBooking((b) => ({ ...b, service: opt }))
+
+      if (opt === 'Carpet Cleaning') {
+        setStep('name')
+        addMessages(userMsg, {
+          from: 'bot',
+          text: "Great choice! Carpet cleaning is priced based on the number of rooms and condition. We'll give you a custom quote.\n\nTo get started, what's your full name?",
+        })
+        return
+      }
+
+      setStep('sqft')
+      addMessages(userMsg, {
+        from: 'bot',
+        text: `Perfect! What's the approximate square footage of the space?`,
+        options: SQFT_OPTIONS,
+      })
+      return
+    }
+
+    if (step === 'sqft') {
+      const sqft = sqftFromOption(opt)
+      const service = booking.service!
+      const price = getPrice(service, sqft)
+      const userMsg: Message = { from: 'user', text: opt }
+
+      setBooking((b) => ({ ...b, sqft, price: price ?? 0 }))
+      setStep('price')
+
+      if (price) {
+        addMessages(userMsg, {
+          from: 'bot',
+          isPrice: true,
+          price,
+          service,
+          sqft,
+          text: `✅ Estimated price for **${service}** (~${sqft.toLocaleString()} sqft):\n\n💰 **$${price}**\n\nWould you like to book this service?`,
+          options: ['Yes, book me in!', 'Choose a different service', 'I want to book online directly'],
+        })
+      } else {
+        addMessages(userMsg, {
+          from: 'bot',
+          text: `For ${service}, we'll give you a custom quote based on your space. Let's collect your info and we'll reach out within 24 hours!`,
+          options: ['Continue'],
+        })
+        setStep('name')
+      }
+      return
+    }
+
+    if (step === 'price') {
+      const userMsg: Message = { from: 'user', text: opt }
+
+      if (opt === 'Yes, book me in!') {
+        setStep('name')
+        addMessages(userMsg, {
+          from: 'bot',
+          text: "Awesome! Let me grab your contact info.\n\nWhat's your full name?",
+        })
+      } else if (opt === 'Choose a different service') {
+        setStep('service')
+        setBooking({})
+        addMessages(userMsg, {
+          from: 'bot',
+          text: 'Sure! Which service would you like?',
+          options: SERVICES,
+        })
+      } else if (opt === 'I want to book online directly') {
+        window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+        addMessages(userMsg, {
+          from: 'bot',
+          text: "Booking page opened! 🎉 We'll see you there. Any other questions?",
+          options: ['Get a price quote', 'Contact us'],
+        })
+        setStep('greeting')
+      }
+      return
+    }
+
+    // Generic options after done
+    if (opt === 'Contact us') {
+      addMessages({ from: 'user', text: opt }, {
+        from: 'bot',
+        text: `📞 Call/text: 720-677-8799\n📧 Email: ra@raprocleaningservices.com`,
+        options: ['Get a price quote'],
+      })
+      return
+    }
+    if (opt === 'Get a price quote' || opt === 'Continue') {
+      setStep('service')
+      setBooking({})
+      addMessages({ from: 'user', text: opt }, {
+        from: 'bot',
+        text: 'Which service are you interested in?',
+        options: SERVICES,
+      })
+    }
+  }
+
+  // ── Handle free-text input ──
+  const handleSend = async () => {
+    const text = input.trim()
+    if (!text) return
+    setInput('')
+    const userMsg: Message = { from: 'user', text }
+
+    if (step === 'sqft') {
+      const sqft = sqftFromText(text)
+      if (!sqft) {
+        addMessages(userMsg, { from: 'bot', text: "Please enter a number (e.g. 1500) or choose from the options above." })
+        return
+      }
+      const service = booking.service!
+      const price = getPrice(service, sqft)
+      setBooking((b) => ({ ...b, sqft, price: price ?? 0 }))
+      setStep('price')
+      addMessages(userMsg, {
+        from: 'bot',
+        isPrice: true,
+        price: price ?? undefined,
+        service,
+        sqft,
+        text: price
+          ? `✅ Estimated price for **${service}** (${sqft.toLocaleString()} sqft):\n\n💰 **$${price}**\n\nWould you like to book this service?`
+          : `For ${service} at ${sqft.toLocaleString()} sqft, we'll provide a custom quote. Shall we collect your contact info?`,
+        options: price
+          ? ['Yes, book me in!', 'Choose a different service', 'I want to book online directly']
+          : ['Continue'],
+      })
+      return
+    }
+
+    if (step === 'name') {
+      setBooking((b) => ({ ...b, name: text }))
+      setStep('phone')
+      addMessages(userMsg, { from: 'bot', text: `Nice to meet you, ${text.split(' ')[0]}! 📞 What's the best phone number to reach you?` })
+      return
+    }
+
+    if (step === 'phone') {
+      setBooking((b) => ({ ...b, phone: text }))
+      setStep('email')
+      addMessages(userMsg, { from: 'bot', text: "Great! And what's your email address?" })
+      return
+    }
+
+    if (step === 'email') {
+      const updatedBooking = { ...booking, email: text } as BookingData
+      setBooking(updatedBooking)
+      setStep('done')
+      setSubmitting(true)
+      addMessages(userMsg)
+
+      // Submit to contact API
+      try {
+        await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: updatedBooking.name,
+            phone: updatedBooking.phone,
+            email: updatedBooking.email,
+            propertyType: updatedBooking.service,
+            squareFootage: updatedBooking.sqft ? `${updatedBooking.sqft} sqft` : '',
+            message: `Booking request via chat widget. Service: ${updatedBooking.service}, Sqft: ${updatedBooking.sqft ?? 'N/A'}, Estimated Price: $${updatedBooking.price ?? 'Custom quote'}`,
+          }),
+        })
+      } catch {
+        // fail silently
+      }
+
+      setSubmitting(false)
+      addMessages({
+        from: 'bot',
+        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Est. Price: $${updatedBooking.price || 'Custom quote'}\n\nWe'll call you at ${updatedBooking.phone} within 24 hours to confirm.\n\nOr book online right now:`,
+        options: ['Book Online Now →', 'Ask another question'],
+      })
+      return
+    }
+
+    if (opt === 'Book Online Now →') {
+      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      return
+    }
+
+    // Fallback
+    addMessages(userMsg, {
+      from: 'bot',
+      text: "I'm here to help you book! Would you like a price quote?",
+      options: SERVICES,
+    })
+    setStep('service')
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSend()
+    }
+  }
+
+  const handleOptionClick = (opt: string) => {
+    if (opt === 'Book Online Now →') {
+      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      addMessages({ from: 'user', text: opt }, {
+        from: 'bot',
+        text: "Opening booking page... 🎉 See you there!",
+      })
+      return
+    }
+    if (opt === 'Ask another question') {
+      setStep('service')
+      setBooking({})
+      addMessages({ from: 'user', text: opt }, {
+        from: 'bot',
+        text: 'Of course! What service can I quote you for?',
+        options: SERVICES,
+      })
+      return
+    }
+    handleOption(opt)
+  }
+
+  const inputPlaceholder =
+    step === 'name' ? 'Your full name...'
+    : step === 'phone' ? 'Your phone number...'
+    : step === 'email' ? 'Your email address...'
+    : step === 'sqft' ? 'Type sqft (e.g. 1500) or pick above...'
+    : 'Type a message...'
 
   return (
     <>
-      {/* Floating Button */}
+      {/* ── FLOATING BOOK NOW BUTTON ─────────────────────────────── */}
       <button
-        onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-lg flex items-center justify-center transition-all duration-300 rounded-full"
-        aria-label="Open chat"
+        onClick={open ? handleClose : handleOpen}
+        className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
+        aria-label={open ? 'Close booking assistant' : 'Book Now'}
+        style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
       >
         {open ? (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Close
+          </>
         ) : (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
+          <>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Book Now
+          </>
         )}
       </button>
 
-      {/* Chat Window */}
+      {/* ── CHAT / BOOKING WINDOW ───────────────────────────────────── */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-[340px] max-w-[calc(100vw-24px)] bg-white shadow-2xl flex flex-col border border-[#B2DFDB] rounded-lg overflow-hidden">
+        <div className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-24px)] bg-white shadow-2xl flex flex-col border border-[#B2DFDB] rounded-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-[#0F2240] px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 bg-[#00A896] rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+          <div className="bg-[#0F2240] px-4 py-3.5 flex items-center gap-3">
+            <div className="w-10 h-10 bg-[#00A896] rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
               RA
             </div>
             <div>
-              <p className="text-white text-sm font-semibold">{BOT_NAME}</p>
+              <p className="text-white text-sm font-bold">Book & Get Instant Price</p>
               <div className="flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-green-400" />
-                <p className="text-white/60 text-xs">Online now</p>
+                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <p className="text-white/60 text-xs">Responds instantly</p>
               </div>
             </div>
+            <button onClick={handleClose} className="ml-auto text-white/50 hover:text-white transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Progress strip */}
+          <div className="flex bg-[#0F2240]/5 border-b border-[#B2DFDB]">
+            {(['service', 'sqft', 'price', 'name', 'phone', 'email', 'done'] as Step[]).map((s, i) => {
+              const stepOrder: Step[] = ['greeting', 'service', 'sqft', 'price', 'name', 'phone', 'email', 'done']
+              const currentIdx = stepOrder.indexOf(step)
+              const thisIdx = stepOrder.indexOf(s)
+              const active = thisIdx <= currentIdx
+              return (
+                <div
+                  key={s}
+                  className={`flex-1 h-1 transition-all duration-500 ${active ? 'bg-[#00A896]' : 'bg-[#B2DFDB]/40'}`}
+                  style={{ marginRight: i < 6 ? 1 : 0 }}
+                />
+              )
+            })}
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[360px] bg-[#F9F9F9]">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[380px] bg-[#F9FAFA]">
             {messages.map((msg, i) => (
               <div key={i} className={`flex flex-col ${msg.from === 'user' ? 'items-end' : 'items-start'}`}>
+                {/* Price card */}
+                {msg.isPrice && msg.price && (
+                  <div className="w-full bg-[#00A896] text-white rounded-2xl rounded-bl-sm p-4 mb-2 shadow-md">
+                    <p className="text-xs font-semibold opacity-80 uppercase tracking-wider mb-1">{msg.service}</p>
+                    <p className="text-3xl font-black">${msg.price}</p>
+                    <p className="text-xs opacity-70 mt-1">Est. for ~{msg.sqft?.toLocaleString()} sqft · Flat rate, no hidden fees</p>
+                  </div>
+                )}
+
                 <div
-                  className={`max-w-[85%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line rounded-2xl ${
+                  className={`max-w-[88%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line rounded-2xl ${
                     msg.from === 'user'
                       ? 'bg-[#00A896] text-white rounded-br-sm'
-                      : 'bg-white text-[#0F2240] border border-[#B2DFDB] rounded-bl-sm'
-                  }`}
+                      : 'bg-white text-[#0F2240] border border-[#B2DFDB] rounded-bl-sm shadow-sm'
+                  } ${msg.isPrice ? 'hidden' : ''}`}
                 >
-                  {msg.text}
+                  {msg.text.replace(/\*\*/g, '')}
                 </div>
+
                 {msg.options && msg.from === 'bot' && (
-                  <div className="mt-2 flex flex-wrap gap-1.5 max-w-[85%]">
+                  <div className="mt-2 flex flex-wrap gap-1.5 max-w-[90%]">
                     {msg.options.map((opt) => (
                       <button
                         key={opt}
-                        onClick={() => handleOption(opt)}
-                        className="text-xs px-3 py-1.5 border border-[#00A896] text-[#00A896] hover:bg-[#00A896] hover:text-white transition-colors rounded-full"
+                        onClick={() => handleOptionClick(opt)}
+                        className="text-xs px-3 py-1.5 border border-[#00A896] text-[#00A896] hover:bg-[#00A896] hover:text-white transition-colors rounded-full font-medium"
                       >
                         {opt}
                       </button>
@@ -276,23 +515,36 @@ export default function VirtualAssistant() {
                 )}
               </div>
             ))}
+
+            {submitting && (
+              <div className="flex items-center gap-2 text-[#4A6583] text-xs">
+                <div className="flex gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00A896] animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00A896] animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00A896] animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+                Sending your info...
+              </div>
+            )}
+
             <div ref={bottomRef} />
           </div>
 
           {/* Input */}
           <div className="border-t border-[#B2DFDB] p-3 flex gap-2 bg-white">
             <input
-              type="text"
+              type={step === 'email' ? 'email' : step === 'phone' ? 'tel' : 'text'}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && sendMessage(input)}
-              placeholder="Type a message..."
-              className="flex-1 text-sm border border-[#B2DFDB] px-3 py-2 rounded-full outline-none focus:border-[#00A896] transition-colors"
+              onKeyDown={handleKeyDown}
+              placeholder={inputPlaceholder}
+              className="flex-1 text-sm border border-[#B2DFDB] px-3 py-2.5 rounded-full outline-none focus:border-[#00A896] transition-colors bg-[#F9FAFA] placeholder-[#4A6583]/50"
+              disabled={submitting || step === 'done'}
             />
             <button
-              onClick={() => sendMessage(input)}
-              disabled={!input.trim()}
-              className="w-9 h-9 bg-[#00A896] disabled:opacity-40 hover:bg-[#007A6C] text-white rounded-full flex items-center justify-center transition-colors flex-shrink-0"
+              onClick={handleSend}
+              disabled={!input.trim() || submitting || step === 'done'}
+              className="w-10 h-10 bg-[#00A896] disabled:opacity-30 hover:bg-[#007A6C] text-white rounded-full flex items-center justify-center transition-colors flex-shrink-0"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
