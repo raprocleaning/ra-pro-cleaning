@@ -39,20 +39,20 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="border-b border-[#C8DFEF] last:border-0">
+    <div className="border-b border-[#B2DFDB] last:border-0">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between py-6 text-left group"
         aria-expanded={open}
       >
-        <span className={`font-semibold text-base transition-colors ${open ? 'text-[#4A90D9]' : 'text-[#1A2B4B] group-hover:text-[#4A90D9]'}`}>
+        <span className={`font-semibold text-base transition-colors ${open ? 'text-[#00A896]' : 'text-[#0F2240] group-hover:text-[#00A896]'}`}>
           {question}
         </span>
         <div
           className={`flex-shrink-0 ml-4 w-8 h-8 border flex items-center justify-center transition-all duration-300 ${
             open
-              ? 'border-[#4A90D9] text-[#4A90D9] rotate-45'
-              : 'border-[#C8DFEF] text-[#4A6583] group-hover:border-[#4A90D9] group-hover:text-[#4A90D9]'
+              ? 'border-[#00A896] text-[#00A896] rotate-45'
+              : 'border-[#B2DFDB] text-[#4A6583] group-hover:border-[#00A896] group-hover:text-[#00A896]'
           }`}
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -84,10 +84,10 @@ const FAQ = () => {
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Left: Header + CTA */}
           <div className="fade-in-up">
-            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               FAQ
             </p>
-            <h2 className="text-4xl md:text-5xl font-black text-[#1A2B4B] tracking-tight mb-6">
+            <h2 className="text-4xl md:text-5xl font-black text-[#0F2240] tracking-tight mb-6">
               Frequently Asked<br />Questions
             </h2>
             <p className="text-[#4A6583] leading-relaxed mb-10">
@@ -98,14 +98,14 @@ const FAQ = () => {
                 href="https://raprocleaningservices.bookingkoala.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors"
+                className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
               >
                 Book a Clean
               </a>
               <div>
                 <a
                   href="tel:7206778799"
-                  className="flex items-center gap-2 text-[#1A2B4B] font-medium hover:text-[#4A90D9] transition-colors mt-4"
+                  className="flex items-center gap-2 text-[#0F2240] font-medium hover:text-[#00A896] transition-colors mt-4"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />

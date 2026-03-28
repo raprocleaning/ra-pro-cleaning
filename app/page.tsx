@@ -15,13 +15,13 @@ export default function Home() {
       <Hero />
 
       {/* About / Intro */}
-      <section className="py-20 bg-[#EBF4FF]">
+      <section className="py-20 bg-[#E6F7F5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#00A896] text-xs font-semibold tracking-[0.35em] uppercase mb-4">
               About R A Pro
             </p>
-            <h2 className="text-3xl md:text-4xl font-black text-[#1A2B4B] tracking-tight mb-6">
+            <h2 className="text-3xl md:text-4xl font-black text-[#0F2240] tracking-tight mb-6">
               Denver&apos;s Trusted Cleaning Professionals
             </h2>
             <p className="text-[#4A6583] text-lg leading-relaxed">
@@ -35,13 +35,13 @@ export default function Home() {
                 href="https://raprocleaningservices.bookingkoala.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
+                className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 shadow-md"
               >
                 Book Now
               </a>
               <a
                 href="/about"
-                className="inline-flex items-center justify-center gap-2 border border-[#C8DFEF] text-[#1A2B4B] font-medium px-8 py-4 hover:border-[#4A90D9] hover:text-[#4A90D9] transition-colors"
+                className="inline-flex items-center justify-center gap-2 border-2 border-[#B2DFDB] text-[#0F2240] font-medium px-8 py-4 hover:border-[#00A896] hover:text-[#00A896] transition-colors"
               >
                 Learn About Us
               </a>

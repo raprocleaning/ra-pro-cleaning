@@ -16,14 +16,14 @@ const GallerySection = () => {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 bg-[#1A2B4B]"
+      className="py-24 bg-[#0F2240]"
       id="gallery"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 fade-in-up">
           <div>
-            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               Our Work
             </p>
             <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
@@ -58,7 +58,7 @@ const GallerySection = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4">
-                <span className="text-xs font-semibold text-[#4A90D9] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#00A896] uppercase tracking-wider">
                   {photo.tag}
                 </span>
                 <p className="text-white text-sm font-medium mt-1">{photo.label}</p>

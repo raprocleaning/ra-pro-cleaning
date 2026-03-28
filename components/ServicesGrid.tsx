@@ -6,9 +6,8 @@ const services = [
   {
     slug: 'deep-cleaning',
     name: 'Deep Cleaning',
-    description:
-      'Thorough cleaning of every room, surface, and corner. We get to the hard-to-reach spots others miss.',
-    price: 'Starting at $300',
+    description: 'Thorough cleaning of every room, surface, and corner. We get to the hard-to-reach spots others miss.',
+    price: 'From $300',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -18,9 +17,8 @@ const services = [
   {
     slug: 'standard-cleaning',
     name: 'Standard Cleaning',
-    description:
-      'Recurring maintenance cleaning to keep your home consistently pristine and welcoming.',
-    price: 'Starting at $200',
+    description: 'Recurring maintenance cleaning to keep your home consistently pristine and welcoming.',
+    price: 'From $200',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -30,8 +28,7 @@ const services = [
   {
     slug: 'house-cleaning',
     name: 'House Cleaning',
-    description:
-      'Complete residential cleaning covering kitchen, bathrooms, bedrooms, living areas, and laundry rooms.',
+    description: 'Complete residential cleaning covering kitchen, bathrooms, bedrooms, living areas, and laundry rooms.',
     price: 'Custom quote',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -42,8 +39,7 @@ const services = [
   {
     slug: 'office-cleaning',
     name: 'Office Cleaning',
-    description:
-      'Professional workspace cleaning to create a productive, healthy environment for your team.',
+    description: 'Professional workspace cleaning to create a productive, healthy environment for your team.',
     price: 'Custom quote',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,8 +50,7 @@ const services = [
   {
     slug: 'move-in-out',
     name: 'Move In/Out Cleaning',
-    description:
-      'Deep clean before or after a move — leave your old place spotless and start fresh in your new home.',
+    description: 'Deep clean before or after a move — leave your old place spotless and start fresh in your new home.',
     price: 'Custom quote',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,8 +61,7 @@ const services = [
   {
     slug: 'airbnb-cleaning',
     name: 'Airbnb Cleaning',
-    description:
-      'Fast, thorough turnover cleaning between guest stays to maintain your 5-star host rating.',
+    description: 'Fast, thorough turnover cleaning between guest stays to maintain your 5-star host rating.',
     price: 'Custom quote',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,8 +72,7 @@ const services = [
   {
     slug: 'kitchen-cleaning',
     name: 'Kitchen Cleaning',
-    description:
-      'Specialized deep clean for the most-used room in your home — appliances, cabinets, counters, and floors.',
+    description: 'Specialized deep clean for the most-used room in your home — appliances, cabinets, counters, and floors.',
     price: 'Custom quote',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,8 +83,7 @@ const services = [
   {
     slug: 'bathroom-cleaning',
     name: 'Bathroom Cleaning',
-    description:
-      'Detailed bathroom sanitization from floor to ceiling — tiles, grout, fixtures, mirrors, and more.',
+    description: 'Detailed bathroom sanitization from floor to ceiling — tiles, grout, fixtures, mirrors, and more.',
     price: 'Custom quote',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,22 +92,9 @@ const services = [
     ),
   },
   {
-    slug: 'bedroom-cleaning',
-    name: 'Bedroom Cleaning',
-    description:
-      'Full bedroom refresh: dusting all surfaces, vacuuming, fresh linens, and everything in between.',
-    price: 'Custom quote',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-      </svg>
-    ),
-  },
-  {
     slug: 'carpet-cleaning',
     name: 'Carpet Cleaning',
-    description:
-      'Deep extraction cleaning to remove stains, allergens, and embedded dirt — leaving your carpets fresh, soft, and like new.',
+    description: 'Deep extraction cleaning to remove stains, allergens, and embedded dirt — leaving carpets fresh and like new.',
     price: 'Custom quote',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -129,48 +108,44 @@ const ServicesGrid = () => {
   const ref = useScrollAnimationMultiple(0.05)
 
   return (
-    <section
-      ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 bg-white"
-      id="services"
-    >
+    <section ref={ref as React.RefObject<HTMLElement>} className="py-24 bg-white" id="services">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 fade-in-up">
-          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#00A896] text-xs font-semibold tracking-[0.35em] uppercase mb-4">
             What We Offer
           </p>
-          <h2 className="text-4xl md:text-5xl font-black text-[#1A2B4B] tracking-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-black text-[#0F2240] tracking-tight mb-4">
             Our Services
           </h2>
           <p className="text-[#4A6583] text-lg max-w-xl mx-auto">
-            From routine maintenance to deep restoration — we handle every corner of your space.
+            From routine maintenance to deep restoration — every corner, every time.
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#C8DFEF]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#B2DFDB]">
           {services.map((service) => (
             <div
               key={service.slug}
-              className="fade-in-up bg-white p-8 group hover:shadow-lg hover:z-10 relative transition-all duration-300 border-t-2 border-t-transparent hover:border-t-[#4A90D9]"
+              className="fade-in-up bg-white p-8 group hover:shadow-xl hover:z-10 relative transition-all duration-300 border-t-2 border-t-transparent hover:border-t-[#00A896]"
             >
-              <div className="text-[#4A90D9] mb-5 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-[#00A896] mb-5 group-hover:scale-110 transition-transform duration-300">
                 {service.icon}
               </div>
-              <h3 className="text-lg font-bold text-[#1A2B4B] mb-2 tracking-tight">
+              <h3 className="text-lg font-bold text-[#0F2240] mb-2 tracking-tight">
                 {service.name}
               </h3>
               <p className="text-[#4A6583] text-sm leading-relaxed mb-5">
                 {service.description}
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#4A90D9] tracking-wide">
+                <span className="text-xs font-bold text-[#00A896] tracking-wide">
                   {service.price}
                 </span>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="text-xs font-semibold text-[#1A2B4B] tracking-wide hover:text-[#4A90D9] transition-colors flex items-center gap-1"
+                  className="text-xs font-semibold text-[#0F2240] tracking-wide hover:text-[#00A896] transition-colors flex items-center gap-1"
                 >
                   Learn More
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -188,7 +163,7 @@ const ServicesGrid = () => {
             href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
+            className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-lg"
           >
             Book Any Service
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

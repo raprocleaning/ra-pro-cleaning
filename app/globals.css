@@ -1,8 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --teal: #00A896;
+  --teal-dark: #007A6C;
+  --teal-light: #E6F7F5;
+  --teal-mid: #B2DFDB;
+  --navy: #0F2240;
+  --navy-mid: #1A3055;
+  --slate: #4A6583;
+  --pale: #F5FAFA;
+  --white: #FFFFFF;
+}
 
 @layer base {
   * {
@@ -17,7 +29,7 @@
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
-    color: #0A0A0A;
+    color: #0F2240;
     background: #FFFFFF;
     -webkit-font-smoothing: antialiased;
   }
@@ -38,4 +50,29 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Sticky Book Now pulse ring */
+  @keyframes ping-slow {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+  }
+
+  .btn-book-now {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  .btn-book-now:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 168, 150, 0.45);
+  }
+
+  /* Carousel touch */
+  .carousel-track {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Scrollbar hide */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }

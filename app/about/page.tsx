@@ -88,7 +88,7 @@ export default function AboutPage() {
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="bg-[#1A2B4B] py-28 relative overflow-hidden">
+      <section className="bg-[#0F2240] py-28 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -97,7 +97,7 @@ export default function AboutPage() {
           }}
         />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             Our Story
           </p>
           <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
@@ -114,10 +114,10 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+              <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
                 Who We Are
               </p>
-              <h2 className="text-4xl font-black text-[#1A2B4B] tracking-tight mb-6">
+              <h2 className="text-4xl font-black text-[#0F2240] tracking-tight mb-6">
                 Denver&apos;s Premium<br />Cleaning Experience
               </h2>
               <p className="text-[#4A6583] leading-relaxed mb-5">
@@ -143,8 +143,8 @@ export default function AboutPage() {
                 { value: '5+', label: 'Years in Denver' },
                 { value: '200+', label: 'Homes Cleaned' },
               ].map((stat) => (
-                <div key={stat.label} className="bg-[#EBF4FF] p-8 text-center">
-                  <div className="text-4xl font-black text-[#4A90D9] mb-2">{stat.value}</div>
+                <div key={stat.label} className="bg-[#E6F7F5] p-8 text-center">
+                  <div className="text-4xl font-black text-[#00A896] mb-2">{stat.value}</div>
                   <div className="text-[#4A6583] text-sm">{stat.label}</div>
                 </div>
               ))}
@@ -154,24 +154,24 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-24 bg-[#EBF4FF]">
+      <section className="py-24 bg-[#E6F7F5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               The Team
             </p>
-            <h2 className="text-4xl font-black text-[#1A2B4B] tracking-tight">
+            <h2 className="text-4xl font-black text-[#0F2240] tracking-tight">
               Meet the People Behind the Clean
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {teamMembers.map((member) => (
-              <div key={member.name} className="bg-white p-8 border border-[#C8DFEF]">
-                <div className="w-16 h-16 bg-[#4A90D9] flex items-center justify-center text-white text-xl font-bold mb-6">
+              <div key={member.name} className="bg-white p-8 border border-[#B2DFDB]">
+                <div className="w-16 h-16 bg-[#00A896] flex items-center justify-center text-white text-xl font-bold mb-6">
                   {member.initials}
                 </div>
-                <h3 className="text-xl font-bold text-[#1A2B4B] mb-1">{member.name}</h3>
-                <p className="text-[#4A90D9] text-sm font-medium mb-4">{member.role}</p>
+                <h3 className="text-xl font-bold text-[#0F2240] mb-1">{member.name}</h3>
+                <p className="text-[#00A896] text-sm font-medium mb-4">{member.role}</p>
                 <p className="text-[#4A6583] text-sm leading-relaxed">{member.bio}</p>
               </div>
             ))}
@@ -183,17 +183,17 @@ export default function AboutPage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               Our Values
             </p>
-            <h2 className="text-4xl font-black text-[#1A2B4B] tracking-tight">
+            <h2 className="text-4xl font-black text-[#0F2240] tracking-tight">
               What We Stand For
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value) => (
-              <div key={value.title} className="border-t-2 border-[#4A90D9] pt-6">
-                <h3 className="text-lg font-bold text-[#1A2B4B] mb-3">{value.title}</h3>
+              <div key={value.title} className="border-t-2 border-[#00A896] pt-6">
+                <h3 className="text-lg font-bold text-[#0F2240] mb-3">{value.title}</h3>
                 <p className="text-[#4A6583] text-sm leading-relaxed">{value.description}</p>
               </div>
             ))}
@@ -202,11 +202,11 @@ export default function AboutPage() {
       </section>
 
       {/* Licensed & Insured Callout */}
-      <section className="py-20 bg-[#1A2B4B]">
+      <section className="py-20 bg-[#0F2240]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 border border-[#4A90D9] flex items-center justify-center">
-              <svg className="w-6 h-6 text-[#4A90D9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-12 h-12 border border-[#00A896] flex items-center justify-center">
+              <svg className="w-6 h-6 text-[#00A896]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
@@ -222,7 +222,7 @@ export default function AboutPage() {
             href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
           >
             Book with Confidence
           </a>
@@ -230,13 +230,13 @@ export default function AboutPage() {
       </section>
 
       {/* Cleaning Checklist */}
-      <section className="py-24 bg-[#EBF4FF]" id="checklist">
+      <section className="py-24 bg-[#E6F7F5]" id="checklist">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
               Our Standards
             </p>
-            <h2 className="text-4xl font-black text-[#1A2B4B] tracking-tight">
+            <h2 className="text-4xl font-black text-[#0F2240] tracking-tight">
               Cleaning Checklist
             </h2>
             <p className="text-[#4A6583] mt-4 max-w-xl mx-auto">
@@ -246,15 +246,15 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {Object.entries(checklistItems).map(([room, items]) => (
-              <div key={room} className="bg-white p-6 border border-[#C8DFEF]">
-                <h3 className="font-bold text-[#1A2B4B] capitalize mb-4 pb-3 border-b border-[#C8DFEF]">
+              <div key={room} className="bg-white p-6 border border-[#B2DFDB]">
+                <h3 className="font-bold text-[#0F2240] capitalize mb-4 pb-3 border-b border-[#B2DFDB]">
                   {room === 'living' ? 'Living Areas' : room.charAt(0).toUpperCase() + room.slice(1)}
                 </h3>
                 <ul className="space-y-2">
                   {items.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-sm text-[#4A6583]">
-                      <div className="w-4 h-4 bg-[#4A90D9]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg className="w-2.5 h-2.5 text-[#4A90D9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-4 h-4 bg-[#00A896]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg className="w-2.5 h-2.5 text-[#00A896]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
@@ -269,10 +269,10 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-white border-t border-[#C8DFEF]">
+      <section className="py-16 bg-white border-t border-[#B2DFDB]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h3 className="text-2xl font-bold text-[#1A2B4B]">Ready to experience the difference?</h3>
+            <h3 className="text-2xl font-bold text-[#0F2240]">Ready to experience the difference?</h3>
             <p className="text-[#4A6583] mt-1">Join hundreds of satisfied Denver homeowners.</p>
           </div>
           <div className="flex gap-4">
@@ -280,13 +280,13 @@ export default function AboutPage() {
               href="https://raprocleaningservices.bookingkoala.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors"
+              className="bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
             >
               Book Now
             </a>
             <Link
               href="/contact"
-              className="border border-[#C8DFEF] text-[#1A2B4B] font-medium px-6 py-3 hover:border-[#4A90D9] hover:text-[#4A90D9] transition-colors"
+              className="border border-[#B2DFDB] text-[#0F2240] font-medium px-6 py-3 hover:border-[#00A896] hover:text-[#00A896] transition-colors"
             >
               Contact Us
             </Link>

@@ -41,7 +41,7 @@ export default function BlogPage() {
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="bg-[#1A2B4B] py-24 relative overflow-hidden">
+      <section className="bg-[#0F2240] py-24 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -50,7 +50,7 @@ export default function BlogPage() {
           }}
         />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             Expert Insights
           </p>
           <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
@@ -69,10 +69,10 @@ export default function BlogPage() {
             {posts.map((post) => (
               <article
                 key={post.slug}
-                className="border border-[#C8DFEF] hover:border-[#4A90D9] hover:shadow-md transition-all duration-300 group"
+                className="border border-[#B2DFDB] hover:border-[#00A896] hover:shadow-md transition-all duration-300 group"
               >
                 {/* Category banner */}
-                <div className="aspect-[16/9] bg-[#1A2B4B] flex flex-col items-center justify-center border-b border-[#C8DFEF] relative overflow-hidden">
+                <div className="aspect-[16/9] bg-[#0F2240] flex flex-col items-center justify-center border-b border-[#B2DFDB] relative overflow-hidden">
                   <div
                     className="absolute inset-0 opacity-30"
                     style={{
@@ -80,10 +80,10 @@ export default function BlogPage() {
                         'radial-gradient(ellipse at 50% 60%, rgba(200,169,110,0.5) 0%, transparent 70%)',
                     }}
                   />
-                  <svg className="relative w-10 h-10 text-[#4A90D9] mb-3 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="relative w-10 h-10 text-[#00A896] mb-3 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
-                  <span className="relative text-xs font-semibold text-[#4A90D9] tracking-[0.2em] uppercase">
+                  <span className="relative text-xs font-semibold text-[#00A896] tracking-[0.2em] uppercase">
                     {post.category}
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export default function BlogPage() {
                     <span>{post.readTime}</span>
                   </div>
 
-                  <h2 className="text-lg font-bold text-[#1A2B4B] mb-3 leading-tight group-hover:text-[#4A90D9] transition-colors">
+                  <h2 className="text-lg font-bold text-[#0F2240] mb-3 leading-tight group-hover:text-[#00A896] transition-colors">
                     {post.title}
                   </h2>
 
@@ -105,7 +105,7 @@ export default function BlogPage() {
 
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-[#1A2B4B] hover:text-[#4A90D9] transition-colors"
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-[#0F2240] hover:text-[#00A896] transition-colors"
                   >
                     Read Article
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -120,9 +120,9 @@ export default function BlogPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-[#EBF4FF]">
+      <section className="py-20 bg-[#E6F7F5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black text-[#1A2B4B] mb-4">
+          <h2 className="text-3xl font-black text-[#0F2240] mb-4">
             Let Us Handle the Cleaning
           </h2>
           <p className="text-[#4A6583] mb-8 max-w-lg mx-auto">
@@ -132,7 +132,7 @@ export default function BlogPage() {
             href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
           >
             Book a Professional Clean
           </a>

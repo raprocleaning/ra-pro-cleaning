@@ -40,7 +40,7 @@ export default function GalleryPage() {
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="bg-[#1A2B4B] py-24 relative overflow-hidden">
+      <section className="bg-[#0F2240] py-24 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -49,7 +49,7 @@ export default function GalleryPage() {
           }}
         />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             Our Work
           </p>
           <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
@@ -62,7 +62,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Filter Tabs */}
-      <section className="py-12 bg-white border-b border-[#C8DFEF]">
+      <section className="py-12 bg-white border-b border-[#B2DFDB]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((cat) => (
@@ -71,8 +71,8 @@ export default function GalleryPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-5 py-2.5 text-sm font-medium tracking-wide transition-colors ${
                   activeCategory === cat
-                    ? 'bg-[#4A90D9] text-white'
-                    : 'border border-[#C8DFEF] text-[#4A6583] hover:border-[#4A90D9] hover:text-[#4A90D9]'
+                    ? 'bg-[#00A896] text-white'
+                    : 'border border-[#B2DFDB] text-[#4A6583] hover:border-[#00A896] hover:text-[#00A896]'
                 }`}
               >
                 {cat}
@@ -90,9 +90,9 @@ export default function GalleryPage() {
               <div
                 key={item.id}
                 onClick={() => setLightbox(item)}
-                className="group relative overflow-hidden border border-[#C8DFEF] hover:border-[#4A90D9] hover:shadow-lg transition-all duration-300 cursor-pointer"
+                className="group relative overflow-hidden border border-[#B2DFDB] hover:border-[#00A896] hover:shadow-lg transition-all duration-300 cursor-pointer"
               >
-                <div className="aspect-[4/3] relative overflow-hidden bg-[#EBF4FF]">
+                <div className="aspect-[4/3] relative overflow-hidden bg-[#E6F7F5]">
                   <Image
                     src={item.src}
                     alt={item.label}
@@ -101,7 +101,7 @@ export default function GalleryPage() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-[#1A2B4B]/0 group-hover:bg-[#1A2B4B]/30 transition-colors duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-[#0F2240]/0 group-hover:bg-[#0F2240]/30 transition-colors duration-300 flex items-center justify-center">
                     <svg className="w-10 h-10 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
                     </svg>
@@ -109,10 +109,10 @@ export default function GalleryPage() {
                 </div>
                 <div className="p-4 bg-white flex items-center justify-between">
                   <div>
-                    <p className="font-semibold text-sm text-[#1A2B4B]">{item.label}</p>
+                    <p className="font-semibold text-sm text-[#0F2240]">{item.label}</p>
                     <p className="text-xs text-[#4A6583]">{item.desc}</p>
                   </div>
-                  <span className="text-xs font-semibold px-3 py-1 bg-[#EBF4FF] text-[#4A6583] shrink-0 ml-2">
+                  <span className="text-xs font-semibold px-3 py-1 bg-[#E6F7F5] text-[#4A6583] shrink-0 ml-2">
                     {item.category}
                   </span>
                 </div>
@@ -156,9 +156,9 @@ export default function GalleryPage() {
       )}
 
       {/* CTA */}
-      <section className="py-20 bg-[#EBF4FF]">
+      <section className="py-20 bg-[#E6F7F5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black text-[#1A2B4B] mb-4">
+          <h2 className="text-3xl font-black text-[#0F2240] mb-4">
             Want These Results in Your Home?
           </h2>
           <p className="text-[#4A6583] mb-8">Book your cleaning today and see the transformation yourself.</p>
@@ -166,7 +166,7 @@ export default function GalleryPage() {
             href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-8 py-4 hover:bg-[#357ABD] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
           >
             Book Now
           </a>

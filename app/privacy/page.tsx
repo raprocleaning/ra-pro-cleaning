@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <main className="pt-20">
-      <section className="bg-[#1A2B4B] py-16">
+      <section className="bg-[#0F2240] py-16">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">Legal</p>
+          <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">Legal</p>
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">Privacy Policy</h1>
           <p className="text-white/50 mt-4 text-sm">Last updated: January 1, 2025</p>
         </div>
@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           <div className="space-y-10 text-[#3A3A3A] text-sm leading-relaxed">
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">1. Introduction</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">1. Introduction</h2>
               <p>
                 R A Pro Cleaning Services LLC (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your
                 personal information. This Privacy Policy explains how we collect, use, disclose, and
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">2. Information We Collect</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">2. Information We Collect</h2>
               <p className="mb-3">We may collect the following types of information:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li><strong>Personal Identification Information:</strong> Name, email address, phone number, and mailing address when you fill out our contact or booking forms.</li>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">3. How We Use Your Information</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">3. How We Use Your Information</h2>
               <ul className="list-disc pl-6 space-y-2">
                 <li>To respond to your inquiries and provide cleaning service quotes</li>
                 <li>To schedule and confirm cleaning appointments</li>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">4. SMS Communications</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">4. SMS Communications</h2>
               <p className="mb-3">
                 If you opt in to receive SMS text messages from R A Pro Cleaning Services LLC, you agree
                 to receive text messages related to your service bookings, appointment reminders, and
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">5. Sharing Your Information</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">5. Sharing Your Information</h2>
               <p className="mb-3">We do not sell or rent your personal information. We may share it with:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li><strong>Service Providers:</strong> Third-party vendors who assist us in operating our website or conducting our business (e.g., Formspree for form submissions, BookingKoala for scheduling).</li>
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">6. Cookies</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">6. Cookies</h2>
               <p>
                 Our website may use cookies to enhance your browsing experience. You can instruct your
                 browser to refuse all cookies or to indicate when a cookie is being sent. However, some
@@ -88,7 +88,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">7. Data Security</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">7. Data Security</h2>
               <p>
                 We implement reasonable security measures to protect your personal information from
                 unauthorized access, alteration, disclosure, or destruction. However, no method of
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">8. Your Rights</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">8. Your Rights</h2>
               <p className="mb-3">You have the right to:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Access the personal information we hold about you</li>
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">9. Children&apos;s Privacy</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">9. Children&apos;s Privacy</h2>
               <p>
                 Our services are not directed to individuals under the age of 13. We do not knowingly
                 collect personal information from children under 13.
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">10. Changes to This Policy</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">10. Changes to This Policy</h2>
               <p>
                 We may update this Privacy Policy from time to time. We will notify you of any changes
                 by posting the new policy on this page with an updated date.
@@ -125,14 +125,14 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-[#1A2B4B] mb-3">11. Contact Us</h2>
+              <h2 className="text-xl font-bold text-[#0F2240] mb-3">11. Contact Us</h2>
               <p>If you have questions about this Privacy Policy, please contact us:</p>
               <div className="mt-3 space-y-1">
                 <p><strong>R A Pro Cleaning Services LLC</strong></p>
                 <p>B, B502, 1325 S Colorado Blvd</p>
                 <p>Denver, CO 80222</p>
-                <p>Phone: <a href="tel:7206778799" className="text-[#4A90D9] hover:underline">720-677-8799</a></p>
-                <p>Email: <a href="mailto:ra@raprocleaningservices.com" className="text-[#4A90D9] hover:underline">ra@raprocleaningservices.com</a></p>
+                <p>Phone: <a href="tel:7206778799" className="text-[#00A896] hover:underline">720-677-8799</a></p>
+                <p>Email: <a href="mailto:ra@raprocleaningservices.com" className="text-[#00A896] hover:underline">ra@raprocleaningservices.com</a></p>
               </div>
             </div>
 

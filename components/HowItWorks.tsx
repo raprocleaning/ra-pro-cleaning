@@ -49,10 +49,10 @@ const HowItWorks = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-20 fade-in-up">
-          <p className="text-[#4A90D9] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             The Process
           </p>
-          <h2 className="text-4xl md:text-5xl font-black text-[#1A2B4B] tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-black text-[#0F2240] tracking-tight">
             How It Works
           </h2>
         </div>
@@ -67,8 +67,8 @@ const HowItWorks = () => {
               <div key={idx} className="fade-in-up flex flex-col items-center text-center">
                 {/* Step circle */}
                 <div className="relative mb-8">
-                  <div className="w-32 h-32 border-2 border-[#C8DFEF] bg-white flex flex-col items-center justify-center group hover:border-[#4A90D9] transition-colors duration-300">
-                    <div className="text-[#4A90D9] mb-1">{step.icon}</div>
+                  <div className="w-32 h-32 border-2 border-[#B2DFDB] bg-white flex flex-col items-center justify-center group hover:border-[#00A896] transition-colors duration-300">
+                    <div className="text-[#00A896] mb-1">{step.icon}</div>
                     <span className="text-xs text-[#4A6583] font-medium tracking-widest">{step.number}</span>
                   </div>
                   {/* Gold dot connector */}
@@ -77,7 +77,7 @@ const HowItWorks = () => {
                   )}
                 </div>
 
-                <h3 className="text-xl font-bold text-[#1A2B4B] mb-3 tracking-tight">
+                <h3 className="text-xl font-bold text-[#0F2240] mb-3 tracking-tight">
                   {step.title}
                 </h3>
                 <p className="text-[#4A6583] text-sm leading-relaxed max-w-xs">
@@ -94,7 +94,7 @@ const HowItWorks = () => {
             href="https://raprocleaningservices.bookingkoala.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#1A2B4B] text-white font-semibold px-8 py-4 hover:bg-[#4A90D9] transition-colors duration-300"
+            className="inline-flex items-center gap-2 bg-[#0F2240] text-white font-semibold px-8 py-4 hover:bg-[#00A896] transition-colors duration-300"
           >
             Start Now — Book in 60 Seconds
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
