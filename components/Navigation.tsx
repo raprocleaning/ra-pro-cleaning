@@ -160,14 +160,6 @@ const Navigation = () => {
                 href="https://raprocleaningservices.bookingkoala.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-[#00A896] text-[#00A896] text-sm font-semibold px-5 py-2.5 hover:bg-[#E6F7F5] transition-colors"
-              >
-                Pay Now
-              </a>
-              <a
-                href="https://raprocleaningservices.bookingkoala.com"
-                target="_blank"
-                rel="noopener noreferrer"
                 className="btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 shadow-md"
               >
                 Book Now
@@ -232,14 +224,6 @@ const Navigation = () => {
             ))}
           </div>
           <div className="flex flex-col gap-4">
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block border border-[#00A896] text-[#00A896] text-lg font-semibold px-8 py-4 hover:bg-[#00A896]/10 transition-colors"
-            >
-              Pay Now
-            </a>
             <a
               href="https://raprocleaningservices.bookingkoala.com"
               target="_blank"

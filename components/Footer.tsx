@@ -182,7 +182,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-sm text-[#00A896] hover:text-[#00C9B5] transition-colors font-semibold"
                 >
-                  Book Now &rarr;
+                  Book Now →
                 </a>
               </li>
             </ul>
