@@ -1,71 +1,20 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 
-// ─── PRICING TABLES ─────────────────────────────────────────────────────────
-const PRICING: Record<string, { max: number; price: number }[]> = {
-  'Standard Cleaning': [
-    { max: 1249, price: 130 },
-    { max: 1499, price: 145 },
-    { max: 1749, price: 160 },
-    { max: 1999, price: 175 },
-    { max: 2249, price: 190 },
-    { max: 2499, price: 210 },
-    { max: 2749, price: 230 },
-    { max: 2999, price: 250 },
-    { max: 3499, price: 275 },
-    { max: Infinity, price: 310 },
-  ],
-  'Deep Cleaning': [
-    { max: 1249, price: 200 },
-    { max: 1499, price: 225 },
-    { max: 1749, price: 250 },
-    { max: 1999, price: 280 },
-    { max: 2249, price: 310 },
-    { max: 2499, price: 340 },
-    { max: 2749, price: 375 },
-    { max: 2999, price: 415 },
-    { max: 3499, price: 460 },
-    { max: Infinity, price: 520 },
-  ],
-  'Move In/Out Cleaning': [
-    { max: 1249, price: 250 },
-    { max: 1499, price: 285 },
-    { max: 1749, price: 315 },
-    { max: 1999, price: 350 },
-    { max: 2249, price: 385 },
-    { max: 2499, price: 420 },
-    { max: 2749, price: 460 },
-    { max: 2999, price: 505 },
-    { max: 3499, price: 560 },
-    { max: Infinity, price: 630 },
-  ],
-  'Airbnb Cleaning': [
-    { max: 1249, price: 150 },
-    { max: 1499, price: 165 },
-    { max: 1749, price: 185 },
-    { max: 1999, price: 205 },
-    { max: 2249, price: 225 },
-    { max: 2499, price: 250 },
-    { max: 2749, price: 275 },
-    { max: 2999, price: 300 },
-    { max: 3499, price: 335 },
-    { max: Infinity, price: 380 },
-  ],
-  'Office Cleaning': [
-    { max: 999, price: 180 },
-    { max: 1499, price: 220 },
-    { max: 1999, price: 265 },
-    { max: 2499, price: 310 },
-    { max: 2999, price: 360 },
-    { max: Infinity, price: 420 },
-  ],
+// ─── AUTOMATED PRICE ESTIMATOR ──────────────────────────────────────────────
+// Formula: base + (sqft × ratePerSqft), rounded to nearest $5
+const RATE: Record<string, { base: number; perSqft: number }> = {
+  'Standard Cleaning':  { base: 80,  perSqft: 0.040 },
+  'Deep Cleaning':      { base: 120, perSqft: 0.065 },
+  'Move In/Out Cleaning': { base: 150, perSqft: 0.080 },
+  'Airbnb Cleaning':    { base: 90,  perSqft: 0.048 },
+  'Office Cleaning':    { base: 100, perSqft: 0.060 },
 }
 
 function getPrice(service: string, sqft: number): number | null {
-  const table = PRICING[service]
-  if (!table) return null
-  const tier = table.find((t) => sqft <= t.max)
-  return tier ? tier.price : null
+  const r = RATE[service]
+  if (!r) return null
+  return Math.round((r.base + sqft * r.perSqft) / 5) * 5
 }
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
