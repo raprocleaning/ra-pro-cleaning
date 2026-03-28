@@ -40,7 +40,7 @@ const Hero = () => {
           <div
             ref={parallaxRef}
             className="absolute inset-[-10%] bg-cover bg-center will-change-transform"
-            style={{ backgroundImage: 'url(/gallery/kitchen-1.jpg)' }}
+            style={{ backgroundImage: 'url(/gallery/kitchen-3.jpg)' }}
           />
         </div>
 
