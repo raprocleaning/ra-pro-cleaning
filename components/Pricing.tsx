@@ -2,21 +2,27 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+// Prices match VirtualAssistant.tsx exactly:
+//   Standard — base rates
+//   Deep      — Standard × 1.30
+//   Move In/Out — Standard × 1.50
+//   Airbnb    — same as Standard (turnover clean)
+//   Post-Construction — $0.20 / sq ft (tier midpoint)
 const sqftTiers = [
-  { range: '1 – 1,249 sq ft',   standard: 300,  deep: 300,  moveInOut: 300,  airbnb: 300,  postConstruction: 300  },
-  { range: '1,250 – 1,499 sq ft', standard: 400, deep: 400, moveInOut: 400,  airbnb: 400,  postConstruction: 400  },
-  { range: '1,500 – 1,799 sq ft', standard: 480, deep: 480, moveInOut: 480,  airbnb: 480,  postConstruction: 480  },
-  { range: '1,800 – 2,099 sq ft', standard: 500, deep: 500, moveInOut: 500,  airbnb: 500,  postConstruction: 500  },
-  { range: '2,100 – 2,399 sq ft', standard: 600, deep: 600, moveInOut: 600,  airbnb: 600,  postConstruction: 600  },
-  { range: '2,400 – 2,699 sq ft', standard: 650, deep: 650, moveInOut: 650,  airbnb: 650,  postConstruction: 650  },
-  { range: '2,700 – 2,999 sq ft', standard: 700, deep: 700, moveInOut: 700,  airbnb: 700,  postConstruction: 700  },
-  { range: '3,000 – 3,299 sq ft', standard: 750, deep: 750, moveInOut: 750,  airbnb: 750,  postConstruction: 750  },
-  { range: '3,300 – 3,599 sq ft', standard: 800, deep: 800, moveInOut: 800,  airbnb: 800,  postConstruction: 800  },
-  { range: '3,600 – 3,899 sq ft', standard: 850, deep: 850, moveInOut: 850,  airbnb: 850,  postConstruction: 850  },
-  { range: '3,900 – 4,199 sq ft', standard: 900, deep: 900, moveInOut: 900,  airbnb: 900,  postConstruction: 900  },
-  { range: '4,200 – 4,499 sq ft', standard: 950, deep: 950, moveInOut: 950,  airbnb: 950,  postConstruction: 950  },
-  { range: '4,500 – 4,799 sq ft', standard: 1000, deep: 1000, moveInOut: 1000, airbnb: 1000, postConstruction: 1000 },
-  { range: '4,800 – 4,999 sq ft', standard: 1100, deep: 1100, moveInOut: 1100, airbnb: 1100, postConstruction: 1100 },
+  { range: '1 – 1,249 sq ft',     standard: 155, deep: 200, moveInOut: 235, airbnb: 155, postConstruction: 200  },
+  { range: '1,250 – 1,499 sq ft', standard: 175, deep: 230, moveInOut: 265, airbnb: 175, postConstruction: 275  },
+  { range: '1,500 – 1,799 sq ft', standard: 195, deep: 255, moveInOut: 295, airbnb: 195, postConstruction: 330  },
+  { range: '1,800 – 2,099 sq ft', standard: 215, deep: 280, moveInOut: 325, airbnb: 215, postConstruction: 390  },
+  { range: '2,100 – 2,399 sq ft', standard: 235, deep: 305, moveInOut: 355, airbnb: 235, postConstruction: 450  },
+  { range: '2,400 – 2,699 sq ft', standard: 250, deep: 325, moveInOut: 375, airbnb: 250, postConstruction: 510  },
+  { range: '2,700 – 2,999 sq ft', standard: 270, deep: 350, moveInOut: 405, airbnb: 270, postConstruction: 570  },
+  { range: '3,000 – 3,299 sq ft', standard: 290, deep: 380, moveInOut: 435, airbnb: 290, postConstruction: 630  },
+  { range: '3,300 – 3,599 sq ft', standard: 300, deep: 390, moveInOut: 450, airbnb: 300, postConstruction: 690  },
+  { range: '3,600 – 3,899 sq ft', standard: 320, deep: 415, moveInOut: 480, airbnb: 320, postConstruction: 750  },
+  { range: '3,900 – 4,199 sq ft', standard: 335, deep: 435, moveInOut: 505, airbnb: 335, postConstruction: 810  },
+  { range: '4,200 – 4,499 sq ft', standard: 345, deep: 450, moveInOut: 520, airbnb: 345, postConstruction: 870  },
+  { range: '4,500 – 4,799 sq ft', standard: 360, deep: 470, moveInOut: 540, airbnb: 360, postConstruction: 930  },
+  { range: '4,800+ sq ft',        standard: 375, deep: 490, moveInOut: 565, airbnb: 375, postConstruction: 1100 },
 ]
 
 const serviceTypes = [
@@ -145,7 +151,7 @@ export default function Pricing() {
             </div>
           ))}
           <div className="px-6 py-3 bg-[#E6F7F5] text-xs text-[#4A6583]">
-            * Prices apply to all service types for the given home size. Final price confirmed at booking based on home condition.
+            * Prices vary by service type. Deep Clean is ~30% more than Standard; Move In/Out is ~50% more; Post-Construction is priced per sq ft. Final price confirmed at booking.
           </div>
         </div>
 

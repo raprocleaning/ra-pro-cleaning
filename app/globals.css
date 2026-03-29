@@ -51,6 +51,12 @@
     text-wrap: balance;
   }
 
+  /* Hero entrance animation — CSS-only so it runs without JS / in headless browsers */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
   /* Sticky Book Now pulse ring */
   @keyframes ping-slow {
     0%, 100% { transform: scale(1); opacity: 1; }

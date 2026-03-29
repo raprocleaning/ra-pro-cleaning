@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 const Hero = () => {
   const parallaxRef = useRef<HTMLDivElement>(null)
   const [showStickyBtn, setShowStickyBtn] = useState(false)
-  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Parallax on scroll
@@ -20,16 +19,8 @@ const Hero = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Staggered entrance
-  useEffect(() => {
-    const els = contentRef.current?.querySelectorAll('[data-animate]')
-    els?.forEach((el, i) => {
-      setTimeout(() => {
-        ;(el as HTMLElement).style.opacity = '1'
-        ;(el as HTMLElement).style.transform = 'translateY(0)'
-      }, 120 + i * 160)
-    })
-  }, [])
+  // Staggered entrance handled by CSS fadeInUp animation (see globals.css)
+  // No JS needed — works in headless browsers and without hydration
 
   return (
     <>
@@ -57,17 +48,13 @@ const Hero = () => {
         <div className="absolute top-0 left-0 right-0 h-1 bg-[#00A896] z-10" />
 
         {/* Content */}
-        <div
-          ref={contentRef}
-          className="relative z-10 flex-1 flex items-center"
-        >
+        <div className="relative z-10 flex-1 flex items-center">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-36 w-full">
             <div className="max-w-2xl">
               {/* Eyebrow */}
               <div
-                data-animate
                 className="inline-flex items-center gap-3 mb-8"
-                style={{ opacity: 0, transform: 'translateY(24px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+                style={{ animation: 'fadeInUp 0.6s ease both', animationDelay: '0ms' }}
               >
                 <div className="w-10 h-px bg-[#00A896]" />
                 <span className="text-[#00A896] text-xs font-semibold tracking-[0.35em] uppercase">
@@ -77,9 +64,8 @@ const Hero = () => {
 
               {/* H1 */}
               <h1
-                data-animate
                 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6"
-                style={{ opacity: 0, transform: 'translateY(32px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}
+                style={{ animation: 'fadeInUp 0.7s ease both', animationDelay: '120ms' }}
               >
                 Denver&apos;s Premier<br />
                 <span className="text-[#00A896]">Cleaning</span> &bull;<br />
@@ -88,18 +74,16 @@ const Hero = () => {
 
               {/* Sub */}
               <p
-                data-animate
                 className="text-xl md:text-2xl text-white/70 font-light leading-relaxed mb-10"
-                style={{ opacity: 0, transform: 'translateY(32px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}
+                style={{ animation: 'fadeInUp 0.7s ease both', animationDelay: '240ms' }}
               >
                 Spotless Results — Every Time. Licensed, Insured &amp; 5-Star Rated.
               </p>
 
               {/* CTAs */}
               <div
-                data-animate
                 className="flex flex-col sm:flex-row gap-4"
-                style={{ opacity: 0, transform: 'translateY(32px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}
+                style={{ animation: 'fadeInUp 0.7s ease both', animationDelay: '360ms' }}
               >
                 <a
                   href="https://raprocleaningservices.bookingkoala.com"
@@ -128,9 +112,8 @@ const Hero = () => {
 
         {/* Trust Badge Strip */}
         <div
-          data-animate
           className="relative z-10 bg-white/10 backdrop-blur-sm border-t border-white/20"
-          style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+          style={{ animation: 'fadeInUp 0.6s ease both', animationDelay: '500ms' }}
         >
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

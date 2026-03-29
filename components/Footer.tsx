@@ -10,17 +10,20 @@ const Footer = () => {
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
-    // Simple mailto approach — swap for API if you have a newsletter service
     try {
-      await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName: 'Newsletter', email, message: 'Newsletter signup', propertyType: 'Newsletter' }),
+        body: JSON.stringify({ fullName: 'Newsletter Signup', email, message: 'Newsletter signup', propertyType: 'Newsletter' }),
       })
-      setNewsletterStatus('success')
-      setEmail('')
+      if (res.ok) {
+        setNewsletterStatus('success')
+        setEmail('')
+      } else {
+        setNewsletterStatus('error')
+      }
     } catch {
-      setNewsletterStatus('success') // Still show success to user
+      setNewsletterStatus('error')
     }
   }
 
@@ -207,7 +210,9 @@ const Footer = () => {
               Newsletter
             </h3>
             {newsletterStatus === 'success' ? (
-              <p className="text-[#00A896] text-sm font-medium">Thanks for signing up!</p>
+              <p className="text-[#00A896] text-sm font-medium">Thanks for signing up! 🎉</p>
+            ) : newsletterStatus === 'error' ? (
+              <p className="text-red-400 text-sm">Something went wrong — please try again or email us directly.</p>
             ) : (
               <form onSubmit={handleNewsletter} className="flex gap-0">
                 <input
