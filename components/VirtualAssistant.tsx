@@ -471,9 +471,13 @@ export default function VirtualAssistant() {
             fullName: updatedBooking.name,
             phone: updatedBooking.phone,
             email: updatedBooking.email,
-            propertyType: updatedBooking.service,
-            squareFootage: updatedBooking.sqft ? `${updatedBooking.sqft} sqft` : '',
-            message: `Booking request via chat widget.\nService: ${updatedBooking.service}\nSqft: ${updatedBooking.sqft ?? 'N/A'}\nExtras: ${updatedBooking.extras?.join(', ') || 'None'}\nPreferred Date: ${updatedBooking.preferredDate || 'Flexible'}\nEstimated Price: $${updatedBooking.price ?? 'Custom quote'}`,
+            source: 'ai-chat',
+            service: updatedBooking.service,
+            sqft: updatedBooking.sqft,
+            price: updatedBooking.price,
+            extras: updatedBooking.extras || [],
+            preferredDate: updatedBooking.preferredDate || 'Flexible',
+            smsOptIn: true,
           }),
         })
       } catch {
@@ -483,7 +487,7 @@ export default function VirtualAssistant() {
       setSubmitting(false)
       addMessages({
         from: 'bot',
-        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map(e => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll call you at ${updatedBooking.phone} within 24 hours to confirm.\n\nOr book online right now:`,
+        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll call you at ${updatedBooking.phone} within 24 hours to confirm.\n\n⭐ After your clean, we'll send a quick text to ask how we did and schedule your next one!\n\nOr book online right now:`,
         options: ['Book Online Now →', 'Ask another question'],
       })
       return
