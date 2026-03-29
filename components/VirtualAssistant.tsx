@@ -462,26 +462,41 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING BOOK NOW BUTTON ─────────────────────────────── */}
+      {/* ── FLOATING BOOK NOW BUTTON → BookingKoala ─────────────── */}
+      <a
+        href="https://raprocleaningservices.bookingkoala.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
+        style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
+        aria-label="Book Now"
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        Book Now
+      </a>
+
+      {/* ── FLOATING AI QUOTE CHAT BUTTON ────────────────────────── */}
       <button
         onClick={open ? handleClose : handleOpen}
-        className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
-        aria-label={open ? 'Close booking assistant' : 'Book Now'}
-        style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
+        className="fixed bottom-20 right-6 z-50 bg-[#0F2240] hover:bg-[#1a3460] text-white shadow-xl flex items-center gap-2 px-4 py-3 transition-all duration-300 rounded-full font-semibold text-xs"
+        aria-label={open ? 'Close assistant' : 'Get Instant Quote'}
+        style={{ boxShadow: '0 6px 20px rgba(15,34,64,0.35)' }}
       >
         {open ? (
           <>
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
             Close
           </>
         ) : (
           <>
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
             </svg>
-            Book Now
+            Get Instant Quote
           </>
         )}
       </button>
