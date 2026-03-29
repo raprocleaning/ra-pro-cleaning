@@ -122,6 +122,8 @@ type Step =
   | 'sqft'
   | 'price'
   | 'confirm'
+  | 'extras'
+  | 'date'
   | 'name'
   | 'phone'
   | 'email'
@@ -141,10 +143,24 @@ type BookingData = {
   service: string
   sqft: number
   price: number
+  extras: string[]
+  preferredDate: string
   name: string
   phone: string
   email: string
 }
+
+const EXTRAS: { label: string; price: number }[] = [
+  { label: 'Inside Oven',             price: 45 },
+  { label: 'Inside Fridge',           price: 35 },
+  { label: 'Interior Windows',        price: 40 },
+  { label: 'Heavy Dirt / Deep Scrub', price: 50 },
+  { label: 'Laundry (Wash & Dry)',    price: 40 },
+  { label: 'Garage Cleaning',         price: 60 },
+  { label: 'Balcony / Patio',         price: 35 },
+  { label: 'Blinds Cleaning',         price: 30 },
+  { label: 'Organizing',              price: 50 },
+]
 
 const SERVICES = [
   'Standard Cleaning',
@@ -193,6 +209,7 @@ export default function VirtualAssistant() {
     },
   ])
   const [booking, setBooking] = useState<Partial<BookingData>>({})
+  const [selectedExtras, setSelectedExtras] = useState<string[]>([])
   const [input, setInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -211,6 +228,7 @@ export default function VirtualAssistant() {
     // Reset to fresh state each open
     setStep('service')
     setBooking({})
+    setSelectedExtras([])
     setInput('')
     setMessages([
       {
@@ -284,10 +302,13 @@ export default function VirtualAssistant() {
       const userMsg: Message = { from: 'user', text: opt }
 
       if (opt === 'Yes, book me in!') {
-        setStep('name')
+        setStep('extras')
+        setSelectedExtras([])
+        const extrasOptions = EXTRAS.map(e => `${e.label} (+$${e.price})`).concat(['✅ No extras — I\'m good!'])
         addMessages(userMsg, {
           from: 'bot',
-          text: "Awesome! Let me grab your contact info.\n\nWhat's your full name?",
+          text: "Great! Would you like any extras? Each adds to your total.\n\n👇 Pick all that apply, then tap **\"Done with extras\"**:",
+          options: extrasOptions,
         })
       } else if (opt === 'Choose a different service') {
         setStep('service')
@@ -305,6 +326,57 @@ export default function VirtualAssistant() {
           options: ['Get a price quote', 'Contact us'],
         })
         setStep('greeting')
+      }
+      return
+    }
+
+    if (step === 'date') {
+      setBooking((b) => ({ ...b, preferredDate: opt }))
+      setStep('name')
+      addMessages({ from: 'user', text: opt }, {
+        from: 'bot',
+        text: `Got it — **${opt}** is noted! 📋\n\nNow let's get your contact info.\n\nWhat's your full name?`,
+      })
+      return
+    }
+
+    if (step === 'extras') {
+      const userMsg: Message = { from: 'user', text: opt }
+      const noExtras = opt.includes('No extras') || opt.includes('Done with extras')
+
+      if (noExtras) {
+        // Calculate extras total
+        const extrasTotal = selectedExtras.reduce((sum, label) => {
+          const found = EXTRAS.find(e => label.startsWith(e.label))
+          return sum + (found?.price ?? 0)
+        }, 0)
+        const basePrice = booking.price ?? 0
+        const totalPrice = basePrice + extrasTotal
+        if (extrasTotal > 0) setBooking(b => ({ ...b, extras: selectedExtras, price: totalPrice }))
+        else setBooking(b => ({ ...b, extras: [] }))
+
+        setStep('date')
+        const summary = selectedExtras.length > 0
+          ? `\n\n✅ Extras added: ${selectedExtras.map(e => e.split(' (+')[0]).join(', ')}\n💰 Updated total: **$${totalPrice}**`
+          : ''
+        addMessages(userMsg, {
+          from: 'bot',
+          text: `Perfect!${summary}\n\n📅 What date works best for your cleaning?\n\nType a date like **"April 15"** or **"next Saturday"** — or pick an option:`,
+          options: ['This week', 'Next week', 'Flexible / ASAP'],
+        })
+      } else {
+        // Add the extra to selected list
+        const newExtras = [...selectedExtras, opt]
+        setSelectedExtras(newExtras)
+        const remaining = EXTRAS
+          .map(e => `${e.label} (+$${e.price})`)
+          .filter(e => !newExtras.includes(e))
+          .concat(['✅ Done with extras'])
+        addMessages(userMsg, {
+          from: 'bot',
+          text: `Added! ✅ Selected so far: **${newExtras.map(e => e.split(' (+')[0]).join(', ')}**\n\nAnything else?`,
+          options: remaining,
+        })
       }
       return
     }
@@ -362,6 +434,13 @@ export default function VirtualAssistant() {
       return
     }
 
+    if (step === 'date') {
+      setBooking((b) => ({ ...b, preferredDate: text }))
+      setStep('name')
+      addMessages(userMsg, { from: 'bot', text: `Got it — **${text}** is noted! 📋\n\nNow let's get your contact info.\n\nWhat's your full name?` })
+      return
+    }
+
     if (step === 'name') {
       setBooking((b) => ({ ...b, name: text }))
       setStep('phone')
@@ -394,7 +473,7 @@ export default function VirtualAssistant() {
             email: updatedBooking.email,
             propertyType: updatedBooking.service,
             squareFootage: updatedBooking.sqft ? `${updatedBooking.sqft} sqft` : '',
-            message: `Booking request via chat widget. Service: ${updatedBooking.service}, Sqft: ${updatedBooking.sqft ?? 'N/A'}, Estimated Price: $${updatedBooking.price ?? 'Custom quote'}`,
+            message: `Booking request via chat widget.\nService: ${updatedBooking.service}\nSqft: ${updatedBooking.sqft ?? 'N/A'}\nExtras: ${updatedBooking.extras?.join(', ') || 'None'}\nPreferred Date: ${updatedBooking.preferredDate || 'Flexible'}\nEstimated Price: $${updatedBooking.price ?? 'Custom quote'}`,
           }),
         })
       } catch {
@@ -404,7 +483,7 @@ export default function VirtualAssistant() {
       setSubmitting(false)
       addMessages({
         from: 'bot',
-        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Est. Price: $${updatedBooking.price || 'Custom quote'}\n\nWe'll call you at ${updatedBooking.phone} within 24 hours to confirm.\n\nOr book online right now:`,
+        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map(e => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll call you at ${updatedBooking.phone} within 24 hours to confirm.\n\nOr book online right now:`,
         options: ['Book Online Now →', 'Ask another question'],
       })
       return
@@ -525,8 +604,8 @@ export default function VirtualAssistant() {
 
           {/* Progress strip */}
           <div className="flex bg-[#0F2240]/5 border-b border-[#B2DFDB]">
-            {(['service', 'sqft', 'price', 'name', 'phone', 'email', 'done'] as Step[]).map((s, i) => {
-              const stepOrder: Step[] = ['greeting', 'service', 'sqft', 'price', 'name', 'phone', 'email', 'done']
+            {(['service', 'sqft', 'price', 'extras', 'date', 'name', 'phone', 'email', 'done'] as Step[]).map((s, i) => {
+              const stepOrder: Step[] = ['greeting', 'service', 'sqft', 'price', 'extras', 'date', 'name', 'phone', 'email', 'done']
               const currentIdx = stepOrder.indexOf(step)
               const thisIdx = stepOrder.indexOf(s)
               const active = thisIdx <= currentIdx
