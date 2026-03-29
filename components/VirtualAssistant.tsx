@@ -1,9 +1,11 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 
-// ─── PRICING TABLES (10% BELOW DENVER MARKET — updated Mar 2026) ────────────
-// Based on competitor research: Alpine Maids, Denver's Cleaning Service,
-// Thumbtack/Angi Denver averages — all tiers are 10% under market rate.
+// ─── PRICING TABLES ──────────────────────────────────────────────────────────
+// Standard: 10% below Denver market rate (base)
+// Deep Clean: Standard × 1.30
+// Move In/Out: Standard × 1.50
+// Post-Construction: $0.20 per sqft (tier midpoint)
 const PRICING: Record<string, { max: number; price: number }[]> = {
   'Standard Cleaning': [
     { max: 1249, price: 155 },
@@ -21,37 +23,39 @@ const PRICING: Record<string, { max: number; price: number }[]> = {
     { max: 4799, price: 360 },
     { max: Infinity, price: 375 },
   ],
+  // Standard × 1.30, rounded to nearest $5
   'Deep Cleaning': [
-    { max: 1249, price: 185 },
+    { max: 1249, price: 200 },
     { max: 1499, price: 230 },
-    { max: 1799, price: 270 },
-    { max: 2099, price: 315 },
-    { max: 2399, price: 355 },
-    { max: 2699, price: 395 },
-    { max: 2999, price: 435 },
-    { max: 3299, price: 470 },
-    { max: 3599, price: 500 },
-    { max: 3899, price: 530 },
-    { max: 4199, price: 560 },
-    { max: 4499, price: 580 },
-    { max: 4799, price: 605 },
-    { max: Infinity, price: 625 },
+    { max: 1799, price: 255 },
+    { max: 2099, price: 280 },
+    { max: 2399, price: 305 },
+    { max: 2699, price: 325 },
+    { max: 2999, price: 350 },
+    { max: 3299, price: 380 },
+    { max: 3599, price: 390 },
+    { max: 3899, price: 415 },
+    { max: 4199, price: 435 },
+    { max: 4499, price: 450 },
+    { max: 4799, price: 470 },
+    { max: Infinity, price: 490 },
   ],
+  // Standard × 1.50, rounded to nearest $5
   'Move In/Out Cleaning': [
-    { max: 1249, price: 215 },
-    { max: 1499, price: 250 },
-    { max: 1799, price: 290 },
+    { max: 1249, price: 235 },
+    { max: 1499, price: 265 },
+    { max: 1799, price: 295 },
     { max: 2099, price: 325 },
-    { max: 2399, price: 360 },
-    { max: 2699, price: 395 },
-    { max: 2999, price: 430 },
-    { max: 3299, price: 460 },
-    { max: 3599, price: 485 },
-    { max: 3899, price: 515 },
-    { max: 4199, price: 540 },
-    { max: 4499, price: 565 },
-    { max: 4799, price: 590 },
-    { max: Infinity, price: 610 },
+    { max: 2399, price: 355 },
+    { max: 2699, price: 375 },
+    { max: 2999, price: 405 },
+    { max: 3299, price: 435 },
+    { max: 3599, price: 450 },
+    { max: 3899, price: 480 },
+    { max: 4199, price: 505 },
+    { max: 4499, price: 520 },
+    { max: 4799, price: 540 },
+    { max: Infinity, price: 565 },
   ],
   'Airbnb Cleaning': [
     { max: 1249, price: 90  },
@@ -84,6 +88,23 @@ const PRICING: Record<string, { max: number; price: number }[]> = {
     { max: 4499, price: 475 },
     { max: 4799, price: 500 },
     { max: Infinity, price: 520 },
+  ],
+  // $0.20/sqft using tier midpoint sqft
+  'Post-Construction Cleaning': [
+    { max: 1249, price: 200 },
+    { max: 1499, price: 275 },
+    { max: 1799, price: 330 },
+    { max: 2099, price: 390 },
+    { max: 2399, price: 450 },
+    { max: 2699, price: 510 },
+    { max: 2999, price: 570 },
+    { max: 3299, price: 630 },
+    { max: 3599, price: 690 },
+    { max: 3899, price: 750 },
+    { max: 4199, price: 810 },
+    { max: 4499, price: 870 },
+    { max: 4799, price: 930 },
+    { max: Infinity, price: 1100 },
   ],
 }
 
@@ -131,6 +152,7 @@ const SERVICES = [
   'Move In/Out Cleaning',
   'Airbnb Cleaning',
   'Office Cleaning',
+  'Post-Construction Cleaning',
   'Carpet Cleaning',
 ]
 
