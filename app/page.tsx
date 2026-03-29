@@ -8,6 +8,7 @@ import GallerySection from '@/components/GallerySection'
 import HowItWorks from '@/components/HowItWorks'
 import FAQ from '@/components/FAQ'
 import ContactForm from '@/components/ContactForm'
+import ServiceAreas from '@/components/ServiceAreas'
 
 export default function Home() {
   return (
@@ -57,6 +58,7 @@ export default function Home() {
       <Reviews />
       <GallerySection />
       <HowItWorks />
+      <ServiceAreas />
       <FAQ />
       <ContactForm />
     </main>
