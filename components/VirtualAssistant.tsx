@@ -1,20 +1,97 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 
-// ─── AUTOMATED PRICE ESTIMATOR ──────────────────────────────────────────────
-// Formula: base + (sqft × ratePerSqft), rounded to nearest $5
-const RATE: Record<string, { base: number; perSqft: number }> = {
-  'Standard Cleaning':  { base: 80,  perSqft: 0.040 },
-  'Deep Cleaning':      { base: 120, perSqft: 0.065 },
-  'Move In/Out Cleaning': { base: 150, perSqft: 0.080 },
-  'Airbnb Cleaning':    { base: 90,  perSqft: 0.048 },
-  'Office Cleaning':    { base: 100, perSqft: 0.060 },
+// ─── PRICING TABLES (10% BELOW DENVER MARKET — updated Mar 2026) ────────────
+// Based on competitor research: Alpine Maids, Denver's Cleaning Service,
+// Thumbtack/Angi Denver averages — all tiers are 10% under market rate.
+const PRICING: Record<string, { max: number; price: number }[]> = {
+  'Standard Cleaning': [
+    { max: 1249, price: 155 },
+    { max: 1499, price: 175 },
+    { max: 1799, price: 195 },
+    { max: 2099, price: 215 },
+    { max: 2399, price: 235 },
+    { max: 2699, price: 250 },
+    { max: 2999, price: 270 },
+    { max: 3299, price: 290 },
+    { max: 3599, price: 300 },
+    { max: 3899, price: 320 },
+    { max: 4199, price: 335 },
+    { max: 4499, price: 345 },
+    { max: 4799, price: 360 },
+    { max: Infinity, price: 375 },
+  ],
+  'Deep Cleaning': [
+    { max: 1249, price: 185 },
+    { max: 1499, price: 230 },
+    { max: 1799, price: 270 },
+    { max: 2099, price: 315 },
+    { max: 2399, price: 355 },
+    { max: 2699, price: 395 },
+    { max: 2999, price: 435 },
+    { max: 3299, price: 470 },
+    { max: 3599, price: 500 },
+    { max: 3899, price: 530 },
+    { max: 4199, price: 560 },
+    { max: 4499, price: 580 },
+    { max: 4799, price: 605 },
+    { max: Infinity, price: 625 },
+  ],
+  'Move In/Out Cleaning': [
+    { max: 1249, price: 215 },
+    { max: 1499, price: 250 },
+    { max: 1799, price: 290 },
+    { max: 2099, price: 325 },
+    { max: 2399, price: 360 },
+    { max: 2699, price: 395 },
+    { max: 2999, price: 430 },
+    { max: 3299, price: 460 },
+    { max: 3599, price: 485 },
+    { max: 3899, price: 515 },
+    { max: 4199, price: 540 },
+    { max: 4499, price: 565 },
+    { max: 4799, price: 590 },
+    { max: Infinity, price: 610 },
+  ],
+  'Airbnb Cleaning': [
+    { max: 1249, price: 90  },
+    { max: 1499, price: 110 },
+    { max: 1799, price: 130 },
+    { max: 2099, price: 150 },
+    { max: 2399, price: 165 },
+    { max: 2699, price: 190 },
+    { max: 2999, price: 210 },
+    { max: 3299, price: 235 },
+    { max: 3599, price: 250 },
+    { max: 3899, price: 270 },
+    { max: 4199, price: 295 },
+    { max: 4499, price: 310 },
+    { max: 4799, price: 330 },
+    { max: Infinity, price: 340 },
+  ],
+  'Office Cleaning': [
+    { max: 1249, price: 155 },
+    { max: 1499, price: 185 },
+    { max: 1799, price: 215 },
+    { max: 2099, price: 250 },
+    { max: 2399, price: 280 },
+    { max: 2699, price: 310 },
+    { max: 2999, price: 345 },
+    { max: 3299, price: 375 },
+    { max: 3599, price: 400 },
+    { max: 3899, price: 430 },
+    { max: 4199, price: 455 },
+    { max: 4499, price: 475 },
+    { max: 4799, price: 500 },
+    { max: Infinity, price: 520 },
+  ],
 }
 
 function getPrice(service: string, sqft: number): number | null {
-  const r = RATE[service]
-  if (!r) return null
-  return Math.round((r.base + sqft * r.perSqft) / 5) * 5
+  const table = PRICING[service]
+  if (!table) return null
+  const tier = table.find((t) => sqft <= t.max)
+  return tier ? tier.price : null
 }
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
