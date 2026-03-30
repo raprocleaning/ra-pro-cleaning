@@ -493,7 +493,7 @@ export default function VirtualAssistant() {
       return
     }
 
-    if (opt === 'Book Online Now →') {
+    if (text === 'Book Online Now →') {
       window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
       return
     }
