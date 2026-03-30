@@ -46,9 +46,9 @@ const Footer = () => {
   ]
 
   const hours = [
-    { day: 'Mon – Fri', hours: '8:00 AM – 6:00 PM' },
-    { day: 'Saturday', hours: '9:00 AM – 5:00 PM' },
-    { day: 'Sunday', hours: 'By appointment' },
+    { day: 'Mon – Fri', hours: '7:00 AM – 8:00 PM' },
+    { day: 'Saturday', hours: '7:00 AM – 8:00 PM' },
+    { day: 'Sunday', hours: '7:00 AM – 8:00 PM' },
   ]
 
   return (

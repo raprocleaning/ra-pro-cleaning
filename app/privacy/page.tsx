@@ -129,7 +129,7 @@ export default function PrivacyPage() {
               <p>If you have questions about this Privacy Policy, please contact us:</p>
               <div className="mt-3 space-y-1">
                 <p><strong>R A Pro Cleaning Services LLC</strong></p>
-                <p>B, B502, 1325 S Colorado Blvd</p>
+                <p>1325 S Colorado Blvd, Suite B502</p>
                 <p>Denver, CO 80222</p>
                 <p>Phone: <a href="tel:7206778799" className="text-[#00A896] hover:underline">720-677-8799</a></p>
                 <p>Email: <a href="mailto:ra@raprocleaningservices.com" className="text-[#00A896] hover:underline">ra@raprocleaningservices.com</a></p>
