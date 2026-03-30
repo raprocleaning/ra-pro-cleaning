@@ -28,7 +28,7 @@ export default function Home() {
             <p className="text-[#4A6583] text-lg leading-relaxed">
               R A Pro Cleaning Services LLC brings Denver homeowners and businesses a premium
               cleaning experience built on trust, attention to detail, and exceptional results.
-              With 41 five-star reviews and a team of fully licensed and insured professionals,
+              With 50+ five-star reviews and a team of fully licensed and insured professionals,
               we deliver the kind of clean that makes you proud of your space.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">

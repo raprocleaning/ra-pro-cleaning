@@ -53,7 +53,7 @@ export default function BookPageClient() {
 
           {/* Trust badges */}
           <div className="flex flex-wrap justify-center gap-6 text-white/50 text-sm">
-            {['⭐ 5.0 Google Rating', '✅ 41 Reviews', '🔒 Licensed & Insured', '👩 Women-Owned'].map(b => (
+            {['⭐ 5.0 Google Rating', '✅ 50+ Reviews', '🔒 Licensed & Insured', '👩 Women-Owned'].map(b => (
               <span key={b} className="flex items-center gap-1">{b}</span>
             ))}
           </div>
@@ -171,7 +171,7 @@ export default function BookPageClient() {
       <section className="py-12 px-6 bg-[#0F2240]">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-white font-black text-2xl mb-2">★★★★★</p>
-          <p className="text-white text-lg font-bold mb-1">41 Five-Star Google Reviews</p>
+          <p className="text-white text-lg font-bold mb-1">50+ Five-Star Google Reviews</p>
           <p className="text-white/50 text-sm mb-8">
             &ldquo;Fast response, friendly team, easy scheduling, and truly top-quality work.&rdquo;
           </p>

@@ -122,7 +122,7 @@ export default function ExitPopup() {
         {/* Trust bar */}
         <div className="border-t border-[#E6F7F5] px-8 py-4 flex justify-center gap-6 text-xs text-[#4A6583]">
           <span>⭐ 5.0 Google</span>
-          <span>✅ 41 Reviews</span>
+          <span>✅ 50+ Reviews</span>
           <span>🔒 Licensed & Insured</span>
         </div>
       </div>

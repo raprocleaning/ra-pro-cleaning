@@ -131,14 +131,14 @@ export default function AboutPage() {
                 surface, paying attention to the details that other cleaners overlook.
               </p>
               <p className="text-[#4A6583] leading-relaxed">
-                With 41 five-star reviews, a fully licensed and insured team, and a track record of
+                With 50+ five-star reviews, a fully licensed and insured team, and a track record of
                 excellence throughout the Denver metro area, we&apos;re proud to be the cleaning service
                 that Denver trusts.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { value: '41', label: '5-Star Reviews' },
+                { value: '50+', label: '5-Star Reviews' },
                 { value: '100%', label: 'Licensed & Insured' },
                 { value: '5+', label: 'Years in Denver' },
                 { value: '200+', label: 'Homes Cleaned' },

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://raprocleaningservices.com'),
   title: "R A Pro Cleaning Services | Denver's #1 Cleaning Company",
   description:
-    'Top-rated cleaning services in Denver, CO. 41 five-star Google reviews. House cleaning, deep cleaning, move in/out, Airbnb, office & post-construction. Licensed & insured. Get an instant quote!',
+    'Top-rated cleaning services in Denver, CO. 50+ five-star Google reviews. House cleaning, deep cleaning, move in/out, Airbnb, office & post-construction. Licensed & insured. Get an instant quote!',
   keywords:
     'cleaning services Denver, house cleaning Denver CO, deep cleaning Denver, move in out cleaning Denver, Airbnb cleaning Denver, office cleaning Denver, post construction cleaning Denver, professional house cleaners Denver, maid service Denver, residential cleaning Denver, commercial cleaning Denver',
   alternates: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "R A Pro Cleaning Services | Denver's #1 Cleaning Company",
-    description: 'Top-rated cleaning services in Denver, CO. 41 five-star reviews. Instant online quotes!',
+    description: 'Top-rated cleaning services in Denver, CO. 50+ five-star reviews. Instant online quotes!',
     url: 'https://raprocleaningservices.com',
     siteName: 'R A Pro Cleaning Services',
     locale: 'en_US',
@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5',
-      reviewCount: '41',
+      reviewCount: '50',
       bestRating: '5',
       worstRating: '1',
     },

@@ -250,7 +250,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </p>
             <p className="font-bold text-[#1A2B4B] mb-1">R A Pro Cleaning Services</p>
             <p className="text-[#4A6583] text-sm mb-6">
-              Denver&apos;s trusted professional cleaning team with 41 five-star reviews.
+              Denver&apos;s trusted professional cleaning team with 50+ five-star reviews.
             </p>
             <a
               href="https://raprocleaningservices.bookingkoala.com"
