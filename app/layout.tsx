@@ -4,8 +4,6 @@ import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import VirtualAssistant from '@/components/VirtualAssistant'
-import PromoBanner from '@/components/PromoBanner'
-import ExitPopup from '@/components/ExitPopup'
 
 const GA_ID = 'G-50JSSQ15K6'
 
@@ -112,12 +110,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', '${GA_ID}');
           `}
         </Script>
-        <PromoBanner />
         <Navigation />
         {children}
         <Footer />
         <VirtualAssistant />
-        <ExitPopup />
       </body>
     </html>
   )
