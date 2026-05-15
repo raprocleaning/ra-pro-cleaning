@@ -92,6 +92,17 @@ const services = [
     ),
   },
   {
+    slug: 'bedroom-cleaning',
+    name: 'Bedroom Cleaning',
+    description: 'Full bedroom refresh — every surface dusted, floors vacuumed, linens changed, and your sanctuary restored.',
+    price: 'Custom quote',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" />
+      </svg>
+    ),
+  },
+  {
     slug: 'carpet-cleaning',
     name: 'Carpet Cleaning',
     description: 'Deep extraction cleaning to remove stains, allergens, and embedded dirt — leaving carpets fresh and like new.',
