@@ -155,7 +155,7 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX        # Google Tag Manager
 - **Address:** 6110 E Colfax Ave, Suite 4 #188, Denver, CO 80220
 - **Booking:** https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3
 - **Instagram:** https://www.instagram.com/raprocleaningservice/
-- **Facebook:** https://www.facebook.com/share/16NnxD6cYf/
+- **Facebook:** https://www.https://www.facebook.com/profile.php?id=100088973471805/share/16NnxD6cYf/
 
 ---
 

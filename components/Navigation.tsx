@@ -145,7 +145,7 @@ const Navigation = () => {
                 </svg>
               </a>
               <a
-                href="https://www.facebook.com/share/16NnxD6cYf/?mibextid=wwXIfr"
+                href="https://www.https://www.facebook.com/profile.php?id=100088973471805/share/16NnxD6cYf/?mibextid=wwXIfr"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"

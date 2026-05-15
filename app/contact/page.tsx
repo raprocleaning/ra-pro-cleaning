@@ -157,7 +157,7 @@ export default function ContactPage() {
                   @raprocleaningservice on Instagram
                 </a>
                 <a
-                  href="https://www.facebook.com/share/16NnxD6cYf/?mibextid=wwXIfr"
+                  href="https://www.https://www.facebook.com/profile.php?id=100088973471805/share/16NnxD6cYf/?mibextid=wwXIfr"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 border border-[#B2DFDB] px-5 py-4 hover:border-[#00A896] hover:text-[#00A896] transition-colors text-sm font-medium text-[#0F2240] group"
