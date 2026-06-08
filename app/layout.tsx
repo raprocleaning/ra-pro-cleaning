@@ -114,6 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Footer />
         <VirtualAssistant />
+        <Script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a26c7d7e53da97e714a53f5" data-source="WEB_USER" strategy="afterInteractive" />
       </body>
     </html>
   )
