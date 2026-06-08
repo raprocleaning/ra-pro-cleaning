@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 interface ServiceData {
   slug: string
@@ -333,14 +334,16 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <p className="text-3xl font-black text-[#00A896] mb-2">{service.price}</p>
                 <p className="text-xs text-[#4A6583] mb-8">{service.priceNote}</p>
 
-                <a
-                  href="https://raprocleaningservices.bookingkoala.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center bg-[#00A896] text-white font-semibold py-4 hover:bg-[#007A6C] transition-colors mb-4"
-                >
-                  Book Now
-                </a>
+                <AfterHoursOnly>
+                  <a
+                    href="https://raprocleaningservices.bookingkoala.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-center bg-[#00A896] text-white font-semibold py-4 hover:bg-[#007A6C] transition-colors mb-4"
+                  >
+                    Book Now
+                  </a>
+                </AfterHoursOnly>
                 <a
                   href="tel:7206778799"
                   className="block w-full text-center border border-[#B2DFDB] text-[#0F2240] font-medium py-4 hover:border-[#00A896] hover:text-[#00A896] transition-colors mb-4"

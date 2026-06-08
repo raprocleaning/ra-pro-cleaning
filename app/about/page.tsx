@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 export const metadata: Metadata = {
   title: 'About Us | R A Pro Cleaning Services Denver',
@@ -218,14 +219,16 @@ export default function AboutPage() {
             Every member of our team is background-checked, licensed, and covered by full liability
             insurance. Your home and your peace of mind are fully protected.
           </p>
-          <a
-            href="https://raprocleaningservices.bookingkoala.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
-          >
-            Book with Confidence
-          </a>
+          <AfterHoursOnly>
+            <a
+              href="https://raprocleaningservices.bookingkoala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
+            >
+              Book with Confidence
+            </a>
+          </AfterHoursOnly>
         </div>
       </section>
 
@@ -276,14 +279,16 @@ export default function AboutPage() {
             <p className="text-[#4A6583] mt-1">Join hundreds of satisfied Denver homeowners.</p>
           </div>
           <div className="flex gap-4">
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
-            >
-              Book Now
-            </a>
+            <AfterHoursOnly>
+              <a
+                href="https://raprocleaningservices.bookingkoala.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
+              >
+                Book Now
+              </a>
+            </AfterHoursOnly>
             <Link
               href="/contact"
               className="border border-[#B2DFDB] text-[#0F2240] font-medium px-6 py-3 hover:border-[#00A896] hover:text-[#00A896] transition-colors"

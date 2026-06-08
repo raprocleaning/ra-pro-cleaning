@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { useAfterHours } from '@/lib/useAfterHours'
 
 // Prices match VirtualAssistant.tsx exactly:
 //   Standard — base rates
@@ -53,6 +54,7 @@ type ServiceKey = 'standard' | 'deep' | 'moveInOut' | 'airbnb' | 'postConstructi
 export default function Pricing() {
   const [activeService, setActiveService] = useState<ServiceKey>('standard')
   const [activeFreq, setActiveFreq] = useState(0)
+  const afterHours = useAfterHours()
 
   const discount = frequencies[activeFreq].discount
 
@@ -216,14 +218,16 @@ export default function Pricing() {
 
         {/* CTA */}
         <div className="text-center">
-          <a
-            href="https://raprocleaningservices.bookingkoala.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-[#00A896] text-white font-bold tracking-wide px-10 py-4 hover:bg-[#007A6C] transition-colors text-sm mr-4"
-          >
-            Book Now & Get an Instant Price
-          </a>
+          {afterHours && (
+            <a
+              href="https://raprocleaningservices.bookingkoala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-[#00A896] text-white font-bold tracking-wide px-10 py-4 hover:bg-[#007A6C] transition-colors text-sm mr-4"
+            >
+              Book Now & Get an Instant Price
+            </a>
+          )}
           <Link
             href="/contact"
             className="inline-block border border-[#00A896] text-[#00A896] font-semibold tracking-wide px-10 py-4 hover:bg-[#E6F7F5] transition-colors text-sm"

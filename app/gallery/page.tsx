@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const categories = ['All', 'Kitchen', 'Bathroom', 'Living Room', 'Carpet Cleaning']
 
@@ -162,14 +163,16 @@ export default function GalleryPage() {
             Want These Results in Your Home?
           </h2>
           <p className="text-[#4A6583] mb-8">Book your cleaning today and see the transformation yourself.</p>
-          <a
-            href="https://raprocleaningservices.bookingkoala.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
-          >
-            Book Now
-          </a>
+          <AfterHoursOnly>
+            <a
+              href="https://raprocleaningservices.bookingkoala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
+            >
+              Book Now
+            </a>
+          </AfterHoursOnly>
         </div>
       </section>
     </main>

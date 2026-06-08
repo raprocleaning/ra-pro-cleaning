@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 interface BlogPost {
   slug: string
@@ -252,14 +253,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <p className="text-[#4A6583] text-sm mb-6">
               Denver&apos;s trusted professional cleaning team with 50+ five-star reviews.
             </p>
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors text-sm"
-            >
-              Book a Professional Clean
-            </a>
+            <AfterHoursOnly>
+              <a
+                href="https://raprocleaningservices.bookingkoala.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors text-sm"
+              >
+                Book a Professional Clean
+              </a>
+            </AfterHoursOnly>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 'use client'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const AREAS = [
   { name: 'Denver', desc: 'All Denver neighborhoods' },
@@ -75,14 +76,16 @@ export default function ServiceAreas() {
               </svg>
               (720) 677-8799
             </a>
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-3.5 hover:border-white hover:bg-white/10 transition-all text-sm"
-            >
-              Book Online
-            </a>
+            <AfterHoursOnly>
+              <a
+                href="https://raprocleaningservices.bookingkoala.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-3.5 hover:border-white hover:bg-white/10 transition-all text-sm"
+              >
+                Book Online
+              </a>
+            </AfterHoursOnly>
           </div>
         </div>
       </div>

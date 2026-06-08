@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 export const metadata: Metadata = {
   title: 'Our Services | R A Pro Cleaning Services Denver',
@@ -165,14 +166,16 @@ export default function ServicesPage() {
             Book online in 60 seconds or call us today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white text-[#00A896] font-bold px-8 py-4 hover:bg-[#E6F7F5] transition-colors"
-            >
-              Book Now
-            </a>
+            <AfterHoursOnly>
+              <a
+                href="https://raprocleaningservices.bookingkoala.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#00A896] font-bold px-8 py-4 hover:bg-[#E6F7F5] transition-colors"
+              >
+                Book Now
+              </a>
+            </AfterHoursOnly>
             <a
               href="tel:7206778799"
               className="inline-flex items-center justify-center gap-2 border-2 border-white text-white font-semibold px-8 py-4 hover:bg-white/10 transition-colors"

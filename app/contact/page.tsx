@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ContactForm from '@/components/ContactForm'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 export const metadata: Metadata = {
   title: 'Contact Us | R A Pro Cleaning Services Denver',
@@ -169,19 +170,21 @@ export default function ContactPage() {
                 </a>
               </div>
 
-              {/* Book CTA */}
-              <div className="mt-8 p-6 bg-[#E6F7F5] border border-[#B2DFDB]">
-                <p className="font-bold text-[#0F2240] mb-2">Ready to book?</p>
-                <p className="text-[#4A6583] text-sm mb-4">Skip the form — book online in 60 seconds.</p>
-                <a
-                  href="https://raprocleaningservices.bookingkoala.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-3 text-sm shadow-md"
-                >
-                  Book Online Now →
-                </a>
-              </div>
+              {/* Book CTA — visible only outside business hours */}
+              <AfterHoursOnly>
+                <div className="mt-8 p-6 bg-[#E6F7F5] border border-[#B2DFDB]">
+                  <p className="font-bold text-[#0F2240] mb-2">Ready to book?</p>
+                  <p className="text-[#4A6583] text-sm mb-4">Skip the form — book online in 60 seconds.</p>
+                  <a
+                    href="https://raprocleaningservices.bookingkoala.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-3 text-sm shadow-md"
+                  >
+                    Book Online Now →
+                  </a>
+                </div>
+              </AfterHoursOnly>
             </div>
           </div>
         </div>

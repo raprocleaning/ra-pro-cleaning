@@ -2,10 +2,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import { useAfterHours } from '@/lib/useAfterHours'
 
 const Footer = () => {
   const [email, setEmail] = useState('')
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const afterHours = useAfterHours()
 
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,23 +55,25 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#071525] text-white">
-      {/* Top CTA band */}
-      <div className="bg-[#00A896]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 className="text-white font-bold text-xl">Ready for a spotless home?</h3>
-            <p className="text-white/80 text-sm mt-1">Book online in 60 seconds — no phone call needed.</p>
+      {/* Top CTA band — visible only outside business hours */}
+      {afterHours && (
+        <div className="bg-[#00A896]">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="text-white font-bold text-xl">Ready for a spotless home?</h3>
+              <p className="text-white/80 text-sm mt-1">Book online in 60 seconds — no phone call needed.</p>
+            </div>
+            <a
+              href="https://raprocleaningservices.bookingkoala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white text-[#00A896] font-bold px-8 py-3.5 hover:bg-white/90 transition-colors text-sm flex-shrink-0"
+            >
+              Book Now &rarr;
+            </a>
           </div>
-          <a
-            href="https://raprocleaningservices.bookingkoala.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-[#00A896] font-bold px-8 py-3.5 hover:bg-white/90 transition-colors text-sm flex-shrink-0"
-          >
-            Book Now &rarr;
-          </a>
         </div>
-      </div>
+      )}
 
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
@@ -178,16 +182,18 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
-              <li>
-                <a
-                  href="https://raprocleaningservices.bookingkoala.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-[#00A896] hover:text-[#00C9B5] transition-colors font-semibold"
-                >
-                  Book Now →
-                </a>
-              </li>
+              {afterHours && (
+                <li>
+                  <a
+                    href="https://raprocleaningservices.bookingkoala.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-[#00A896] hover:text-[#00C9B5] transition-colors font-semibold"
+                  >
+                    Book Now →
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 

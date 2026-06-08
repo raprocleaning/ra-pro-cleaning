@@ -1,5 +1,6 @@
 'use client'
 import { useState, useCallback, useRef } from 'react'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const reviews = [
   {
@@ -201,17 +202,19 @@ const Reviews = () => {
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12">
-          <p className="text-[#4A6583] text-sm mb-4">Join hundreds of satisfied Denver homeowners</p>
-          <a
-            href="https://raprocleaningservices.bookingkoala.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-md"
-          >
-            Book Your Clean Today
-          </a>
-        </div>
+        <AfterHoursOnly>
+          <div className="text-center mt-12">
+            <p className="text-[#4A6583] text-sm mb-4">Join hundreds of satisfied Denver homeowners</p>
+            <a
+              href="https://raprocleaningservices.bookingkoala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-md"
+            >
+              Book Your Clean Today
+            </a>
+          </div>
+        </AfterHoursOnly>
       </div>
     </section>
   )

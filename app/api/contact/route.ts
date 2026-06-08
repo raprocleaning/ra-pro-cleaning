@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
     if (svcTag) tags.push(svcTag)
     if (preferredDate) tags.push('has-preferred-date')
     if (extras?.length) tags.push('has-extras')
+    if (smsOptIn && phone) tags.push('sms-opt-in')   // only tag if user explicitly consented AND provided a number
     tags.push('needs-follow-up')   // triggers immediate follow-up workflow in HL
     tags.push('request-review')    // triggers review request workflow after cleaning
 
@@ -52,13 +53,6 @@ export async function POST(req: NextRequest) {
         locationId,
         source: isAIBooking ? 'AI Chat Widget' : 'Website Contact Form',
         tags,
-        customField: [
-          { key: 'service_type',    field_value: service || propertyType || '' },
-          { key: 'square_footage',  field_value: String(sqft || squareFootage || '') },
-          { key: 'estimated_price', field_value: price ? `$${price}` : '' },
-          { key: 'extras_selected', field_value: Array.isArray(extras) ? extras.join(', ') : (extras || '') },
-          { key: 'preferred_date',  field_value: preferredDate || '' },
-        ],
       }
 
       const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/', {

@@ -2,12 +2,14 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import { useAfterHours } from '@/lib/useAfterHours'
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
   const [whyUsOpen, setWhyUsOpen] = useState(false)
+  const afterHours = useAfterHours()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -156,14 +158,16 @@ const Navigation = () => {
                 </svg>
               </a>
 
-              <a
-                href="https://raprocleaningservices.bookingkoala.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 shadow-md"
-              >
-                Book Now
-              </a>
+              {afterHours && (
+                <a
+                  href="https://raprocleaningservices.bookingkoala.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 shadow-md"
+                >
+                  Book Now
+                </a>
+              )}
             </div>
 
             {/* Mobile Hamburger */}
@@ -223,16 +227,18 @@ const Navigation = () => {
               </Link>
             ))}
           </div>
-          <div className="flex flex-col gap-4">
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-book-now inline-block bg-[#00A896] text-white text-lg font-bold px-8 py-4 shadow-lg text-center"
-            >
-              Book Now &rarr;
-            </a>
-          </div>
+          {afterHours && (
+            <div className="flex flex-col gap-4">
+              <a
+                href="https://raprocleaningservices.bookingkoala.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-book-now inline-block bg-[#00A896] text-white text-lg font-bold px-8 py-4 shadow-lg text-center"
+              >
+                Book Now &rarr;
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </>

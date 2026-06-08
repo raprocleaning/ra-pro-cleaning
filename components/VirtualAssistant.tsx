@@ -1,5 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
+import { useAfterHours } from '@/lib/useAfterHours'
 
 // ─── PRICING TABLES ──────────────────────────────────────────────────────────
 // Standard: 10% below Denver market rate (base)
@@ -125,6 +126,7 @@ type Step =
   | 'extras'
   | 'date'
   | 'name'
+  | 'sms-consent'
   | 'phone'
   | 'email'
   | 'done'
@@ -148,6 +150,7 @@ type BookingData = {
   name: string
   phone: string
   email: string
+  smsOptIn: boolean
 }
 
 const EXTRAS: { label: string; price: number }[] = [
@@ -213,6 +216,9 @@ export default function VirtualAssistant() {
   const [input, setInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+
+  // Floating Book Now + chat trigger appear only outside 9 AM – 5 PM Mountain Time.
+  const afterHours = useAfterHours()
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -381,6 +387,20 @@ export default function VirtualAssistant() {
       return
     }
 
+    if (step === 'sms-consent') {
+      const userMsg: Message = { from: 'user', text: opt }
+      const consented = opt.includes('Yes')
+      setBooking((b) => ({ ...b, smsOptIn: consented }))
+      setStep('phone')
+      addMessages(userMsg, {
+        from: 'bot',
+        text: consented
+          ? `Got it — you're opted in for SMS. 📱\n\nWhat's the best phone number to reach you?`
+          : `No problem — we'll only call, not text. 📞\n\nWhat's the best phone number to reach you?`,
+      })
+      return
+    }
+
     // Generic options after done
     if (opt === 'Contact us') {
       addMessages({ from: 'user', text: opt }, {
@@ -443,8 +463,12 @@ export default function VirtualAssistant() {
 
     if (step === 'name') {
       setBooking((b) => ({ ...b, name: text }))
-      setStep('phone')
-      addMessages(userMsg, { from: 'bot', text: `Nice to meet you, ${text.split(' ')[0]}! 📞 What's the best phone number to reach you?` })
+      setStep('sms-consent')
+      addMessages(userMsg, {
+        from: 'bot',
+        text: `Nice to meet you, ${text.split(' ')[0]}! 👋\n\nBefore I take your phone number — we use SMS to send appointment confirmations, reminders, and occasional promotional offers (up to 5 msg/month). Msg & data rates may apply. Reply STOP to opt out, HELP for help. See our Privacy Policy and Terms at raprocleaningservices.com/privacy.\n\nAre you OK receiving texts from us at the number you provide?`,
+        options: ['✅ Yes, text me', '📞 Phone calls only, no texts'],
+      })
       return
     }
 
@@ -477,7 +501,7 @@ export default function VirtualAssistant() {
             price: updatedBooking.price,
             extras: updatedBooking.extras || [],
             preferredDate: updatedBooking.preferredDate || 'Flexible',
-            smsOptIn: true,
+            smsOptIn: updatedBooking.smsOptIn === true,
           }),
         })
       } catch {
@@ -487,7 +511,7 @@ export default function VirtualAssistant() {
       setSubmitting(false)
       addMessages({
         from: 'bot',
-        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll call you at ${updatedBooking.phone} within 24 hours to confirm.\n\n⭐ After your clean, we'll send a quick text to ask how we did and schedule your next one!\n\nOr book online right now:`,
+        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll ${updatedBooking.smsOptIn ? 'call or text' : 'call'} you at ${updatedBooking.phone} within 24 hours to confirm.${updatedBooking.smsOptIn ? '\n\n⭐ After your clean, we\'ll send a quick text to ask how we did and schedule your next one!' : ''}\n\nOr book online right now:`,
         options: ['Book Online Now →', 'Ask another question'],
       })
       return
@@ -545,7 +569,8 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING BOOK NOW BUTTON → BookingKoala ─────────────── */}
+      {/* ── FLOATING BOOK NOW BUTTON → BookingKoala (after-hours only) ─── */}
+      {afterHours && (
       <a
         href="https://raprocleaningservices.bookingkoala.com"
         target="_blank"
@@ -559,8 +584,10 @@ export default function VirtualAssistant() {
         </svg>
         Book Now
       </a>
+      )}
 
-      {/* ── FLOATING AI QUOTE CHAT BUTTON ────────────────────────── */}
+      {/* ── FLOATING AI QUOTE CHAT BUTTON (after-hours only) ──────────── */}
+      {afterHours && (
       <button
         onClick={open ? handleClose : handleOpen}
         className="fixed bottom-20 right-6 z-50 bg-[#0F2240] hover:bg-[#1a3460] text-white shadow-xl flex items-center gap-2 px-4 py-3 transition-all duration-300 rounded-full font-semibold text-xs"
@@ -583,6 +610,7 @@ export default function VirtualAssistant() {
           </>
         )}
       </button>
+      )}
 
       {/* ── CHAT / BOOKING WINDOW ───────────────────────────────────── */}
       {open && (
@@ -608,8 +636,8 @@ export default function VirtualAssistant() {
 
           {/* Progress strip */}
           <div className="flex bg-[#0F2240]/5 border-b border-[#B2DFDB]">
-            {(['service', 'sqft', 'price', 'extras', 'date', 'name', 'phone', 'email', 'done'] as Step[]).map((s, i) => {
-              const stepOrder: Step[] = ['greeting', 'service', 'sqft', 'price', 'extras', 'date', 'name', 'phone', 'email', 'done']
+            {(['service', 'sqft', 'price', 'extras', 'date', 'name', 'sms-consent', 'phone', 'email', 'done'] as Step[]).map((s, i, arr) => {
+              const stepOrder: Step[] = ['greeting', 'service', 'sqft', 'price', 'extras', 'date', 'name', 'sms-consent', 'phone', 'email', 'done']
               const currentIdx = stepOrder.indexOf(step)
               const thisIdx = stepOrder.indexOf(s)
               const active = thisIdx <= currentIdx
@@ -617,7 +645,7 @@ export default function VirtualAssistant() {
                 <div
                   key={s}
                   className={`flex-1 h-1 transition-all duration-500 ${active ? 'bg-[#00A896]' : 'bg-[#B2DFDB]/40'}`}
-                  style={{ marginRight: i < 6 ? 1 : 0 }}
+                  style={{ marginRight: i < arr.length - 1 ? 1 : 0 }}
                 />
               )
             })}

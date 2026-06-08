@@ -9,6 +9,7 @@ import HowItWorks from '@/components/HowItWorks'
 import FAQ from '@/components/FAQ'
 import ContactForm from '@/components/ContactForm'
 import ServiceAreas from '@/components/ServiceAreas'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 export default function Home() {
   return (
@@ -32,14 +33,16 @@ export default function Home() {
               we deliver the kind of clean that makes you proud of your space.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-              <a
-                href="https://raprocleaningservices.bookingkoala.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 shadow-md"
-              >
-                Book Now
-              </a>
+              <AfterHoursOnly>
+                <a
+                  href="https://raprocleaningservices.bookingkoala.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 shadow-md"
+                >
+                  Book Now
+                </a>
+              </AfterHoursOnly>
               <a
                 href="/about"
                 className="inline-flex items-center justify-center gap-2 border-2 border-[#B2DFDB] text-[#0F2240] font-medium px-8 py-4 hover:border-[#00A896] hover:text-[#00A896] transition-colors"

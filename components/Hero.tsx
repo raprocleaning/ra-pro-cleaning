@@ -1,9 +1,11 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
+import { useAfterHours } from '@/lib/useAfterHours'
 
 const Hero = () => {
   const parallaxRef = useRef<HTMLDivElement>(null)
   const [showStickyBtn, setShowStickyBtn] = useState(false)
+  const afterHours = useAfterHours()
 
   useEffect(() => {
     // Parallax on scroll
@@ -85,17 +87,19 @@ const Hero = () => {
                 className="flex flex-col sm:flex-row gap-4"
                 style={{ animation: 'fadeInUp 0.7s ease both', animationDelay: '360ms' }}
               >
-                <a
-                  href="https://raprocleaningservices.bookingkoala.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold text-base px-10 py-4 rounded-none shadow-lg"
-                >
-                  Book Your Clean Now
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
+                {afterHours && (
+                  <a
+                    href="https://raprocleaningservices.bookingkoala.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold text-base px-10 py-4 rounded-none shadow-lg"
+                  >
+                    Book Your Clean Now
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                )}
                 <a
                   href="tel:7206778799"
                   className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-medium text-base px-8 py-4 hover:border-white hover:bg-white/10 transition-all"
@@ -136,24 +140,26 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* ── FLOATING STICKY CTA ──────────────────────────────────── */}
-      <div
-        className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${
-          showStickyBtn ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
-        }`}
-      >
-        <a
-          href="https://raprocleaningservices.bookingkoala.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-book-now flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-4 shadow-2xl text-sm"
+      {/* ── FLOATING STICKY CTA (after-hours only) ───────────────── */}
+      {afterHours && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${
+            showStickyBtn ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
+          }`}
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          Book Now
-        </a>
-      </div>
+          <a
+            href="https://raprocleaningservices.bookingkoala.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-book-now flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-4 shadow-2xl text-sm"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Book Now
+          </a>
+        </div>
+      )}
     </>
   )
 }

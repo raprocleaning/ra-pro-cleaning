@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const faqs = [
   {
@@ -94,14 +95,16 @@ const FAQ = () => {
               Have a question we haven&apos;t answered here? We&apos;d love to hear from you.
             </p>
             <div className="space-y-4">
-              <a
-                href="https://raprocleaningservices.bookingkoala.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
-              >
-                Book a Clean
-              </a>
+              <AfterHoursOnly>
+                <a
+                  href="https://raprocleaningservices.bookingkoala.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
+                >
+                  Book a Clean
+                </a>
+              </AfterHoursOnly>
               <div>
                 <a
                   href="tel:7206778799"

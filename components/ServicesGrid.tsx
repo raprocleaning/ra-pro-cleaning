@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
+import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const services = [
   {
@@ -169,19 +170,21 @@ const ServicesGrid = () => {
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12 fade-in-up">
-          <a
-            href="https://raprocleaningservices.bookingkoala.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-lg"
-          >
-            Book Any Service
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-        </div>
+        <AfterHoursOnly>
+          <div className="text-center mt-12 fade-in-up">
+            <a
+              href="https://raprocleaningservices.bookingkoala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-lg"
+            >
+              Book Any Service
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </AfterHoursOnly>
       </div>
     </section>
   )

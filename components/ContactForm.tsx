@@ -4,8 +4,8 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 
 interface FormData {
   fullName: string
-  phone: string
   email: string
+  phone: string
   service: string
   zipCode: string
   squareFootage: string
@@ -17,8 +17,8 @@ const ContactForm = () => {
   const ref = useScrollAnimation(0.05)
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
-    phone: '',
     email: '',
+    phone: '',
     service: '',
     zipCode: '',
     squareFootage: '',
@@ -49,7 +49,7 @@ const ContactForm = () => {
       })
       if (res.ok) {
         setStatus('success')
-        setFormData({ fullName: '', phone: '', email: '', service: '', zipCode: '', squareFootage: '', message: '', smsOptIn: false })
+        setFormData({ fullName: '', email: '', phone: '', service: '', zipCode: '', squareFootage: '', message: '', smsOptIn: false })
       } else {
         setStatus('error')
       }
@@ -155,28 +155,16 @@ const ContactForm = () => {
                   <p className="text-[#4A6583] text-sm mt-1">No commitment needed — just honest pricing.</p>
                 </div>
 
-                {/* Row 1: Name + Phone */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#0F2240] tracking-wider uppercase mb-2">
-                      Full Name <span className="text-[#00A896]">*</span>
-                    </label>
-                    <input
-                      type="text" name="fullName" value={formData.fullName} onChange={handleChange}
-                      required placeholder="Jane Smith"
-                      className="w-full border border-[#B2DFDB] bg-white px-4 py-3 text-sm text-[#0F2240] placeholder-[#4A6583]/40 focus:outline-none focus:border-[#00A896] transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#0F2240] tracking-wider uppercase mb-2">
-                      Phone <span className="text-[#00A896]">*</span>
-                    </label>
-                    <input
-                      type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                      required placeholder="(720) 000-0000"
-                      className="w-full border border-[#B2DFDB] bg-white px-4 py-3 text-sm text-[#0F2240] placeholder-[#4A6583]/40 focus:outline-none focus:border-[#00A896] transition-colors"
-                    />
-                  </div>
+                {/* Full Name */}
+                <div>
+                  <label className="block text-xs font-semibold text-[#0F2240] tracking-wider uppercase mb-2">
+                    Full Name <span className="text-[#00A896]">*</span>
+                  </label>
+                  <input
+                    type="text" name="fullName" value={formData.fullName} onChange={handleChange}
+                    required placeholder="Jane Smith"
+                    className="w-full border border-[#B2DFDB] bg-white px-4 py-3 text-sm text-[#0F2240] placeholder-[#4A6583]/40 focus:outline-none focus:border-[#00A896] transition-colors"
+                  />
                 </div>
 
                 {/* Email */}
@@ -187,6 +175,19 @@ const ContactForm = () => {
                   <input
                     type="email" name="email" value={formData.email} onChange={handleChange}
                     required placeholder="jane@example.com"
+                    className="w-full border border-[#B2DFDB] bg-white px-4 py-3 text-sm text-[#0F2240] placeholder-[#4A6583]/40 focus:outline-none focus:border-[#00A896] transition-colors"
+                  />
+                </div>
+
+                {/* Phone (optional, enables SMS opt-in) */}
+                <div>
+                  <label className="block text-xs font-semibold text-[#0F2240] tracking-wider uppercase mb-2">
+                    Phone <span className="text-[#4A6583] normal-case font-normal tracking-normal">(optional — required for SMS updates)</span>
+                  </label>
+                  <input
+                    type="tel" name="phone" value={formData.phone} onChange={handleChange}
+                    placeholder="(720) 555-0123"
+                    autoComplete="tel"
                     className="w-full border border-[#B2DFDB] bg-white px-4 py-3 text-sm text-[#0F2240] placeholder-[#4A6583]/40 focus:outline-none focus:border-[#00A896] transition-colors"
                   />
                 </div>
@@ -248,7 +249,7 @@ const ContactForm = () => {
                   />
                 </div>
 
-                {/* SMS Opt-in */}
+                {/* SMS Opt-in (only meaningful if phone provided) */}
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox" name="smsOptIn" id="smsOptIn"
@@ -256,8 +257,10 @@ const ContactForm = () => {
                     className="mt-1 w-4 h-4 accent-[#00A896]"
                   />
                   <label htmlFor="smsOptIn" className="text-xs text-[#4A6583] leading-relaxed">
-                    I agree to receive SMS messages from R A Pro Cleaning Services LLC. Reply STOP to opt out.
-                    View our{' '}
+                    I agree to receive SMS text messages from R A Pro Cleaning Services LLC at the phone number provided,
+                    including appointment confirmations, reminders, and occasional promotional offers. Message frequency
+                    varies (up to 5 messages per month). Message &amp; data rates may apply. Reply <strong>STOP</strong> to
+                    opt out or <strong>HELP</strong> for help. Consent is not a condition of purchase. See our{' '}
                     <a href="/privacy" className="text-[#00A896] hover:underline">Privacy Policy</a>{' '}
                     and{' '}
                     <a href="/terms" className="text-[#00A896] hover:underline">Terms</a>.

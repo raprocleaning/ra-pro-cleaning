@@ -67,6 +67,12 @@ export default function PrivacyPage() {
                 <li>Reply <strong>HELP</strong> for help or contact us at ra@raprocleaningservices.com.</li>
                 <li>We will never sell your phone number to third parties.</li>
               </ul>
+              <p className="mt-3">
+                <strong>We do not share mobile information or SMS opt-in data with third parties or affiliates
+                for marketing or promotional purposes.</strong> Information sharing with subcontractors who support
+                our business operations (e.g., CRM platforms and SMS delivery providers) is limited to operational
+                purposes only.
+              </p>
             </div>
 
             <div>
