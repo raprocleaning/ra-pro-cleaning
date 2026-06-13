@@ -9,9 +9,9 @@ import { useAfterHours } from '@/lib/useAfterHours'
 // Post-Construction: $0.20 per sqft (tier midpoint)
 const PRICING: Record<string, { max: number; price: number }[]> = {
   'Standard Cleaning': [
-    { max: 1249, price: 155 },
-    { max: 1499, price: 175 },
-    { max: 1799, price: 195 },
+    { max: 1249, price: 200 },
+    { max: 1499, price: 200 },
+    { max: 1799, price: 200 },
     { max: 2099, price: 215 },
     { max: 2399, price: 235 },
     { max: 2699, price: 250 },
@@ -59,12 +59,12 @@ const PRICING: Record<string, { max: number; price: number }[]> = {
     { max: Infinity, price: 565 },
   ],
   'Airbnb Cleaning': [
-    { max: 1249, price: 90  },
-    { max: 1499, price: 110 },
-    { max: 1799, price: 130 },
-    { max: 2099, price: 150 },
-    { max: 2399, price: 165 },
-    { max: 2699, price: 190 },
+    { max: 1249, price: 200 },
+    { max: 1499, price: 200 },
+    { max: 1799, price: 200 },
+    { max: 2099, price: 200 },
+    { max: 2399, price: 200 },
+    { max: 2699, price: 200 },
     { max: 2999, price: 210 },
     { max: 3299, price: 235 },
     { max: 3599, price: 250 },
@@ -75,8 +75,8 @@ const PRICING: Record<string, { max: number; price: number }[]> = {
     { max: Infinity, price: 340 },
   ],
   'Office Cleaning': [
-    { max: 1249, price: 155 },
-    { max: 1499, price: 185 },
+    { max: 1249, price: 200 },
+    { max: 1499, price: 200 },
     { max: 1799, price: 215 },
     { max: 2099, price: 250 },
     { max: 2399, price: 280 },
@@ -172,7 +172,6 @@ const SERVICES = [
   'Airbnb Cleaning',
   'Office Cleaning',
   'Post-Construction Cleaning',
-  'Carpet Cleaning',
 ]
 
 const SQFT_OPTIONS = [
@@ -255,15 +254,6 @@ export default function VirtualAssistant() {
     if (step === 'service') {
       const userMsg: Message = { from: 'user', text: opt }
       setBooking((b) => ({ ...b, service: opt }))
-
-      if (opt === 'Carpet Cleaning') {
-        setStep('name')
-        addMessages(userMsg, {
-          from: 'bot',
-          text: "Great choice! Carpet cleaning is priced based on the number of rooms and condition. We'll give you a custom quote.\n\nTo get started, what's your full name?",
-        })
-        return
-      }
 
       setStep('sqft')
       addMessages(userMsg, {

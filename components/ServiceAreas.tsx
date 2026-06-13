@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const AREAS = [
@@ -40,11 +41,8 @@ export default function ServiceAreas() {
 
         {/* Areas Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-14">
-          {AREAS.map((area) => (
-            <div
-              key={area.name}
-              className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
-            >
+          {AREAS.map((area) => {
+            const content = (
               <div className="flex items-start gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#00A896] mt-2 flex-shrink-0" />
                 <div>
@@ -54,8 +52,25 @@ export default function ServiceAreas() {
                   <p className="text-white/40 text-xs mt-0.5">{area.desc}</p>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+
+            return area.name === 'Aurora' ? (
+              <Link
+                key={area.name}
+                href="/areas/aurora"
+                className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
+              >
+                {content}
+              </Link>
+            ) : (
+              <div
+                key={area.name}
+                className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
+              >
+                {content}
+              </div>
+            )
+          })}
         </div>
 
         {/* CTA strip */}
@@ -78,7 +93,7 @@ export default function ServiceAreas() {
             </a>
             <AfterHoursOnly>
               <a
-                href="https://raprocleaningservices.bookingkoala.com"
+                href="/book"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-3.5 hover:border-white hover:bg-white/10 transition-all text-sm"

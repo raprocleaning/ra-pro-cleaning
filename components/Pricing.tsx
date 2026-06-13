@@ -10,9 +10,9 @@ import { useAfterHours } from '@/lib/useAfterHours'
 //   Airbnb    — same as Standard (turnover clean)
 //   Post-Construction — $0.20 / sq ft (tier midpoint)
 const sqftTiers = [
-  { range: '1 – 1,249 sq ft',     standard: 155, deep: 200, moveInOut: 235, airbnb: 155, postConstruction: 200  },
-  { range: '1,250 – 1,499 sq ft', standard: 175, deep: 230, moveInOut: 265, airbnb: 175, postConstruction: 275  },
-  { range: '1,500 – 1,799 sq ft', standard: 195, deep: 255, moveInOut: 295, airbnb: 195, postConstruction: 330  },
+  { range: '1 – 1,249 sq ft',     standard: 200, deep: 200, moveInOut: 235, airbnb: 200, postConstruction: 200  },
+  { range: '1,250 – 1,499 sq ft', standard: 200, deep: 230, moveInOut: 265, airbnb: 200, postConstruction: 275  },
+  { range: '1,500 – 1,799 sq ft', standard: 200, deep: 255, moveInOut: 295, airbnb: 200, postConstruction: 330  },
   { range: '1,800 – 2,099 sq ft', standard: 215, deep: 280, moveInOut: 325, airbnb: 215, postConstruction: 390  },
   { range: '2,100 – 2,399 sq ft', standard: 235, deep: 305, moveInOut: 355, airbnb: 235, postConstruction: 450  },
   { range: '2,400 – 2,699 sq ft', standard: 250, deep: 325, moveInOut: 375, airbnb: 250, postConstruction: 510  },
@@ -41,14 +41,6 @@ const frequencies = [
   { label: 'Weekly', discount: 10, badge: '10% OFF' },
 ]
 
-const carpetPricing = [
-  { item: 'Minimum (up to 200 sq ft)', price: '$125' },
-  { item: 'Per Additional Room', price: '$60 – $75' },
-  { item: 'Stairs', price: '$60' },
-  { item: 'Area Rugs', price: 'By size & material' },
-  { item: 'Pet / Odor / Deep Stain Treatment', price: 'Custom quote' },
-]
-
 type ServiceKey = 'standard' | 'deep' | 'moveInOut' | 'airbnb' | 'postConstruction'
 
 export default function Pricing() {
@@ -61,7 +53,7 @@ export default function Pricing() {
   const getPrice = (base: number | null) => {
     if (base === null) return 'Call Us'
     const discounted = base * (1 - discount / 100)
-    return `$${Math.round(discounted)}`
+    return `$${Math.max(200, Math.round(discounted))}`
   }
 
   return (
@@ -183,27 +175,6 @@ export default function Pricing() {
           </div>
         </div>
 
-        {/* Carpet Cleaning Section */}
-        <div className="bg-white border border-[#B2DFDB] mb-10">
-          <div className="bg-[#00A896] px-6 py-4">
-            <h3 className="text-white font-bold tracking-wide">🪄 Carpet Cleaning Pricing</h3>
-            <p className="text-white/80 text-sm mt-1">Hot-water extraction • Professional sanitizer included</p>
-          </div>
-          <div className="divide-y divide-[#E6F7F5]">
-            {carpetPricing.map((item) => (
-              <div key={item.item} className="flex items-center justify-between px-6 py-4">
-                <span className="text-sm text-[#0F2240]">{item.item}</span>
-                <span className="text-sm font-bold text-[#00A896]">{item.price}</span>
-              </div>
-            ))}
-          </div>
-          <div className="px-6 py-4 bg-[#F7FBFF] border-t border-[#E6F7F5]">
-            <p className="text-xs text-[#4A6583]">
-              💡 Typical total ranges $125–$325 depending on size, condition & number of rooms. Stairs, area rugs & pet treatments quoted separately.
-            </p>
-          </div>
-        </div>
-
         {/* Region note */}
         <div className="bg-[#E6F7F5] border border-[#B2DFDB] px-6 py-4 mb-10 flex items-start gap-3">
           <svg className="w-5 h-5 text-[#00A896] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -220,7 +191,7 @@ export default function Pricing() {
         <div className="text-center">
           {afterHours && (
             <a
-              href="https://raprocleaningservices.bookingkoala.com"
+              href="/book"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-[#00A896] text-white font-bold tracking-wide px-10 py-4 hover:bg-[#007A6C] transition-colors text-sm mr-4"

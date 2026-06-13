@@ -3,13 +3,12 @@ import { useEffect } from 'react'
 import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const SERVICES = [
-  { name: 'Standard Cleaning',       icon: '🏠', from: 155,  desc: 'Regular maintenance clean' },
+  { name: 'Standard Cleaning',       icon: '🏠', from: 200,  desc: 'Regular maintenance clean' },
   { name: 'Deep Cleaning',           icon: '✨', from: 200,  desc: 'Top-to-bottom thorough clean' },
   { name: 'Move In/Out Cleaning',    icon: '📦', from: 235,  desc: 'Full clean for transitions' },
-  { name: 'Airbnb Cleaning',         icon: '🛎️', from: 90,   desc: 'Fast turnovers, 5-star ready' },
-  { name: 'Office Cleaning',         icon: '🏢', from: 155,  desc: 'Professional commercial clean' },
+  { name: 'Airbnb Cleaning',         icon: '🛎️', from: 200,  desc: 'Fast turnovers, 5-star ready' },
+  { name: 'Office Cleaning',         icon: '🏢', from: 200,  desc: 'Professional commercial clean' },
   { name: 'Post-Construction',       icon: '🔨', from: 200,  desc: '$0.20/sqft — debris & dust' },
-  { name: 'Carpet Cleaning',         icon: '🧹', from: null, desc: 'Custom quote by room' },
 ]
 
 export default function BookPageClient() {
@@ -44,17 +43,17 @@ export default function BookPageClient() {
             <div className="w-8 h-px bg-[#00A896]" />
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-            Book Your Denver Cleaning<br />
+            Book Your Denver Metro Cleaning<br />
             <span className="text-[#00A896]">Get a Price in 60 Seconds</span>
           </h1>
           <p className="text-white/60 text-lg mb-8 max-w-2xl mx-auto">
             Our AI assistant gives you an instant quote — no phone call needed.
-            Licensed, insured &amp; 5-star rated across Denver.
+            Licensed, insured &amp; 5-star rated across Denver and Aurora.
           </p>
 
           {/* Trust badges */}
           <div className="flex flex-wrap justify-center gap-6 text-white/50 text-sm">
-            {['⭐ 5.0 Google Rating', '✅ 50+ Reviews', '🔒 Licensed & Insured', '👩 Women-Owned'].map(b => (
+            {['⭐ 5.0 Google Rating', '✅ 46 Google Reviews', '🔒 Licensed & Insured', '👩 Women-Owned'].map(b => (
               <span key={b} className="flex items-center gap-1">{b}</span>
             ))}
           </div>
@@ -151,11 +150,11 @@ export default function BookPageClient() {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { service: 'Standard Cleaning', range: '$155 – $375', note: 'Based on sqft' },
+              { service: 'Standard Cleaning', range: '$200 – $375', note: 'Based on sqft' },
               { service: 'Deep Cleaning',     range: '$200 – $490', note: 'Standard +30%' },
               { service: 'Move In/Out',        range: '$235 – $565', note: 'Standard +50%' },
-              { service: 'Airbnb Cleaning',   range: '$90 – $340',  note: 'Quick turnovers' },
-              { service: 'Office Cleaning',   range: '$155 – $520', note: 'Commercial spaces' },
+              { service: 'Airbnb Cleaning',   range: '$200 – $340',  note: 'Quick turnovers' },
+              { service: 'Office Cleaning',   range: '$200 – $520', note: 'Commercial spaces' },
               { service: 'Post-Construction', range: '$200 – $1,100', note: '~$0.20/sqft' },
             ].map((p) => (
               <div key={p.service} className="bg-white rounded-xl p-5 border border-[#B2DFDB]">
@@ -172,13 +171,13 @@ export default function BookPageClient() {
       <section className="py-12 px-6 bg-[#0F2240]">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-white font-black text-2xl mb-2">★★★★★</p>
-          <p className="text-white text-lg font-bold mb-1">50+ Five-Star Google Reviews</p>
+          <p className="text-white text-lg font-bold mb-1">46 Five-Star Google Reviews</p>
           <p className="text-white/50 text-sm mb-8">
             &ldquo;Fast response, friendly team, easy scheduling, and truly top-quality work.&rdquo;
           </p>
           <AfterHoursOnly>
             <a
-              href="https://raprocleaningservices.bookingkoala.com"
+              href="/book"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 hover:bg-[#007A6C] transition-colors"

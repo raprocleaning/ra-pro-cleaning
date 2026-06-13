@@ -24,18 +24,18 @@ export default function Home() {
               About R A Pro
             </p>
             <h2 className="text-3xl md:text-4xl font-black text-[#0F2240] tracking-tight mb-6">
-              Denver&apos;s Trusted Cleaning Professionals
+              Denver Metro&apos;s Trusted Cleaning Professionals
             </h2>
             <p className="text-[#4A6583] text-lg leading-relaxed">
-              R A Pro Cleaning Services LLC brings Denver homeowners and businesses a premium
+              R A Pro Cleaning Services LLC brings Denver and Aurora homeowners and businesses a premium
               cleaning experience built on trust, attention to detail, and exceptional results.
-              With 50+ five-star reviews and a team of fully licensed and insured professionals,
+              With 46 five-star Google reviews and a team of fully licensed and insured professionals,
               we deliver the kind of clean that makes you proud of your space.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <AfterHoursOnly>
                 <a
-                  href="https://raprocleaningservices.bookingkoala.com"
+                  href="/book"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 shadow-md"

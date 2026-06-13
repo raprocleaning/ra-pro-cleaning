@@ -57,8 +57,8 @@ const WhyChooseUs = () => {
           </div>
           <div className="fade-in-up">
             <p className="text-[#4A6583] text-lg leading-relaxed">
-              We don&apos;t just clean — we transform your space. With over 50 five-star reviews
-              and years of experience serving Denver, our commitment to excellence speaks for itself.
+              We don&apos;t just clean — we transform your space. With 46 five-star Google reviews
+              and years of experience serving Denver and Aurora, our commitment to excellence speaks for itself.
             </p>
             <div className="mt-8 flex items-center gap-4">
               <div className="flex -space-x-1">
@@ -71,7 +71,7 @@ const WhyChooseUs = () => {
                   </div>
                 ))}
               </div>
-              <span className="text-[#4A6583] text-sm">50+ verified 5-star reviews</span>
+              <span className="text-[#4A6583] text-sm">46 verified 5-star Google reviews</span>
             </div>
           </div>
         </div>
@@ -105,9 +105,9 @@ const WhyChooseUs = () => {
         {/* Stats row */}
         <div className="mt-20 pt-16 border-t border-[#B2DFDB] grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { stat: '50+', label: '5-Star Reviews' },
+            { stat: '46', label: '5-Star Google Reviews' },
             { stat: '100%', label: 'Insured & Licensed' },
-            { stat: '5+', label: 'Years Serving Denver' },
+            { stat: '5+', label: 'Years Serving Denver Metro' },
             { stat: '200+', label: 'Homes Cleaned' },
           ].map((item) => (
             <div key={item.label} className="fade-in-up text-center">

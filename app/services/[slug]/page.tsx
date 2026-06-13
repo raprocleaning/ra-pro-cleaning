@@ -24,7 +24,7 @@ const servicesData: Record<string, ServiceData> = {
       'Our deep cleaning service covers every inch of your home — from ceiling fans to baseboards, inside appliances, behind furniture, and every surface in between.',
     longDescription:
       "Deep cleaning goes beyond surface-level tidying. We target the buildup that accumulates over time: inside your oven, behind your refrigerator, grout lines in your bathroom tiles, and all the hard-to-reach spots that standard cleaning skips. Ideal for a seasonal reset, after a renovation, or when you're taking over a new home.",
-    price: 'Starting at $700',
+    price: 'Starting at $200',
     priceNote: 'Final pricing based on square footage and condition of home.',
     includes: [
       'All rooms: ceiling fans, light fixtures, and vents dusted',
@@ -46,7 +46,7 @@ const servicesData: Record<string, ServiceData> = {
       'Our standard cleaning service maintains your home on a regular schedule. Choose weekly, bi-weekly, or monthly visits for a home that always looks its best.',
     longDescription:
       'Regular cleaning prevents the buildup that makes deep cleaning necessary. Our standard service covers all the essentials: kitchen surfaces, bathroom sanitization, dusting, vacuuming, and mopping. Each visit is consistent, thorough, and tailored to your preferences.',
-    price: 'Starting at $600',
+    price: 'Starting at $200',
     priceNote: 'Recurring clients receive priority scheduling and preferred rates.',
     includes: [
       'Kitchen counters, sink, and stovetop cleaned',
@@ -214,28 +214,6 @@ const servicesData: Record<string, ServiceData> = {
     ],
     relatedSlugs: ['standard-cleaning', 'house-cleaning', 'deep-cleaning'],
   },
-  'carpet-cleaning': {
-    slug: 'carpet-cleaning',
-    name: 'Carpet Cleaning',
-    tagline: 'Deep clean carpets that look, feel, and smell brand new.',
-    description:
-      'Our professional carpet cleaning service uses hot water extraction to remove deep-set stains, allergens, pet dander, and embedded dirt from all carpet types.',
-    longDescription:
-      "Carpets trap more dirt, allergens, and bacteria than any other surface in your home. Vacuuming alone doesn't cut it — our deep extraction method gets all the way down to the carpet fibers, lifting out what regular cleaning leaves behind. Whether you're dealing with pet stains, high-traffic wear, or just want a full refresh, we restore your carpets to their best condition.",
-    price: 'Custom quote',
-    priceNote: 'Pricing based on number of rooms and carpet condition.',
-    includes: [
-      'Pre-treatment of stains and high-traffic areas',
-      'Hot water extraction (steam cleaning) of all carpet fibers',
-      'Pet odor and dander treatment available',
-      'Furniture moved and cleaned underneath (light pieces)',
-      'Edges and corners hand-cleaned',
-      'Post-clean grooming for even drying and appearance',
-      'Fast dry time — typically 2–4 hours',
-      'All carpet types: plush, berber, frieze, and more',
-    ],
-    relatedSlugs: ['deep-cleaning', 'house-cleaning', 'bedroom-cleaning'],
-  },
 }
 
 export async function generateStaticParams() {
@@ -336,7 +314,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
                 <AfterHoursOnly>
                   <a
-                    href="https://raprocleaningservices.bookingkoala.com"
+                    href="/book"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full text-center bg-[#00A896] text-white font-semibold py-4 hover:bg-[#007A6C] transition-colors mb-4"

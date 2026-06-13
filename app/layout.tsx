@@ -9,17 +9,17 @@ const GA_ID = 'G-50JSSQ15K6'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://raprocleaningservices.com'),
-  title: "R A Pro Cleaning Services | Denver's #1 Cleaning Company",
+  title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
   description:
-    'Top-rated cleaning services in Denver, CO. 50+ five-star Google reviews. House cleaning, deep cleaning, move in/out, Airbnb, office & post-construction. Licensed & insured. Get an instant quote!',
+    '5.0-star cleaning services serving Denver, Aurora and the Denver metro. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning.',
   keywords:
-    'cleaning services Denver, house cleaning Denver CO, deep cleaning Denver, move in out cleaning Denver, Airbnb cleaning Denver, office cleaning Denver, post construction cleaning Denver, professional house cleaners Denver, maid service Denver, residential cleaning Denver, commercial cleaning Denver',
+    'cleaning services Denver, house cleaning Aurora CO, cleaning services Aurora, house cleaning Denver CO, deep cleaning Denver, move out cleaning Aurora, Airbnb cleaning Denver, office cleaning Denver',
   alternates: {
     canonical: 'https://raprocleaningservices.com',
   },
   openGraph: {
-    title: "R A Pro Cleaning Services | Denver's #1 Cleaning Company",
-    description: 'Top-rated cleaning services in Denver, CO. 50+ five-star reviews. Instant online quotes!',
+    title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
+    description: '5.0-star cleaning services serving Denver, Aurora and surrounding communities. Get a fast online quote.',
     url: 'https://raprocleaningservices.com',
     siteName: 'R A Pro Cleaning Services',
     locale: 'en_US',
@@ -33,12 +33,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     '@type': 'LocalBusiness',
     '@id': 'https://raprocleaningservices.com',
     name: 'R A Pro Cleaning Services LLC',
-    image: 'https://raprocleaningservices.com/logo.png',
+    image: 'https://raprocleaningservices.com/ra-logo.jpeg',
     description:
       'Top-rated professional cleaning services in Denver, CO. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning. Licensed & insured.',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '1325 S Colorado Blvd, Suite B502',
+      streetAddress: '1325 S Colorado Blvd',
       addressLocality: 'Denver',
       addressRegion: 'CO',
       postalCode: '80222',
@@ -52,15 +52,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     telephone: '+17206778799',
     email: 'ra@raprocleaningservices.com',
     url: 'https://raprocleaningservices.com',
+    sameAs: [
+      'https://www.instagram.com/raprocleaningservice/',
+      'https://www.facebook.com/raprocleaningservice',
+      'https://www.linkedin.com/in/ra-pro-cleaning-service/',
+    ],
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5',
-      reviewCount: '50',
+      reviewCount: '46',
       bestRating: '5',
       worstRating: '1',
     },
     priceRange: '$$',
-    openingHours: 'Mo-Su 07:00-20:00',
+    openingHours: ['Mo-Fr 09:00-17:00', 'Sa-Su 10:00-16:00'],
     areaServed: [
       { '@type': 'City', name: 'Denver', sameAs: 'https://en.wikipedia.org/wiki/Denver' },
       { '@type': 'City', name: 'Aurora' },
@@ -83,7 +88,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airbnb Cleaning', areaServed: 'Denver, CO' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Office Cleaning', areaServed: 'Denver, CO' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Post-Construction Cleaning', areaServed: 'Denver, CO' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carpet Cleaning', areaServed: 'Denver, CO' } },
       ],
     },
   }

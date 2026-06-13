@@ -12,7 +12,7 @@ const faqs = [
   {
     question: 'How much do your services cost?',
     answer:
-      'Deep Cleaning starts at $700, and Standard Cleaning starts at $600. Pricing for other services varies based on square footage, number of rooms, and specific requirements. We provide transparent, upfront quotes with no hidden fees. Contact us for a free, personalized estimate.',
+      'Cleaning services start at $200. Final pricing depends on service type, square footage, home condition, and selected extras. We provide transparent, upfront quotes with no hidden fees.',
   },
   {
     question: 'Are your staff licensed and insured?',
@@ -97,7 +97,7 @@ const FAQ = () => {
             <div className="space-y-4">
               <AfterHoursOnly>
                 <a
-                  href="https://raprocleaningservices.bookingkoala.com"
+                  href="/book"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"

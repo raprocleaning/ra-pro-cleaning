@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const hours = [
-    { day: 'Monday – Friday', hours: '8:00 AM – 6:00 PM' },
-    { day: 'Saturday', hours: '9:00 AM – 5:00 PM' },
-    { day: 'Sunday', hours: 'By appointment' },
+    { day: 'Monday – Friday', hours: '9:00 AM – 5:00 PM' },
+    { day: 'Saturday', hours: '10:00 AM – 4:00 PM' },
+    { day: 'Sunday', hours: '10:00 AM – 4:00 PM' },
   ]
 
   return (
@@ -82,7 +82,7 @@ export default function ContactPage() {
               <div>
                 <p className="text-xs font-semibold text-[#4A6583] uppercase tracking-wider">Our Address</p>
                 <p className="font-bold text-[#0F2240] text-sm">
-                  1325 S Colorado Blvd, Suite B502<br />Denver, CO 80222
+                  1325 S Colorado Blvd<br />Denver, CO 80222
                 </p>
               </div>
             </div>
@@ -176,7 +176,7 @@ export default function ContactPage() {
                   <p className="font-bold text-[#0F2240] mb-2">Ready to book?</p>
                   <p className="text-[#4A6583] text-sm mb-4">Skip the form — book online in 60 seconds.</p>
                   <a
-                    href="https://raprocleaningservices.bookingkoala.com"
+                    href="/book"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-3 text-sm shadow-md"
