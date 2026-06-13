@@ -8,7 +8,7 @@ const services = [
     slug: 'deep-cleaning',
     name: 'Deep Cleaning',
     description: 'Thorough cleaning of every room, surface, and corner. We get to the hard-to-reach spots others miss.',
-    price: 'From $300',
+    price: 'From $200',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -103,17 +103,6 @@ const services = [
       </svg>
     ),
   },
-  {
-    slug: 'carpet-cleaning',
-    name: 'Carpet Cleaning',
-    description: 'Deep extraction cleaning to remove stains, allergens, and embedded dirt — leaving carpets fresh and like new.',
-    price: 'Custom quote',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M3 14h18M10 3v18M14 3v18M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
-      </svg>
-    ),
-  },
 ]
 
 const ServicesGrid = () => {
@@ -173,7 +162,7 @@ const ServicesGrid = () => {
         <AfterHoursOnly>
           <div className="text-center mt-12 fade-in-up">
             <a
-              href="https://raprocleaningservices.bookingkoala.com"
+              href="/book"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-lg"

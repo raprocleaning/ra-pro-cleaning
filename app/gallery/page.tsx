@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import AfterHoursOnly from '@/components/AfterHoursOnly'
 
-const categories = ['All', 'Kitchen', 'Bathroom', 'Living Room', 'Carpet Cleaning']
+const categories = ['All', 'Kitchen', 'Bathroom', 'Living Room']
 
 const galleryItems = [
   { id: 1,  src: '/gallery/kitchen-1.jpg',           category: 'Kitchen',          label: 'Kitchen Deep Clean',        desc: 'Dark wood cabinets, granite island and appliances restored' },
@@ -19,14 +19,6 @@ const galleryItems = [
   { id: 11, src: '/gallery/room-4.jpg',              category: 'Bathroom',         label: 'Artisan Bathroom',          desc: 'Decorative mosaic tile and hand-painted sink polished' },
   { id: 12, src: '/gallery/room-6.jpg',              category: 'Bathroom',         label: 'Bathroom Sanitized',        desc: 'Black granite vanity, sink and toilet fully sanitized' },
   { id: 13, src: '/gallery/room-7.jpg',              category: 'Living Room',      label: 'Wine Storage Clean',        desc: 'Built-in wine rack dusted and wiped down' },
-  { id: 14, src: '/gallery/carpet-living-room-1.jpg', category: 'Carpet Cleaning', label: 'Living Room Carpet',        desc: 'Hot water extraction leaving fresh diamond-pattern finish' },
-  { id: 15, src: '/gallery/carpet-fireplace-room.jpg', category: 'Carpet Cleaning', label: 'Fireplace Room Carpet',   desc: 'Full living room carpet deep-cleaned around fireplace' },
-  { id: 16, src: '/gallery/carpet-living-room-2.jpg', category: 'Carpet Cleaning', label: 'Open Living Area Carpet',  desc: 'Large open-plan carpet restored to like-new condition' },
-  { id: 17, src: '/gallery/carpet-before-after.jpg',  category: 'Carpet Cleaning', label: 'Before & After Clean',     desc: 'Side-by-side result showing dramatic carpet transformation' },
-  { id: 18, src: '/gallery/carpet-stairs.jpg',         category: 'Carpet Cleaning', label: 'Stair Carpet Clean',      desc: 'Carpeted stairs deep-extracted and groomed step by step' },
-  { id: 19, src: '/gallery/carpet-bedroom.jpg',        category: 'Carpet Cleaning', label: 'Bedroom Carpet',          desc: 'Bedroom and hallway carpet freshened with hot water extraction' },
-  { id: 20, src: '/gallery/carpet-hallway.jpg',        category: 'Carpet Cleaning', label: 'Hallway Carpet',          desc: 'High-traffic entry hallway carpet restored and refreshed' },
-  { id: 21, src: '/gallery/carpet-room.jpg',           category: 'Carpet Cleaning', label: 'Room Carpet Refresh',     desc: 'Full room carpet cleaned — stains lifted, fibers restored' },
 ]
 
 export default function GalleryPage() {
@@ -165,7 +157,7 @@ export default function GalleryPage() {
           <p className="text-[#4A6583] mb-8">Book your cleaning today and see the transformation yourself.</p>
           <AfterHoursOnly>
             <a
-              href="https://raprocleaningservices.bookingkoala.com"
+              href="/book"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"

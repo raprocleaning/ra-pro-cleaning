@@ -82,7 +82,7 @@ const Reviews = () => {
             Client Reviews
           </p>
           <h2 className="text-4xl md:text-5xl font-black text-[#0F2240] tracking-tight mb-6">
-            What Denver Says
+            What Denver Metro Says
           </h2>
           <div className="flex flex-col items-center gap-2">
             <div className="flex gap-1">
@@ -93,14 +93,14 @@ const Reviews = () => {
               ))}
             </div>
             <p className="text-[#4A6583] text-base">
-              <span className="font-bold text-[#0F2240]">41</span> Verified Five-Star Google Reviews
+              <span className="font-bold text-[#0F2240]">46</span> Verified Five-Star Google Reviews
             </p>
           </div>
         </div>
 
         {/* Trust Badges */}
         <div className="flex flex-wrap justify-center gap-4 mb-14">
-          {['Licensed & Insured', 'Background-Checked', '5-Star Rated', 'Denver Local'].map((b) => (
+          {['Licensed & Insured', 'Background-Checked', '5-Star Rated', 'Denver Metro Local'].map((b) => (
             <span key={b} className="inline-flex items-center gap-2 bg-white border border-[#B2DFDB] px-4 py-2 text-xs font-semibold text-[#0F2240] tracking-wide shadow-sm">
               <svg className="w-3.5 h-3.5 text-[#00A896]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -204,9 +204,9 @@ const Reviews = () => {
         {/* CTA */}
         <AfterHoursOnly>
           <div className="text-center mt-12">
-            <p className="text-[#4A6583] text-sm mb-4">Join hundreds of satisfied Denver homeowners</p>
+            <p className="text-[#4A6583] text-sm mb-4">Join satisfied homeowners across Denver and Aurora</p>
             <a
-              href="https://raprocleaningservices.bookingkoala.com"
+              href="/book"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-md"

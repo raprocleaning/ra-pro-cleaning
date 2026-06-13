@@ -14,7 +14,7 @@ const services = [
     name: 'Deep Cleaning',
     description:
       'Our most thorough service — every room, surface, and corner gets the full treatment. Ideal for spring cleaning, post-renovation, or homes that need a reset.',
-    price: 'Starting at $300',
+    price: 'Starting at $200',
     badge: 'Most Popular',
   },
   {
@@ -22,7 +22,7 @@ const services = [
     name: 'Standard Cleaning',
     description:
       'Recurring maintenance cleaning that keeps your home consistently clean and welcoming. Choose weekly, bi-weekly, or monthly visits.',
-    price: 'Starting at $600',
+    price: 'Starting at $200',
     badge: 'Best Value',
   },
   {
@@ -80,14 +80,6 @@ const services = [
       'Full bedroom refresh: dusting all surfaces, vacuuming, changing linens, cleaning under furniture, and organizing.',
     price: 'Custom quote',
     badge: null,
-  },
-  {
-    slug: 'carpet-cleaning',
-    name: 'Carpet Cleaning',
-    description:
-      'Hot-water extraction carpet cleaning to remove deep stains, allergens, and embedded dirt. Leaves carpets fresh, soft, and like new.',
-    price: 'Starting at $125',
-    badge: 'Add-On Available',
   },
 ]
 
@@ -168,7 +160,7 @@ export default function ServicesPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <AfterHoursOnly>
               <a
-                href="https://raprocleaningservices.bookingkoala.com"
+                href="/book"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-white text-[#00A896] font-bold px-8 py-4 hover:bg-[#E6F7F5] transition-colors"

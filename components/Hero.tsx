@@ -60,7 +60,7 @@ const Hero = () => {
               >
                 <div className="w-10 h-px bg-[#00A896]" />
                 <span className="text-[#00A896] text-xs font-semibold tracking-[0.35em] uppercase">
-                  Denver&apos;s Premier Cleaning Experience
+                  Denver &amp; Aurora Cleaning Professionals
                 </span>
               </div>
 
@@ -69,7 +69,7 @@ const Hero = () => {
                 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6"
                 style={{ animation: 'fadeInUp 0.7s ease both', animationDelay: '120ms' }}
               >
-                Denver&apos;s Premier<br />
+                Denver Metro&apos;s Trusted<br />
                 <span className="text-[#00A896]">Cleaning</span> &bull;<br />
                 <span className="text-white/90 text-4xl md:text-5xl font-light">Residential &amp; Commercial</span>
               </h1>
@@ -89,7 +89,7 @@ const Hero = () => {
               >
                 {afterHours && (
                   <a
-                    href="https://raprocleaningservices.bookingkoala.com"
+                    href="/book"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold text-base px-10 py-4 rounded-none shadow-lg"
@@ -122,7 +122,7 @@ const Hero = () => {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { value: '50+', label: 'Five-Star Reviews' },
+                { value: '46', label: 'Five-Star Google Reviews' },
                 { value: '100%', label: 'Licensed & Insured' },
                 { value: '5.0★', label: 'Google Rating' },
                 { value: '< 24h', label: 'Quote Response' },
@@ -148,7 +148,7 @@ const Hero = () => {
           }`}
         >
           <a
-            href="https://raprocleaningservices.bookingkoala.com"
+            href="/book"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-book-now flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-4 shadow-2xl text-sm"

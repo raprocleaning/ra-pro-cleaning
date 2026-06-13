@@ -29,7 +29,6 @@ const Navigation = () => {
     { name: 'Office Cleaning', href: '/services/office-cleaning' },
     { name: 'Move In/Out Cleaning', href: '/services/move-in-out' },
     { name: 'Airbnb Cleaning', href: '/services/airbnb-cleaning' },
-    { name: 'Carpet Cleaning', href: '/services/carpet-cleaning' },
   ]
 
   const whyUs = [
@@ -160,7 +159,7 @@ const Navigation = () => {
 
               {afterHours && (
                 <a
-                  href="https://raprocleaningservices.bookingkoala.com"
+                  href="/book"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 shadow-md"
@@ -230,7 +229,7 @@ const Navigation = () => {
           {afterHours && (
             <div className="flex flex-col gap-4">
               <a
-                href="https://raprocleaningservices.bookingkoala.com"
+                href="/book"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-book-now inline-block bg-[#00A896] text-white text-lg font-bold px-8 py-4 shadow-lg text-center"

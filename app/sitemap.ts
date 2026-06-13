@@ -13,7 +13,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'kitchen-cleaning',
     'bathroom-cleaning',
     'bedroom-cleaning',
-    'carpet-cleaning',
   ]
 
   const blogSlugs = [
@@ -30,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/blog`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${BASE_URL}/contact`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/book`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 1.0 },
+    { url: `${BASE_URL}/areas/aurora`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
   ]
 
   const servicePages: MetadataRoute.Sitemap = servicesSlugs.map((slug) => ({

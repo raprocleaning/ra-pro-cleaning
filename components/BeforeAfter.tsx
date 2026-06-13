@@ -10,12 +10,6 @@ const slides = [
     tag: 'Move-Out',
   },
   {
-    label: 'Carpet Restoration',
-    src: '/gallery/carpet-before-after.jpg',
-    desc: 'Hot water extraction lifting deep stains and embedded dirt — looks brand new',
-    tag: 'Carpet',
-  },
-  {
     label: 'Kitchen Deep Clean',
     src: '/gallery/kitchen-1.jpg',
     desc: 'Complete kitchen degreasing — oven, stovetop, cabinets, and floors',

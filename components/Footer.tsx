@@ -36,7 +36,6 @@ const Footer = () => {
     { name: 'Office Cleaning', href: '/services/office-cleaning' },
     { name: 'Move In/Out Cleaning', href: '/services/move-in-out' },
     { name: 'Airbnb Cleaning', href: '/services/airbnb-cleaning' },
-    { name: 'Carpet Cleaning', href: '/services/carpet-cleaning' },
   ]
 
   const company = [
@@ -48,9 +47,9 @@ const Footer = () => {
   ]
 
   const hours = [
-    { day: 'Mon – Fri', hours: '7:00 AM – 8:00 PM' },
-    { day: 'Saturday', hours: '7:00 AM – 8:00 PM' },
-    { day: 'Sunday', hours: '7:00 AM – 8:00 PM' },
+    { day: 'Mon – Fri', hours: '9:00 AM – 5:00 PM' },
+    { day: 'Saturday', hours: '10:00 AM – 4:00 PM' },
+    { day: 'Sunday', hours: '10:00 AM – 4:00 PM' },
   ]
 
   return (
@@ -64,7 +63,7 @@ const Footer = () => {
               <p className="text-white/80 text-sm mt-1">Book online in 60 seconds — no phone call needed.</p>
             </div>
             <a
-              href="https://raprocleaningservices.bookingkoala.com"
+              href="/book"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-[#00A896] font-bold px-8 py-3.5 hover:bg-white/90 transition-colors text-sm flex-shrink-0"
@@ -84,8 +83,8 @@ const Footer = () => {
               <Logo variant="color" className="h-16 w-auto opacity-90" />
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-5 max-w-xs">
-              Denver&apos;s premium cleaning experience. Licensed, insured, and dedicated to
-              exceptional results every time.
+              Premium cleaning across Denver, Aurora, and the surrounding metro. Licensed,
+              insured, and dedicated to exceptional results every time.
             </p>
 
             {/* Address */}
@@ -95,7 +94,7 @@ const Footer = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               <p className="text-white/50 text-sm">
-                1325 S Colorado Blvd, Suite B502<br />Denver, CO 80222
+                1325 S Colorado Blvd<br />Denver, CO 80222
               </p>
             </div>
 
@@ -185,7 +184,7 @@ const Footer = () => {
               {afterHours && (
                 <li>
                   <a
-                    href="https://raprocleaningservices.bookingkoala.com"
+                    href="/book"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-[#00A896] hover:text-[#00C9B5] transition-colors font-semibold"
