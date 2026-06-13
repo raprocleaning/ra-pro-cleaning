@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'House Cleaning Services in Aurora, CO | R A Pro Cleaning',
   description:
-    'Professional house cleaning in Aurora, Colorado. Standard, deep, move in/out, Airbnb, office, and post-construction cleaning starting at $200.',
+    'Professional house cleaning in Aurora, Colorado. Standard, deep, move in/out, Airbnb, office, and post-construction cleaning.',
   alternates: { canonical: 'https://raprocleaningservices.com/areas/aurora' },
 }
 
@@ -31,7 +31,7 @@ export default function AuroraCleaningPage() {
           <p className="text-white/70 text-lg max-w-3xl mb-8">
             R A Pro Cleaning Services provides reliable residential and commercial cleaning
             throughout Aurora. Our licensed, insured, and background-checked team delivers
-            detailed cleaning with transparent prices starting at $200.
+            detailed cleaning with clear communication and personalized quotes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/book" className="bg-[#00A896] text-white font-bold px-8 py-4 text-center">
@@ -74,7 +74,7 @@ export default function AuroraCleaningPage() {
       <section className="py-16 bg-[#00A896] text-center">
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="text-3xl font-black text-white mb-4">Ready for a Cleaner Aurora Home?</h2>
-          <p className="text-white/80 mb-8">Get a clear quote in about 60 seconds. Services start at $200.</p>
+          <p className="text-white/80 mb-8">Get a personalized quote in about 60 seconds.</p>
           <Link href="/book" className="inline-block bg-white text-[#007A6C] font-bold px-9 py-4">
             Get My Quote
           </Link>

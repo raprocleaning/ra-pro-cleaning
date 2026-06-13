@@ -12,7 +12,7 @@ const faqs = [
   {
     question: 'How much do your services cost?',
     answer:
-      'Cleaning services start at $200. Final pricing depends on service type, square footage, home condition, and selected extras. We provide transparent, upfront quotes with no hidden fees.',
+      'Pricing depends on service type, square footage, home condition, and selected extras. Request a free personalized quote with no hidden fees.',
   },
   {
     question: 'Are your staff licensed and insured?',

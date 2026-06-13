@@ -43,7 +43,6 @@ const Footer = () => {
     { name: 'Gallery', href: '/gallery' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Pricing', href: '/#pricing' },
   ]
 
   const hours = [

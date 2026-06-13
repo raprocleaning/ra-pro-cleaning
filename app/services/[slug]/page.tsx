@@ -9,8 +9,6 @@ interface ServiceData {
   tagline: string
   description: string
   longDescription: string
-  price: string
-  priceNote: string
   includes: string[]
   relatedSlugs: string[]
 }
@@ -24,8 +22,6 @@ const servicesData: Record<string, ServiceData> = {
       'Our deep cleaning service covers every inch of your home — from ceiling fans to baseboards, inside appliances, behind furniture, and every surface in between.',
     longDescription:
       "Deep cleaning goes beyond surface-level tidying. We target the buildup that accumulates over time: inside your oven, behind your refrigerator, grout lines in your bathroom tiles, and all the hard-to-reach spots that standard cleaning skips. Ideal for a seasonal reset, after a renovation, or when you're taking over a new home.",
-    price: 'Starting at $200',
-    priceNote: 'Final pricing based on square footage and condition of home.',
     includes: [
       'All rooms: ceiling fans, light fixtures, and vents dusted',
       'Kitchen: inside oven, microwave, refrigerator exterior, all cabinets wiped',
@@ -46,8 +42,6 @@ const servicesData: Record<string, ServiceData> = {
       'Our standard cleaning service maintains your home on a regular schedule. Choose weekly, bi-weekly, or monthly visits for a home that always looks its best.',
     longDescription:
       'Regular cleaning prevents the buildup that makes deep cleaning necessary. Our standard service covers all the essentials: kitchen surfaces, bathroom sanitization, dusting, vacuuming, and mopping. Each visit is consistent, thorough, and tailored to your preferences.',
-    price: 'Starting at $200',
-    priceNote: 'Recurring clients receive priority scheduling and preferred rates.',
     includes: [
       'Kitchen counters, sink, and stovetop cleaned',
       'Exterior of appliances wiped down',
@@ -68,8 +62,6 @@ const servicesData: Record<string, ServiceData> = {
       'Our house cleaning service covers your entire home from top to bottom — kitchen, bathrooms, bedrooms, living areas, and laundry rooms all treated with the same level of care.',
     longDescription:
       'Whether you need a one-time clean or want to set up a regular schedule, our house cleaning service is fully customizable. We work around your schedule and preferences, paying special attention to the areas that matter most to you.',
-    price: 'Custom quote',
-    priceNote: 'Pricing depends on home size and scope. Contact us for a free estimate.',
     includes: [
       'Full kitchen cleaning including all surfaces and appliances',
       'All bathrooms sanitized top to bottom',
@@ -90,8 +82,6 @@ const servicesData: Record<string, ServiceData> = {
       'Professional commercial cleaning for offices, co-working spaces, retail locations, and any business environment that demands a spotless appearance.',
     longDescription:
       'A clean office makes a strong impression on clients and boosts team morale. We offer flexible scheduling including after-hours cleaning so your business is never interrupted. Our commercial team is experienced with a variety of office environments and industries.',
-    price: 'Custom quote',
-    priceNote: 'Pricing based on office size, frequency, and scope of work.',
     includes: [
       'Desks, workstations, and conference rooms cleaned and sanitized',
       'Kitchen and break room: surfaces, appliances, and sink',
@@ -112,8 +102,6 @@ const servicesData: Record<string, ServiceData> = {
       "Whether you're moving in or moving out, our comprehensive cleaning ensures the space meets the highest standards — for your own peace of mind or to satisfy your landlord.",
     longDescription:
       "Moving is stressful enough without worrying about the cleaning. Our move-in/out service is designed to deliver a spotless result that maximizes your security deposit return or ensures your new home feels truly fresh before you unpack.",
-    price: 'Custom quote',
-    priceNote: 'Pricing based on home size. We recommend booking early as availability fills fast.',
     includes: [
       'Inside all cabinets, drawers, and closets',
       'Inside all appliances: oven, refrigerator, microwave, dishwasher',
@@ -134,8 +122,6 @@ const servicesData: Record<string, ServiceData> = {
       'Fast, reliable, and thorough cleaning between guest stays. We handle the turnover so you can focus on hosting — and your guests will arrive to a hotel-quality clean.',
     longDescription:
       'Airbnb guests expect pristine accommodations. Our turnover cleaning service ensures your property is guest-ready every time, from fresh linens to spotless bathrooms. We can coordinate directly with your booking schedule for seamless transitions.',
-    price: 'Custom quote',
-    priceNote: 'Pricing based on property size and number of bedrooms/bathrooms.',
     includes: [
       'Full property clean between every guest',
       'Fresh linens and towels (if provided)',
@@ -156,8 +142,6 @@ const servicesData: Record<string, ServiceData> = {
       'Our specialized kitchen cleaning tackles the grease, grime, and buildup that accumulates in the most-used room in your home.',
     longDescription:
       'Kitchens require specialized attention. Grease builds up on surfaces, food debris hides in corners, and appliances accumulate residue over time. Our kitchen cleaning service gets into every corner, inside every appliance, and leaves your kitchen gleaming.',
-    price: 'Custom quote',
-    priceNote: 'Often included in full house and deep cleaning packages.',
     includes: [
       'Inside oven: racks, door, walls, and floor',
       'Inside microwave and toaster oven',
@@ -178,8 +162,6 @@ const servicesData: Record<string, ServiceData> = {
       'Detailed bathroom sanitization that covers every surface from floor to ceiling. We tackle soap scum, hard water stains, mold, and grime with professional-grade products.',
     longDescription:
       'Bathrooms are the most important room to keep sanitary in your home. Our bathroom cleaning goes beyond a quick wipe — we scrub grout, descale showerheads, sanitize toilets inside and out, polish all fixtures, and leave the space smelling fresh.',
-    price: 'Custom quote',
-    priceNote: 'Often included in full house and deep cleaning packages.',
     includes: [
       'Toilet: bowl, exterior, base, and behind cleaned and sanitized',
       'Shower and tub: grout scrubbed, fixtures descaled',
@@ -200,8 +182,6 @@ const servicesData: Record<string, ServiceData> = {
       'Full bedroom cleaning and refresh — every surface dusted, floors vacuumed, linens changed, and your personal space restored to its best.',
     longDescription:
       'Your bedroom should be a true sanctuary. Our bedroom cleaning ensures every surface is dust-free, the floors are spotless, and the air feels fresh. We pay special attention to often-missed areas like ceiling fans, under the bed, and behind nightstands.',
-    price: 'Custom quote',
-    priceNote: 'Often included in full house and standard cleaning packages.',
     includes: [
       'All surfaces dusted: nightstands, dressers, shelves',
       'Ceiling fan blades and light fixtures cleaned',
@@ -308,9 +288,10 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             {/* Sidebar */}
             <div>
               <div className="bg-[#E6F7F5] p-8 sticky top-28">
-                <h3 className="text-lg font-bold text-[#0F2240] mb-2">Pricing</h3>
-                <p className="text-3xl font-black text-[#00A896] mb-2">{service.price}</p>
-                <p className="text-xs text-[#4A6583] mb-8">{service.priceNote}</p>
+                <h3 className="text-lg font-bold text-[#0F2240] mb-2">Request a Quote</h3>
+                <p className="text-sm text-[#4A6583] mb-8">
+                  Tell us about your space and we&apos;ll provide a personalized quote.
+                </p>
 
                 <AfterHoursOnly>
                   <a
@@ -376,7 +357,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     {rel.name}
                   </h3>
                   <p className="text-[#4A6583] text-sm leading-relaxed mb-4">{rel.description}</p>
-                  <span className="text-[#00A896] text-xs font-semibold">{rel.price}</span>
+                  <span className="text-[#00A896] text-xs font-semibold">View service details</span>
                 </Link>
               ))}
             </div>
