@@ -14,7 +14,6 @@ const services = [
     name: 'Deep Cleaning',
     description:
       'Our most thorough service — every room, surface, and corner gets the full treatment. Ideal for spring cleaning, post-renovation, or homes that need a reset.',
-    price: 'Starting at $200',
     badge: 'Most Popular',
   },
   {
@@ -22,7 +21,6 @@ const services = [
     name: 'Standard Cleaning',
     description:
       'Recurring maintenance cleaning that keeps your home consistently clean and welcoming. Choose weekly, bi-weekly, or monthly visits.',
-    price: 'Starting at $200',
     badge: 'Best Value',
   },
   {
@@ -30,7 +28,6 @@ const services = [
     name: 'House Cleaning',
     description:
       'Complete residential cleaning covering every room in your home — kitchen, bathrooms, bedrooms, living areas, and laundry rooms.',
-    price: 'Custom quote',
     badge: null,
   },
   {
@@ -38,7 +35,6 @@ const services = [
     name: 'Office Cleaning',
     description:
       'Professional commercial cleaning for offices, retail spaces, and workplaces. Keep your team productive and your clients impressed.',
-    price: 'Custom quote',
     badge: null,
   },
   {
@@ -46,7 +42,6 @@ const services = [
     name: 'Move In/Out Cleaning',
     description:
       "Deep clean before or after a move. Leave your old place in perfect condition and start fresh in your new home.",
-    price: 'Custom quote',
     badge: null,
   },
   {
@@ -54,7 +49,6 @@ const services = [
     name: 'Airbnb Cleaning',
     description:
       'Fast, thorough turnover cleaning between guest stays. Maintain your 5-star host rating with a consistently pristine property.',
-    price: 'Custom quote',
     badge: null,
   },
   {
@@ -62,7 +56,6 @@ const services = [
     name: 'Kitchen Cleaning',
     description:
       'Specialized deep clean for your kitchen: appliances inside and out, cabinets, countertops, sink, backsplash, and floors.',
-    price: 'Custom quote',
     badge: null,
   },
   {
@@ -70,7 +63,6 @@ const services = [
     name: 'Bathroom Cleaning',
     description:
       'Detailed bathroom sanitization from floor to ceiling: tiles, grout, toilet, tub, shower, vanity, mirrors, and fixtures.',
-    price: 'Custom quote',
     badge: null,
   },
   {
@@ -78,7 +70,6 @@ const services = [
     name: 'Bedroom Cleaning',
     description:
       'Full bedroom refresh: dusting all surfaces, vacuuming, changing linens, cleaning under furniture, and organizing.',
-    price: 'Custom quote',
     badge: null,
   },
 ]
@@ -130,8 +121,7 @@ export default function ServicesPage() {
                 <p className="text-[#4A6583] text-sm leading-relaxed mb-6">
                   {service.description}
                 </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#00A896] font-semibold text-sm">{service.price}</span>
+                <div className="flex items-center justify-end">
                   <Link
                     href={`/services/${service.slug}`}
                     className="text-sm font-semibold text-[#0F2240] hover:text-[#00A896] transition-colors flex items-center gap-1"
