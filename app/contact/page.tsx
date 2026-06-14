@@ -10,9 +10,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const hours = [
-    { day: 'Monday – Friday', hours: '9:00 AM – 5:00 PM' },
-    { day: 'Saturday', hours: '10:00 AM – 4:00 PM' },
-    { day: 'Sunday', hours: '10:00 AM – 4:00 PM' },
+    { day: 'Monday – Sunday', hours: '9:00 AM – 5:00 PM' },
   ]
 
   return (
