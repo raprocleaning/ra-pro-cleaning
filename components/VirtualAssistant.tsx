@@ -461,6 +461,24 @@ export default function VirtualAssistant() {
       return
     }
 
+    if (step === 'sms-consent') {
+      const digits = text.replace(/\D/g, '')
+      if (digits.length < 10) {
+        addMessages(userMsg, {
+          from: 'bot',
+          text: 'Please choose a texting option above, or enter a valid phone number for phone calls only.',
+        })
+        return
+      }
+      setBooking((b) => ({ ...b, smsOptIn: false, phone: text }))
+      setStep('email')
+      addMessages(userMsg, {
+        from: 'bot',
+        text: "Got it — we'll only call, not text. 📞\n\nWhat's your email address?",
+      })
+      return
+    }
+
     if (step === 'name') {
       if (text.length < 2) {
         addMessages(userMsg, { from: 'bot', text: 'Please enter your full name so we know who to contact.' })
