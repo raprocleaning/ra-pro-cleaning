@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       'Top-rated professional cleaning services in Denver, CO. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning. Licensed & insured.',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '1325 S Colorado Blvd, Suite B502',
+      streetAddress: '1325 S Colorado Blvd',
       addressLocality: 'Denver',
       addressRegion: 'CO',
       postalCode: '80222',
