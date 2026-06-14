@@ -172,6 +172,7 @@ const SERVICES = [
   'Airbnb Cleaning',
   'Office Cleaning',
   'Post-Construction Cleaning',
+  'Carpet Cleaning',
 ]
 
 const SQFT_OPTIONS = [
@@ -254,6 +255,15 @@ export default function VirtualAssistant() {
     if (step === 'service') {
       const userMsg: Message = { from: 'user', text: opt }
       setBooking((b) => ({ ...b, service: opt }))
+
+      if (opt === 'Carpet Cleaning') {
+        setStep('name')
+        addMessages(userMsg, {
+          from: 'bot',
+          text: "Great choice! Carpet cleaning is priced based on the number of rooms and condition. We'll give you a custom quote.\n\nTo get started, what's your full name?",
+        })
+        return
+      }
 
       setStep('sqft')
       addMessages(userMsg, {
@@ -452,6 +462,10 @@ export default function VirtualAssistant() {
     }
 
     if (step === 'name') {
+      if (text.length < 2) {
+        addMessages(userMsg, { from: 'bot', text: 'Please enter your full name so we know who to contact.' })
+        return
+      }
       setBooking((b) => ({ ...b, name: text }))
       setStep('sms-consent')
       addMessages(userMsg, {
@@ -463,6 +477,11 @@ export default function VirtualAssistant() {
     }
 
     if (step === 'phone') {
+      const digits = text.replace(/\D/g, '')
+      if (digits.length < 10) {
+        addMessages(userMsg, { from: 'bot', text: 'Please enter a valid phone number with at least 10 digits.' })
+        return
+      }
       setBooking((b) => ({ ...b, phone: text }))
       setStep('email')
       addMessages(userMsg, { from: 'bot', text: "Great! And what's your email address?" })
@@ -470,15 +489,18 @@ export default function VirtualAssistant() {
     }
 
     if (step === 'email') {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) {
+        addMessages(userMsg, { from: 'bot', text: 'Please enter a valid email address so we can confirm your request.' })
+        return
+      }
       const updatedBooking = { ...booking, email: text } as BookingData
       setBooking(updatedBooking)
-      setStep('done')
       setSubmitting(true)
       addMessages(userMsg)
 
       // Submit to contact API
       try {
-        await fetch('/api/contact', {
+        const response = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -494,10 +516,20 @@ export default function VirtualAssistant() {
             smsOptIn: updatedBooking.smsOptIn === true,
           }),
         })
+        const result = await response.json().catch(() => null)
+        if (!response.ok || !result?.ok) {
+          throw new Error(result?.error || 'Submission failed')
+        }
       } catch {
-        // fail silently
+        setSubmitting(false)
+        addMessages({
+          from: 'bot',
+          text: `I couldn't submit your information yet. Please check your connection and enter your email again to retry, or call us at 720-677-8799.`,
+        })
+        return
       }
 
+      setStep('done')
       setSubmitting(false)
       addMessages({
         from: 'bot',

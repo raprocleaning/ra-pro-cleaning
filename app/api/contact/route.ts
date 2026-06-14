@@ -11,7 +11,18 @@ export async function POST(req: NextRequest) {
       source: bodySource,
     } = body
 
-    const nameParts = (fullName || '').trim().split(/\s+/)
+    const cleanName = typeof fullName === 'string' ? fullName.trim() : ''
+    const cleanPhone = typeof phone === 'string' ? phone.trim() : ''
+    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : ''
+
+    if (!cleanName || !cleanPhone || !cleanEmail) {
+      return NextResponse.json(
+        { ok: false, error: 'Name, phone, and email are required.' },
+        { status: 400 }
+      )
+    }
+
+    const nameParts = cleanName.split(/\s+/)
     const firstName = nameParts[0] || ''
     const lastName  = nameParts.slice(1).join(' ') || ''
 
@@ -26,9 +37,12 @@ export async function POST(req: NextRequest) {
     if (svcTag) tags.push(svcTag)
     if (preferredDate) tags.push('has-preferred-date')
     if (extras?.length) tags.push('has-extras')
-    if (smsOptIn && phone) tags.push('sms-opt-in')   // only tag if user explicitly consented AND provided a number
-    tags.push('needs-follow-up')   // triggers immediate follow-up workflow in HL
-    tags.push('request-review')    // triggers review request workflow after cleaning
+    if (smsOptIn && cleanPhone) {
+      tags.push('sms-opt-in')
+      tags.push('needs-follow-up')
+    } else {
+      tags.push('phone-calls-only')
+    }
 
     // ── Build note ────────────────────────────────────────────────────────────
     const noteLines = [
@@ -44,18 +58,23 @@ export async function POST(req: NextRequest) {
     ].filter(Boolean).join('\n')
 
     // ── 1. Create / update contact in GHL ────────────────────────────────────
+    let crmSaved = false
+    let emailSent = false
+    let crmError = ''
+    let emailError = ''
+
     if (ghlApiKey) {
       const ghlPayload: Record<string, unknown> = {
         firstName,
         lastName,
-        email,
-        phone,
+        email: cleanEmail,
+        phone: cleanPhone,
         locationId,
         source: isAIBooking ? 'AI Chat Widget' : 'Website Contact Form',
         tags,
       }
 
-      const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/', {
+      const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,6 +85,7 @@ export async function POST(req: NextRequest) {
       })
 
       if (ghlRes.ok) {
+        crmSaved = true
         const ghlData = await ghlRes.json()
         const contactId = ghlData?.contact?.id
 
@@ -82,33 +102,52 @@ export async function POST(req: NextRequest) {
           })
         }
       } else {
-        console.error('GHL contact creation failed:', ghlRes.status, await ghlRes.text())
+        crmError = `GHL contact upsert failed (${ghlRes.status}): ${await ghlRes.text()}`
+        console.error(crmError)
       }
     } else {
-      console.warn('GHL_API_KEY not set — skipping GHL contact creation')
+      crmError = 'GHL_API_KEY is not configured'
+      console.warn(crmError)
     }
 
     // ── 2. Formspree email notification ───────────────────────────────────────
     const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/meerbldr'
-    await fetch(formspreeEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: fullName,
-        phone,
-        email,
-        service: service || propertyType,
-        sqft: sqft || squareFootage,
-        price: price ? `$${price}` : 'Custom quote',
-        extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
-        preferredDate: preferredDate || 'Flexible',
-        zip: zipCode,
-        message,
-        source: isAIBooking ? 'AI Chat Widget' : 'Contact Form',
-      }),
-    }).catch(() => {})
+    try {
+      const formspreeRes = await fetch(formspreeEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: cleanName,
+          phone: cleanPhone,
+          email: cleanEmail,
+          service: service || propertyType,
+          sqft: sqft || squareFootage,
+          price: price ? `$${price}` : 'Custom quote',
+          extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
+          preferredDate: preferredDate || 'Flexible',
+          zip: zipCode,
+          message,
+          source: isAIBooking ? 'AI Chat Widget' : 'Contact Form',
+        }),
+      })
+      emailSent = formspreeRes.ok
+      if (!formspreeRes.ok) {
+        emailError = `Formspree notification failed (${formspreeRes.status}): ${await formspreeRes.text()}`
+        console.error(emailError)
+      }
+    } catch (err) {
+      emailError = `Formspree notification failed: ${err instanceof Error ? err.message : 'Unknown error'}`
+      console.error(emailError)
+    }
 
-    return NextResponse.json({ ok: true })
+    if (!crmSaved && !emailSent) {
+      return NextResponse.json(
+        { ok: false, error: 'We could not submit your information. Please try again.', crmError, emailError },
+        { status: 502 }
+      )
+    }
+
+    return NextResponse.json({ ok: true, crmSaved, emailSent })
   } catch (err) {
     console.error('Contact API error:', err)
     return NextResponse.json({ ok: false, error: 'Internal error' }, { status: 500 })
