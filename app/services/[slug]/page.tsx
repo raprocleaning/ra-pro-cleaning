@@ -194,6 +194,26 @@ const servicesData: Record<string, ServiceData> = {
     ],
     relatedSlugs: ['standard-cleaning', 'house-cleaning', 'deep-cleaning'],
   },
+  'post-construction': {
+    slug: 'post-construction',
+    name: 'Post-Construction Cleaning',
+    tagline: 'Remove construction dust and debris so your finished space is ready to use.',
+    description:
+      'Our post-construction cleaning service removes fine dust, debris, residue, and buildup after construction, remodeling, or renovation work.',
+    longDescription:
+      'Construction work can leave fine dust and residue throughout a property. We carefully clean surfaces, fixtures, floors, cabinets, and hard-to-reach areas so the completed space is clean, polished, and ready for occupancy.',
+    includes: [
+      'Fine construction dust removed from surfaces',
+      'Floors vacuumed and mopped',
+      'Cabinets, counters, and fixtures wiped clean',
+      'Interior windows, frames, and sills cleaned',
+      'Baseboards, doors, and trim detailed',
+      'Light debris and labels removed',
+      'Bathrooms and kitchens sanitized',
+      'Final ready-for-occupancy detail cleaning',
+    ],
+    relatedSlugs: ['deep-cleaning', 'office-cleaning', 'move-in-out'],
+  },
 }
 
 export async function generateStaticParams() {

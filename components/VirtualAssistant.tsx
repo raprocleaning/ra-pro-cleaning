@@ -172,7 +172,6 @@ const SERVICES = [
   'Airbnb Cleaning',
   'Office Cleaning',
   'Post-Construction Cleaning',
-  'Carpet Cleaning',
 ]
 
 const SQFT_OPTIONS = [
@@ -255,15 +254,6 @@ export default function VirtualAssistant() {
     if (step === 'service') {
       const userMsg: Message = { from: 'user', text: opt }
       setBooking((b) => ({ ...b, service: opt }))
-
-      if (opt === 'Carpet Cleaning') {
-        setStep('name')
-        addMessages(userMsg, {
-          from: 'bot',
-          text: "Great choice! Carpet cleaning is priced based on the number of rooms and condition. We'll give you a custom quote.\n\nTo get started, what's your full name?",
-        })
-        return
-      }
 
       setStep('sqft')
       addMessages(userMsg, {

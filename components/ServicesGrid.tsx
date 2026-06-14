@@ -65,6 +65,17 @@ const services = [
     ),
   },
   {
+    slug: 'post-construction',
+    name: 'Post-Construction Cleaning',
+    description: 'Detailed cleanup after construction or renovation, including fine dust, debris, fixtures, floors, and surfaces.',
+    price: 'Custom quote',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.7 6.3a1 1 0 010 1.4l-7 7a1 1 0 01-1.4-1.4l7-7a1 1 0 011.4 0zM5 19l2-2m10-12l2-2m-4 4l2 2" />
+      </svg>
+    ),
+  },
+  {
     slug: 'kitchen-cleaning',
     name: 'Kitchen Cleaning',
     description: 'Specialized deep clean for the most-used room in your home — appliances, cabinets, counters, and floors.',

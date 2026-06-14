@@ -83,7 +83,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airbnb Cleaning', areaServed: 'Denver, CO' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Office Cleaning', areaServed: 'Denver, CO' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Post-Construction Cleaning', areaServed: 'Denver, CO' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carpet Cleaning', areaServed: 'Denver, CO' } },
       ],
     },
   }

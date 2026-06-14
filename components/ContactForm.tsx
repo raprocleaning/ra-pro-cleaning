@@ -208,6 +208,7 @@ const ContactForm = () => {
                     <option value="Office Cleaning">Office Cleaning</option>
                     <option value="Move In/Out Cleaning">Move In/Out Cleaning</option>
                     <option value="Airbnb / Short-Term Rental">Airbnb / Short-Term Rental</option>
+                    <option value="Post-Construction Cleaning">Post-Construction Cleaning</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>

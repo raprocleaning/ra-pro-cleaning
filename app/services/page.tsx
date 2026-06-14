@@ -52,6 +52,14 @@ const services = [
     badge: null,
   },
   {
+    slug: 'post-construction',
+    name: 'Post-Construction Cleaning',
+    description:
+      'Detailed cleanup after construction or renovation, including fine dust, debris, fixtures, floors, and surfaces.',
+    price: 'Custom quote',
+    badge: null,
+  },
+  {
     slug: 'kitchen-cleaning',
     name: 'Kitchen Cleaning',
     description:
