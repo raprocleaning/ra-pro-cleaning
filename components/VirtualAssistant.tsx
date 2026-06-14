@@ -740,11 +740,14 @@ export default function VirtualAssistant() {
             <button
               onClick={handleSend}
               disabled={!input.trim() || submitting || step === 'done'}
-              className="w-10 h-10 bg-[#00A896] disabled:opacity-30 hover:bg-[#007A6C] text-white rounded-full flex items-center justify-center transition-colors flex-shrink-0"
+              aria-label={step === 'email' ? 'Submit booking request' : 'Send response'}
+              className={`${step === 'email' ? 'h-10 px-4 text-xs font-bold' : 'w-10 h-10'} bg-[#00A896] disabled:opacity-30 hover:bg-[#007A6C] text-white rounded-full flex items-center justify-center gap-1.5 transition-colors flex-shrink-0`}
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-              </svg>
+              {step === 'email' ? 'Submit Request' : (
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
