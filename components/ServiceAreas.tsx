@@ -58,6 +58,7 @@ export default function ServiceAreas() {
               <Link
                 key={area.name}
                 href="/areas/aurora"
+                data-service-area={area.name}
                 className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
               >
                 {content}
@@ -65,6 +66,7 @@ export default function ServiceAreas() {
             ) : (
               <div
                 key={area.name}
+                data-service-area={area.name}
                 className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
               >
                 {content}

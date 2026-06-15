@@ -1,6 +1,9 @@
 'use client'
 import { ReactNode } from 'react'
+import { useAfterHours } from '@/lib/useAfterHours'
 
 export default function AfterHoursOnly({ children }: { children: ReactNode }) {
-  return <>{children}</>
+  const afterHours = useAfterHours()
+
+  return afterHours ? <>{children}</> : null
 }

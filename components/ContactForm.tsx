@@ -49,8 +49,12 @@ const ContactForm = () => {
         body: JSON.stringify(formData),
       })
       if (res.ok) {
-        trackEvent('quote_form_submit', { service: formData.service || 'Not selected' })
-        trackLead('quote_form', { service: formData.service || 'Not selected' })
+        const leadDetails = {
+          service: formData.service || 'Not selected',
+          customer_zip_code: formData.zipCode || 'Not provided',
+        }
+        trackEvent('quote_form_submit', leadDetails)
+        trackLead('quote_form', leadDetails)
         setStatus('success')
         setFormData({ fullName: '', email: '', phone: '', service: '', zipCode: '', squareFootage: '', message: '', smsOptIn: false })
       } else {
