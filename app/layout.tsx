@@ -61,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       worstRating: '1',
     },
     priceRange: '$$',
-    openingHours: ['Mo-Su 09:00-17:00'],
+    openingHours: ['Mo-Su 00:00-23:59'],
     areaServed: [
       { '@type': 'City', name: 'Denver', sameAs: 'https://en.wikipedia.org/wiki/Denver' },
       { '@type': 'City', name: 'Aurora' },
