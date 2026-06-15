@@ -30,7 +30,7 @@ export default function AuroraCleaningPage() {
           </h1>
           <p className="text-white/70 text-lg max-w-3xl mb-8">
             R A Pro Cleaning Services provides reliable residential and commercial cleaning
-            throughout Aurora. Our licensed, insured, and background-checked team delivers
+            throughout Aurora. Our licensed and insured team delivers
             detailed cleaning with clear communication and personalized quotes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">

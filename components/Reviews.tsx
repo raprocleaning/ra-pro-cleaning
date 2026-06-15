@@ -100,7 +100,7 @@ const Reviews = () => {
 
         {/* Trust Badges */}
         <div className="flex flex-wrap justify-center gap-4 mb-14">
-          {['Licensed & Insured', 'Background-Checked', '5-Star Rated', 'Denver Metro Local'].map((b) => (
+          {['Licensed & Insured', 'Professional Team', '5-Star Rated', 'Denver Metro Local'].map((b) => (
             <span key={b} className="inline-flex items-center gap-2 bg-white border border-[#B2DFDB] px-4 py-2 text-xs font-semibold text-[#0F2240] tracking-wide shadow-sm">
               <svg className="w-3.5 h-3.5 text-[#00A896]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

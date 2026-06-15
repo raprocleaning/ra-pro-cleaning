@@ -20,7 +20,7 @@ const reasons = [
     ),
     title: 'Professional Staff',
     description:
-      'Trained, licensed, insured, and background-checked. Every member of our team is vetted for your peace of mind.',
+      'Trained, licensed, and insured. Every member of our team is committed to professional, respectful service.',
   },
   {
     icon: (

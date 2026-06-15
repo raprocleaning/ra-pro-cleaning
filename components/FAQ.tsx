@@ -17,7 +17,7 @@ const faqs = [
   {
     question: 'Are your staff licensed and insured?',
     answer:
-      'Yes, absolutely. All of our cleaners are fully licensed, insured, and have passed thorough background checks. Your home and belongings are protected, and you can have complete peace of mind when our team is in your space.',
+      'Yes. R A Pro Cleaning Services is licensed and insured, helping protect your home and belongings while our team is working in your space.',
   },
   {
     question: 'What if I have specific preferences or allergies?',

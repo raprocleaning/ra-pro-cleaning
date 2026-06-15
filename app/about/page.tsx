@@ -30,7 +30,7 @@ const values = [
   },
   {
     title: 'Trust',
-    description: 'We are fully licensed, insured, and background-checked. Your home and safety are our priority.',
+    description: 'We are fully licensed and insured. Your home and safety are our priority.',
   },
   {
     title: 'Transparency',
@@ -216,7 +216,7 @@ export default function AboutPage() {
             Fully Licensed &amp; Insured
           </h2>
           <p className="text-white/60 max-w-xl mx-auto mb-10">
-            Every member of our team is background-checked, licensed, and covered by full liability
+            Our professional team is licensed and covered by full liability
             insurance. Your home and your peace of mind are fully protected.
           </p>
           <AfterHoursOnly>

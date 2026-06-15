@@ -341,7 +341,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     We Are
                   </p>
                   <ul className="space-y-2">
-                    {['Licensed & Insured', 'Background Checked', 'Locally Owned', '5-Star Rated'].map((badge) => (
+                    {['Licensed & Insured', 'Professional Team', 'Locally Owned', '5-Star Rated'].map((badge) => (
                       <li key={badge} className="flex items-center gap-2 text-sm text-[#4A6583]">
                         <div className="w-4 h-4 bg-[#00A896] flex items-center justify-center flex-shrink-0">
                           <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

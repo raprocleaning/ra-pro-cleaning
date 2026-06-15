@@ -4,6 +4,7 @@ import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import VirtualAssistant from '@/components/VirtualAssistant'
+import ConversionTracking from '@/components/ConversionTracking'
 
 const GA_ID = 'G-50JSSQ15K6'
 
@@ -113,6 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Footer />
         <VirtualAssistant />
+        <ConversionTracking />
       </body>
     </html>
   )

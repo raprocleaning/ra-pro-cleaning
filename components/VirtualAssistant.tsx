@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import { useAfterHours } from '@/lib/useAfterHours'
+import { trackEvent, trackLead } from '@/lib/analytics'
 
 // ─── PRICING TABLES ──────────────────────────────────────────────────────────
 // Standard: 10% below Denver market rate (base)
@@ -539,6 +540,8 @@ export default function VirtualAssistant() {
 
       setStep('done')
       setSubmitting(false)
+      trackEvent('ai_assistant_lead_submit', { service: updatedBooking.service || 'Not selected' })
+      trackLead('ai_assistant', { service: updatedBooking.service || 'Not selected' })
       addMessages({
         from: 'bot',
         text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll ${updatedBooking.smsOptIn ? 'call or text' : 'call'} you at ${updatedBooking.phone} within 24 hours to confirm.${updatedBooking.smsOptIn ? '\n\n⭐ After your clean, we\'ll send a quick text to ask how we did and schedule your next one!' : ''}\n\nOr book online right now:`,
