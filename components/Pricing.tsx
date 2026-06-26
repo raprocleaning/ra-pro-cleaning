@@ -3,27 +3,27 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useAfterHours } from '@/lib/useAfterHours'
 
-// Prices match VirtualAssistant.tsx exactly:
-//   Standard — base rates
-//   Deep      — Standard × 1.30
-//   Move In/Out — Standard × 1.50
-//   Airbnb    — same as Standard (turnover clean)
+// Prices match BookingKoala exactly for Standard/Airbnb.
+//   Deep      — Standard × 1.30, with a $300 minimum
+//   Move In/Out — Standard × 1.50, with a $300 minimum
 //   Post-Construction — $0.20 / sq ft (tier midpoint)
 const sqftTiers = [
-  { range: '1 – 1,249 sq ft',     standard: 200, deep: 200, moveInOut: 235, airbnb: 200, postConstruction: 200  },
-  { range: '1,250 – 1,499 sq ft', standard: 200, deep: 230, moveInOut: 265, airbnb: 200, postConstruction: 275  },
-  { range: '1,500 – 1,799 sq ft', standard: 200, deep: 255, moveInOut: 295, airbnb: 200, postConstruction: 330  },
-  { range: '1,800 – 2,099 sq ft', standard: 215, deep: 280, moveInOut: 325, airbnb: 215, postConstruction: 390  },
-  { range: '2,100 – 2,399 sq ft', standard: 235, deep: 305, moveInOut: 355, airbnb: 235, postConstruction: 450  },
-  { range: '2,400 – 2,699 sq ft', standard: 250, deep: 325, moveInOut: 375, airbnb: 250, postConstruction: 510  },
-  { range: '2,700 – 2,999 sq ft', standard: 270, deep: 350, moveInOut: 405, airbnb: 270, postConstruction: 570  },
-  { range: '3,000 – 3,299 sq ft', standard: 290, deep: 380, moveInOut: 435, airbnb: 290, postConstruction: 630  },
-  { range: '3,300 – 3,599 sq ft', standard: 300, deep: 390, moveInOut: 450, airbnb: 300, postConstruction: 690  },
-  { range: '3,600 – 3,899 sq ft', standard: 320, deep: 415, moveInOut: 480, airbnb: 320, postConstruction: 750  },
-  { range: '3,900 – 4,199 sq ft', standard: 335, deep: 435, moveInOut: 505, airbnb: 335, postConstruction: 810  },
-  { range: '4,200 – 4,499 sq ft', standard: 345, deep: 450, moveInOut: 520, airbnb: 345, postConstruction: 870  },
-  { range: '4,500 – 4,799 sq ft', standard: 360, deep: 470, moveInOut: 540, airbnb: 360, postConstruction: 930  },
-  { range: '4,800+ sq ft',        standard: 375, deep: 490, moveInOut: 565, airbnb: 375, postConstruction: 1100 },
+  { range: '0 – 999 sq ft',       standard: 200, deep: 300,  moveInOut: 300,  airbnb: 200, postConstruction: 200  },
+  { range: '1,000 – 1,249 sq ft', standard: 250, deep: 325,  moveInOut: 375,  airbnb: 250, postConstruction: 225  },
+  { range: '1,250 – 1,499 sq ft', standard: 330, deep: 430,  moveInOut: 495,  airbnb: 330, postConstruction: 275  },
+  { range: '1,500 – 1,799 sq ft', standard: 380, deep: 495,  moveInOut: 570,  airbnb: 380, postConstruction: 330  },
+  { range: '1,800 – 2,099 sq ft', standard: 476, deep: 620,  moveInOut: 715,  airbnb: 476, postConstruction: 390  },
+  { range: '2,100 – 2,399 sq ft', standard: 460, deep: 600,  moveInOut: 690,  airbnb: 460, postConstruction: 450  },
+  { range: '2,400 – 2,699 sq ft', standard: 490, deep: 640,  moveInOut: 735,  airbnb: 490, postConstruction: 510  },
+  { range: '2,700 – 2,999 sq ft', standard: 540, deep: 700,  moveInOut: 810,  airbnb: 540, postConstruction: 570  },
+  { range: '3,000 – 3,299 sq ft', standard: 570, deep: 740,  moveInOut: 855,  airbnb: 570, postConstruction: 630  },
+  { range: '3,300 – 3,599 sq ft', standard: 600, deep: 780,  moveInOut: 900,  airbnb: 600, postConstruction: 690  },
+  { range: '3,600 – 3,899 sq ft', standard: 640, deep: 830,  moveInOut: 960,  airbnb: 640, postConstruction: 750  },
+  { range: '3,900 – 4,199 sq ft', standard: 690, deep: 900,  moveInOut: 1035, airbnb: 690, postConstruction: 810  },
+  { range: '4,200 – 4,499 sq ft', standard: 720, deep: 935,  moveInOut: 1080, airbnb: 720, postConstruction: 870  },
+  { range: '4,500 – 4,799 sq ft', standard: 760, deep: 990,  moveInOut: 1140, airbnb: 760, postConstruction: 930  },
+  { range: '4,800 – 4,999 sq ft', standard: 800, deep: 1040, moveInOut: 1200, airbnb: 800, postConstruction: 980  },
+  { range: '5,000+ sq ft',        standard: 830, deep: 1080, moveInOut: 1245, airbnb: 830, postConstruction: 1100 },
 ]
 
 const serviceTypes = [
