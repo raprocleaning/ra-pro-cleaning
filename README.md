@@ -18,6 +18,15 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### 3. Testing
+
+- `npm run lint` — TypeScript type check (`tsc --noEmit`).
+- `npm run test` — Vitest unit + component tests (React Testing Library).
+- `npm run test:watch` — Vitest in watch mode.
+- `npm run test:e2e` — Playwright end-to-end tests (starts a dev server automatically).
+
+Vitest specs live in `tests/**/*.test.ts(x)`. Playwright specs live in `tests/e2e/*.spec.ts`.
+
 ---
 
 ## Project Structure
