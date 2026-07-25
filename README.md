@@ -1,13 +1,12 @@
 # R A Pro Cleaning Services — Next.js Website
 
-Denver's premium cleaning experience. Built with Next.js 14 (App Router), Tailwind CSS, and TypeScript.
+Denver's premium cleaning experience. Built with Next.js 16 (App Router), Tailwind CSS, and TypeScript.
 
 ## Getting Started
 
 ### 1. Install dependencies
 
 ```bash
-cd /Users/houda/ra-pro-cleaning
 npm install
 ```
 
@@ -63,14 +62,12 @@ ra-pro-cleaning/
 
 ## Key Configuration
 
-### Contact Form (Formspree)
-The contact form in `components/ContactForm.tsx` uses Formspree. To activate:
-1. Create a free account at [formspree.io](https://formspree.io)
-2. Create a new form and copy the form ID
-3. Replace `YOUR_FORM_ID` in `ContactForm.tsx` with your actual form ID:
-   ```
-   https://formspree.io/f/YOUR_ACTUAL_FORM_ID
-   ```
+### Contact Form
+The contact form posts to `/api/contact` (`app/api/contact/route.ts`), which:
+1. Upserts the lead into GoHighLevel CRM (requires `GHL_API_KEY` env var).
+2. Sends an email notification via Formspree (`FORMSPREE_ENDPOINT` env var; defaults to the current form).
+
+See `.env.example` for the required environment variables.
 
 ### Adding Real Photos
 The hero background currently uses a CSS gradient. To replace with a real image:
@@ -161,10 +158,10 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX        # Google Tag Manager
 
 ## Tech Stack
 
-- **Framework:** Next.js 14 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **Styling:** Tailwind CSS 3
 - **Language:** TypeScript
 - **Animations:** CSS transitions + Intersection Observer API
 - **Fonts:** Inter (Google Fonts)
-- **Forms:** Formspree (replace endpoint)
+- **Forms:** GoHighLevel CRM + Formspree email notification (via `/api/contact`)
 - **SEO:** Native Next.js Metadata API + LocalBusiness JSON-LD schema

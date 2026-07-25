@@ -30,3 +30,6 @@ yarn-error.log*
 # Claude
 .claude/
 dev-server.js
+
+# TypeScript
+tsconfig.tsbuildinfo
