@@ -177,7 +177,7 @@ export default function BookPageClient() {
           </p>
           <AfterHoursOnly>
             <a
-              href="/book"
+              href="https://raprocleaningservices.bookingkoala.com"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 hover:bg-[#007A6C] transition-colors"
