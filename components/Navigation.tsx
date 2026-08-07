@@ -160,7 +160,7 @@ const Navigation = () => {
 
               {afterHours && (
                 <a
-                  href="/book"
+                href="https://link.fastpaydirect.com/payment-link/6a763f41e6d1fa40e99bb55a"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 shadow-md"
@@ -227,18 +227,19 @@ const Navigation = () => {
               </Link>
             ))}
           </div>
-          {afterHours && (
-            <div className="flex flex-col gap-4">
-              <a
-                href="/book"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-book-now inline-block bg-[#00A896] text-white text-lg font-bold px-8 py-4 shadow-lg text-center"
-              >
-                Book Now &rarr;
-              </a>
-            </div>
-          )}
+        {afterHours && (
+  <div className="flex flex-col gap-4">
+    <a
+      href="https://link.fastpaydirect.com/payment-link/6a763f41e6d1fa40e99bb55a"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn-book-now inline-block bg-[#00A896] text-white text-lg font-bold px-8 py-4 shadow-lg text-center"
+    >
+      Book Now &rarr;
+    </a>
+  </div>
+)}
+          
         </div>
       </div>
     </>
