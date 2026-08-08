@@ -175,16 +175,14 @@ export default function BookPageClient() {
           <p className="text-white/50 text-sm mb-8">
             &ldquo;Fast response, friendly team, easy scheduling, and truly top-quality work.&rdquo;
           </p>
-          <AfterHoursOnly>
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 hover:bg-[#007A6C] transition-colors"
-            >
-              Book Online Now →
-            </a>
-          </AfterHoursOnly>
+          <a
+            href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 hover:bg-[#007A6C] transition-colors"
+          >
+            Book Online Now →
+          </a>
         </div>
       </section>
     </main>

@@ -328,7 +328,7 @@ export default function VirtualAssistant() {
           options: SERVICES,
         })
       } else if (opt === 'I want to book online directly') {
-        window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+        window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: "Booking page opened! 🎉 We'll see you there. Any other questions?",
@@ -563,7 +563,7 @@ export default function VirtualAssistant() {
     }
 
     if (text === 'Book Online Now →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
       return
     }
 
@@ -585,7 +585,7 @@ export default function VirtualAssistant() {
 
   const handleOptionClick = (opt: string) => {
     if (opt === 'Book Online Now →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
       addMessages({ from: 'user', text: opt }, {
         from: 'bot',
         text: "Opening booking page... 🎉 See you there!",
@@ -614,10 +614,9 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING BOOK NOW BUTTON → BookingKoala (after-hours only) ─── */}
-      {afterHours && (
+      {/* ── FLOATING BOOK NOW BUTTON → HighLevel ─── */}
       <a
-        href="https://raprocleaningservices.bookingkoala.com"
+        href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
@@ -629,7 +628,6 @@ export default function VirtualAssistant() {
         </svg>
         Book Now
       </a>
-      )}
 
       {/* ── FLOATING AI QUOTE CHAT BUTTON (after-hours only) ──────────── */}
       {afterHours && (
