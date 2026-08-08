@@ -31,10 +31,10 @@ const serviceTypes = [
 ]
 
 const frequencies = [
-  { label: 'One-Time', discount: 0, badge: null },
-  { label: 'Monthly', discount: 0, badge: null },
-  { label: 'Bi-Weekly', discount: 5, badge: '5% OFF' },
-  { label: 'Weekly', discount: 10, badge: '10% OFF' },
+  { label: 'One-Time',      discount: 0,  badge: null },
+  { label: 'Every 4 Weeks', discount: 30, badge: '30% OFF' },
+  { label: 'Bi-Weekly',     discount: 30, badge: '30% OFF' },
+  { label: 'Weekly',        discount: 40, badge: '40% OFF' },
 ]
 
 type ServiceKey = 'standard' | 'deep' | 'moveInOut' | 'airbnb' | 'postConstruction'
@@ -154,8 +154,8 @@ export default function Pricing() {
               </svg>
             </div>
             <div>
-              <p className="font-bold text-[#0F2240] text-sm">Bi-Weekly Service</p>
-              <p className="text-[#4A6583] text-sm">Save <span className="text-[#00A896] font-bold">5%</span> on every cleaning when you schedule every 2 weeks</p>
+              <p className="font-bold text-[#0F2240] text-sm">Bi-Weekly / Every 4 Weeks</p>
+              <p className="text-[#4A6583] text-sm">Save <span className="text-[#00A896] font-bold">30%</span> on every cleaning with a recurring schedule</p>
             </div>
           </div>
           <div className="bg-[#0F2240] p-6 flex items-center gap-4">
@@ -166,7 +166,7 @@ export default function Pricing() {
             </div>
             <div>
               <p className="font-bold text-white text-sm">Weekly Service</p>
-              <p className="text-white/70 text-sm">Save <span className="text-[#00A896] font-bold">10%</span> on every cleaning when you schedule weekly</p>
+              <p className="text-white/70 text-sm">Save <span className="text-[#00A896] font-bold">40%</span> on every cleaning when you schedule weekly</p>
             </div>
           </div>
         </div>
