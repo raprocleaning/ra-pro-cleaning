@@ -3,12 +3,11 @@ import { useEffect } from 'react'
 import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const SERVICES = [
-  { name: 'Standard Cleaning',       icon: '🏠', from: 200,  desc: 'Regular maintenance clean' },
-  { name: 'Deep Cleaning',           icon: '✨', from: 200,  desc: 'Top-to-bottom thorough clean' },
-  { name: 'Move In/Out Cleaning',    icon: '📦', from: 235,  desc: 'Full clean for transitions' },
-  { name: 'Airbnb Cleaning',         icon: '🛎️', from: 200,  desc: 'Fast turnovers, 5-star ready' },
-  { name: 'Office Cleaning',         icon: '🏢', from: 200,  desc: 'Professional commercial clean' },
-  { name: 'Post-Construction',       icon: '🔨', from: 200,  desc: '$0.20/sqft — debris & dust' },
+  { name: 'Standard Cleaning',       icon: '🏠', range: '$200 – $830', desc: 'Regular maintenance clean' },
+  { name: 'Deep Cleaning',           icon: '✨', range: '$200 – $830', desc: 'Top-to-bottom thorough clean' },
+  { name: 'Move In/Out Cleaning',    icon: '📦', range: '$300 – $930', desc: 'Full clean for transitions' },
+  { name: 'Airbnb Cleaning',         icon: '🛎️', range: '$200 – $830', desc: 'Fast turnovers, 5-star ready' },
+  { name: 'Post-Construction Clean', icon: '🔨', range: '$200 – $830', desc: 'Debris, dust & deep scrub' },
 ]
 
 export default function BookPageClient() {
@@ -84,11 +83,7 @@ export default function BookPageClient() {
                   {s.name}
                 </p>
                 <p className="text-[#4A6583] text-xs mb-2">{s.desc}</p>
-                {s.from ? (
-                  <p className="text-[#00A896] font-black text-sm">From ${s.from}</p>
-                ) : (
-                  <p className="text-[#00A896] font-black text-sm">Custom quote</p>
-                )}
+                <p className="text-[#00A896] font-black text-sm">{s.range}</p>
               </button>
             ))}
           </div>
@@ -175,16 +170,14 @@ export default function BookPageClient() {
           <p className="text-white/50 text-sm mb-8">
             &ldquo;Fast response, friendly team, easy scheduling, and truly top-quality work.&rdquo;
           </p>
-          <AfterHoursOnly>
-            <a
-              href="https://raprocleaningservices.bookingkoala.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 hover:bg-[#007A6C] transition-colors"
-            >
-              Book Online Now →
-            </a>
-          </AfterHoursOnly>
+          <a
+            href="https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 hover:bg-[#007A6C] transition-colors"
+          >
+            Book Online Now →
+          </a>
         </div>
       </section>
     </main>

@@ -31,7 +31,7 @@ export default function ConversionTracking() {
       if (href.startsWith('tel:')) {
         trackEvent('phone_call_click', { phone_number: '720-677-8799' })
         trackLead('phone_call')
-      } else if (href.includes('bookingkoala.com')) {
+      } else if (href.includes('leadconnectorhq.com') || href.includes('bookingkoala.com')) {
         trackEvent('booking_click', { destination: href })
         trackLead('booking_click')
       }

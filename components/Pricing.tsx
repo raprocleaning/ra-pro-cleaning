@@ -3,27 +3,23 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useAfterHours } from '@/lib/useAfterHours'
 
-// Prices match BookingKoala exactly for Standard/Airbnb.
-//   Deep      — Standard × 1.30, with a $300 minimum
-//   Move In/Out — Standard × 1.50, with a $300 minimum
-//   Post-Construction — $0.20 / sq ft (tier midpoint)
 const sqftTiers = [
-  { range: '0 – 999 sq ft',       standard: 200, deep: 300,  moveInOut: 300,  airbnb: 200, postConstruction: 200  },
-  { range: '1,000 – 1,249 sq ft', standard: 250, deep: 325,  moveInOut: 375,  airbnb: 250, postConstruction: 225  },
-  { range: '1,250 – 1,499 sq ft', standard: 330, deep: 430,  moveInOut: 495,  airbnb: 330, postConstruction: 275  },
-  { range: '1,500 – 1,799 sq ft', standard: 380, deep: 495,  moveInOut: 570,  airbnb: 380, postConstruction: 330  },
-  { range: '1,800 – 2,099 sq ft', standard: 476, deep: 620,  moveInOut: 715,  airbnb: 476, postConstruction: 390  },
-  { range: '2,100 – 2,399 sq ft', standard: 460, deep: 600,  moveInOut: 690,  airbnb: 460, postConstruction: 450  },
-  { range: '2,400 – 2,699 sq ft', standard: 490, deep: 640,  moveInOut: 735,  airbnb: 490, postConstruction: 510  },
-  { range: '2,700 – 2,999 sq ft', standard: 540, deep: 700,  moveInOut: 810,  airbnb: 540, postConstruction: 570  },
-  { range: '3,000 – 3,299 sq ft', standard: 570, deep: 740,  moveInOut: 855,  airbnb: 570, postConstruction: 630  },
-  { range: '3,300 – 3,599 sq ft', standard: 600, deep: 780,  moveInOut: 900,  airbnb: 600, postConstruction: 690  },
-  { range: '3,600 – 3,899 sq ft', standard: 640, deep: 830,  moveInOut: 960,  airbnb: 640, postConstruction: 750  },
-  { range: '3,900 – 4,199 sq ft', standard: 690, deep: 900,  moveInOut: 1035, airbnb: 690, postConstruction: 810  },
-  { range: '4,200 – 4,499 sq ft', standard: 720, deep: 935,  moveInOut: 1080, airbnb: 720, postConstruction: 870  },
-  { range: '4,500 – 4,799 sq ft', standard: 760, deep: 990,  moveInOut: 1140, airbnb: 760, postConstruction: 930  },
-  { range: '4,800 – 4,999 sq ft', standard: 800, deep: 1040, moveInOut: 1200, airbnb: 800, postConstruction: 980  },
-  { range: '5,000+ sq ft',        standard: 830, deep: 1080, moveInOut: 1245, airbnb: 830, postConstruction: 1100 },
+  { range: '0 – 999 sq ft',       standard: 200, deep: 200, moveInOut: 300, airbnb: 200, postConstruction: 200 },
+  { range: '1,000 – 1,249 sq ft', standard: 250, deep: 250, moveInOut: 350, airbnb: 250, postConstruction: 250 },
+  { range: '1,250 – 1,499 sq ft', standard: 330, deep: 330, moveInOut: 430, airbnb: 330, postConstruction: 330 },
+  { range: '1,500 – 1,799 sq ft', standard: 380, deep: 380, moveInOut: 480, airbnb: 380, postConstruction: 380 },
+  { range: '1,800 – 2,099 sq ft', standard: 460, deep: 460, moveInOut: 560, airbnb: 460, postConstruction: 460 },
+  { range: '2,100 – 2,399 sq ft', standard: 470, deep: 470, moveInOut: 570, airbnb: 470, postConstruction: 470 },
+  { range: '2,400 – 2,699 sq ft', standard: 490, deep: 490, moveInOut: 590, airbnb: 490, postConstruction: 490 },
+  { range: '2,700 – 2,999 sq ft', standard: 540, deep: 540, moveInOut: 640, airbnb: 540, postConstruction: 540 },
+  { range: '3,000 – 3,299 sq ft', standard: 570, deep: 570, moveInOut: 670, airbnb: 570, postConstruction: 570 },
+  { range: '3,300 – 3,599 sq ft', standard: 600, deep: 600, moveInOut: 700, airbnb: 600, postConstruction: 600 },
+  { range: '3,600 – 3,899 sq ft', standard: 640, deep: 640, moveInOut: 740, airbnb: 640, postConstruction: 640 },
+  { range: '3,900 – 4,199 sq ft', standard: 690, deep: 690, moveInOut: 790, airbnb: 690, postConstruction: 690 },
+  { range: '4,200 – 4,499 sq ft', standard: 720, deep: 720, moveInOut: 820, airbnb: 720, postConstruction: 720 },
+  { range: '4,500 – 4,799 sq ft', standard: 760, deep: 760, moveInOut: 860, airbnb: 760, postConstruction: 760 },
+  { range: '4,800 – 4,999 sq ft', standard: 800, deep: 800, moveInOut: 900, airbnb: 800, postConstruction: 800 },
+  { range: '5,000+ sq ft',        standard: 830, deep: 830, moveInOut: 930, airbnb: 830, postConstruction: 830 },
 ]
 
 const serviceTypes = [
@@ -35,10 +31,10 @@ const serviceTypes = [
 ]
 
 const frequencies = [
-  { label: 'One-Time', discount: 0, badge: null },
-  { label: 'Monthly', discount: 0, badge: null },
-  { label: 'Bi-Weekly', discount: 5, badge: '5% OFF' },
-  { label: 'Weekly', discount: 10, badge: '10% OFF' },
+  { label: 'One-Time',      discount: 0,  badge: null },
+  { label: 'Every 4 Weeks', discount: 30, badge: '30% OFF' },
+  { label: 'Bi-Weekly',     discount: 30, badge: '30% OFF' },
+  { label: 'Weekly',        discount: 40, badge: '40% OFF' },
 ]
 
 type ServiceKey = 'standard' | 'deep' | 'moveInOut' | 'airbnb' | 'postConstruction'
@@ -158,8 +154,8 @@ export default function Pricing() {
               </svg>
             </div>
             <div>
-              <p className="font-bold text-[#0F2240] text-sm">Bi-Weekly Service</p>
-              <p className="text-[#4A6583] text-sm">Save <span className="text-[#00A896] font-bold">5%</span> on every cleaning when you schedule every 2 weeks</p>
+              <p className="font-bold text-[#0F2240] text-sm">Bi-Weekly / Every 4 Weeks</p>
+              <p className="text-[#4A6583] text-sm">Save <span className="text-[#00A896] font-bold">30%</span> on every cleaning with a recurring schedule</p>
             </div>
           </div>
           <div className="bg-[#0F2240] p-6 flex items-center gap-4">
@@ -170,7 +166,7 @@ export default function Pricing() {
             </div>
             <div>
               <p className="font-bold text-white text-sm">Weekly Service</p>
-              <p className="text-white/70 text-sm">Save <span className="text-[#00A896] font-bold">10%</span> on every cleaning when you schedule weekly</p>
+              <p className="text-white/70 text-sm">Save <span className="text-[#00A896] font-bold">40%</span> on every cleaning when you schedule weekly</p>
             </div>
           </div>
         </div>

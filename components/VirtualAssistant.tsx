@@ -4,122 +4,50 @@ import { useAfterHours } from '@/lib/useAfterHours'
 import { trackEvent, trackLead } from '@/lib/analytics'
 
 // ─── PRICING TABLES ──────────────────────────────────────────────────────────
-// Prices match BookingKoala exactly for Standard/Airbnb.
-// Deep Clean: Standard × 1.30, with a $300 minimum, rounded to nearest $5
-// Move In/Out: Standard × 1.50, with a $300 minimum, rounded to nearest $5
-// Post-Construction: $0.20 per sqft (tier midpoint)
+const BASE_TIERS = [
+  { max: 999,      price: 200 },
+  { max: 1249,     price: 250 },
+  { max: 1499,     price: 330 },
+  { max: 1799,     price: 380 },
+  { max: 2099,     price: 460 },
+  { max: 2399,     price: 470 },
+  { max: 2699,     price: 490 },
+  { max: 2999,     price: 540 },
+  { max: 3299,     price: 570 },
+  { max: 3599,     price: 600 },
+  { max: 3899,     price: 640 },
+  { max: 4199,     price: 690 },
+  { max: 4499,     price: 720 },
+  { max: 4799,     price: 760 },
+  { max: 4999,     price: 800 },
+  { max: Infinity, price: 830 },
+]
+
+const MOVE_TIERS = [
+  { max: 999,      price: 300 },
+  { max: 1249,     price: 350 },
+  { max: 1499,     price: 430 },
+  { max: 1799,     price: 480 },
+  { max: 2099,     price: 560 },
+  { max: 2399,     price: 570 },
+  { max: 2699,     price: 590 },
+  { max: 2999,     price: 640 },
+  { max: 3299,     price: 670 },
+  { max: 3599,     price: 700 },
+  { max: 3899,     price: 740 },
+  { max: 4199,     price: 790 },
+  { max: 4499,     price: 820 },
+  { max: 4799,     price: 860 },
+  { max: 4999,     price: 900 },
+  { max: Infinity, price: 930 },
+]
+
 const PRICING: Record<string, { max: number; price: number }[]> = {
-  'Standard Cleaning': [
-    { max: 999,      price: 200 },
-    { max: 1249,     price: 250 },
-    { max: 1499,     price: 330 },
-    { max: 1799,     price: 380 },
-    { max: 2099,     price: 476 },
-    { max: 2399,     price: 460 },
-    { max: 2699,     price: 490 },
-    { max: 2999,     price: 540 },
-    { max: 3299,     price: 570 },
-    { max: 3599,     price: 600 },
-    { max: 3899,     price: 640 },
-    { max: 4199,     price: 690 },
-    { max: 4499,     price: 720 },
-    { max: 4799,     price: 760 },
-    { max: 4999,     price: 800 },
-    { max: Infinity, price: 830 },
-  ],
-  // Standard × 1.30, rounded to nearest $5, with a $300 minimum
-  'Deep Cleaning': [
-    { max: 999,      price: 300 },
-    { max: 1249,     price: 325 },
-    { max: 1499,     price: 430 },
-    { max: 1799,     price: 495 },
-    { max: 2099,     price: 620 },
-    { max: 2399,     price: 600 },
-    { max: 2699,     price: 640 },
-    { max: 2999,     price: 700 },
-    { max: 3299,     price: 740 },
-    { max: 3599,     price: 780 },
-    { max: 3899,     price: 830 },
-    { max: 4199,     price: 900 },
-    { max: 4499,     price: 935 },
-    { max: 4799,     price: 990 },
-    { max: 4999,     price: 1040 },
-    { max: Infinity, price: 1080 },
-  ],
-  // Standard × 1.50, rounded to nearest $5, with a $300 minimum
-  'Move In/Out Cleaning': [
-    { max: 999,      price: 300 },
-    { max: 1249,     price: 375 },
-    { max: 1499,     price: 495 },
-    { max: 1799,     price: 570 },
-    { max: 2099,     price: 715 },
-    { max: 2399,     price: 690 },
-    { max: 2699,     price: 735 },
-    { max: 2999,     price: 810 },
-    { max: 3299,     price: 855 },
-    { max: 3599,     price: 900 },
-    { max: 3899,     price: 960 },
-    { max: 4199,     price: 1035 },
-    { max: 4499,     price: 1080 },
-    { max: 4799,     price: 1140 },
-    { max: 4999,     price: 1200 },
-    { max: Infinity, price: 1245 },
-  ],
-  'Airbnb Cleaning': [
-    { max: 999,      price: 200 },
-    { max: 1249,     price: 250 },
-    { max: 1499,     price: 330 },
-    { max: 1799,     price: 380 },
-    { max: 2099,     price: 476 },
-    { max: 2399,     price: 460 },
-    { max: 2699,     price: 490 },
-    { max: 2999,     price: 540 },
-    { max: 3299,     price: 570 },
-    { max: 3599,     price: 600 },
-    { max: 3899,     price: 640 },
-    { max: 4199,     price: 690 },
-    { max: 4499,     price: 720 },
-    { max: 4799,     price: 760 },
-    { max: 4999,     price: 800 },
-    { max: Infinity, price: 830 },
-  ],
-  'Office Cleaning': [
-    { max: 999,      price: 200 },
-    { max: 1249,     price: 250 },
-    { max: 1499,     price: 330 },
-    { max: 1799,     price: 380 },
-    { max: 2099,     price: 476 },
-    { max: 2399,     price: 460 },
-    { max: 2699,     price: 490 },
-    { max: 2999,     price: 540 },
-    { max: 3299,     price: 570 },
-    { max: 3599,     price: 600 },
-    { max: 3899,     price: 640 },
-    { max: 4199,     price: 690 },
-    { max: 4499,     price: 720 },
-    { max: 4799,     price: 760 },
-    { max: 4999,     price: 800 },
-    { max: Infinity, price: 830 },
-  ],
-  // $0.20/sqft using tier midpoint sqft
-  'Post-Construction Cleaning': [
-    { max: 999,      price: 200 },
-    { max: 1249,     price: 225 },
-    { max: 1499,     price: 275 },
-    { max: 1799,     price: 330 },
-    { max: 2099,     price: 390 },
-    { max: 2399,     price: 450 },
-    { max: 2699,     price: 510 },
-    { max: 2999,     price: 570 },
-    { max: 3299,     price: 630 },
-    { max: 3599,     price: 690 },
-    { max: 3899,     price: 750 },
-    { max: 4199,     price: 810 },
-    { max: 4499,     price: 870 },
-    { max: 4799,     price: 930 },
-    { max: 4999,     price: 980 },
-    { max: Infinity, price: 1100 },
-  ],
+  'Standard Cleaning':          BASE_TIERS,
+  'Deep Cleaning':              BASE_TIERS,
+  'Move In/Out Cleaning':       MOVE_TIERS,
+  'Airbnb Cleaning':            BASE_TIERS,
+  'Post-Construction Cleaning': BASE_TIERS,
 }
 
 function getPrice(service: string, sqft: number): number | null {
@@ -167,15 +95,15 @@ type BookingData = {
 }
 
 const EXTRAS: { label: string; price: number }[] = [
-  { label: 'Inside Oven',             price: 45 },
-  { label: 'Inside Fridge',           price: 35 },
-  { label: 'Interior Windows',        price: 40 },
-  { label: 'Heavy Dirt / Deep Scrub', price: 50 },
-  { label: 'Laundry (Wash & Dry)',    price: 40 },
-  { label: 'Garage Cleaning',         price: 60 },
-  { label: 'Balcony / Patio',         price: 35 },
-  { label: 'Blinds Cleaning',         price: 30 },
-  { label: 'Organizing',              price: 50 },
+  { label: 'Inside Cabinets',                      price: 80 },
+  { label: 'Baseboards',                           price: 40 },
+  { label: 'Interior Windows (Up To 10)',          price: 50 },
+  { label: 'Inside Oven',                          price: 60 },
+  { label: 'Inside Fridge',                        price: 60 },
+  { label: 'Pet Hair Removal',                     price: 50 },
+  { label: 'Wall Spot Cleaning',                   price: 50 },
+  { label: 'Extra Heavy Dirt/Extra Scrubbing',     price: 80 },
+  { label: 'Window Tracks Cleaning',               price: 50 },
 ]
 
 const SERVICES = [
@@ -183,7 +111,6 @@ const SERVICES = [
   'Deep Cleaning',
   'Move In/Out Cleaning',
   'Airbnb Cleaning',
-  'Office Cleaning',
   'Post-Construction Cleaning',
 ]
 
@@ -328,7 +255,7 @@ export default function VirtualAssistant() {
           options: SERVICES,
         })
       } else if (opt === 'I want to book online directly') {
-        window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+        window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: "Booking page opened! 🎉 We'll see you there. Any other questions?",
@@ -364,14 +291,16 @@ export default function VirtualAssistant() {
         if (extrasTotal > 0) setBooking(b => ({ ...b, extras: selectedExtras, price: totalPrice }))
         else setBooking(b => ({ ...b, extras: [] }))
 
-        setStep('date')
-        const summary = selectedExtras.length > 0
-          ? `\n\n✅ Extras added: ${selectedExtras.map(e => e.split(' (+')[0]).join(', ')}\n💰 Updated total: **$${totalPrice}**`
-          : ''
+        const extrasLine = selectedExtras.length > 0
+          ? `\n✅ Extras: ${selectedExtras.map(e => e.split(' (+')[0]).join(', ')}\n💰 Total: **$${totalPrice}**`
+          : `\n💰 Total: **$${basePrice}**`
+
+        setStep('greeting')
+        window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
         addMessages(userMsg, {
           from: 'bot',
-          text: `Perfect!${summary}\n\n📅 What date works best for your cleaning?\n\nType a date like **"April 15"** or **"next Saturday"** — or pick an option:`,
-          options: ['This week', 'Next week', 'Flexible / ASAP'],
+          text: `🎉 Your estimate is ready!${extrasLine}\n\nYour booking page just opened — pick your date & time and enter your details to confirm. See you soon! 🧹`,
+          options: ['Get another quote', 'Contact us'],
         })
       } else {
         // Add the extra to selected list
@@ -563,7 +492,7 @@ export default function VirtualAssistant() {
     }
 
     if (text === 'Book Online Now →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
       return
     }
 
@@ -585,7 +514,7 @@ export default function VirtualAssistant() {
 
   const handleOptionClick = (opt: string) => {
     if (opt === 'Book Online Now →') {
-      window.open('https://raprocleaningservices.bookingkoala.com', '_blank')
+      window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
       addMessages({ from: 'user', text: opt }, {
         from: 'bot',
         text: "Opening booking page... 🎉 See you there!",
@@ -614,10 +543,9 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING BOOK NOW BUTTON → BookingKoala (after-hours only) ─── */}
-      {afterHours && (
+      {/* ── FLOATING BOOK NOW BUTTON → HighLevel ─── */}
       <a
-        href="https://raprocleaningservices.bookingkoala.com"
+        href="https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
@@ -629,7 +557,6 @@ export default function VirtualAssistant() {
         </svg>
         Book Now
       </a>
-      )}
 
       {/* ── FLOATING AI QUOTE CHAT BUTTON (after-hours only) ──────────── */}
       {afterHours && (
