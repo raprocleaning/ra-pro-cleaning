@@ -5,7 +5,7 @@ import AfterHoursOnly from '@/components/AfterHoursOnly'
 const SERVICES = [
   { name: 'Standard Cleaning',       icon: '🏠', range: '$200 – $830', desc: 'Regular maintenance clean' },
   { name: 'Deep Cleaning',           icon: '✨', range: '$200 – $830', desc: 'Top-to-bottom thorough clean' },
-  { name: 'Move In/Out Cleaning',    icon: '📦', range: '$200 – $830', desc: 'Full clean for transitions' },
+  { name: 'Move In/Out Cleaning',    icon: '📦', range: '$300 – $930', desc: 'Full clean for transitions' },
   { name: 'Airbnb Cleaning',         icon: '🛎️', range: '$200 – $830', desc: 'Fast turnovers, 5-star ready' },
   { name: 'Post-Construction Clean', icon: '🔨', range: '$200 – $830', desc: 'Debris, dust & deep scrub' },
 ]

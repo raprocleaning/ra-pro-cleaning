@@ -23,12 +23,30 @@ const BASE_TIERS = [
   { max: Infinity, price: 830 },
 ]
 
+const MOVE_TIERS = [
+  { max: 999,      price: 300 },
+  { max: 1249,     price: 350 },
+  { max: 1499,     price: 430 },
+  { max: 1799,     price: 480 },
+  { max: 2099,     price: 560 },
+  { max: 2399,     price: 570 },
+  { max: 2699,     price: 590 },
+  { max: 2999,     price: 640 },
+  { max: 3299,     price: 670 },
+  { max: 3599,     price: 700 },
+  { max: 3899,     price: 740 },
+  { max: 4199,     price: 790 },
+  { max: 4499,     price: 820 },
+  { max: 4799,     price: 860 },
+  { max: 4999,     price: 900 },
+  { max: Infinity, price: 930 },
+]
+
 const PRICING: Record<string, { max: number; price: number }[]> = {
-  'Standard Cleaning':      BASE_TIERS,
-  'Deep Cleaning':          BASE_TIERS,
-  'Move In/Out Cleaning':   BASE_TIERS,
-  'Airbnb Cleaning':        BASE_TIERS,
-  'Office Cleaning':        BASE_TIERS,
+  'Standard Cleaning':          BASE_TIERS,
+  'Deep Cleaning':              BASE_TIERS,
+  'Move In/Out Cleaning':       MOVE_TIERS,
+  'Airbnb Cleaning':            BASE_TIERS,
   'Post-Construction Cleaning': BASE_TIERS,
 }
 
