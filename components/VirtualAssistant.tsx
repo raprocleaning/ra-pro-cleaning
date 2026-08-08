@@ -77,15 +77,15 @@ type BookingData = {
 }
 
 const EXTRAS: { label: string; price: number }[] = [
-  { label: 'Inside Oven',             price: 45 },
-  { label: 'Inside Fridge',           price: 35 },
-  { label: 'Interior Windows',        price: 40 },
-  { label: 'Heavy Dirt / Deep Scrub', price: 50 },
-  { label: 'Laundry (Wash & Dry)',    price: 40 },
-  { label: 'Garage Cleaning',         price: 60 },
-  { label: 'Balcony / Patio',         price: 35 },
-  { label: 'Blinds Cleaning',         price: 30 },
-  { label: 'Organizing',              price: 50 },
+  { label: 'Inside Cabinets',                      price: 80 },
+  { label: 'Baseboards',                           price: 40 },
+  { label: 'Interior Windows (Up To 10)',          price: 50 },
+  { label: 'Inside Oven',                          price: 60 },
+  { label: 'Inside Fridge',                        price: 60 },
+  { label: 'Pet Hair Removal',                     price: 50 },
+  { label: 'Wall Spot Cleaning',                   price: 50 },
+  { label: 'Extra Heavy Dirt/Extra Scrubbing',     price: 80 },
+  { label: 'Window Tracks Cleaning',               price: 50 },
 ]
 
 const SERVICES = [
@@ -93,7 +93,6 @@ const SERVICES = [
   'Deep Cleaning',
   'Move In/Out Cleaning',
   'Airbnb Cleaning',
-  'Office Cleaning',
   'Post-Construction Cleaning',
 ]
 
