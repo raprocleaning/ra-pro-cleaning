@@ -273,14 +273,16 @@ export default function VirtualAssistant() {
         if (extrasTotal > 0) setBooking(b => ({ ...b, extras: selectedExtras, price: totalPrice }))
         else setBooking(b => ({ ...b, extras: [] }))
 
-        setStep('date')
-        const summary = selectedExtras.length > 0
-          ? `\n\n✅ Extras added: ${selectedExtras.map(e => e.split(' (+')[0]).join(', ')}\n💰 Updated total: **$${totalPrice}**`
-          : ''
+        const extrasLine = selectedExtras.length > 0
+          ? `\n✅ Extras: ${selectedExtras.map(e => e.split(' (+')[0]).join(', ')}\n💰 Total: **$${totalPrice}**`
+          : `\n💰 Total: **$${basePrice}**`
+
+        setStep('greeting')
+        window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
         addMessages(userMsg, {
           from: 'bot',
-          text: `Perfect!${summary}\n\n📅 What date works best for your cleaning?\n\nType a date like **"April 15"** or **"next Saturday"** — or pick an option:`,
-          options: ['This week', 'Next week', 'Flexible / ASAP'],
+          text: `🎉 Your estimate is ready!${extrasLine}\n\nYour booking page just opened — pick your date & time and enter your details to confirm. See you soon! 🧹`,
+          options: ['Get another quote', 'Contact us'],
         })
       } else {
         // Add the extra to selected list
