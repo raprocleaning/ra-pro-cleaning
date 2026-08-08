@@ -176,7 +176,7 @@ export default function BookPageClient() {
             &ldquo;Fast response, friendly team, easy scheduling, and truly top-quality work.&rdquo;
           </p>
           <a
-            href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking"
+            href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 hover:bg-[#007A6C] transition-colors"

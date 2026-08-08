@@ -237,7 +237,7 @@ export default function VirtualAssistant() {
           options: SERVICES,
         })
       } else if (opt === 'I want to book online directly') {
-        window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
+        window.open('https://api.leadconnectorhq.com/widget/bookings/book-cleaning', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: "Booking page opened! 🎉 We'll see you there. Any other questions?",
@@ -278,7 +278,7 @@ export default function VirtualAssistant() {
           : `\n💰 Total: **$${basePrice}**`
 
         setStep('greeting')
-        window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
+        window.open('https://api.leadconnectorhq.com/widget/bookings/book-cleaning', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: `🎉 Your estimate is ready!${extrasLine}\n\nYour booking page just opened — pick your date & time and enter your details to confirm. See you soon! 🧹`,
@@ -474,7 +474,7 @@ export default function VirtualAssistant() {
     }
 
     if (text === 'Book Online Now →') {
-      window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
+      window.open('https://api.leadconnectorhq.com/widget/bookings/book-cleaning', '_blank')
       return
     }
 
@@ -496,7 +496,7 @@ export default function VirtualAssistant() {
 
   const handleOptionClick = (opt: string) => {
     if (opt === 'Book Online Now →') {
-      window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
+      window.open('https://api.leadconnectorhq.com/widget/bookings/book-cleaning', '_blank')
       addMessages({ from: 'user', text: opt }, {
         from: 'bot',
         text: "Opening booking page... 🎉 See you there!",
@@ -527,7 +527,7 @@ export default function VirtualAssistant() {
     <>
       {/* ── FLOATING BOOK NOW BUTTON → HighLevel ─── */}
       <a
-        href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking"
+        href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"

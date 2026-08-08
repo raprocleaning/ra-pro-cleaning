@@ -240,31 +240,31 @@
         <div class="service-icon">🧹</div>
         <h3>Standard Cleaning</h3>
         <p>Recurring maintenance cleaning — kitchens, baths, floors, dusting. Perfect for weekly or bi-weekly schedules.</p>
-        <a href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking" target="_blank" rel="noopener" class="service-link">Book Standard Clean →</a>
+        <a href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning" target="_blank" rel="noopener" class="service-link">Book Standard Clean →</a>
       </div>
       <div class="service-card">
         <div class="service-icon">✨</div>
         <h3>Deep Cleaning</h3>
         <p>Thorough top-to-bottom cleaning of every room, surface, and corner — baseboards, inside appliances &amp; more.</p>
-        <a href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking" target="_blank" rel="noopener" class="service-link">Book Deep Clean →</a>
+        <a href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning" target="_blank" rel="noopener" class="service-link">Book Deep Clean →</a>
       </div>
       <div class="service-card">
         <div class="service-icon">📦</div>
         <h3>Move In / Out Cleaning</h3>
         <p>Leave your old place spotless or arrive to a fresh start. Ideal for landlords, tenants &amp; property managers.</p>
-        <a href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking" target="_blank" rel="noopener" class="service-link">Book Move Clean →</a>
+        <a href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning" target="_blank" rel="noopener" class="service-link">Book Move Clean →</a>
       </div>
       <div class="service-card">
         <div class="service-icon">🏢</div>
         <h3>Office / Commercial</h3>
         <p>Professional workspace cleaning tailored to your schedule — daily, weekly or monthly contracts available.</p>
-        <a href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking" target="_blank" rel="noopener" class="service-link">Book Office Clean →</a>
+        <a href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning" target="_blank" rel="noopener" class="service-link">Book Office Clean →</a>
       </div>
       <div class="service-card">
         <div class="service-icon">🏠</div>
         <h3>Airbnb Turnover</h3>
         <p>Fast, reliable between-guest cleaning — fresh linens, restocked supplies, guest-ready in hours.</p>
-        <a href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking" target="_blank" rel="noopener" class="service-link">Book Airbnb Clean →</a>
+        <a href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning" target="_blank" rel="noopener" class="service-link">Book Airbnb Clean →</a>
       </div>
       <div class="service-card">
         <div class="service-icon">🤖</div>
@@ -351,7 +351,7 @@
     </div>
     <div>
       <h3>Quick Links</h3>
-      <p><a href="https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking" target="_blank">📅 Book Now</a></p>
+      <p><a href="https://api.leadconnectorhq.com/widget/bookings/book-cleaning" target="_blank">📅 Book Now</a></p>
       <p><a href="https://www.raprocleaningservices.com/gallery">🖼 Gallery</a></p>
       <p><a href="https://www.raprocleaningservices.com/blog">📝 Blog</a></p>
       <p><a href="https://www.raprocleaningservices.com/contact">📍 Contact</a></p>
@@ -526,7 +526,7 @@ function handleFrequency(choice) {
 
 function handleConfirm(choice) {
   if (choice.includes('Online')) {
-    window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
+    window.open('https://api.leadconnectorhq.com/widget/bookings/book-cleaning', '_blank')
     addMsg("Booking page opened! 🎉 See you there.", 'bot')
     return
   }
@@ -584,7 +584,7 @@ We'll call <strong>${userData.phone}</strong> within 24 hours to confirm.`, 'bot
 }
 
 function handleDone(choice) {
-  if (choice.includes('Online'))  window.open('https://api.leadconnectorhq.com/widget/bookings/r-a-pro-cleaning-booking', '_blank')
+  if (choice.includes('Online'))  window.open('https://api.leadconnectorhq.com/widget/bookings/book-cleaning', '_blank')
   if (choice.includes('Call'))    window.location.href = 'tel:7206778799'
   if (choice.includes('Another')) { closeAIChat(); setTimeout(openAIChat, 100) }
 }
