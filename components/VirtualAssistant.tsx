@@ -460,11 +460,9 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING BOOK NOW BUTTON → HighLevel ─── */}
+      {/* ── FLOATING BOOK NOW BUTTON → /book ─── */}
       <a
         href="/book"
-        target="_blank"
-        rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
         style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
         aria-label="Book Now"
