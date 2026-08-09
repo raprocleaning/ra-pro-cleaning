@@ -2,15 +2,18 @@
  * Creates the booking on a GoHighLevel calendar so online bookings show up in
  * Calendar view, not just as a contact note.
  *
- * Each service maps to its own calendar via an environment variable. If the
- * calendar for a service is not configured, appointment creation is skipped —
- * the booking still lands as a contact, so a missing variable degrades the
+ * Calendars are found by name through the GHL API, so no IDs need to be copied
+ * out of the dashboard and pasted into configuration. An environment variable
+ * still wins when set, which covers renamed or duplicate calendars.
+ *
+ * If no calendar can be matched for a service, appointment creation is skipped
+ * and the booking still lands as a contact — a lookup problem degrades the
  * experience instead of losing the job.
  */
 
 const GHL_API = 'https://services.leadconnectorhq.com'
 
-/** Env var holding the calendar ID for each service. */
+/** Env var holding an explicit calendar ID override for each service. */
 const CALENDAR_ENV: Record<string, string> = {
   'Standard Cleaning':          'GHL_CALENDAR_ID_STANDARD',
   'Deep Cleaning':              'GHL_CALENDAR_ID_DEEP',
@@ -19,9 +22,90 @@ const CALENDAR_ENV: Record<string, string> = {
   'Post-Construction Cleaning': 'GHL_CALENDAR_ID_POSTCONSTRUCTION',
 }
 
+/**
+ * Calendar names to look for, most specific first. The dashboard names them a
+ * little differently from the services on the site ("Standard Clean" versus
+ * "Standard Cleaning"), so each service lists the spellings it accepts.
+ */
+const CALENDAR_NAMES: Record<string, string[]> = {
+  'Standard Cleaning':    ['standard clean', 'standard cleaning', 'standard'],
+  'Deep Cleaning':        ['deep cleaning', 'deep clean', 'deep'],
+  'Move In/Out Cleaning': ['move in/out cleaning', 'move in/out', 'move in out', 'movein/out', 'move'],
+  'Airbnb Cleaning':      ['airbnb / short-term rental', 'airbnb/short-term rental', 'airbnb', 'short-term rental'],
+  'Post-Construction Cleaning': ['post-construction clean', 'post construction clean', 'post-construction', 'post construction'],
+}
+
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '')
+
+/** Explicit override from configuration, if one is set for this service. */
 export function calendarIdFor(service: string): string | undefined {
   const key = CALENDAR_ENV[service]
   return (key ? process.env[key] : undefined) || process.env.GHL_CALENDAR_ID || undefined
+}
+
+type CalendarSummary = { id: string; name: string }
+
+// Calendars change rarely; re-read occasionally so a rename or a newly created
+// calendar is picked up without a redeploy.
+const CACHE_MS = 10 * 60 * 1000
+let cache: { at: number; calendars: CalendarSummary[] } | null = null
+
+async function listCalendars(apiKey: string, locationId: string): Promise<CalendarSummary[]> {
+  if (cache && Date.now() - cache.at < CACHE_MS) return cache.calendars
+
+  const res = await fetch(`${GHL_API}/calendars/?locationId=${encodeURIComponent(locationId)}`, {
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Version': '2021-04-15',
+      'Accept': 'application/json',
+    },
+  })
+  if (!res.ok) throw new Error(`GHL calendar list failed (${res.status}): ${await res.text()}`)
+
+  const data = await res.json().catch(() => ({}))
+  const calendars: CalendarSummary[] = (data?.calendars ?? [])
+    .filter((c: { id?: string; name?: string }) => c?.id && c?.name)
+    .map((c: { id: string; name: string }) => ({ id: c.id, name: c.name }))
+
+  cache = { at: Date.now(), calendars }
+  return calendars
+}
+
+/** Pick the calendar whose name best matches the service. */
+export function matchCalendar(service: string, calendars: CalendarSummary[]): CalendarSummary | undefined {
+  const aliases = CALENDAR_NAMES[service]
+  if (!aliases) return undefined
+
+  for (const alias of aliases) {
+    const target = norm(alias)
+    const exact = calendars.find((c) => norm(c.name) === target)
+    if (exact) return exact
+    const partial = calendars.find((c) => norm(c.name).includes(target))
+    if (partial) return partial
+  }
+  return undefined
+}
+
+/** Configured override first, otherwise look the calendar up by name. */
+export async function resolveCalendarId(
+  apiKey: string,
+  locationId: string,
+  service: string
+): Promise<{ id: string } | { error: string }> {
+  const override = calendarIdFor(service)
+  if (override) return { id: override }
+
+  try {
+    const calendars = await listCalendars(apiKey, locationId)
+    const match = matchCalendar(service, calendars)
+    if (!match) {
+      const names = calendars.map((c) => c.name).join(', ') || 'none returned'
+      return { error: `No calendar matched "${service}". Calendars found: ${names}` }
+    }
+    return { id: match.id }
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : 'Calendar lookup failed' }
+  }
 }
 
 /**
@@ -88,10 +172,9 @@ export async function createAppointment(opts: {
   time: string
   title: string
 }): Promise<AppointmentResult> {
-  const calendarId = calendarIdFor(opts.service)
-  if (!calendarId) {
-    return { created: false, reason: `No calendar configured for "${opts.service}"` }
-  }
+  const resolved = await resolveCalendarId(opts.apiKey, opts.locationId, opts.service)
+  if ('error' in resolved) return { created: false, reason: resolved.error }
+  const calendarId = resolved.id
 
   const window = toAppointmentWindow(opts.date, opts.time)
   if (!window) {

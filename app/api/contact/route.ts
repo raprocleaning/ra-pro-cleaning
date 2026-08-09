@@ -123,7 +123,8 @@ export async function POST(req: NextRequest) {
 
           // Place the job on the matching GHL calendar. A failure here must not
           // lose the booking — the contact and note are already saved.
-          if (isBookingForm && bookingDate && bookingTime) {
+          // Quote requests are not confirmed jobs, so they do not take a slot.
+          if (isBookingForm && !quoteOnRequest && bookingDate && bookingTime) {
             const result = await createAppointment({
               apiKey: ghlApiKey,
               locationId,
