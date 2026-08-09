@@ -80,6 +80,8 @@ export default function BookingForm() {
           price: quote.total,
           extras,
           preferredDate: `${date} at ${time}`,
+          bookingDate: date,
+          bookingTime: time,
           message: notes.trim(),
           smsOptIn,
         }),

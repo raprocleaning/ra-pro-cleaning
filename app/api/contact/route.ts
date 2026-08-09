@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createAppointment } from '@/lib/ghlCalendar'
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,6 +9,9 @@ export async function POST(req: NextRequest) {
       propertyType, message, smsOptIn,
       // AI booking widget + booking form fields
       service, sqft, price, extras, preferredDate, frequency, address,
+      // Booking form sends the requested slot as separate machine-readable
+      // fields so it can be placed on a GHL calendar.
+      bookingDate, bookingTime,
       source: bodySource,
     } = body
 
@@ -72,6 +76,8 @@ export async function POST(req: NextRequest) {
     let emailSent = false
     let crmError = ''
     let emailError = ''
+    let appointmentCreated = false
+    let appointmentError = ''
 
     if (ghlApiKey) {
       const ghlPayload: Record<string, unknown> = {
@@ -112,6 +118,25 @@ export async function POST(req: NextRequest) {
             },
             body: JSON.stringify({ body: noteLines, userId: '' }),
           })
+
+          // Place the job on the matching GHL calendar. A failure here must not
+          // lose the booking — the contact and note are already saved.
+          if (isBookingForm && bookingDate && bookingTime) {
+            const result = await createAppointment({
+              apiKey: ghlApiKey,
+              locationId,
+              contactId,
+              service,
+              date: bookingDate,
+              time: bookingTime,
+              title: `${service} — ${cleanName}${price ? ` ($${price})` : ''}`,
+            })
+            appointmentCreated = result.created
+            if (!result.created) {
+              appointmentError = result.reason
+              console.error('GHL appointment not created:', result.reason)
+            }
+          }
         }
       } else {
         crmError = `GHL contact upsert failed (${ghlRes.status}): ${await ghlRes.text()}`
@@ -161,7 +186,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    return NextResponse.json({ ok: true, crmSaved, emailSent })
+    return NextResponse.json({ ok: true, crmSaved, emailSent, appointmentCreated, appointmentError })
   } catch (err) {
     console.error('Contact API error:', err)
     return NextResponse.json({ ok: false, error: 'Internal error' }, { status: 500 })
