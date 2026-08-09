@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
       fullName, phone, email, zipCode, squareFootage,
       propertyType, message, smsOptIn,
       // AI booking widget + booking form fields
-      service, sqft, price, extras, preferredDate, frequency, address,
+      service, sqft, price, extras, preferredDate, frequency, address, quoteOnRequest,
       // Booking form sends the requested slot as separate machine-readable
       // fields so it can be placed on a GHL calendar.
       bookingDate, bookingTime,
@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
     const tags: string[] = ['website-lead']
     if (isAIBooking)   tags.push('ai-booking')
     if (isBookingForm) tags.push('online-booking', 'booked-appointment')
+    if (quoteOnRequest) tags.push('needs-quote')
     const svcTag = (service || propertyType || '').toLowerCase().replace(/[\s/]+/g, '-')
     if (svcTag) tags.push(svcTag)
     if (preferredDate) tags.push('has-preferred-date')
@@ -62,7 +63,8 @@ export async function POST(req: NextRequest) {
       `🧹 Service: ${service || propertyType || 'N/A'}`,
       sqft      ? `📐 Sqft: ${sqft}` : squareFootage ? `📐 Sqft: ${squareFootage}` : null,
       frequency ? `🔁 Frequency: ${frequency}` : null,
-      price     ? `💰 Quoted Total: $${price}` : null,
+      price     ? `💰 Quoted Total: $${price}`
+                : quoteOnRequest ? `💰 NEEDS A QUOTE — no price shown to customer` : null,
       extras?.length ? `✨ Extras: ${Array.isArray(extras) ? extras.join(', ') : extras}` : null,
       preferredDate ? `📅 Requested Date: ${preferredDate}` : null,
       address   ? `🏠 Address: ${address}` : null,

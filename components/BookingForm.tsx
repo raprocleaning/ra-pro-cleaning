@@ -1,7 +1,7 @@
 'use client'
 import { useState, useMemo } from 'react'
 import {
-  SERVICES, SERVICE_META, SQFT_OPTIONS, FREQUENCIES, EXTRAS, getQuote,
+  SERVICES, SERVICE_META, SQFT_OPTIONS, FREQUENCIES, EXTRAS, getQuote, isQuoteOnRequest,
 } from '@/lib/pricing'
 import { trackEvent, trackLead } from '@/lib/analytics'
 
@@ -39,8 +39,12 @@ export default function BookingForm() {
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError]   = useState('')
 
+  const quoteOnRequest = isQuoteOnRequest(service)
+
   const quote = useMemo(
-    () => (service && sqft ? getQuote({ service, sqft, frequency, extras }) : null),
+    () => (service && sqft && !isQuoteOnRequest(service)
+      ? getQuote({ service, sqft, frequency, extras })
+      : null),
     [service, sqft, frequency, extras]
   )
 
@@ -53,12 +57,13 @@ export default function BookingForm() {
 
   const canSubmit =
     !!service && !!sqft && !!date && !!time &&
+    (quoteOnRequest || !!quote) &&
     name.trim().length > 1 && phone.trim().length >= 10 && email.includes('@') &&
     status !== 'submitting'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!canSubmit || !quote) return
+    if (!canSubmit) return
 
     setStatus('submitting')
     setError('')
@@ -77,7 +82,8 @@ export default function BookingForm() {
           service,
           sqft: sqftLabel,
           frequency,
-          price: quote.total,
+          price: quote?.total ?? null,
+          quoteOnRequest,
           extras,
           preferredDate: `${date} at ${time}`,
           bookingDate: date,
@@ -90,8 +96,8 @@ export default function BookingForm() {
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong.')
 
-      trackEvent('booking_submitted', { service, sqft: sqftLabel, value: quote.total })
-      trackLead('booking-form', { service, value: quote.total })
+      trackEvent('booking_submitted', { service, sqft: sqftLabel, value: quote?.total })
+      trackLead('booking-form', { service, value: quote?.total })
       setStatus('done')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.')
@@ -104,18 +110,37 @@ export default function BookingForm() {
     return (
       <div className="max-w-2xl mx-auto px-6 py-24 text-center">
         <div className="text-6xl mb-6">🎉</div>
-        <h2 className="text-3xl font-black text-[#0F2240] mb-4">You&apos;re booked!</h2>
+        <h2 className="text-3xl font-black text-[#0F2240] mb-4">
+          {quoteOnRequest ? 'Request received!' : 'You’re booked!'}
+        </h2>
         <p className="text-[#4A6583] mb-8 leading-relaxed">
           Thanks {name.split(' ')[0]} — we&apos;ve got your request for a{' '}
           <strong className="text-[#0F2240]">{service}</strong> on{' '}
           <strong className="text-[#0F2240]">{date} at {time}</strong>.
           <br />
-          We&apos;ll call you within 24 hours to confirm the details.
+          {quoteOnRequest
+            ? 'We’ll call you within 24 hours with your quote and to confirm the time.'
+            : 'We’ll call you within 24 hours to confirm the details.'}
         </p>
         <div className="bg-[#E6F7F5] border border-[#B2DFDB] rounded-xl p-6 mb-8 inline-block">
-          <p className="text-[#4A6583] text-sm mb-1">Your quoted total</p>
-          <p className="text-[#00A896] font-black text-4xl">${quote?.total}</p>
-          <p className="text-[#4A6583] text-xs mt-2">{sqftLabel} · {frequency}</p>
+          {quote ? (
+            <>
+              <p className="text-[#4A6583] text-sm mb-1">Your quoted total</p>
+              <p className="text-[#00A896] font-black text-4xl">${quote.total}</p>
+            </>
+          ) : (
+            <>
+              <p className="text-[#4A6583] text-sm mb-1">Your price</p>
+              <p className="text-[#00A896] font-black text-2xl">We&apos;ll quote you by phone</p>
+              <p className="text-[#4A6583] text-xs mt-2 max-w-xs">
+                Post-construction jobs vary a lot, so we price yours after a quick look
+                rather than guessing.
+              </p>
+            </>
+          )}
+          <p className="text-[#4A6583] text-xs mt-2">
+            {quoteOnRequest ? sqftLabel : `${sqftLabel} · ${frequency}`}
+          </p>
         </div>
         <p className="text-[#4A6583] text-sm">
           Questions? Call us at{' '}
@@ -125,6 +150,11 @@ export default function BookingForm() {
     )
   }
 
+  // Frequency and add-ons only shape a price, so they are skipped for services
+  // we quote by phone. Step numbers stay consecutive either way.
+  let stepNo = 0
+  const next = () => ++stepNo
+
   // ── FORM ──────────────────────────────────────────────────────────────────
   return (
     <form onSubmit={handleSubmit} className="max-w-6xl mx-auto px-6 py-12">
@@ -133,8 +163,8 @@ export default function BookingForm() {
         {/* ── LEFT: the questions ── */}
         <div className="lg:col-span-2 space-y-10">
 
-          {/* 1 — Service */}
-          <Step n={1} title="What kind of cleaning do you need?">
+          {/* Service */}
+          <Step n={next()} title="What kind of cleaning do you need?">
             <div className="grid sm:grid-cols-2 gap-3">
               {SERVICES.map((s) => {
                 const meta = SERVICE_META[s]
@@ -160,8 +190,8 @@ export default function BookingForm() {
             </div>
           </Step>
 
-          {/* 2 — Square footage */}
-          <Step n={2} title="How big is your home?">
+          {/* Square footage */}
+          <Step n={next()} title="How big is your home?">
             <label htmlFor="sqft" className="sr-only">Home square footage</label>
             <select
               id="sqft"
@@ -175,12 +205,15 @@ export default function BookingForm() {
               ))}
             </select>
             <p className="text-[#4A6583] text-xs mt-2">
-              Your price updates instantly as soon as you pick a size.
+              {quoteOnRequest
+                ? 'This helps us prepare an accurate quote for you.'
+                : 'Your price updates instantly as soon as you pick a size.'}
             </p>
           </Step>
 
-          {/* 3 — Frequency */}
-          <Step n={3} title="How often?">
+          {/* Frequency */}
+          {!quoteOnRequest && (
+          <Step n={next()} title="How often?">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {FREQUENCIES.map((f) => {
                 const active = frequency === f.label
@@ -206,9 +239,11 @@ export default function BookingForm() {
               })}
             </div>
           </Step>
+          )}
 
-          {/* 4 — Extras */}
-          <Step n={4} title="Any add-ons?" optional>
+          {/* Extras */}
+          {!quoteOnRequest && (
+          <Step n={next()} title="Any add-ons?" optional>
             <div className="grid sm:grid-cols-2 gap-2">
               {EXTRAS.map((x) => {
                 const active = extras.includes(x.label)
@@ -243,9 +278,10 @@ export default function BookingForm() {
               })}
             </div>
           </Step>
+          )}
 
-          {/* 5 — Date & time */}
-          <Step n={5} title="When would you like us?">
+          {/* Date & time */}
+          <Step n={next()} title="When would you like us?">
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="booking-date" className="block text-[#4A6583] text-xs font-semibold mb-1.5 uppercase tracking-wide">
@@ -277,8 +313,8 @@ export default function BookingForm() {
             </div>
           </Step>
 
-          {/* 6 — Details */}
-          <Step n={6} title="Where should we go, and who do we ask for?">
+          {/* Details */}
+          <Step n={next()} title="Where should we go, and who do we ask for?">
             <div className="grid sm:grid-cols-2 gap-4">
               <Field label="Full name" value={name} onChange={setName} placeholder="Jane Smith" required />
               <Field label="Phone" value={phone} onChange={setPhone} placeholder="(720) 555-0123" type="tel" required />
@@ -328,7 +364,7 @@ export default function BookingForm() {
             <div className="p-6 space-y-3 text-sm">
               <Row label="Service" value={service || '—'} />
               <Row label="Home size" value={sqftLabel || '—'} />
-              <Row label="Frequency" value={frequency} />
+              {!quoteOnRequest && <Row label="Frequency" value={frequency} />}
 
               {quote && (
                 <>
@@ -350,16 +386,18 @@ export default function BookingForm() {
             </div>
 
             <div className="bg-[#E6F7F5] px-6 py-5 border-t-2 border-[#B2DFDB]">
-              <div className="flex items-baseline justify-between mb-1">
+              <div className="flex items-baseline justify-between gap-3 mb-1">
                 <span className="text-[#0F2240] font-bold">Total</span>
-                <span className="text-[#00A896] font-black text-4xl">
-                  {quote ? `$${quote.total}` : '—'}
+                <span className={`text-[#00A896] font-black text-right ${quoteOnRequest ? 'text-xl' : 'text-4xl'}`}>
+                  {quoteOnRequest ? 'Custom quote' : quote ? `$${quote.total}` : '—'}
                 </span>
               </div>
               <p className="text-[#4A6583] text-xs">
-                {quote
-                  ? 'Flat rate. No hidden fees.'
-                  : 'Pick a service and home size to see your price.'}
+                {quoteOnRequest
+                  ? 'Post-construction jobs vary too much to price online. Book a slot and we’ll call you with a quote.'
+                  : quote
+                    ? 'Flat rate. No hidden fees.'
+                    : 'Pick a service and home size to see your price.'}
               </p>
             </div>
 
@@ -372,7 +410,9 @@ export default function BookingForm() {
                 disabled={!canSubmit}
                 className="w-full bg-[#00A896] hover:bg-[#007A6C] disabled:bg-[#B2DFDB] disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-colors text-lg"
               >
-                {status === 'submitting' ? 'Booking…' : 'Confirm Booking'}
+                {status === 'submitting'
+                  ? 'Booking…'
+                  : quoteOnRequest ? 'Request My Quote' : 'Confirm Booking'}
               </button>
               <p className="text-[#4A6583] text-[11px] text-center mt-3 leading-relaxed">
                 No card required. We call within 24 hours to confirm.

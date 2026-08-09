@@ -40,12 +40,25 @@ export const SERVICES = [
 
 export type Service = (typeof SERVICES)[number]
 
+/**
+ * Services quoted after a walkthrough rather than instantly.
+ *
+ * Post-construction work varies far too much with square footage alone —
+ * debris volume, paint overspray and grout haze can swing two jobs of the same
+ * size by many hours — so the site collects the details and we quote by phone
+ * instead of committing to a number sight-unseen.
+ */
+export const QUOTE_ON_REQUEST: string[] = ['Post-Construction Cleaning']
+
+export function isQuoteOnRequest(service: string): boolean {
+  return QUOTE_ON_REQUEST.includes(service)
+}
+
 export const PRICING: Record<string, Tier[]> = {
-  'Standard Cleaning':          BASE_TIERS,
-  'Deep Cleaning':              BASE_TIERS,
-  'Move In/Out Cleaning':       MOVE_TIERS,
-  'Airbnb Cleaning':            BASE_TIERS,
-  'Post-Construction Cleaning': BASE_TIERS,
+  'Standard Cleaning':    BASE_TIERS,
+  'Deep Cleaning':        BASE_TIERS,
+  'Move In/Out Cleaning': MOVE_TIERS,
+  'Airbnb Cleaning':      BASE_TIERS,
 }
 
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
@@ -53,7 +66,7 @@ export const SERVICE_META: Record<string, { icon: string; desc: string; range: s
   'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
   'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
   'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$200 – $830' },
-  'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: '$200 – $830' },
+  'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: 'Custom quote' },
 }
 
 // ─── SQUARE FOOTAGE OPTIONS ──────────────────────────────────────────────────
