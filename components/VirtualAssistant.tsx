@@ -3,59 +3,12 @@ import { useState, useRef, useEffect } from 'react'
 import { useAfterHours } from '@/lib/useAfterHours'
 import { trackEvent, trackLead } from '@/lib/analytics'
 
-// ─── PRICING TABLES ──────────────────────────────────────────────────────────
-const BASE_TIERS = [
-  { max: 999,      price: 200 },
-  { max: 1249,     price: 250 },
-  { max: 1499,     price: 330 },
-  { max: 1799,     price: 380 },
-  { max: 2099,     price: 460 },
-  { max: 2399,     price: 470 },
-  { max: 2699,     price: 490 },
-  { max: 2999,     price: 540 },
-  { max: 3299,     price: 570 },
-  { max: 3599,     price: 600 },
-  { max: 3899,     price: 640 },
-  { max: 4199,     price: 690 },
-  { max: 4499,     price: 720 },
-  { max: 4799,     price: 760 },
-  { max: 4999,     price: 800 },
-  { max: Infinity, price: 830 },
-]
-
-const MOVE_TIERS = [
-  { max: 999,      price: 300 },
-  { max: 1249,     price: 350 },
-  { max: 1499,     price: 430 },
-  { max: 1799,     price: 480 },
-  { max: 2099,     price: 560 },
-  { max: 2399,     price: 570 },
-  { max: 2699,     price: 590 },
-  { max: 2999,     price: 640 },
-  { max: 3299,     price: 670 },
-  { max: 3599,     price: 700 },
-  { max: 3899,     price: 740 },
-  { max: 4199,     price: 790 },
-  { max: 4499,     price: 820 },
-  { max: 4799,     price: 860 },
-  { max: 4999,     price: 900 },
-  { max: Infinity, price: 930 },
-]
-
-const PRICING: Record<string, { max: number; price: number }[]> = {
-  'Standard Cleaning':          BASE_TIERS,
-  'Deep Cleaning':              BASE_TIERS,
-  'Move In/Out Cleaning':       MOVE_TIERS,
-  'Airbnb Cleaning':            BASE_TIERS,
-  'Post-Construction Cleaning': BASE_TIERS,
-}
-
-function getPrice(service: string, sqft: number): number | null {
-  const table = PRICING[service]
-  if (!table) return null
-  const tier = table.find((t) => sqft <= t.max)
-  return tier ? tier.price : null
-}
+// Pricing lives in lib/pricing.ts so the chat, the booking form and the pricing
+// table can never quote different numbers for the same home.
+import {
+  EXTRAS, SQFT_OPTIONS, getPrice, sqftFromText,
+  SERVICES as SERVICE_LIST,
+} from '@/lib/pricing'
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 type Step =
@@ -94,49 +47,13 @@ type BookingData = {
   smsOptIn: boolean
 }
 
-const EXTRAS: { label: string; price: number }[] = [
-  { label: 'Inside Cabinets',                      price: 80 },
-  { label: 'Baseboards',                           price: 40 },
-  { label: 'Interior Windows (Up To 10)',          price: 50 },
-  { label: 'Inside Oven',                          price: 60 },
-  { label: 'Inside Fridge',                        price: 60 },
-  { label: 'Pet Hair Removal',                     price: 50 },
-  { label: 'Wall Spot Cleaning',                   price: 50 },
-  { label: 'Extra Heavy Dirt/Extra Scrubbing',     price: 80 },
-  { label: 'Window Tracks Cleaning',               price: 50 },
-]
+const SERVICES: string[] = [...SERVICE_LIST]
 
-const SERVICES = [
-  'Standard Cleaning',
-  'Deep Cleaning',
-  'Move In/Out Cleaning',
-  'Airbnb Cleaning',
-  'Post-Construction Cleaning',
-]
-
-const SQFT_OPTIONS = [
-  'Under 1,000 sqft',
-  '1,000 – 1,500 sqft',
-  '1,500 – 2,000 sqft',
-  '2,000 – 2,500 sqft',
-  '2,500 – 3,000 sqft',
-  '3,000 – 3,500 sqft',
-  '3,500+ sqft',
-]
+/** Chat presents the same square-footage brackets the booking form uses. */
+const SQFT_LABELS: string[] = SQFT_OPTIONS.map((o) => o.label)
 
 function sqftFromOption(opt: string): number {
-  if (opt.startsWith('Under')) return 900
-  if (opt.startsWith('1,000')) return 1250
-  if (opt.startsWith('1,500')) return 1650
-  if (opt.startsWith('2,000')) return 2200
-  if (opt.startsWith('2,500')) return 2750
-  if (opt.startsWith('3,000')) return 3200
-  return 4000
-}
-
-function sqftFromText(text: string): number | null {
-  const num = parseInt(text.replace(/[^0-9]/g, ''), 10)
-  return isNaN(num) || num < 100 || num > 20000 ? null : num
+  return SQFT_OPTIONS.find((o) => o.label === opt)?.value ?? 900
 }
 
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
@@ -199,7 +116,7 @@ export default function VirtualAssistant() {
       addMessages(userMsg, {
         from: 'bot',
         text: `Perfect! What's the approximate square footage of the space?`,
-        options: SQFT_OPTIONS,
+        options: SQFT_LABELS,
       })
       return
     }
@@ -255,7 +172,7 @@ export default function VirtualAssistant() {
           options: SERVICES,
         })
       } else if (opt === 'I want to book online directly') {
-        window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
+        window.open('/book', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: "Booking page opened! 🎉 We'll see you there. Any other questions?",
@@ -296,7 +213,7 @@ export default function VirtualAssistant() {
           : `\n💰 Total: **$${basePrice}**`
 
         setStep('greeting')
-        window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
+        window.open('/book', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: `🎉 Your estimate is ready!${extrasLine}\n\nYour booking page just opened — pick your date & time and enter your details to confirm. See you soon! 🧹`,
@@ -492,7 +409,7 @@ export default function VirtualAssistant() {
     }
 
     if (text === 'Book Online Now →') {
-      window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
+      window.open('/book', '_blank')
       return
     }
 
@@ -514,7 +431,7 @@ export default function VirtualAssistant() {
 
   const handleOptionClick = (opt: string) => {
     if (opt === 'Book Online Now →') {
-      window.open('https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning', '_blank')
+      window.open('/book', '_blank')
       addMessages({ from: 'user', text: opt }, {
         from: 'bot',
         text: "Opening booking page... 🎉 See you there!",
@@ -543,11 +460,9 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING BOOK NOW BUTTON → HighLevel ─── */}
+      {/* ── FLOATING BOOK NOW BUTTON → /book ─── */}
       <a
-        href="https://api.leadconnectorhq.com/widget/service-menus/ra-pro-cleaning"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="/book"
         className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
         style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
         aria-label="Book Now"
