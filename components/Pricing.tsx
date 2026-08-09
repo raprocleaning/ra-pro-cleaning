@@ -4,22 +4,22 @@ import Link from 'next/link'
 import { useAfterHours } from '@/lib/useAfterHours'
 
 const sqftTiers = [
-  { range: '0 – 999 sq ft',       standard: 200, deep: 200, moveInOut: 300, airbnb: 200, postConstruction: 200 },
-  { range: '1,000 – 1,249 sq ft', standard: 250, deep: 250, moveInOut: 350, airbnb: 250, postConstruction: 250 },
-  { range: '1,250 – 1,499 sq ft', standard: 330, deep: 330, moveInOut: 430, airbnb: 330, postConstruction: 330 },
-  { range: '1,500 – 1,799 sq ft', standard: 380, deep: 380, moveInOut: 480, airbnb: 380, postConstruction: 380 },
-  { range: '1,800 – 2,099 sq ft', standard: 460, deep: 460, moveInOut: 560, airbnb: 460, postConstruction: 460 },
-  { range: '2,100 – 2,399 sq ft', standard: 470, deep: 470, moveInOut: 570, airbnb: 470, postConstruction: 470 },
-  { range: '2,400 – 2,699 sq ft', standard: 490, deep: 490, moveInOut: 590, airbnb: 490, postConstruction: 490 },
-  { range: '2,700 – 2,999 sq ft', standard: 540, deep: 540, moveInOut: 640, airbnb: 540, postConstruction: 540 },
-  { range: '3,000 – 3,299 sq ft', standard: 570, deep: 570, moveInOut: 670, airbnb: 570, postConstruction: 570 },
-  { range: '3,300 – 3,599 sq ft', standard: 600, deep: 600, moveInOut: 700, airbnb: 600, postConstruction: 600 },
-  { range: '3,600 – 3,899 sq ft', standard: 640, deep: 640, moveInOut: 740, airbnb: 640, postConstruction: 640 },
-  { range: '3,900 – 4,199 sq ft', standard: 690, deep: 690, moveInOut: 790, airbnb: 690, postConstruction: 690 },
-  { range: '4,200 – 4,499 sq ft', standard: 720, deep: 720, moveInOut: 820, airbnb: 720, postConstruction: 720 },
-  { range: '4,500 – 4,799 sq ft', standard: 760, deep: 760, moveInOut: 860, airbnb: 760, postConstruction: 760 },
-  { range: '4,800 – 4,999 sq ft', standard: 800, deep: 800, moveInOut: 900, airbnb: 800, postConstruction: 800 },
-  { range: '5,000+ sq ft',        standard: 830, deep: 830, moveInOut: 930, airbnb: 830, postConstruction: 830 },
+  { range: '0 – 999 sq ft',       standard: 200, deep: 200, moveInOut: 300, airbnb: 200, postConstruction: null },
+  { range: '1,000 – 1,249 sq ft', standard: 250, deep: 250, moveInOut: 350, airbnb: 250, postConstruction: null },
+  { range: '1,250 – 1,499 sq ft', standard: 330, deep: 330, moveInOut: 430, airbnb: 330, postConstruction: null },
+  { range: '1,500 – 1,799 sq ft', standard: 380, deep: 380, moveInOut: 480, airbnb: 380, postConstruction: null },
+  { range: '1,800 – 2,099 sq ft', standard: 460, deep: 460, moveInOut: 560, airbnb: 460, postConstruction: null },
+  { range: '2,100 – 2,399 sq ft', standard: 470, deep: 470, moveInOut: 570, airbnb: 470, postConstruction: null },
+  { range: '2,400 – 2,699 sq ft', standard: 490, deep: 490, moveInOut: 590, airbnb: 490, postConstruction: null },
+  { range: '2,700 – 2,999 sq ft', standard: 540, deep: 540, moveInOut: 640, airbnb: 540, postConstruction: null },
+  { range: '3,000 – 3,299 sq ft', standard: 570, deep: 570, moveInOut: 670, airbnb: 570, postConstruction: null },
+  { range: '3,300 – 3,599 sq ft', standard: 600, deep: 600, moveInOut: 700, airbnb: 600, postConstruction: null },
+  { range: '3,600 – 3,899 sq ft', standard: 640, deep: 640, moveInOut: 740, airbnb: 640, postConstruction: null },
+  { range: '3,900 – 4,199 sq ft', standard: 690, deep: 690, moveInOut: 790, airbnb: 690, postConstruction: null },
+  { range: '4,200 – 4,499 sq ft', standard: 720, deep: 720, moveInOut: 820, airbnb: 720, postConstruction: null },
+  { range: '4,500 – 4,799 sq ft', standard: 760, deep: 760, moveInOut: 860, airbnb: 760, postConstruction: null },
+  { range: '4,800 – 4,999 sq ft', standard: 800, deep: 800, moveInOut: 900, airbnb: 800, postConstruction: null },
+  { range: '5,000+ sq ft',        standard: 830, deep: 830, moveInOut: 930, airbnb: 830, postConstruction: null },
 ]
 
 const serviceTypes = [
