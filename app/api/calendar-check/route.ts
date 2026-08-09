@@ -51,10 +51,37 @@ export async function GET() {
 
   const unmatched = mapping.filter((m) => m.calendar === '⚠️ NO MATCH')
 
+  // Listing calendars only proves the token can read calendars. Creating an
+  // appointment needs the separate events scopes, so probe those too — reading
+  // events is harmless and fails the same way a write would when the scope is
+  // missing.
+  let eventAccess: Record<string, string> = { checked: 'no calendar available to test' }
+  const probe = calendars[0]
+  if (probe) {
+    const now = Date.now()
+    const url =
+      `https://services.leadconnectorhq.com/calendars/events?locationId=${encodeURIComponent(locationId)}` +
+      `&calendarId=${encodeURIComponent(probe.id)}&startTime=${now}&endTime=${now + 86_400_000}`
+
+    const evRes = await fetch(url, {
+      headers: { Authorization: `Bearer ${apiKey}`, Version: '2021-04-15', Accept: 'application/json' },
+    })
+
+    eventAccess = evRes.ok
+      ? { canReadEvents: 'yes', note: 'Event scopes look present. If bookings still do not appear, the failure is not a permission problem.' }
+      : {
+          canReadEvents: `NO — HTTP ${evRes.status}`,
+          problem: 'The token cannot access calendar events, so it cannot create appointments.',
+          fix: 'Create a Private Integration with calendars.readonly, calendars/events.readonly, calendars/events.write, contacts.readonly and contacts.write, then update GHL_API_KEY.',
+          detail: (await evRes.text()).slice(0, 300),
+        }
+  }
+
   return NextResponse.json({
-    ok: unmatched.length === 0,
+    ok: unmatched.length === 0 && eventAccess.canReadEvents === 'yes',
     calendarsInHighLevel: calendars.map((c: { name: string }) => c.name),
     mapping,
+    eventAccess,
     problem: unmatched.length
       ? `${unmatched.length} service(s) have no matching calendar; those bookings save as contacts only.`
       : undefined,
