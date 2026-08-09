@@ -6,8 +6,8 @@ export async function POST(req: NextRequest) {
     const {
       fullName, phone, email, zipCode, squareFootage,
       propertyType, message, smsOptIn,
-      // AI booking widget fields
-      service, sqft, price, extras, preferredDate,
+      // AI booking widget + booking form fields
+      service, sqft, price, extras, preferredDate, frequency, address,
       source: bodySource,
     } = body
 
@@ -28,11 +28,13 @@ export async function POST(req: NextRequest) {
 
     const ghlApiKey   = process.env.GHL_API_KEY
     const locationId  = process.env.GHL_LOCATION_ID || 'pjyNLih2iktAcHvgpRiN'
-    const isAIBooking = bodySource === 'ai-chat' || !!service
+    const isBookingForm = bodySource === 'booking-form'
+    const isAIBooking   = bodySource === 'ai-chat' || (!!service && !isBookingForm)
 
     // ── Build tags ────────────────────────────────────────────────────────────
     const tags: string[] = ['website-lead']
-    if (isAIBooking) tags.push('ai-booking')
+    if (isAIBooking)   tags.push('ai-booking')
+    if (isBookingForm) tags.push('online-booking', 'booked-appointment')
     const svcTag = (service || propertyType || '').toLowerCase().replace(/[\s/]+/g, '-')
     if (svcTag) tags.push(svcTag)
     if (preferredDate) tags.push('has-preferred-date')
@@ -45,15 +47,23 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Build note ────────────────────────────────────────────────────────────
+    const sourceLabel = isBookingForm
+      ? 'Online Booking Form'
+      : isAIBooking
+        ? 'AI Chat Widget'
+        : 'Contact Form'
+
     const noteLines = [
-      `📋 Source: ${isAIBooking ? 'AI Chat Widget' : 'Contact Form'}`,
+      `📋 Source: ${sourceLabel}`,
       `🧹 Service: ${service || propertyType || 'N/A'}`,
       sqft      ? `📐 Sqft: ${sqft}` : squareFootage ? `📐 Sqft: ${squareFootage}` : null,
-      price     ? `💰 Est. Price: $${price}` : null,
+      frequency ? `🔁 Frequency: ${frequency}` : null,
+      price     ? `💰 Quoted Total: $${price}` : null,
       extras?.length ? `✨ Extras: ${Array.isArray(extras) ? extras.join(', ') : extras}` : null,
-      preferredDate ? `📅 Preferred Date: ${preferredDate}` : null,
+      preferredDate ? `📅 Requested Date: ${preferredDate}` : null,
+      address   ? `🏠 Address: ${address}` : null,
       zipCode   ? `📍 Zip: ${zipCode}` : null,
-      message   ? `💬 Message: ${message}` : null,
+      message   ? `💬 Notes: ${message}` : null,
       `📱 SMS Opt-In: ${smsOptIn ? 'Yes' : 'No'}`,
     ].filter(Boolean).join('\n')
 
@@ -70,9 +80,11 @@ export async function POST(req: NextRequest) {
         email: cleanEmail,
         phone: cleanPhone,
         locationId,
-        source: isAIBooking ? 'AI Chat Widget' : 'Website Contact Form',
+        source: sourceLabel,
         tags,
       }
+      if (address) ghlPayload.address1   = address
+      if (zipCode) ghlPayload.postalCode = zipCode
 
       const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
         method: 'POST',
@@ -122,12 +134,14 @@ export async function POST(req: NextRequest) {
           email: cleanEmail,
           service: service || propertyType,
           sqft: sqft || squareFootage,
+          frequency: frequency || 'One-Time',
           price: price ? `$${price}` : 'Custom quote',
           extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
           preferredDate: preferredDate || 'Flexible',
+          address,
           zip: zipCode,
           message,
-          source: isAIBooking ? 'AI Chat Widget' : 'Contact Form',
+          source: sourceLabel,
         }),
       })
       emailSent = formspreeRes.ok
