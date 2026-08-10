@@ -43,7 +43,12 @@ export function calendarIdFor(service: string): string | undefined {
   return (key ? process.env[key] : undefined) || process.env.GHL_CALENDAR_ID || undefined
 }
 
-type CalendarSummary = { id: string; name: string }
+/**
+ * `assignedUserId` carries the team member the appointment belongs to. GoHighLevel
+ * rejects an appointment without one on calendars that have staff assigned, so
+ * the calendar's own team members are captured here to fill it in.
+ */
+type CalendarSummary = { id: string; name: string; teamMemberIds: string[] }
 
 // Calendars change rarely; re-read occasionally so a rename or a newly created
 // calendar is picked up without a redeploy.
@@ -65,7 +70,11 @@ async function listCalendars(apiKey: string, locationId: string): Promise<Calend
   const data = await res.json().catch(() => ({}))
   const calendars: CalendarSummary[] = (data?.calendars ?? [])
     .filter((c: { id?: string; name?: string }) => c?.id && c?.name)
-    .map((c: { id: string; name: string }) => ({ id: c.id, name: c.name }))
+    .map((c: { id: string; name: string; teamMembers?: { userId?: string }[] }) => ({
+      id: c.id,
+      name: c.name,
+      teamMemberIds: (c.teamMembers ?? []).map((m) => m?.userId).filter((id): id is string => !!id),
+    }))
 
   cache = { at: Date.now(), calendars }
   return calendars
@@ -91,19 +100,28 @@ export async function resolveCalendarId(
   apiKey: string,
   locationId: string,
   service: string
-): Promise<{ id: string } | { error: string }> {
+): Promise<{ id: string; assignedUserId?: string } | { error: string }> {
+  const envUser = process.env.GHL_ASSIGNED_USER_ID || undefined
   const override = calendarIdFor(service)
-  if (override) return { id: override }
 
   try {
     const calendars = await listCalendars(apiKey, locationId)
-    const match = matchCalendar(service, calendars)
+
+    // With an override we still look the calendar up, to borrow its team member.
+    const match = override
+      ? calendars.find((c) => c.id === override)
+      : matchCalendar(service, calendars)
+
+    if (override) return { id: override, assignedUserId: envUser ?? match?.teamMemberIds[0] }
+
     if (!match) {
       const names = calendars.map((c) => c.name).join(', ') || 'none returned'
       return { error: `No calendar matched "${service}". Calendars found: ${names}` }
     }
-    return { id: match.id }
+    return { id: match.id, assignedUserId: envUser ?? match.teamMemberIds[0] }
   } catch (err) {
+    // An override lets us still book even if the calendar list is unreadable.
+    if (override) return { id: override, assignedUserId: envUser }
     return { error: err instanceof Error ? err.message : 'Calendar lookup failed' }
   }
 }
@@ -174,7 +192,7 @@ export async function createAppointment(opts: {
 }): Promise<AppointmentResult> {
   const resolved = await resolveCalendarId(opts.apiKey, opts.locationId, opts.service)
   if ('error' in resolved) return { created: false, reason: resolved.error }
-  const calendarId = resolved.id
+  const { id: calendarId, assignedUserId } = resolved
 
   const window = toAppointmentWindow(opts.date, opts.time)
   if (!window) {
@@ -200,6 +218,12 @@ export async function createAppointment(opts: {
         // The customer picked a window on our own form, so GHL's slot rules
         // should not reject it.
         ignoreFreeSlotValidation: true,
+        // GHL rejects an appointment with no owner on calendars that have staff
+        // assigned, so pass the calendar's own team member when there is one.
+        ...(assignedUserId ? { assignedUserId } : {}),
+        // We call every customer within 24 hours; HighLevel must not send its
+        // own confirmation on top of that.
+        toNotify: false,
       }),
     })
 

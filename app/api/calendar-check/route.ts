@@ -39,14 +39,23 @@ export async function GET() {
   const data = await res.json().catch(() => ({}))
   const calendars = (data?.calendars ?? [])
     .filter((c: { id?: string; name?: string }) => c?.id && c?.name)
-    .map((c: { id: string; name: string }) => ({ id: c.id, name: c.name }))
+    .map((c: { id: string; name: string; teamMembers?: { userId?: string }[] }) => ({
+      id: c.id,
+      name: c.name,
+      teamMemberIds: (c.teamMembers ?? []).map((m) => m?.userId).filter((id): id is string => !!id),
+    }))
 
   const mapping = SERVICES.map((service) => {
     if (isQuoteOnRequest(service)) {
       return { service, calendar: 'n/a — quote by phone, no calendar slot held' }
     }
     const match = matchCalendar(service, calendars)
-    return { service, calendar: match ? match.name : '⚠️ NO MATCH' }
+    return {
+      service,
+      calendar: match ? match.name : '⚠️ NO MATCH',
+      // GHL rejects appointments with no owner on calendars that have staff.
+      assignedStaff: match ? (match.teamMemberIds.length || 'none on this calendar') : '—',
+    }
   })
 
   const unmatched = mapping.filter((m) => m.calendar === '⚠️ NO MATCH')
