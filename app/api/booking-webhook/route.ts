@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getPrice, sqftFromText } from '@/lib/pricing'
 
 /**
  * BookingKoala → GoHighLevel Webhook
  * Receives a new booking from BookingKoala and creates/updates a contact in GHL.
+ *
+ * Every booking carries a dollar value so revenue can be traced back to the
+ * lead that produced it. When the payload omits a total — which it does for
+ * anything quoted by phone — the value is derived from lib/pricing.ts rather
+ * than left blank, because a booking with no number attached is invisible to
+ * the money-flow ledger.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -23,6 +30,15 @@ export async function POST(req: NextRequest) {
     const bookingTime = body.booking_time        || body.time       || ''
     const totalPrice  = body.total               || body.price      || ''
     const bookingId   = body.booking_id          || body.id         || ''
+    const sqftRaw     = body.square_footage      || body.sqft       || ''
+
+    // ── Attach a dollar value to every booking ────────────────────────────
+    // A quoted price from the payload always wins; the tier lookup is only a
+    // fallback so the ledger still has something to work with.
+    const sqft = typeof sqftRaw === 'number' ? sqftRaw : sqftFromText(String(sqftRaw))
+    const derivedPrice = sqft !== null ? getPrice(serviceType, sqft) : null
+    const bookingValue = totalPrice || derivedPrice || ''
+    const valueIsEstimate = !totalPrice && derivedPrice !== null
 
     const ghlApiKey  = process.env.GHL_API_KEY
     const locationId = process.env.GHL_LOCATION_ID || 'pjyNLih2iktAcHvgpRiN'
@@ -75,7 +91,10 @@ export async function POST(req: NextRequest) {
         bookingDate ? `Date:          ${bookingDate}` : null,
         bookingTime ? `Time:          ${bookingTime}` : null,
         serviceType ? `Service:       ${serviceType}` : null,
-        totalPrice  ? `Total Price:   $${totalPrice}` : null,
+        sqft        ? `Square Feet:   ${sqft}`        : null,
+        bookingValue
+          ? `Total Price:   $${bookingValue}${valueIsEstimate ? '  (estimated from site pricing)' : ''}`
+          : null,
         `──────────────────────────`,
         address     ? `Address:       ${address}`     : null,
         city        ? `City:          ${city}`         : null,
@@ -94,7 +113,7 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    return NextResponse.json({ ok: true, contactId })
+    return NextResponse.json({ ok: true, contactId, bookingValue, valueIsEstimate })
   } catch (err) {
     console.error('Booking webhook error:', err)
     return NextResponse.json({ ok: false, error: 'Internal error' }, { status: 500 })
