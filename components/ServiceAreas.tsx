@@ -16,6 +16,7 @@ const AREAS = [
   { name: 'Littleton', desc: 'Deep clean & recurring' },
   { name: 'Centennial', desc: 'Luxury homes & offices' },
   { name: 'Greenwood Village', desc: 'Premium residential' },
+  { name: 'Wheat Ridge', desc: 'Homes & deep cleans' },
   { name: 'Arvada', desc: 'Homes & post-construction' },
   { name: 'Westminster', desc: 'Residential & commercial' },
   { name: 'Thornton', desc: 'Move in/out & standard' },
