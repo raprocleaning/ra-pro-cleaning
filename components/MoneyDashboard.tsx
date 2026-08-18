@@ -9,6 +9,7 @@ import {
   cashPosition,
   jobsToCsv,
   money,
+  collectedInMonth,
   monthKey,
   monthlyFromWeekly,
   monthlyRecurring,
@@ -43,8 +44,16 @@ function newId(): string {
   return Math.random().toString(36).slice(2, 10)
 }
 
+/**
+ * Today in the operator's own timezone. `toISOString()` is UTC, which in Denver
+ * rolls over to tomorrow around six in the evening — so a job logged after
+ * dinner would date itself to the next day, and on the last evening of a month
+ * the whole month's totals would vanish a few hours early.
+ */
 function today(): string {
-  return new Date().toISOString().slice(0, 10)
+  const now = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
 
 /**
@@ -164,6 +173,7 @@ export default function MoneyDashboard() {
   // ── Derived numbers ────────────────────────────────────────────────────────
   const thisMonth = monthKey(today())
   const monthJobs = useMemo(() => jobs.filter((j) => monthKey(j.date) === thisMonth), [jobs, thisMonth])
+  const monthCollected = useMemo(() => collectedInMonth(jobs, thisMonth), [jobs, thisMonth])
 
   const allTime = useMemo(() => summariseJobs(jobs), [jobs])
   const month = useMemo(() => summariseJobs(monthJobs), [monthJobs])
@@ -171,11 +181,12 @@ export default function MoneyDashboard() {
 
   const recurring = useMemo(() => monthlyRecurring(contracts), [contracts])
 
-  // The close rate and job value the ledger actually observed beat any guess,
-  // but before there is data we fall back to the site's own pricing so the
-  // model still says something useful on day one.
-  const observedCloseRate = allTime.closeRate
-  const observedJobValue = allTime.avgWonValue || 350
+  // Only ad-sourced jobs may speak for the ad channel. Referrals and repeat
+  // clients close far more readily than a stranger from a search result, so
+  // folding them in would let a healthy referral business declare the ads
+  // profitable on a month when every paid lead was lost.
+  const observedCloseRate = adOnly.closeRate
+  const observedJobValue = adOnly.avgWonValue || 350
 
   const econ = useMemo(
     () =>
@@ -194,13 +205,14 @@ export default function MoneyDashboard() {
     () =>
       cashPosition({
         cashOnHand,
-        paidRevenue: month.paid,
+        paidRevenue: monthCollected,
         recurringRevenue: recurring,
         monthlyAdSpend: monthlyFromWeekly(costs.weeklyAdBudget),
         otherMonthlyCosts: costs.otherMonthlyCosts,
+        jobMargin: costs.jobMargin,
         taxRate: costs.taxRate,
       }),
-    [cashOnHand, month.paid, recurring, costs],
+    [cashOnHand, monthCollected, recurring, costs],
   )
 
   const adsPaying = econ.roas >= 1 && observedCloseRate > 0
@@ -232,7 +244,16 @@ export default function MoneyDashboard() {
   }
 
   function setJobStatus(id: string, status: JobStatus) {
-    setState((s) => ({ ...s, jobs: s.jobs.map((j) => (j.id === id ? { ...j, status } : j)) }))
+    setState((s) => ({
+      ...s,
+      jobs: s.jobs.map((j) => {
+        if (j.id !== id) return j
+        // Stamp the day the money arrived the first time a job is marked paid,
+        // so a August job collected in September counts as September's cash.
+        if (status === 'paid') return { ...j, status, paidOn: j.paidOn ?? today() }
+        return { ...j, status }
+      }),
+    }))
   }
 
   function removeJob(id: string) {
@@ -293,7 +314,8 @@ export default function MoneyDashboard() {
         {observedCloseRate === 0 ? (
           <p className="text-slate-600 leading-relaxed">
             Not enough data yet. Log the jobs you quote and mark them won, paid or lost — once a few
-            have closed, this box will tell you whether Local Services Ads earns back what it costs.
+            from Local Services Ads have closed, this box will tell you whether the ads earn back what
+            they cost. Referrals and repeat clients are deliberately left out of this verdict.
           </p>
         ) : (
           <>
@@ -301,7 +323,7 @@ export default function MoneyDashboard() {
               {beatingBreakEven ? 'Yes — for now' : 'No — the ads are losing money'}
             </p>
             <p className="text-slate-600 leading-relaxed">
-              You close <strong>{percent(observedCloseRate)}</strong> of decided jobs. You need{' '}
+              You close <strong>{percent(observedCloseRate)}</strong> of decided jobs from Local Services Ads. You need{' '}
               <strong>{percent(econ.breakEvenCloseRate)}</strong> just to break even at{' '}
               {money(costs.weeklyAdBudget)}/week with a {money(observedJobValue)} average job and a{' '}
               {percent(costs.jobMargin)} margin.
@@ -315,7 +337,12 @@ export default function MoneyDashboard() {
       {/* ── Headline numbers ─────────────────────────────────────────────── */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card title="This month">
-          <Stat label="Collected" value={money(month.paid)} tone="good" />
+          <Stat
+            label="Collected"
+            value={money(monthCollected)}
+            tone="good"
+            hint={cash.deliveryCost > 0 ? `${money(cash.deliveryCost)} of it goes on labour & supplies` : undefined}
+          />
         </Card>
         <Card title="Owed to you">
           <Stat
@@ -524,7 +551,12 @@ export default function MoneyDashboard() {
               <tbody>
                 {jobs.map((job) => (
                   <tr key={job.id} className="border-b border-slate-100">
-                    <td className="py-2.5 pr-4 tabular-nums text-slate-500">{job.date}</td>
+                    <td className="py-2.5 pr-4 tabular-nums text-slate-500">
+                      {job.date}
+                      {job.paidOn && job.paidOn !== job.date && (
+                        <span className="block text-[11px] text-slate-400">paid {job.paidOn}</span>
+                      )}
+                    </td>
                     <td className="py-2.5 pr-4 font-medium text-[#0F2240]">{job.client}</td>
                     <td className="py-2.5 pr-4 text-slate-600">{job.service}</td>
                     <td className="py-2.5 pr-4 text-slate-600">{job.source}</td>
