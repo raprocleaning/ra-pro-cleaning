@@ -101,10 +101,16 @@ export async function POST(req: NextRequest) {
         bookingTime ? `Time:          ${bookingTime}` : null,
         serviceType ? `Service:       ${serviceType}` : null,
         sqft        ? `Square Feet:   ${sqft}`        : null,
-        derived && derived.discountPercent > 0
+        // Only break down a price this file worked out. When BookingKoala sent
+        // its own total, its pricing is the authority — pairing that real
+        // figure with a discount line derived from the site's tables would put
+        // two contradictory stories in front of whoever reads the note.
+        valueIsEstimate && derived && derived.discountPercent > 0
           ? `Recurring:     ${derived.discountPercent}% off (−$${derived.discountAmount})`
           : null,
-        derived && derived.extrasTotal > 0 ? `Add-ons:       $${derived.extrasTotal}` : null,
+        valueIsEstimate && derived && derived.extrasTotal > 0
+          ? `Add-ons:       $${derived.extrasTotal}`
+          : null,
         bookingValue
           ? `Total Price:   $${bookingValue}${valueIsEstimate ? '  (estimated from site pricing)' : ''}`
           : null,

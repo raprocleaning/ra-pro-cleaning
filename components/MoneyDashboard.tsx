@@ -215,6 +215,11 @@ export default function MoneyDashboard() {
     [cashOnHand, monthCollected, recurring, costs],
   )
 
+  // Jobs that reached a yes or a no. Nothing can be said about the ads until
+  // at least one has — but once one has, a zero close rate is an answer, and
+  // the worst one. Reading it as "no data" would hide exactly the month worth
+  // warning about.
+  const adDecided = adOnly.wonCount + adOnly.lostCount
   const adsPaying = econ.roas >= 1 && observedCloseRate > 0
   const beatingBreakEven = observedCloseRate >= econ.breakEvenCloseRate
 
@@ -251,7 +256,11 @@ export default function MoneyDashboard() {
         // Stamp the day the money arrived the first time a job is marked paid,
         // so a August job collected in September counts as September's cash.
         if (status === 'paid') return { ...j, status, paidOn: j.paidOn ?? today() }
-        return { ...j, status }
+        // Leaving `paid` — a bounced cheque, a reversed card payment — drops the
+        // collection date with it. Keeping it would book a later, real payment
+        // back into the month the first attempt failed.
+        const { paidOn: _dropped, ...rest } = j
+        return { ...rest, status }
       }),
     }))
   }
@@ -301,7 +310,7 @@ export default function MoneyDashboard() {
       {/* ── Verdict ──────────────────────────────────────────────────────── */}
       <div
         className={`rounded-lg p-6 border-l-4 ${
-          observedCloseRate === 0
+          adDecided === 0
             ? 'bg-slate-50 border-slate-300'
             : beatingBreakEven
               ? 'bg-teal-50 border-[#00A896]'
@@ -311,7 +320,7 @@ export default function MoneyDashboard() {
         <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-2">
           Are the ads paying for themselves?
         </p>
-        {observedCloseRate === 0 ? (
+        {adDecided === 0 ? (
           <p className="text-slate-600 leading-relaxed">
             Not enough data yet. Log the jobs you quote and mark them won, paid or lost — once a few
             from Local Services Ads have closed, this box will tell you whether the ads earn back what
@@ -378,6 +387,11 @@ export default function MoneyDashboard() {
 
       {/* ── Inputs ───────────────────────────────────────────────────────── */}
       <Card title="Your numbers">
+        <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+          Costs are split two ways so nothing is counted twice. Anything that scales with the work —
+          labour, supplies, fuel — belongs in the margin. Fixed overheads are what you pay whether or
+          not you clean a single house: software, insurance, the phone bill.
+        </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <Field
             label="Cash in the bank"
@@ -397,7 +411,7 @@ export default function MoneyDashboard() {
             onChange={(n) => setCosts({ leadsPerWeek: n })}
           />
           <Field
-            label="Other costs per month"
+            label="Fixed overheads per month"
             prefix="$"
             value={costs.otherMonthlyCosts}
             onChange={(n) => setCosts({ otherMonthlyCosts: n })}

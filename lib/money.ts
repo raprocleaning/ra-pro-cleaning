@@ -73,9 +73,13 @@ export type Contract = {
 export type Costs = {
   weeklyAdBudget: number
   leadsPerWeek: number
-  /** Software, supplies, insurance, fuel — everything that is not ad spend. */
+  /**
+   * Fixed overheads only — software, insurance, the phone bill. Costs that
+   * scale with the work belong to `jobMargin`; listing supplies or fuel here
+   * as well would deduct them twice and understate the net.
+   */
   otherMonthlyCosts: number
-  /** Share of a job's price left after labour and supplies, 0–1. */
+  /** Share of a job's price left after labour, supplies and fuel, 0–1. */
   jobMargin: number
   /** Share of net profit to set aside for tax, 0–1. */
   taxRate: number
@@ -275,15 +279,16 @@ export function cashPosition(opts: {
   recurringRevenue: number
   monthlyAdSpend: number
   otherMonthlyCosts: number
-  /** Share of a job's price left after labour and supplies, 0–1. */
+  /** Share of a job's price left after labour, supplies and fuel, 0–1. */
   jobMargin: number
   taxRate: number
 }): CashPosition {
   const monthlyIncome = opts.paidRevenue + opts.recurringRevenue
 
-  // Cleaning a house costs labour and supplies whoever swings the mop, and a
+  // Cleaning a house costs labour, supplies and fuel whoever swings the mop,
+  // and a
   // retainer is no different from a one-off in that respect. Counting the full
-  // ticket as cash while `otherMonthlyCosts` holds only software and fuel
+  // ticket as cash while `otherMonthlyCosts` holds only fixed overheads
   // overstates every figure downstream — the net, the runway and the tax to
   // set aside. `jobMargin` already carries that share; apply it here too so
   // both halves of the dashboard mean the same thing by a dollar.
