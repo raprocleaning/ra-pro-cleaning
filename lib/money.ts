@@ -85,9 +85,18 @@ export type Costs = {
   taxRate: number
 }
 
+/**
+ * Starting values for a browser that has never opened this page. They are the
+ * business's measured figures rather than round numbers: $170/week is what
+ * Local Services Ads is set to, and three leads is what that buys at the
+ * observed $55.53 a lead — not the eight the Google budget dialog estimates at
+ * its own optimistic $21. A phone opening this page for the first time with a
+ * guess in these fields would report a cost per lead less than half the real
+ * one, and every judgement downstream inherits that error.
+ */
 export const DEFAULT_COSTS: Costs = {
-  weeklyAdBudget: 400,
-  leadsPerWeek: 15,
+  weeklyAdBudget: 170,
+  leadsPerWeek: 3,
   otherMonthlyCosts: 0,
   jobMargin: 0.5,
   taxRate: 0.3,
@@ -97,8 +106,9 @@ export const DEFAULT_COSTS: Costs = {
 
 /**
  * Weeks per month, averaged over a year. Using 4 here would understate monthly
- * ad spend by roughly 8% — about $140/month at a $400 weekly budget, which is
- * exactly the kind of gap that makes a budget look survivable when it isn't.
+ * ad spend by roughly 8% — about $57/month at the current $170 weekly budget,
+ * and $140 at $400 — exactly the kind of gap that makes a budget look
+ * survivable when it isn't.
  */
 export const WEEKS_PER_MONTH = 52 / 12
 
