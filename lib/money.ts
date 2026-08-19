@@ -46,6 +46,12 @@ export type Job = {
   source: LeadSource
   status: JobStatus
   amount: number
+  /**
+   * ISO date the money actually arrived, when that differs from the job date.
+   * A job quoted in August and paid in September is September's cash — bucket
+   * it by the job date and both months read wrong.
+   */
+  paidOn?: string
   notes?: string
 }
 
@@ -67,9 +73,13 @@ export type Contract = {
 export type Costs = {
   weeklyAdBudget: number
   leadsPerWeek: number
-  /** Software, supplies, insurance, fuel — everything that is not ad spend. */
+  /**
+   * Fixed overheads only — software, insurance, the phone bill. Costs that
+   * scale with the work belong to `jobMargin`; listing supplies or fuel here
+   * as well would deduct them twice and understate the net.
+   */
   otherMonthlyCosts: number
-  /** Share of a job's price left after labour and supplies, 0–1. */
+  /** Share of a job's price left after labour, supplies and fuel, 0–1. */
   jobMargin: number
   /** Share of net profit to set aside for tax, 0–1. */
   taxRate: number
@@ -170,6 +180,21 @@ export function monthKey(isoDate: string): string {
   return isoDate.slice(0, 7)
 }
 
+/**
+ * The date a job's money moves: when it was collected if that is recorded,
+ * otherwise the job date. Only `paid` jobs have a collection date to speak of.
+ */
+export function cashDate(job: Job): string {
+  return job.paidOn ?? job.date
+}
+
+/** Cash actually collected in a month, counted on the day it arrived. */
+export function collectedInMonth(jobs: Job[], month: string): number {
+  return jobs
+    .filter((j) => j.status === 'paid' && monthKey(cashDate(j)) === month)
+    .reduce((sum, j) => sum + j.amount, 0)
+}
+
 export type LedgerTotals = {
   /** Jobs marked `paid` — money actually received. */
   paid: number
@@ -237,6 +262,8 @@ export function adAttributedJobs(jobs: Job[]): Job[] {
 
 export type CashPosition = {
   monthlyIncome: number
+  /** What the labour and supplies behind that income cost to deliver. */
+  deliveryCost: number
   monthlyOutgoings: number
   /** Positive means building cash, negative means burning it. */
   monthlyNet: number
@@ -252,14 +279,26 @@ export function cashPosition(opts: {
   recurringRevenue: number
   monthlyAdSpend: number
   otherMonthlyCosts: number
+  /** Share of a job's price left after labour, supplies and fuel, 0–1. */
+  jobMargin: number
   taxRate: number
 }): CashPosition {
   const monthlyIncome = opts.paidRevenue + opts.recurringRevenue
-  const monthlyOutgoings = opts.monthlyAdSpend + opts.otherMonthlyCosts
+
+  // Cleaning a house costs labour, supplies and fuel whoever swings the mop,
+  // and a
+  // retainer is no different from a one-off in that respect. Counting the full
+  // ticket as cash while `otherMonthlyCosts` holds only fixed overheads
+  // overstates every figure downstream — the net, the runway and the tax to
+  // set aside. `jobMargin` already carries that share; apply it here too so
+  // both halves of the dashboard mean the same thing by a dollar.
+  const deliveryCost = monthlyIncome * (1 - opts.jobMargin)
+  const monthlyOutgoings = opts.monthlyAdSpend + opts.otherMonthlyCosts + deliveryCost
   const monthlyNet = monthlyIncome - monthlyOutgoings
 
   return {
     monthlyIncome,
+    deliveryCost,
     monthlyOutgoings,
     monthlyNet,
     taxReserve: monthlyNet > 0 ? monthlyNet * opts.taxRate : 0,
@@ -284,7 +323,7 @@ export function percent(fraction: number): string {
 
 // ─── EXPORT ──────────────────────────────────────────────────────────────────
 
-const CSV_COLUMNS = ['date', 'client', 'service', 'sqft', 'source', 'status', 'amount', 'notes'] as const
+const CSV_COLUMNS = ['date', 'paidOn', 'client', 'service', 'sqft', 'source', 'status', 'amount', 'notes'] as const
 
 /** Escape a value for CSV — quotes doubled, whole field quoted. */
 function csvCell(value: unknown): string {

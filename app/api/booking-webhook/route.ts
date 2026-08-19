@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getPrice, sqftFromText } from '@/lib/pricing'
+import { getQuote, sqftFromText } from '@/lib/pricing'
 
 /**
  * BookingKoala → GoHighLevel Webhook
@@ -31,14 +31,23 @@ export async function POST(req: NextRequest) {
     const totalPrice  = body.total               || body.price      || ''
     const bookingId   = body.booking_id          || body.id         || ''
     const sqftRaw     = body.square_footage      || body.sqft       || ''
+    const cadence     = body.frequency           || body.recurrence || ''
+    const extrasRaw   = body.extras              || body.addons     || []
 
     // ── Attach a dollar value to every booking ────────────────────────────
-    // A quoted price from the payload always wins; the tier lookup is only a
-    // fallback so the ledger still has something to work with.
+    // A quoted price from the payload always wins. The fallback runs the same
+    // getQuote the booking form uses rather than a bare tier lookup, because a
+    // recurring clean is discounted 30–40% and add-ons are charged on top —
+    // pricing off the base tier alone would record a bi-weekly job in GHL at
+    // half again what the customer was actually quoted.
     const sqft = typeof sqftRaw === 'number' ? sqftRaw : sqftFromText(String(sqftRaw))
-    const derivedPrice = sqft !== null ? getPrice(serviceType, sqft) : null
-    const bookingValue = totalPrice || derivedPrice || ''
-    const valueIsEstimate = !totalPrice && derivedPrice !== null
+    const extras = Array.isArray(extrasRaw) ? extrasRaw.map(String) : []
+    const derived =
+      sqft !== null
+        ? getQuote({ service: serviceType, sqft, frequency: String(cadence), extras })
+        : null
+    const bookingValue = totalPrice || derived?.total || ''
+    const valueIsEstimate = !totalPrice && derived !== null
 
     const ghlApiKey  = process.env.GHL_API_KEY
     const locationId = process.env.GHL_LOCATION_ID || 'pjyNLih2iktAcHvgpRiN'
@@ -92,6 +101,16 @@ export async function POST(req: NextRequest) {
         bookingTime ? `Time:          ${bookingTime}` : null,
         serviceType ? `Service:       ${serviceType}` : null,
         sqft        ? `Square Feet:   ${sqft}`        : null,
+        // Only break down a price this file worked out. When BookingKoala sent
+        // its own total, its pricing is the authority — pairing that real
+        // figure with a discount line derived from the site's tables would put
+        // two contradictory stories in front of whoever reads the note.
+        valueIsEstimate && derived && derived.discountPercent > 0
+          ? `Recurring:     ${derived.discountPercent}% off (−$${derived.discountAmount})`
+          : null,
+        valueIsEstimate && derived && derived.extrasTotal > 0
+          ? `Add-ons:       $${derived.extrasTotal}`
+          : null,
         bookingValue
           ? `Total Price:   $${bookingValue}${valueIsEstimate ? '  (estimated from site pricing)' : ''}`
           : null,
