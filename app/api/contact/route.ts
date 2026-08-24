@@ -143,6 +143,29 @@ export async function POST(req: NextRequest) {
             if (!result.created) {
               appointmentError = result.reason
               console.error('GHL appointment not created:', result.reason)
+
+              // Say so on the contact itself. A booking that never reached the
+              // calendar looks identical to one that did from the Contacts
+              // list, so the only warning used to be a server log nobody reads
+              // — and the job quietly went unscheduled.
+              await fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${ghlApiKey}`,
+                  'Version': '2021-07-28',
+                },
+                body: JSON.stringify({
+                  body: [
+                    `⚠️ NOT ON A CALENDAR — add this job by hand.`,
+                    `📅 Requested: ${bookingDate} at ${bookingTime}`,
+                    `❗ Reason: ${result.reason}`,
+                  ].join('\n'),
+                  userId: '',
+                }),
+              }).catch((err) => {
+                console.error('Could not record the calendar failure on the contact:', err)
+              })
             }
           }
         }

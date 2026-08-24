@@ -55,6 +55,10 @@ export default function BookingForm() {
       prev.includes(label) ? prev.filter((e) => e !== label) : [...prev, label]
     )
 
+  // A typed leading space used to swallow the greeting — "Thanks  — we've got
+  // your…" reads like the page broke halfway through writing their name.
+  const firstName = name.trim().split(/\s+/)[0] || 'there'
+
   const detailsDone =
     name.trim().length > 1 && phone.trim().length >= 10 && email.includes('@')
 
@@ -158,7 +162,7 @@ export default function BookingForm() {
           {quoteOnRequest ? 'Request received!' : 'You’re booked!'}
         </h2>
         <p className="text-[#4A6583] leading-relaxed mb-9">
-          Thanks {name.split(' ')[0]} — we’ve got your{' '}
+          Thanks {firstName} — we’ve got your{' '}
           <strong className="text-[#0F2240]">{service}</strong> for{' '}
           <strong className="text-[#0F2240]">{date} at {time}</strong>.
           <br />
