@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import { getCampaign } from '@/lib/campaign'
 
 const Footer = () => {
   const [email, setEmail] = useState('')
@@ -14,7 +15,7 @@ const Footer = () => {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName: 'Newsletter Signup', email, message: 'Newsletter signup', propertyType: 'Newsletter' }),
+        body: JSON.stringify({ fullName: 'Newsletter Signup', email, message: 'Newsletter signup', propertyType: 'Newsletter', campaign: getCampaign() }),
       })
       if (res.ok) {
         setNewsletterStatus('success')

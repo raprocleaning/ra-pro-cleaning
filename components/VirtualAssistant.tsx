@@ -8,6 +8,7 @@ import {
   EXTRAS, SQFT_OPTIONS, getPrice, sqftFromText,
   SERVICES as SERVICE_LIST,
 } from '@/lib/pricing'
+import { getCampaign } from '@/lib/campaign'
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 type Step =
@@ -379,6 +380,7 @@ export default function VirtualAssistant() {
             extras: updatedBooking.extras || [],
             preferredDate: updatedBooking.preferredDate || 'Flexible',
             smsOptIn: updatedBooking.smsOptIn === true,
+            campaign: getCampaign(),
           }),
         })
         const result = await response.json().catch(() => null)

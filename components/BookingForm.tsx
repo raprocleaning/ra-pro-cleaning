@@ -4,6 +4,7 @@ import {
   SERVICES, SERVICE_META, SQFT_OPTIONS, FREQUENCIES, EXTRAS, getQuote, isQuoteOnRequest,
 } from '@/lib/pricing'
 import { trackEvent, trackLead } from '@/lib/analytics'
+import { getCampaign } from '@/lib/campaign'
 
 /**
  * Every hour of the day. We advertise round-the-clock availability — Airbnb
@@ -138,6 +139,7 @@ export default function BookingForm() {
           bookingTime: time,
           message: notes.trim(),
           smsOptIn,
+          campaign: getCampaign(),
         }),
       })
 
