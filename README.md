@@ -137,13 +137,62 @@ Use Nginx as a reverse proxy pointing to port 3000.
 
 ## Environment Variables
 
-No environment variables are required for the basic setup. If you add integrations later:
+Copy `.env.example` to `.env.local` and fill in what you use. See that file for
+the full list with comments.
 
-Create a `.env.local` file at the project root:
 ```
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX        # Google Analytics
 NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX        # Google Tag Manager
 ```
+
+### Who gets the form submission emails
+
+Every submission from the contact form, the booking form and the AI chat widget
+is emailed to the addresses in `LEAD_NOTIFY_TO`, which defaults to
+**pamela@raprocleaningservices.com**. Comma-separate the list to notify more
+than one person:
+
+```
+LEAD_NOTIFY_TO=pamela@raprocleaningservices.com,ra@raprocleaningservices.com
+```
+
+For those emails to go out, the site needs a mailbox on this domain to send
+from. Mail lives on Namecheap cPanel (`business108.web-hosting.com`) while the
+site itself runs on Vercel, so the credentials have to be set in both places.
+
+1. In cPanel → **Email Accounts**, create a mailbox for the website — for
+   example `website@raprocleaningservices.com`. A dedicated mailbox is worth the
+   two minutes: its password can be rotated without locking anybody out of their
+   own email. Reusing an existing mailbox works too, as long as it is on this
+   domain — the mail server will not let the site send as an outside address.
+2. Set `SMTP_USER` to that full address and `SMTP_PASS` to its password, in
+   `.env.local` **and** in Vercel → Project Settings → Environment Variables, so
+   the live site has them too. Redeploy afterwards; these are read at boot.
+3. `SMTP_HOST` and `SMTP_PORT` already default to
+   `mail.raprocleaningservices.com` and 465, which is what cPanel →
+   **Connect Devices** lists for this account. Only set them to override that.
+
+Leaving `SMTP_USER` / `SMTP_PASS` blank does not break the forms — submissions
+still reach the CRM and Formspree, they just are not emailed to the office
+mailbox directly.
+
+### The customer's copy
+
+The person who books also gets an email the moment they submit — their service,
+date and time, home size, add-ons and total, and what happens next. Before this
+the "You're booked!" screen was the only record they had, and it was gone as
+soon as they closed the tab.
+
+The wording follows what they actually did: a booked slot is confirmed back to
+them, a post-construction job says we will call with the quote instead of
+claiming a total, and a plain contact-form message just acknowledges the
+message. Replies go to `MAIL_REPLY_TO` (ra@ by default), not to the unattended
+mailbox the site sends from. It rides on the same `SMTP_USER` / `SMTP_PASS`
+above — no separate setup — and a failure is logged without disturbing the
+booking.
+
+Formspree stays on as a second, independent notification. Its recipients are
+managed in the Formspree dashboard, not in this repo.
 
 ---
 
@@ -152,7 +201,7 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX        # Google Tag Manager
 - **Business:** R A Pro Cleaning Services LLC
 - **Phone:** 720-677-8799 (call & text)
 - **Email:** ra@raprocleaningservices.com
-- **Address:** 1325 S Colorado Blvd, Denver, CO 80222
+- **Service area:** Denver, Aurora & the surrounding metro (no public street address)
 - **Booking:** https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3
 - **Instagram:** https://www.instagram.com/raprocleaningservice/
 - **Facebook:** https://www.facebook.com/share/16NnxD6cYf/
@@ -166,5 +215,5 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX        # Google Tag Manager
 - **Language:** TypeScript
 - **Animations:** CSS transitions + Intersection Observer API
 - **Fonts:** Inter (Google Fonts)
-- **Forms:** Formspree (replace endpoint)
+- **Forms:** GoHighLevel CRM + SMTP notification email, with Formspree as a backup notifier
 - **SEO:** Native Next.js Metadata API + LocalBusiness JSON-LD schema

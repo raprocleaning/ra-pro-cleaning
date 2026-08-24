@@ -78,9 +78,9 @@ export default function ContactPage() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs font-semibold text-[#4A6583] uppercase tracking-wider">Our Address</p>
+                <p className="text-xs font-semibold text-[#4A6583] uppercase tracking-wider">Service Area</p>
                 <p className="font-bold text-[#0F2240] text-sm">
-                  1325 S Colorado Blvd<br />Denver, CO 80222
+                  Denver, Aurora<br />&amp; the surrounding metro
                 </p>
               </div>
             </div>
@@ -97,8 +97,8 @@ export default function ContactPage() {
           <h2 className="text-2xl font-bold text-[#0F2240] mb-8 tracking-tight">Our Service Area</h2>
           <div className="w-full h-96 overflow-hidden border border-[#B2DFDB] shadow-sm">
             <iframe
-              title="R A Pro Cleaning Services location"
-              src="https://maps.google.com/maps?q=1325+S+Colorado+Blvd,+Denver,+CO+80222&output=embed&z=15"
+              title="R A Pro Cleaning Services service area"
+              src="https://maps.google.com/maps?q=Denver,+CO&output=embed&z=10"
               width="100%"
               height="100%"
               style={{ border: 0 }}

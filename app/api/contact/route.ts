@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAppointment } from '@/lib/ghlCalendar'
+import { sendLeadEmail, sendCustomerEmail } from '@/lib/leadEmail'
+
+// nodemailer needs the Node runtime; the CRM and calendar calls are happy there too.
+export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
   try {
@@ -76,6 +80,7 @@ export async function POST(req: NextRequest) {
     // ── 1. Create / update contact in GHL ────────────────────────────────────
     let crmSaved = false
     let emailSent = false
+    let customerEmailSent = false
     let crmError = ''
     let emailError = ''
     let appointmentCreated = false
@@ -150,37 +155,70 @@ export async function POST(req: NextRequest) {
       console.warn(crmError)
     }
 
-    // ── 2. Formspree email notification ───────────────────────────────────────
-    const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/meerbldr'
-    try {
-      const formspreeRes = await fetch(formspreeEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          name: cleanName,
-          phone: cleanPhone,
-          email: cleanEmail,
-          service: service || propertyType,
-          sqft: sqft || squareFootage,
-          frequency: frequency || 'One-Time',
-          price: price ? `$${price}` : 'Custom quote',
-          extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
-          preferredDate: preferredDate || 'Flexible',
-          address,
-          zip: zipCode,
-          message,
-          source: sourceLabel,
-        }),
-      })
-      emailSent = formspreeRes.ok
-      if (!formspreeRes.ok) {
-        emailError = `Formspree notification failed (${formspreeRes.status}): ${await formspreeRes.text()}`
-        console.error(emailError)
-      }
-    } catch (err) {
-      emailError = `Formspree notification failed: ${err instanceof Error ? err.message : 'Unknown error'}`
-      console.error(emailError)
+    // ── 2. Email the office ───────────────────────────────────────────────────
+    // Two independent paths, because they fail for different reasons: Formspree
+    // picks its own recipients in a dashboard, while SMTP delivers to the
+    // addresses in LEAD_NOTIFY_TO (the office mailbox). One delivering is
+    // enough to consider the lead notified.
+    const lead = {
+      name: cleanName,
+      phone: cleanPhone,
+      email: cleanEmail,
+      service: service || propertyType,
+      sqft: sqft || squareFootage,
+      frequency: frequency || 'One-Time',
+      price,
+      extras,
+      preferredDate,
+      address,
+      zip: zipCode,
+      message,
+      source: sourceLabel,
+      smsOptIn: !!smsOptIn,
+      // Shapes the customer's copy: a confirmed slot reads differently from a
+      // general enquiry, and a phone-quoted job must not claim a total.
+      hasSlot: !!(preferredDate || (bookingDate && bookingTime)),
+      hasPrice: !!price && !quoteOnRequest,
     }
+
+    // A newsletter box is not a booking, so nobody gets a booking confirmation.
+    const isNewsletter = propertyType === 'Newsletter'
+
+    const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/meerbldr'
+    const formspree = fetch(formspreeEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        // hasSlot / hasPrice only shape the customer's copy; they would read as
+        // noise in a Formspree submission.
+        ...(({ hasSlot, hasPrice, ...rest }) => rest)(lead),
+        price: price ? `$${price}` : 'Custom quote',
+        extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
+        preferredDate: preferredDate || 'Flexible',
+      }),
+    })
+      .then(async (res) =>
+        res.ok
+          ? { sent: true, error: '' }
+          : { sent: false, error: `Formspree notification failed (${res.status}): ${await res.text()}` }
+      )
+      .catch((err) => ({
+        sent: false,
+        error: `Formspree notification failed: ${err instanceof Error ? err.message : 'Unknown error'}`,
+      }))
+
+    // The customer's own copy goes out alongside — their booking stands whether
+    // or not it arrives, so it never gates the response.
+    const [formspreeResult, smtpResult, customerResult] = await Promise.all([
+      formspree,
+      sendLeadEmail(lead),
+      isNewsletter ? Promise.resolve({ sent: false, error: '' }) : sendCustomerEmail(lead),
+    ])
+
+    emailSent = formspreeResult.sent || smtpResult.sent
+    customerEmailSent = customerResult.sent
+    emailError = [formspreeResult.error, smtpResult.error, customerResult.error].filter(Boolean).join(' | ')
+    if (emailError) console.error(emailError)
 
     if (!crmSaved && !emailSent) {
       return NextResponse.json(
@@ -189,7 +227,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    return NextResponse.json({ ok: true, crmSaved, emailSent, appointmentCreated, appointmentError })
+    return NextResponse.json({ ok: true, crmSaved, emailSent, customerEmailSent, appointmentCreated, appointmentError })
   } catch (err) {
     console.error('Contact API error:', err)
     return NextResponse.json({ ok: false, error: 'Internal error' }, { status: 500 })

@@ -85,14 +85,15 @@ const Footer = () => {
               insured, and dedicated to exceptional results every time.
             </p>
 
-            {/* Address */}
+            {/* Service area — a cleaning company works at the customer's
+                address, so the business address is not published. */}
             <div className="flex items-start gap-3 mb-5">
               <svg className="w-4 h-4 text-[#00A896] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               <p className="text-white/50 text-sm">
-                1325 S Colorado Blvd<br />Denver, CO 80222
+                Serving Denver, Aurora<br />&amp; the surrounding metro
               </p>
             </div>
 

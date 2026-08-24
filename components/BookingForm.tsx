@@ -58,15 +58,51 @@ export default function BookingForm() {
   const detailsDone =
     name.trim().length > 1 && phone.trim().length >= 10 && email.includes('@')
 
+  /**
+   * Everything still standing between the customer and a booking, in the order
+   * the form asks for it. A disabled button with no explanation reads as a
+   * broken site — the contact fields sit below the fold next to the sticky
+   * quote panel, so "why can I not click this" has no answer on screen.
+   */
+  const missing = useMemo(() => {
+    const items: Array<{ id: string; label: string }> = []
+    if (!service) items.push({ id: 'booking-service', label: 'a service' })
+    if (!sqft)    items.push({ id: 'sqft',            label: 'your home size' })
+    if (!date)    items.push({ id: 'booking-date',    label: 'a date' })
+    if (!time)    items.push({ id: 'booking-time',    label: 'an arrival window' })
+    if (name.trim().length <= 1)   items.push({ id: 'field-full-name', label: 'your name' })
+    if (phone.trim().length < 10)  items.push({ id: 'field-phone',     label: 'a phone number' })
+    if (!email.includes('@'))      items.push({ id: 'field-email',     label: 'an email address' })
+    return items
+  }, [service, sqft, date, time, name, phone, email])
+
+  /** Reads as a sentence: "your name, a phone number and an email address". */
+  const missingLabel = missing
+    .map((m) => m.label)
+    .reduce((sentence, label, i, all) =>
+      i === 0 ? label : i === all.length - 1 ? `${sentence} and ${label}` : `${sentence}, ${label}`,
+    '')
+
   const canSubmit =
-    !!service && !!sqft && !!date && !!time &&
+    missing.length === 0 &&
     (quoteOnRequest || !!quote) &&
-    detailsDone &&
     status !== 'submitting'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!canSubmit) return
+    if (status === 'submitting') return
+
+    // Send them to the first thing that is missing rather than doing nothing.
+    if (missing.length > 0) {
+      setStatus('error')
+      setError(`Almost there — we still need ${missingLabel}.`)
+      const field = document.getElementById(missing[0].id)
+      field?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement) {
+        field.focus({ preventScroll: true })
+      }
+      return
+    }
 
     setStatus('submitting')
     setError('')
@@ -175,7 +211,10 @@ export default function BookingForm() {
 
   // ── FORM ──────────────────────────────────────────────────────────────────
   return (
-    <form onSubmit={handleSubmit} className="max-w-6xl mx-auto px-5 sm:px-6 pb-16">
+    // noValidate hands validation to handleSubmit: the browser's own bubble
+    // only names the first empty field and is easy to miss on a phone, while
+    // the quote panel can list everything that is still outstanding.
+    <form onSubmit={handleSubmit} noValidate className="max-w-6xl mx-auto px-5 sm:px-6 pb-16">
 
       {/* Compact running total, mobile only — the sidebar is off-screen there */}
       <div className="lg:hidden sticky top-[72px] z-30 -mx-5 sm:-mx-6 mb-8">
@@ -209,7 +248,7 @@ export default function BookingForm() {
 
           {/* Service */}
           <Step n={next()} done={!!service} title="What kind of cleaning do you need?">
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div id="booking-service" className="grid sm:grid-cols-2 gap-3">
               {SERVICES.map((s) => {
                 const meta = SERVICE_META[s]
                 const active = service === s
@@ -478,13 +517,21 @@ export default function BookingForm() {
               )}
               <button
                 type="submit"
-                disabled={!canSubmit}
-                className="w-full bg-[#00A896] hover:bg-[#007A6C] active:scale-[0.99] disabled:bg-[#CBE5E1] disabled:cursor-not-allowed disabled:active:scale-100 text-white font-bold py-4 rounded-2xl transition-all text-lg shadow-lg shadow-[#00A896]/20 disabled:shadow-none"
+                disabled={status === 'submitting'}
+                className={`w-full active:scale-[0.99] text-white font-bold py-4 rounded-2xl transition-all text-lg shadow-lg shadow-[#00A896]/20 disabled:cursor-wait ${
+                  canSubmit ? 'bg-[#00A896] hover:bg-[#007A6C]' : 'bg-[#7FCFC5] hover:bg-[#00A896]'
+                }`}
               >
                 {status === 'submitting'
                   ? 'Booking…'
                   : quoteOnRequest ? 'Request My Quote' : 'Confirm Booking'}
               </button>
+
+              {missing.length > 0 && status !== 'submitting' && (
+                <p className="text-[#4A6583] text-xs text-center mt-3 leading-relaxed">
+                  Still needed: <span className="font-semibold text-[#0F2240]">{missingLabel}</span>
+                </p>
+              )}
 
               <div className="flex items-center justify-center gap-4 mt-4 text-[#4A6583] text-[11px]">
                 <span className="flex items-center gap-1.5">🔒 No card required</span>
