@@ -44,13 +44,16 @@ const Footer = () => {
     { name: 'Contact', href: '/contact' },
   ]
 
+  // Booking runs itself around the clock; the phone is answered by a person,
+  // and saying otherwise just means a 3am caller reaches nobody.
   const hours = [
-    { day: 'Monday – Sunday', hours: 'Open 24 Hours' },
+    { day: 'Phone — Monday to Sunday', hours: '9:00 AM – 5:00 PM' },
+    { day: 'Online booking', hours: '24 hours a day' },
   ]
 
   return (
     <footer className="bg-[#071525] text-white">
-      {/* Top CTA band — visible only outside business hours */}
+      {/* Top CTA band */}
         <div className="bg-[#00A896]">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div>

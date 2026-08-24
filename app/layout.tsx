@@ -61,7 +61,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       worstRating: '1',
     },
     priceRange: '$$',
-    openingHours: ['Mo-Su 00:00-23:59'],
+    // When somebody answers the phone. Online booking never closes, but that
+    // is not what openingHours means to a search result.
+    openingHours: ['Mo-Su 09:00-17:00'],
     areaServed: [
       { '@type': 'City', name: 'Denver', sameAs: 'https://en.wikipedia.org/wiki/Denver' },
       { '@type': 'City', name: 'Aurora' },
