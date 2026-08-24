@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const services = [
   {
@@ -158,7 +157,6 @@ const ServicesGrid = () => {
         </div>
 
         {/* CTA */}
-        <AfterHoursOnly>
           <div className="text-center mt-12 fade-in-up">
             <a
               href="/book"
@@ -172,7 +170,6 @@ const ServicesGrid = () => {
               </svg>
             </a>
           </div>
-        </AfterHoursOnly>
       </div>
     </section>
   )

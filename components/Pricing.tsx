@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { useAfterHours } from '@/lib/useAfterHours'
 
 const sqftTiers = [
   { range: '0 – 999 sq ft',       standard: 200, deep: 200, moveInOut: 300, airbnb: 200, postConstruction: null },
@@ -42,7 +41,6 @@ type ServiceKey = 'standard' | 'deep' | 'moveInOut' | 'airbnb' | 'postConstructi
 export default function Pricing() {
   const [activeService, setActiveService] = useState<ServiceKey>('standard')
   const [activeFreq, setActiveFreq] = useState(0)
-  const afterHours = useAfterHours()
 
   const discount = frequencies[activeFreq].discount
 
@@ -185,7 +183,6 @@ export default function Pricing() {
 
         {/* CTA */}
         <div className="text-center">
-          {afterHours && (
             <a
               href="/book"
               target="_blank"
@@ -194,7 +191,6 @@ export default function Pricing() {
             >
               Book Now & Get an Instant Price
             </a>
-          )}
           <Link
             href="/contact"
             className="inline-block border border-[#00A896] text-[#00A896] font-semibold tracking-wide px-10 py-4 hover:bg-[#E6F7F5] transition-colors text-sm"

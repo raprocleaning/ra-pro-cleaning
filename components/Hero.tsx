@@ -1,11 +1,9 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { useAfterHours } from '@/lib/useAfterHours'
 
 const Hero = () => {
   const parallaxRef = useRef<HTMLDivElement>(null)
   const [showStickyBtn, setShowStickyBtn] = useState(false)
-  const afterHours = useAfterHours()
 
   useEffect(() => {
     // Parallax on scroll
@@ -87,7 +85,6 @@ const Hero = () => {
                 className="flex flex-col sm:flex-row gap-4"
                 style={{ animation: 'fadeInUp 0.7s ease both', animationDelay: '360ms' }}
               >
-                {afterHours && (
                   <a
                     href="/book"
                     target="_blank"
@@ -99,7 +96,6 @@ const Hero = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </a>
-                )}
                 <a
                   href="tel:7206778799"
                   className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-medium text-base px-8 py-4 hover:border-white hover:bg-white/10 transition-all"
@@ -141,7 +137,6 @@ const Hero = () => {
       </section>
 
       {/* ── FLOATING STICKY CTA (after-hours only) ───────────────── */}
-      {afterHours && (
         <div
           className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${
             showStickyBtn ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
@@ -159,7 +154,6 @@ const Hero = () => {
             Book Now
           </a>
         </div>
-      )}
     </>
   )
 }

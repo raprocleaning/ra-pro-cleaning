@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 interface BlogPost {
   slug: string
@@ -253,7 +252,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <p className="text-[#4A6583] text-sm mb-6">
               Denver&apos;s trusted professional cleaning team with 45 five-star Google reviews.
             </p>
-            <AfterHoursOnly>
               <a
                 href="/book"
                 target="_blank"
@@ -262,7 +260,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               >
                 Book a Professional Clean
               </a>
-            </AfterHoursOnly>
           </div>
         </div>
       </section>

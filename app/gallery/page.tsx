@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const categories = ['All', 'Kitchen', 'Bathroom', 'Living Room']
 
@@ -155,7 +154,6 @@ export default function GalleryPage() {
             Want These Results in Your Home?
           </h2>
           <p className="text-[#4A6583] mb-8">Book your cleaning today and see the transformation yourself.</p>
-          <AfterHoursOnly>
             <a
               href="/book"
               target="_blank"
@@ -164,7 +162,6 @@ export default function GalleryPage() {
             >
               Book Now
             </a>
-          </AfterHoursOnly>
         </div>
       </section>
     </main>

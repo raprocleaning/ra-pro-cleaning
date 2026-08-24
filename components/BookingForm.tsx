@@ -5,10 +5,15 @@ import {
 } from '@/lib/pricing'
 import { trackEvent, trackLead } from '@/lib/analytics'
 
-const TIME_SLOTS = [
-  '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
-  '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM',
-]
+/**
+ * Every hour of the day. We advertise round-the-clock availability — Airbnb
+ * turnovers and move-outs regularly need a crew before dawn or late at night —
+ * so the form has no business stopping at 4 PM.
+ */
+const TIME_SLOTS = Array.from({ length: 24 }, (_, hour) => {
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12
+  return `${hour12}:00 ${hour < 12 ? 'AM' : 'PM'}`
+})
 
 /** Tomorrow, as YYYY-MM-DD — the earliest date a customer may book. */
 function minDate(): string {

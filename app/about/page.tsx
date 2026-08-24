@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 export const metadata: Metadata = {
   title: 'About Us | R A Pro Cleaning Services Denver',
@@ -219,7 +218,6 @@ export default function AboutPage() {
             Our professional team is licensed and covered by full liability
             insurance. Your home and your peace of mind are fully protected.
           </p>
-          <AfterHoursOnly>
             <a
               href="/book"
               target="_blank"
@@ -228,7 +226,6 @@ export default function AboutPage() {
             >
               Book with Confidence
             </a>
-          </AfterHoursOnly>
         </div>
       </section>
 
@@ -279,7 +276,6 @@ export default function AboutPage() {
             <p className="text-[#4A6583] mt-1">Join hundreds of satisfied Denver homeowners.</p>
           </div>
           <div className="flex gap-4">
-            <AfterHoursOnly>
               <a
                 href="/book"
                 target="_blank"
@@ -288,7 +284,6 @@ export default function AboutPage() {
               >
                 Book Now
               </a>
-            </AfterHoursOnly>
             <Link
               href="/contact"
               className="border border-[#B2DFDB] text-[#0F2240] font-medium px-6 py-3 hover:border-[#00A896] hover:text-[#00A896] transition-colors"

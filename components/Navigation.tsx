@@ -2,14 +2,12 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
-import { useAfterHours } from '@/lib/useAfterHours'
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
   const [whyUsOpen, setWhyUsOpen] = useState(false)
-  const afterHours = useAfterHours()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)

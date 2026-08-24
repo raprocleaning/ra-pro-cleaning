@@ -1,6 +1,5 @@
 'use client'
 import { useState, useCallback, useRef } from 'react'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const reviews = [
   {
@@ -202,7 +201,6 @@ const Reviews = () => {
         </div>
 
         {/* CTA */}
-        <AfterHoursOnly>
           <div className="text-center mt-12">
             <p className="text-[#4A6583] text-sm mb-4">Join satisfied homeowners across Denver and Aurora</p>
             <a
@@ -214,7 +212,6 @@ const Reviews = () => {
               Book Your Clean Today
             </a>
           </div>
-        </AfterHoursOnly>
       </div>
     </section>
   )

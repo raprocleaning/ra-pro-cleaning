@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const faqs = [
   {
@@ -95,7 +94,6 @@ const FAQ = () => {
               Have a question we haven&apos;t answered here? We&apos;d love to hear from you.
             </p>
             <div className="space-y-4">
-              <AfterHoursOnly>
                 <a
                   href="/book"
                   target="_blank"
@@ -104,7 +102,6 @@ const FAQ = () => {
                 >
                   Book a Clean
                 </a>
-              </AfterHoursOnly>
               <div>
                 <a
                   href="tel:7206778799"
