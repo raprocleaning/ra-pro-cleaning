@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
-import { useAfterHours } from '@/lib/useAfterHours'
 import { trackEvent, trackLead } from '@/lib/analytics'
 
 // Pricing lives in lib/pricing.ts so the chat, the booking form and the pricing
@@ -74,7 +73,6 @@ export default function VirtualAssistant() {
   const bottomRef = useRef<HTMLDivElement>(null)
 
   // Floating Book Now + chat trigger appear only outside 9 AM – 5 PM Mountain Time.
-  const afterHours = useAfterHours()
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -474,7 +472,6 @@ export default function VirtualAssistant() {
       </a>
 
       {/* ── FLOATING AI QUOTE CHAT BUTTON (after-hours only) ──────────── */}
-      {afterHours && (
       <button
         onClick={open ? handleClose : handleOpen}
         className="fixed bottom-20 right-6 z-50 bg-[#0F2240] hover:bg-[#1a3460] text-white shadow-xl flex items-center gap-2 px-4 py-3 transition-all duration-300 rounded-full font-semibold text-xs"
@@ -497,7 +494,6 @@ export default function VirtualAssistant() {
           </>
         )}
       </button>
-      )}
 
       {/* ── CHAT / BOOKING WINDOW ───────────────────────────────────── */}
       {open && (

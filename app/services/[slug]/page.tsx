@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 interface ServiceData {
   slug: string
@@ -313,7 +312,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   Tell us about your space and we&apos;ll provide a personalized quote.
                 </p>
 
-                <AfterHoursOnly>
                   <a
                     href="/book"
                     target="_blank"
@@ -322,7 +320,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   >
                     Book Now
                   </a>
-                </AfterHoursOnly>
                 <a
                   href="tel:7206778799"
                   className="block w-full text-center border border-[#B2DFDB] text-[#0F2240] font-medium py-4 hover:border-[#00A896] hover:text-[#00A896] transition-colors mb-4"

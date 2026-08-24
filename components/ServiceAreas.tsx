@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const AREAS = [
   { name: 'Denver', desc: 'All Denver neighborhoods' },
@@ -101,7 +100,6 @@ export default function ServiceAreas() {
               </svg>
               (720) 677-8799
             </a>
-            <AfterHoursOnly>
               <a
                 href="/book"
                 target="_blank"
@@ -110,7 +108,6 @@ export default function ServiceAreas() {
               >
                 Book Online
               </a>
-            </AfterHoursOnly>
           </div>
         </div>
       </div>

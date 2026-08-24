@@ -1,6 +1,5 @@
 'use client'
 import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
-import AfterHoursOnly from '@/components/AfterHoursOnly'
 
 const steps = [
   {
@@ -90,7 +89,6 @@ const HowItWorks = () => {
         </div>
 
         {/* CTA */}
-        <AfterHoursOnly>
           <div className="text-center mt-16 fade-in-up">
             <a
               href="/book"
@@ -104,7 +102,6 @@ const HowItWorks = () => {
               </svg>
             </a>
           </div>
-        </AfterHoursOnly>
       </div>
     </section>
   )

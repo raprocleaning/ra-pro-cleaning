@@ -2,12 +2,10 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
-import { useAfterHours } from '@/lib/useAfterHours'
 
 const Footer = () => {
   const [email, setEmail] = useState('')
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const afterHours = useAfterHours()
 
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,7 +51,6 @@ const Footer = () => {
   return (
     <footer className="bg-[#071525] text-white">
       {/* Top CTA band — visible only outside business hours */}
-      {afterHours && (
         <div className="bg-[#00A896]">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
@@ -70,7 +67,6 @@ const Footer = () => {
             </a>
           </div>
         </div>
-      )}
 
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
@@ -180,7 +176,6 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
-              {afterHours && (
                 <li>
                   <a
                     href="/book"
@@ -191,7 +186,6 @@ const Footer = () => {
                     Book Now →
                   </a>
                 </li>
-              )}
             </ul>
           </div>
 
