@@ -137,13 +137,43 @@ Use Nginx as a reverse proxy pointing to port 3000.
 
 ## Environment Variables
 
-No environment variables are required for the basic setup. If you add integrations later:
+Copy `.env.example` to `.env.local` and fill in what you use. See that file for
+the full list with comments.
 
-Create a `.env.local` file at the project root:
 ```
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX        # Google Analytics
 NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX        # Google Tag Manager
 ```
+
+### Who gets the form submission emails
+
+Every submission from the contact form, the booking form and the AI chat widget
+is emailed to the addresses in `LEAD_NOTIFY_TO`, which defaults to
+**pamela@raprocleaningservices.com**. Comma-separate the list to notify more
+than one person:
+
+```
+LEAD_NOTIFY_TO=pamela@raprocleaningservices.com,ra@raprocleaningservices.com
+```
+
+For those emails to go out, the site needs a mailbox to send from:
+
+1. In cPanel → **Email Accounts**, create a mailbox for the website — for
+   example `website@raprocleaningservices.com`. Use a dedicated mailbox rather
+   than a personal one, so the password can be rotated without locking anybody
+   out of their email.
+2. Open **Connect Devices** on that mailbox to see the outgoing server settings.
+3. Set `SMTP_HOST`, `SMTP_PORT` (465), `SMTP_USER` and `SMTP_PASS` in
+   `.env.local` — and in the hosting dashboard (Vercel → Project Settings →
+   Environment Variables) so the live site has them too. Redeploy after adding
+   them; environment variables are read at boot.
+
+Leaving `SMTP_USER` / `SMTP_PASS` blank does not break the forms — submissions
+still reach the CRM and Formspree, they just are not emailed to the office
+mailbox directly.
+
+Formspree stays on as a second, independent notification. Its recipients are
+managed in the Formspree dashboard, not in this repo.
 
 ---
 
@@ -166,5 +196,5 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX        # Google Tag Manager
 - **Language:** TypeScript
 - **Animations:** CSS transitions + Intersection Observer API
 - **Fonts:** Inter (Google Fonts)
-- **Forms:** Formspree (replace endpoint)
+- **Forms:** GoHighLevel CRM + SMTP notification email, with Formspree as a backup notifier
 - **SEO:** Native Next.js Metadata API + LocalBusiness JSON-LD schema

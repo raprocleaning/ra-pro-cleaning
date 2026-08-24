@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAppointment } from '@/lib/ghlCalendar'
+import { sendLeadEmail } from '@/lib/leadEmail'
+
+// nodemailer needs the Node runtime; the CRM and calendar calls are happy there too.
+export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
   try {
@@ -150,37 +154,54 @@ export async function POST(req: NextRequest) {
       console.warn(crmError)
     }
 
-    // ── 2. Formspree email notification ───────────────────────────────────────
-    const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/meerbldr'
-    try {
-      const formspreeRes = await fetch(formspreeEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          name: cleanName,
-          phone: cleanPhone,
-          email: cleanEmail,
-          service: service || propertyType,
-          sqft: sqft || squareFootage,
-          frequency: frequency || 'One-Time',
-          price: price ? `$${price}` : 'Custom quote',
-          extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
-          preferredDate: preferredDate || 'Flexible',
-          address,
-          zip: zipCode,
-          message,
-          source: sourceLabel,
-        }),
-      })
-      emailSent = formspreeRes.ok
-      if (!formspreeRes.ok) {
-        emailError = `Formspree notification failed (${formspreeRes.status}): ${await formspreeRes.text()}`
-        console.error(emailError)
-      }
-    } catch (err) {
-      emailError = `Formspree notification failed: ${err instanceof Error ? err.message : 'Unknown error'}`
-      console.error(emailError)
+    // ── 2. Email the office ───────────────────────────────────────────────────
+    // Two independent paths, because they fail for different reasons: Formspree
+    // picks its own recipients in a dashboard, while SMTP delivers to the
+    // addresses in LEAD_NOTIFY_TO (the office mailbox). One delivering is
+    // enough to consider the lead notified.
+    const lead = {
+      name: cleanName,
+      phone: cleanPhone,
+      email: cleanEmail,
+      service: service || propertyType,
+      sqft: sqft || squareFootage,
+      frequency: frequency || 'One-Time',
+      price,
+      extras,
+      preferredDate,
+      address,
+      zip: zipCode,
+      message,
+      source: sourceLabel,
+      smsOptIn: !!smsOptIn,
     }
+
+    const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/meerbldr'
+    const formspree = fetch(formspreeEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        ...lead,
+        price: price ? `$${price}` : 'Custom quote',
+        extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
+        preferredDate: preferredDate || 'Flexible',
+      }),
+    })
+      .then(async (res) =>
+        res.ok
+          ? { sent: true, error: '' }
+          : { sent: false, error: `Formspree notification failed (${res.status}): ${await res.text()}` }
+      )
+      .catch((err) => ({
+        sent: false,
+        error: `Formspree notification failed: ${err instanceof Error ? err.message : 'Unknown error'}`,
+      }))
+
+    const [formspreeResult, smtpResult] = await Promise.all([formspree, sendLeadEmail(lead)])
+
+    emailSent = formspreeResult.sent || smtpResult.sent
+    emailError = [formspreeResult.error, smtpResult.error].filter(Boolean).join(' | ')
+    if (emailError) console.error(emailError)
 
     if (!crmSaved && !emailSent) {
       return NextResponse.json(
