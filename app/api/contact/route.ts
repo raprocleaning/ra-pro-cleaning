@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAppointment } from '@/lib/ghlCalendar'
-import { sendLeadEmail } from '@/lib/leadEmail'
+import { sendLeadEmail, sendCustomerEmail } from '@/lib/leadEmail'
 
 // nodemailer needs the Node runtime; the CRM and calendar calls are happy there too.
 export const runtime = 'nodejs'
@@ -80,6 +80,7 @@ export async function POST(req: NextRequest) {
     // ── 1. Create / update contact in GHL ────────────────────────────────────
     let crmSaved = false
     let emailSent = false
+    let customerEmailSent = false
     let crmError = ''
     let emailError = ''
     let appointmentCreated = false
@@ -174,14 +175,23 @@ export async function POST(req: NextRequest) {
       message,
       source: sourceLabel,
       smsOptIn: !!smsOptIn,
+      // Shapes the customer's copy: a confirmed slot reads differently from a
+      // general enquiry, and a phone-quoted job must not claim a total.
+      hasSlot: !!(preferredDate || (bookingDate && bookingTime)),
+      hasPrice: !!price && !quoteOnRequest,
     }
+
+    // A newsletter box is not a booking, so nobody gets a booking confirmation.
+    const isNewsletter = propertyType === 'Newsletter'
 
     const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/meerbldr'
     const formspree = fetch(formspreeEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        ...lead,
+        // hasSlot / hasPrice only shape the customer's copy; they would read as
+        // noise in a Formspree submission.
+        ...(({ hasSlot, hasPrice, ...rest }) => rest)(lead),
         price: price ? `$${price}` : 'Custom quote',
         extras: Array.isArray(extras) ? extras.join(', ') : (extras || 'None'),
         preferredDate: preferredDate || 'Flexible',
@@ -197,10 +207,17 @@ export async function POST(req: NextRequest) {
         error: `Formspree notification failed: ${err instanceof Error ? err.message : 'Unknown error'}`,
       }))
 
-    const [formspreeResult, smtpResult] = await Promise.all([formspree, sendLeadEmail(lead)])
+    // The customer's own copy goes out alongside — their booking stands whether
+    // or not it arrives, so it never gates the response.
+    const [formspreeResult, smtpResult, customerResult] = await Promise.all([
+      formspree,
+      sendLeadEmail(lead),
+      isNewsletter ? Promise.resolve({ sent: false, error: '' }) : sendCustomerEmail(lead),
+    ])
 
     emailSent = formspreeResult.sent || smtpResult.sent
-    emailError = [formspreeResult.error, smtpResult.error].filter(Boolean).join(' | ')
+    customerEmailSent = customerResult.sent
+    emailError = [formspreeResult.error, smtpResult.error, customerResult.error].filter(Boolean).join(' | ')
     if (emailError) console.error(emailError)
 
     if (!crmSaved && !emailSent) {
@@ -210,7 +227,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    return NextResponse.json({ ok: true, crmSaved, emailSent, appointmentCreated, appointmentError })
+    return NextResponse.json({ ok: true, crmSaved, emailSent, customerEmailSent, appointmentCreated, appointmentError })
   } catch (err) {
     console.error('Contact API error:', err)
     return NextResponse.json({ ok: false, error: 'Internal error' }, { status: 500 })

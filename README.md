@@ -176,6 +176,21 @@ Leaving `SMTP_USER` / `SMTP_PASS` blank does not break the forms — submissions
 still reach the CRM and Formspree, they just are not emailed to the office
 mailbox directly.
 
+### The customer's copy
+
+The person who books also gets an email the moment they submit — their service,
+date and time, home size, add-ons and total, and what happens next. Before this
+the "You're booked!" screen was the only record they had, and it was gone as
+soon as they closed the tab.
+
+The wording follows what they actually did: a booked slot is confirmed back to
+them, a post-construction job says we will call with the quote instead of
+claiming a total, and a plain contact-form message just acknowledges the
+message. Replies go to `MAIL_REPLY_TO` (ra@ by default), not to the unattended
+mailbox the site sends from. It rides on the same `SMTP_USER` / `SMTP_PASS`
+above — no separate setup — and a failure is logged without disturbing the
+booking.
+
 Formspree stays on as a second, independent notification. Its recipients are
 managed in the Formspree dashboard, not in this repo.
 
