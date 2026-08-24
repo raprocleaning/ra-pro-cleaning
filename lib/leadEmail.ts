@@ -131,6 +131,14 @@ function transport(): Transporter | null {
     // 465 is implicit TLS; 587 opens plain and upgrades with STARTTLS.
     secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === 'true' : port === 465,
     auth: { user, pass },
+    // A customer is waiting on this request. An unreachable mail server hangs
+    // rather than refusing, so give up quickly and let the form finish — the
+    // lead is in the CRM either way, and a slow booking page loses the booking.
+    // Kept well inside the hosting platform's request limit, so a mail problem
+    // never turns into a timed-out request with no answer for the customer.
+    connectionTimeout: 5000,
+    greetingTimeout: 5000,
+    socketTimeout: 8000,
   })
 }
 
