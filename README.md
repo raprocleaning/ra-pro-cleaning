@@ -156,17 +156,21 @@ than one person:
 LEAD_NOTIFY_TO=pamela@raprocleaningservices.com,ra@raprocleaningservices.com
 ```
 
-For those emails to go out, the site needs a mailbox to send from:
+For those emails to go out, the site needs a mailbox on this domain to send
+from. Mail lives on Namecheap cPanel (`business108.web-hosting.com`) while the
+site itself runs on Vercel, so the credentials have to be set in both places.
 
 1. In cPanel → **Email Accounts**, create a mailbox for the website — for
-   example `website@raprocleaningservices.com`. Use a dedicated mailbox rather
-   than a personal one, so the password can be rotated without locking anybody
-   out of their email.
-2. Open **Connect Devices** on that mailbox to see the outgoing server settings.
-3. Set `SMTP_HOST`, `SMTP_PORT` (465), `SMTP_USER` and `SMTP_PASS` in
-   `.env.local` — and in the hosting dashboard (Vercel → Project Settings →
-   Environment Variables) so the live site has them too. Redeploy after adding
-   them; environment variables are read at boot.
+   example `website@raprocleaningservices.com`. A dedicated mailbox is worth the
+   two minutes: its password can be rotated without locking anybody out of their
+   own email. Reusing an existing mailbox works too, as long as it is on this
+   domain — the mail server will not let the site send as an outside address.
+2. Set `SMTP_USER` to that full address and `SMTP_PASS` to its password, in
+   `.env.local` **and** in Vercel → Project Settings → Environment Variables, so
+   the live site has them too. Redeploy afterwards; these are read at boot.
+3. `SMTP_HOST` and `SMTP_PORT` already default to
+   `mail.raprocleaningservices.com` and 465, which is what cPanel →
+   **Connect Devices** lists for this account. Only set them to override that.
 
 Leaving `SMTP_USER` / `SMTP_PASS` blank does not break the forms — submissions
 still reach the CRM and Formspree, they just are not emailed to the office
