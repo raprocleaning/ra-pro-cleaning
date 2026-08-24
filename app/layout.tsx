@@ -37,18 +37,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     image: 'https://raprocleaningservices.com/logo.png',
     description:
       'Top-rated professional cleaning services in Denver, CO. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning. Licensed & insured.',
+    // We clean at the customer's address and have no storefront to visit, so
+    // the listing carries the city we serve from rather than a street address.
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '1325 S Colorado Blvd',
       addressLocality: 'Denver',
       addressRegion: 'CO',
-      postalCode: '80222',
       addressCountry: 'US',
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 39.6853,
-      longitude: -104.9408,
+      latitude: 39.7392,
+      longitude: -104.9903,
     },
     telephone: '+17206778799',
     email: 'ra@raprocleaningservices.com',
