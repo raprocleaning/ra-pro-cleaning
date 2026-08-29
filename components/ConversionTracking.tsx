@@ -1,13 +1,22 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { trackEvent, trackLead } from '@/lib/analytics'
+import { trackEvent, trackLead, trackPageView } from '@/lib/analytics'
 
 export default function ConversionTracking() {
   const pathname = usePathname()
+  const isLandingRender = useRef(true)
 
   useEffect(() => {
+    // The landing PageView is sent by the pixel snippet itself, so only
+    // navigations away from the entry page are counted here.
+    if (isLandingRender.current) {
+      isLandingRender.current = false
+    } else {
+      trackPageView()
+    }
+
     if (pathname.startsWith('/areas/')) {
       trackEvent('service_area_page_view')
     }
