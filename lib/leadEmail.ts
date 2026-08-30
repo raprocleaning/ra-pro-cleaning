@@ -197,7 +197,15 @@ export function customerSubject(lead: Lead): string {
   return `Thanks for reaching out — ${BUSINESS.name}`
 }
 
-/** The booking as the customer chose it, for their own records. */
+/**
+ * The booking as the customer chose it, for their own records.
+ *
+ * Their notes are part of that. Customers use the notes box to set the scope
+ * of the job — rooms to skip, pets that will be shut away, where the key is —
+ * and until they were echoed here the only copy of those instructions lived in
+ * the office mailbox. Repeating them back is how the customer finds out we
+ * wrote the wrong thing down, while there is still time to reply and fix it.
+ */
 function customerRows(lead: Lead): Array<[string, string]> {
   if (!lead.hasSlot) return []
 
@@ -212,14 +220,17 @@ function customerRows(lead: Lead): Array<[string, string]> {
     ['Add-ons', extras],
     ['Address', text(lead.address)],
     ['Your total', lead.hasPrice && price ? (price.startsWith('$') ? price : `$${price}`) : ''],
+    ['Your notes', text(lead.message)],
   ] as Array<[string, string]>).filter(([, value]) => value !== '')
 }
 
 /** Only a booking can be changed or cancelled; an enquiry just gets a reply. */
 function closingLine(lead: Lead): string {
-  return lead.hasSlot
-    ? 'Need to change or cancel? Just reply to this email or give us a call.'
-    : 'Questions in the meantime? Just reply to this email or give us a call.'
+  if (!lead.hasSlot) return 'Questions in the meantime? Just reply to this email or give us a call.'
+  // Notes are the part most worth checking — they decide what the crew does.
+  return text(lead.message)
+    ? 'Need to change or cancel, or did we take your notes down wrong? Just reply to this email or give us a call.'
+    : 'Need to change or cancel? Just reply to this email or give us a call.'
 }
 
 /** What we promise on the confirmation screen, repeated here so it matches. */
@@ -278,7 +289,7 @@ export function customerHtmlBody(lead: Lead): string {
       // is a wrapping div and the table just holds the rows.
       (cells
         ? `<div style="background:#F5FAFA;border:1px solid #B2DFDB;border-radius:12px;padding:14px 20px;margin:0 0 18px">` +
-            `<table cellpadding="0" cellspacing="0" style="border-collapse:collapse">${cells}</table>` +
+            `<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%">${cells}</table>` +
           `</div>`
         : '') +
       `<p style="margin:0 0 22px">${escapeHtml(nextStep(lead))}</p>` +
