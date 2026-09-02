@@ -58,7 +58,7 @@ const WhyChooseUs = () => {
           <div className="fade-in-up">
             <p className="text-[#4A6583] text-lg leading-relaxed">
               We don&apos;t just clean — we transform your space. With 45 five-star Google reviews
-              and years of experience serving Denver and Aurora, our commitment to excellence speaks for itself.
+              and years of experience serving Cherry Creek and Downtown Denver, our commitment to excellence speaks for itself.
             </p>
             <div className="mt-8 flex items-center gap-4">
               <div className="flex -space-x-1">

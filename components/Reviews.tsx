@@ -202,7 +202,7 @@ const Reviews = () => {
 
         {/* CTA */}
           <div className="text-center mt-12">
-            <p className="text-[#4A6583] text-sm mb-4">Join satisfied homeowners across Denver and Aurora</p>
+            <p className="text-[#4A6583] text-sm mb-4">Join satisfied homeowners across Cherry Creek, Glendale and Downtown Denver</p>
             <a
               href="/book"
               target="_blank"

@@ -1,31 +1,9 @@
 'use client'
-import Link from 'next/link'
 
 const AREAS = [
-  { name: 'Denver', desc: 'All Denver neighborhoods' },
   { name: 'Cherry Creek', desc: 'Luxury residential & condos' },
-  { name: 'Country Club', desc: 'Historic estates & townhomes' },
-  { name: 'Belcaro', desc: 'Established homes & estates' },
-  { name: 'Washington Park', desc: 'Residential & deep cleans' },
-  { name: 'Observatory Park', desc: 'Family homes & deep cleans' },
-  { name: 'Bonnie Brae', desc: 'Character homes & recurring' },
-  { name: 'University Hills', desc: 'Residential & recurring' },
-  { name: 'Hilltop', desc: 'Premium homes & move-outs' },
-  { name: 'Crestmoor', desc: 'Large homes & recurring' },
-  { name: 'Lowry', desc: 'Modern homes & townhouses' },
-  { name: 'Stapleton / Central Park', desc: 'New builds & move-ins' },
-  { name: 'Capitol Hill', desc: 'Apartments & historic homes' },
-  { name: 'Highlands', desc: 'Homes & short-term rentals' },
-  { name: 'LoDo', desc: 'Lofts, condos & offices' },
   { name: 'Glendale', desc: 'Condos & apartment turnovers' },
-  { name: 'Cherry Hills Village', desc: 'Estates & premium residential' },
-  { name: 'Greenwood Village', desc: 'Premium residential' },
-  { name: 'Denver Tech Center', desc: 'Offices & executive condos' },
-  { name: 'Englewood', desc: 'Houses & Airbnb properties' },
-  { name: 'Aurora', desc: 'Homes & commercial spaces' },
-  { name: 'Centennial', desc: 'Luxury homes & offices' },
-  { name: 'Littleton', desc: 'Deep clean & recurring' },
-  { name: 'Highlands Ranch', desc: 'Family homes & move-outs' },
+  { name: 'Downtown / LoDo', desc: 'Lofts, penthouses & offices' },
 ]
 
 export default function ServiceAreas() {
@@ -38,11 +16,11 @@ export default function ServiceAreas() {
             Where We Clean
           </p>
           <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-4">
-            Serving All of Denver & Surrounding Areas
+            Cherry Creek, Glendale & Downtown Denver
           </h2>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            We provide professional cleaning services across the greater Denver metro — from downtown
-            condos to suburban family homes.
+            We work a deliberately small footprint so our team is never far from your door —
+            Cherry Creek luxury homes, Glendale condos, and Downtown lofts.
           </p>
         </div>
 
@@ -61,16 +39,7 @@ export default function ServiceAreas() {
               </div>
             )
 
-            return area.name === 'Aurora' ? (
-              <Link
-                key={area.name}
-                href="/areas/aurora"
-                data-service-area={area.name}
-                className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
-              >
-                {content}
-              </Link>
-            ) : (
+            return (
               <div
                 key={area.name}
                 data-service-area={area.name}
@@ -87,7 +56,8 @@ export default function ServiceAreas() {
           <div>
             <h3 className="text-white font-bold text-xl mb-1">Don&apos;t see your area?</h3>
             <p className="text-white/60 text-sm">
-              We may still serve you — call or message us and we&apos;ll confirm availability.
+              We take work just outside these three neighborhoods case by case — call us and
+              we&apos;ll tell you straight away whether we can cover you.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">

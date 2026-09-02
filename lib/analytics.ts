@@ -9,16 +9,9 @@ declare global {
 }
 
 const AREA_NAMES: Record<string, string> = {
-  aurora: 'Aurora',
-  denver: 'Denver',
-  lakewood: 'Lakewood',
-  englewood: 'Englewood',
-  littleton: 'Littleton',
-  centennial: 'Centennial',
-  'greenwood-village': 'Greenwood Village',
-  arvada: 'Arvada',
-  westminster: 'Westminster',
-  thornton: 'Thornton',
+  'cherry-creek': 'Cherry Creek',
+  glendale: 'Glendale',
+  downtown: 'Downtown Denver',
 }
 
 export function getAreaContext() {
@@ -26,7 +19,7 @@ export function getAreaContext() {
   const areaSlug = pagePath.match(/^\/areas\/([^/]+)/)?.[1]
 
   return {
-    page_area: areaSlug ? AREA_NAMES[areaSlug] || areaSlug : 'Denver Metro',
+    page_area: areaSlug ? AREA_NAMES[areaSlug] || areaSlug : 'Central Denver',
     page_path: pagePath,
   }
 }

@@ -25,7 +25,7 @@ export default function Home() {
               Denver Metro&apos;s Trusted Cleaning Professionals
             </h2>
             <p className="text-[#4A6583] text-lg leading-relaxed">
-              R A Pro Cleaning Services LLC brings Denver and Aurora homeowners and businesses a premium
+              R A Pro Cleaning Services LLC brings Cherry Creek, Glendale and Downtown homeowners a premium
               cleaning experience built on trust, attention to detail, and exceptional results.
               With 45 five-star Google reviews and a team of fully licensed and insured professionals,
               we deliver the kind of clean that makes you proud of your space.

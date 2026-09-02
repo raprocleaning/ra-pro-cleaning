@@ -82,7 +82,7 @@ export default function ContactPage() {
               <div>
                 <p className="text-xs font-semibold text-[#4A6583] uppercase tracking-wider">Service Area</p>
                 <p className="font-bold text-[#0F2240] text-sm">
-                  Denver, Aurora<br />&amp; the surrounding metro
+                  Cherry Creek, Glendale<br />&amp; Downtown Denver
                 </p>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function ContactPage() {
             />
           </div>
           <p className="text-[#4A6583] text-sm mt-4">
-            Serving Denver, Aurora, Lakewood, Englewood, Centennial, and surrounding metro areas.
+            Serving Cherry Creek, Glendale, and Downtown Denver / LoDo.
           </p>
         </div>
       </section>

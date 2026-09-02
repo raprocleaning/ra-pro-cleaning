@@ -176,7 +176,7 @@ export default function Pricing() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <p className="text-sm text-[#0F2240]">
-            <span className="font-bold">Serving the Denver Metro area</span> — including Denver, Aurora, Centennial, Englewood, Lakewood, Littleton, Westminster, Thornton & surrounding Colorado communities.
+            <span className="font-bold">Serving Cherry Creek, Glendale &amp; Downtown Denver</span> — a tight footprint that keeps our team close and our scheduling flexible.
             Prices reflect current Colorado market rates. Final pricing confirmed at booking based on home size and condition.
           </p>
         </div>

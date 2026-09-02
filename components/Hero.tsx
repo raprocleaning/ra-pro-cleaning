@@ -58,7 +58,7 @@ const Hero = () => {
               >
                 <div className="w-10 h-px bg-[#00A896]" />
                 <span className="text-[#00A896] text-xs font-semibold tracking-[0.35em] uppercase">
-                  Denver &amp; Aurora Cleaning Professionals
+                  Cherry Creek &amp; Downtown Denver Cleaning Professionals
                 </span>
               </div>
 

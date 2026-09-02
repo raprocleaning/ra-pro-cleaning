@@ -80,7 +80,7 @@ const Footer = () => {
               <Logo variant="color" className="h-16 w-auto opacity-90" />
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-5 max-w-xs">
-              Premium cleaning across Denver, Aurora, and the surrounding metro. Licensed,
+              Premium cleaning for Cherry Creek, Glendale, and Downtown Denver. Licensed,
               insured, and dedicated to exceptional results every time.
             </p>
 
@@ -92,7 +92,7 @@ const Footer = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               <p className="text-white/50 text-sm">
-                Serving Denver, Aurora<br />&amp; the surrounding metro
+                Serving Cherry Creek, Glendale<br />&amp; Downtown Denver
               </p>
             </div>
 

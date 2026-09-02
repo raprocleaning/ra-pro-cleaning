@@ -78,7 +78,7 @@ export default function BookPageClient() {
           <p className="text-white text-xl md:text-2xl font-bold leading-snug mb-5">
             &ldquo;Fast response, friendly team, easy scheduling, and truly top-quality work.&rdquo;
           </p>
-          <p className="text-white/45 text-sm">45 five-star Google reviews across Denver &amp; Aurora</p>
+          <p className="text-white/45 text-sm">45 five-star Google reviews across Cherry Creek &amp; Downtown Denver</p>
         </div>
       </section>
     </main>

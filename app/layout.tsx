@@ -10,17 +10,17 @@ const GA_ID = 'G-50JSSQ15K6'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://raprocleaningservices.com'),
-  title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
+  title: 'R A Pro Cleaning Services | Cherry Creek & Downtown Denver House Cleaning',
   description:
-    '5.0-star cleaning services serving Denver, Aurora and the Denver metro. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning.',
+    '5.0-star cleaning services for Cherry Creek, Glendale and Downtown Denver. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning.',
   keywords:
-    'cleaning services Denver, house cleaning Aurora CO, cleaning services Aurora, house cleaning Denver CO, deep cleaning Denver, move out cleaning Aurora, Airbnb cleaning Denver, office cleaning Denver',
+    'house cleaning Cherry Creek, cleaning services Cherry Creek Denver, house cleaning Glendale CO, cleaning services Downtown Denver, LoDo cleaning service, deep cleaning Cherry Creek, move out cleaning Denver, Airbnb cleaning Downtown Denver, office cleaning LoDo',
   alternates: {
     canonical: 'https://raprocleaningservices.com',
   },
   openGraph: {
-    title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
-    description: '5.0-star cleaning services serving Denver, Aurora and surrounding communities. Get a fast online quote.',
+    title: 'R A Pro Cleaning Services | Cherry Creek & Downtown Denver House Cleaning',
+    description: '5.0-star cleaning services for Cherry Creek, Glendale and Downtown Denver. Get a fast online quote.',
     url: 'https://raprocleaningservices.com',
     siteName: 'R A Pro Cleaning Services',
     locale: 'en_US',
@@ -65,16 +65,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // is not what openingHours means to a search result.
     openingHours: ['Mo-Su 09:00-17:00'],
     areaServed: [
-      { '@type': 'City', name: 'Denver', sameAs: 'https://en.wikipedia.org/wiki/Denver' },
-      { '@type': 'City', name: 'Aurora' },
-      { '@type': 'City', name: 'Lakewood' },
-      { '@type': 'City', name: 'Englewood' },
-      { '@type': 'City', name: 'Littleton' },
-      { '@type': 'City', name: 'Centennial' },
-      { '@type': 'City', name: 'Greenwood Village' },
-      { '@type': 'City', name: 'Arvada' },
-      { '@type': 'City', name: 'Westminster' },
-      { '@type': 'City', name: 'Thornton' },
+      { '@type': 'City', name: 'Glendale', sameAs: 'https://en.wikipedia.org/wiki/Glendale,_Colorado' },
+      {
+        '@type': 'Neighborhood',
+        name: 'Cherry Creek',
+        containedInPlace: { '@type': 'City', name: 'Denver' },
+      },
+      {
+        '@type': 'Neighborhood',
+        name: 'Downtown Denver',
+        containedInPlace: { '@type': 'City', name: 'Denver' },
+      },
+      {
+        '@type': 'Neighborhood',
+        name: 'LoDo',
+        containedInPlace: { '@type': 'City', name: 'Denver' },
+      },
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
