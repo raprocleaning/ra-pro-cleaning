@@ -111,6 +111,7 @@ const Navigation = () => {
               {[
                 { name: 'Gallery', href: '/gallery' },
                 { name: 'Blog', href: '/blog' },
+                { name: 'Careers', href: '/careers' },
                 { name: 'Contact', href: '/contact' },
               ].map((item) => (
                 <Link
@@ -209,6 +210,7 @@ const Navigation = () => {
               { name: 'About Us', href: '/about' },
               { name: 'Gallery', href: '/gallery' },
               { name: 'Blog', href: '/blog' },
+              { name: 'Careers', href: '/careers' },
               { name: 'Contact', href: '/contact' },
             ].map((item) => (
               <Link

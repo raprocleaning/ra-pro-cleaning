@@ -131,8 +131,13 @@ export function leadHtmlBody(lead: Lead): string {
   )
 }
 
-/** A transporter is only built once configuration is complete. */
-function transport(): Transporter | null {
+/**
+ * A transporter is only built once configuration is complete.
+ *
+ * Exported so the applicant mailer sends from the same mailbox with the same
+ * timeouts — one place to fix when the hosting mail settings change.
+ */
+export function mailTransport(): Transporter | null {
   const host = process.env.SMTP_HOST || DEFAULT_HOST
   const user = process.env.SMTP_USER
   const pass = process.env.SMTP_PASS
@@ -164,7 +169,7 @@ export async function sendLeadEmail(lead: Lead): Promise<EmailResult> {
   const to = notifyRecipients()
   if (to.length === 0) return { sent: false, error: 'No lead notification recipients configured' }
 
-  const mailer = transport()
+  const mailer = mailTransport()
   if (!mailer) return { sent: false, error: 'SMTP_USER / SMTP_PASS are not configured' }
 
   try {
@@ -301,7 +306,7 @@ export async function sendCustomerEmail(lead: Lead): Promise<EmailResult> {
   const to = text(lead.email)
   if (!to.includes('@')) return { sent: false, error: 'No customer email address' }
 
-  const mailer = transport()
+  const mailer = mailTransport()
   if (!mailer) return { sent: false, error: 'SMTP_USER / SMTP_PASS are not configured' }
 
   try {
