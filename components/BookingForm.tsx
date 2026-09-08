@@ -5,12 +5,9 @@ import {
 } from '@/lib/pricing'
 import { trackEvent, trackLead } from '@/lib/analytics'
 
-/**
- * Every hour of the day. We advertise round-the-clock availability — Airbnb
- * turnovers and move-outs regularly need a crew before dawn or late at night —
- * so the form has no business stopping at 4 PM.
- */
-const TIME_SLOTS = Array.from({ length: 24 }, (_, hour) => {
+/** Arrival windows we offer: 9 AM through 5 PM. */
+const TIME_SLOTS = Array.from({ length: 9 }, (_, i) => {
+  const hour = 9 + i
   const hour12 = hour % 12 === 0 ? 12 : hour % 12
   return `${hour12}:00 ${hour < 12 ? 'AM' : 'PM'}`
 })
