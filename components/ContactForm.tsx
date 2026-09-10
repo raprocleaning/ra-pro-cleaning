@@ -2,6 +2,7 @@
 import { useState, FormEvent } from 'react'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 import { trackEvent, trackLead } from '@/lib/analytics'
+import { getCampaign } from '@/lib/campaign'
 
 interface FormData {
   fullName: string
@@ -46,7 +47,7 @@ const ContactForm = () => {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, campaign: getCampaign() }),
       })
       if (res.ok) {
         const leadDetails = {
