@@ -21,13 +21,16 @@ const Navigation = () => {
   }, [mobileOpen])
 
   const services = [
-    { name: 'House Cleaning', href: '/services/house-cleaning' },
-    { name: 'Deep Cleaning', href: '/services/deep-cleaning' },
-    { name: 'Standard Cleaning', href: '/services/standard-cleaning' },
-    { name: 'Office Cleaning', href: '/services/office-cleaning' },
-    { name: 'Move In/Out Cleaning', href: '/services/move-in-out' },
-    { name: 'Airbnb Cleaning', href: '/services/airbnb-cleaning' },
-    { name: 'Post-Construction Cleaning', href: '/services/post-construction' },
+    { name: 'House Cleaning',              href: '/services/house-cleaning',     desc: 'Every room in the house, top to bottom' },
+    { name: 'Deep Cleaning',               href: '/services/deep-cleaning',      desc: 'Baseboards, grout and inside appliances' },
+    { name: 'Standard Cleaning',           href: '/services/standard-cleaning',  desc: 'Recurring upkeep, weekly or bi-weekly' },
+    { name: 'Office Cleaning',             href: '/services/office-cleaning',    desc: 'Offices, retail and workspaces, after hours' },
+    { name: 'Move In/Out Cleaning',        href: '/services/move-in-out',        desc: 'Spotless in time for the walkthrough' },
+    { name: 'Airbnb Cleaning',             href: '/services/airbnb-cleaning',    desc: 'Fast turnovers that protect your rating' },
+    { name: 'Post-Construction Cleaning',  href: '/services/post-construction',  desc: 'Fine dust, debris and grout haze' },
+    { name: 'Kitchen Cleaning',            href: '/services/kitchen-cleaning',   desc: 'Appliances, cabinets and countertops' },
+    { name: 'Bathroom Cleaning',           href: '/services/bathroom-cleaning',  desc: 'Tile, grout and full sanitizing' },
+    { name: 'Bedroom Cleaning',            href: '/services/bedroom-cleaning',   desc: 'Dusting, vacuuming and fresh linens' },
   ]
 
   const whyUs = [
@@ -67,14 +70,17 @@ const Navigation = () => {
                   </svg>
                 </button>
                 {servicesOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-[#B2DFDB] shadow-xl z-50 rounded-sm overflow-hidden">
+                  <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-[#B2DFDB] shadow-xl z-50 rounded-sm overflow-hidden">
                     {services.map((s) => (
                       <Link
                         key={s.href}
                         href={s.href}
-                        className="block px-4 py-3 text-sm text-[#0F2240] hover:bg-[#E6F7F5] hover:text-[#00A896] transition-colors border-b border-[#B2DFDB]/50 last:border-0"
+                        className="group block px-4 py-3 text-sm text-[#0F2240] hover:bg-[#E6F7F5] hover:text-[#00A896] transition-colors border-b border-[#B2DFDB]/50 last:border-0"
                       >
-                        {s.name}
+                        <span className="block font-semibold leading-snug">{s.name}</span>
+                        <span className="block text-xs text-[#4A6583] leading-snug mt-0.5 group-hover:text-[#0F2240]">
+                          {s.desc}
+                        </span>
                       </Link>
                     ))}
                   </div>
@@ -198,9 +204,10 @@ const Navigation = () => {
                 key={s.href}
                 href={s.href}
                 onClick={() => setMobileOpen(false)}
-                className="block text-white text-2xl font-light py-2 hover:text-[#00A896] transition-colors"
+                className="block py-2 hover:text-[#00A896] transition-colors"
               >
-                {s.name}
+                <span className="block text-white text-2xl font-light leading-tight">{s.name}</span>
+                <span className="block text-white/50 text-sm leading-snug">{s.desc}</span>
               </Link>
             ))}
           </div>
