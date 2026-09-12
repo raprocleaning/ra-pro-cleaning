@@ -35,6 +35,9 @@ const Footer = () => {
     { name: 'Move In/Out Cleaning', href: '/services/move-in-out' },
     { name: 'Airbnb Cleaning', href: '/services/airbnb-cleaning' },
     { name: 'Post-Construction Cleaning', href: '/services/post-construction' },
+    { name: 'Kitchen Cleaning', href: '/services/kitchen-cleaning' },
+    { name: 'Bathroom Cleaning', href: '/services/bathroom-cleaning' },
+    { name: 'Bedroom Cleaning', href: '/services/bedroom-cleaning' },
   ]
 
   const company = [
