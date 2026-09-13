@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { AREA_SLUGS } from '@/lib/areas'
+import { BLOG_SLUGS } from '@/lib/blog'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -17,11 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'post-construction',
   ]
 
-  const blogSlugs = [
-    'how-to-deep-clean-your-kitchen',
-    'how-often-should-you-deep-clean',
-    'airbnb-cleaning-tips-5-star-rating',
-  ]
+
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE_URL,               lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
@@ -49,7 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  const blogPages: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
+  const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map((slug) => ({
     url: `${BASE_URL}/blog/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'yearly',
