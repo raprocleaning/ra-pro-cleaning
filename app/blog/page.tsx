@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { POST_LIST as posts } from '@/lib/blog'
 
 export const metadata: Metadata = {
   title: 'Cleaning Tips & Blog | R A Pro Cleaning Services Denver',
@@ -7,35 +8,6 @@ export const metadata: Metadata = {
     'Expert cleaning tips, guides, and insights from Denver\'s professional cleaning team at R A Pro Cleaning Services.',
 }
 
-const posts = [
-  {
-    slug: 'how-to-deep-clean-your-kitchen',
-    title: 'How to Deep Clean Your Kitchen Like a Professional',
-    excerpt:
-      'Your kitchen sees more action than any other room in your home. Learn the step-by-step professional approach to getting it truly clean — from grease-caked oven interiors to forgotten cabinet hinges.',
-    category: 'Cleaning Tips',
-    date: 'March 10, 2026',
-    readTime: '6 min read',
-  },
-  {
-    slug: 'how-often-should-you-deep-clean',
-    title: 'How Often Should You Deep Clean Your Home?',
-    excerpt:
-      'Standard cleaning keeps your home looking good day-to-day. But deep cleaning is what keeps it truly healthy. Here\'s a professional guide to cleaning frequency based on your lifestyle.',
-    category: 'Home Care',
-    date: 'February 22, 2026',
-    readTime: '5 min read',
-  },
-  {
-    slug: 'airbnb-cleaning-tips-5-star-rating',
-    title: 'Airbnb Cleaning Tips to Maintain a 5-Star Rating',
-    excerpt:
-      'Your reviews depend on your cleanliness. Discover the professional turnover cleaning checklist used by top-rated hosts in Denver and how to apply it to your short-term rental.',
-    category: 'Host Tips',
-    date: 'February 5, 2026',
-    readTime: '7 min read',
-  },
-]
 
 export default function BlogPage() {
   return (

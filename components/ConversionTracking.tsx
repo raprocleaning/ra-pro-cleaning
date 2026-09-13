@@ -3,9 +3,15 @@
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { trackEvent, trackLead } from '@/lib/analytics'
+import { captureAttribution } from '@/lib/attribution'
 
 export default function ConversionTracking() {
   const pathname = usePathname()
+
+  // First page of the visit wins, so this is a no-op after the landing view.
+  useEffect(() => {
+    captureAttribution()
+  }, [pathname])
 
   useEffect(() => {
     if (pathname.startsWith('/areas/')) {
