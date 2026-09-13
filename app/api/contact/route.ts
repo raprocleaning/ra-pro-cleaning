@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAppointment } from '@/lib/ghlCalendar'
 import { sendLeadEmail, sendCustomerEmail } from '@/lib/leadEmail'
+import { describeAttribution, type Attribution } from '@/lib/attribution'
 
 // nodemailer needs the Node runtime; the CRM and calendar calls are happy there too.
 export const runtime = 'nodejs'
@@ -17,6 +18,8 @@ export async function POST(req: NextRequest) {
       // fields so it can be placed on a GHL calendar.
       bookingDate, bookingTime,
       source: bodySource,
+      // Campaign tags captured when the visitor first landed.
+      attribution,
     } = body
 
     const cleanName = typeof fullName === 'string' ? fullName.trim() : ''
@@ -39,6 +42,13 @@ export async function POST(req: NextRequest) {
     const isBookingForm = bodySource === 'booking-form'
     const isAIBooking   = bodySource === 'ai-chat' || (!!service && !isBookingForm)
 
+    // Which marketing channel produced this lead, as opposed to which form
+    // they filled in. Comes from the browser, so treat it as untrusted: it is
+    // only ever shown as text and never drives a decision here.
+    const attr: Attribution | null =
+      attribution && typeof attribution === 'object' ? (attribution as Attribution) : null
+    const channel = describeAttribution(attr)
+
     // ── Build tags ────────────────────────────────────────────────────────────
     const tags: string[] = ['website-lead']
     if (isAIBooking)   tags.push('ai-booking')
@@ -48,6 +58,10 @@ export async function POST(req: NextRequest) {
     if (svcTag) tags.push(svcTag)
     if (preferredDate) tags.push('has-preferred-date')
     if (extras?.length) tags.push('has-extras')
+    // A campaign tag on the lead makes the CRM filterable by channel.
+    if (attr?.source) {
+      tags.push(`src-${String(attr.source).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`)
+    }
     if (smsOptIn && cleanPhone) {
       tags.push('sms-opt-in')
       tags.push('needs-follow-up')
@@ -75,6 +89,8 @@ export async function POST(req: NextRequest) {
       zipCode   ? `📍 Zip: ${zipCode}` : null,
       message   ? `💬 Notes: ${message}` : null,
       `📱 SMS Opt-In: ${smsOptIn ? 'Yes' : 'No'}`,
+      channel ? `📣 Came from: ${channel}` : null,
+      attr?.landingPage ? `🔗 Landed on: ${attr.landingPage}` : null,
     ].filter(Boolean).join('\n')
 
     // ── 1. Create / update contact in GHL ────────────────────────────────────
@@ -197,6 +213,8 @@ export async function POST(req: NextRequest) {
       zip: zipCode,
       message,
       source: sourceLabel,
+      channel,
+      landingPage: attr?.landingPage,
       smsOptIn: !!smsOptIn,
       // Shapes the customer's copy: a confirmed slot reads differently from a
       // general enquiry, and a phone-quoted job must not claim a total.
