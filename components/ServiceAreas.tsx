@@ -1,8 +1,19 @@
 'use client'
 import Link from 'next/link'
 
-const AREAS = [
-  { name: 'Denver', desc: 'All Denver neighborhoods' },
+// `slug` means we publish a landing page for that city, so the tile links to it.
+// Neighborhood tiles have no page of their own and stay as plain text.
+const AREAS: { name: string; desc: string; slug?: string }[] = [
+  { name: 'Denver', desc: 'All Denver neighborhoods', slug: 'denver' },
+  { name: 'Aurora', desc: 'Homes & commercial spaces', slug: 'aurora' },
+  { name: 'Lakewood', desc: 'Mid-century homes & recurring', slug: 'lakewood' },
+  { name: 'Englewood', desc: 'Houses & Airbnb properties', slug: 'englewood' },
+  { name: 'Littleton', desc: 'Deep clean & recurring', slug: 'littleton' },
+  { name: 'Centennial', desc: 'Luxury homes & offices', slug: 'centennial' },
+  { name: 'Greenwood Village', desc: 'Premium residential', slug: 'greenwood-village' },
+  { name: 'Arvada', desc: 'New builds & post-construction', slug: 'arvada' },
+  { name: 'Westminster', desc: 'Townhomes & rental turnovers', slug: 'westminster' },
+  { name: 'Thornton', desc: 'New builds & move-ins', slug: 'thornton' },
   { name: 'Cherry Creek', desc: 'Luxury residential & condos' },
   { name: 'Country Club', desc: 'Historic estates & townhomes' },
   { name: 'Belcaro', desc: 'Established homes & estates' },
@@ -19,12 +30,7 @@ const AREAS = [
   { name: 'LoDo', desc: 'Lofts, condos & offices' },
   { name: 'Glendale', desc: 'Condos & apartment turnovers' },
   { name: 'Cherry Hills Village', desc: 'Estates & premium residential' },
-  { name: 'Greenwood Village', desc: 'Premium residential' },
   { name: 'Denver Tech Center', desc: 'Offices & executive condos' },
-  { name: 'Englewood', desc: 'Houses & Airbnb properties' },
-  { name: 'Aurora', desc: 'Homes & commercial spaces' },
-  { name: 'Centennial', desc: 'Luxury homes & offices' },
-  { name: 'Littleton', desc: 'Deep clean & recurring' },
   { name: 'Highlands Ranch', desc: 'Family homes & move-outs' },
 ]
 
@@ -61,10 +67,10 @@ export default function ServiceAreas() {
               </div>
             )
 
-            return area.name === 'Aurora' ? (
+            return area.slug ? (
               <Link
                 key={area.name}
-                href="/areas/aurora"
+                href={`/areas/${area.slug}`}
                 data-service-area={area.name}
                 className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
               >
