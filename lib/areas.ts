@@ -35,7 +35,7 @@ export const AREAS: Area[] = [
     intro:
       'R A Pro Cleaning Services cleans homes and offices across the whole city — century-old bungalows in Wash Park, downtown lofts, and everything between. Licensed, insured, and rated 5.0 on Google.',
     body: [
-      'Denver housing runs from 1920s brick bungalows with original woodwork to new-build condos downtown, and the two need very different cleaning. Older homes mean detailed dusting around trim, radiators and built-ins; a downtown loft means glass, hard floors and exposed surfaces that show every mark. We quote based on what your home actually is, not a flat square-footage guess.',
+      'Denver housing runs from 1920s brick bungalows with original woodwork to new-build condos downtown, and the two need very different cleaning. Older homes mean detailed dusting around trim, radiators and built-ins; a downtown loft means glass, hard floors and exposed surfaces that show every mark. Tell us which you have when you book so the crew arrives set up for it — the price itself comes off your home’s size and the service you choose, and the online quote shows it before you commit.',
       'We handle recurring weekly, biweekly and monthly cleaning, one-time deep cleans, move-in and move-out cleaning for Denver renters and buyers, and same-day-standard turnovers for short-term rental hosts. Office and commercial cleaning is available across downtown and the surrounding business districts.',
     ],
     neighborhoods: [
@@ -78,7 +78,7 @@ export const AREAS: Area[] = [
       },
       {
         q: 'How much does house cleaning cost in Denver?',
-        a: 'It depends on the size of the home, its condition and whether you want a standard or deep clean. Our online quote takes about a minute and gives you a real number up front — no in-home sales visit.',
+        a: 'Price comes off your home’s square footage, with add-ons like inside the oven or refrigerator charged separately and recurring visits discounted 30–40%. Our online quote takes about a minute and gives you a real number up front — no in-home sales visit.',
       },
     ],
     nearby: ['aurora', 'lakewood', 'englewood', 'arvada'],
@@ -92,7 +92,7 @@ export const AREAS: Area[] = [
     intro:
       'R A Pro Cleaning Services provides reliable residential and commercial cleaning throughout Aurora — from the older neighborhoods off Colfax to the newer subdivisions out past E-470.',
     body: [
-      'Aurora homes tend to be larger than their Denver equivalents, with more bedrooms, more bathrooms and finished basements that often get skipped. Our quotes count the rooms that actually need cleaning, so a five-bedroom in Saddle Rock is not priced like a two-bedroom condo.',
+      'Aurora homes tend to be larger than their Denver equivalents, with more bedrooms, more bathrooms and finished basements that often get skipped. Square footage is what sets the price, so include the basement in the size you enter and the quote covers it from the start.',
       'We work around shift schedules. Aurora has a large share of medical staff from the Anschutz campus and personnel at Buckley, and a cleaning slot that only exists at 10am on a Tuesday is no use to either. Recurring clients pick a standing day and time that fits the rotation they actually work.',
     ],
     neighborhoods: [
@@ -115,7 +115,7 @@ export const AREAS: Area[] = [
       },
       {
         title: 'Large homes and finished basements',
-        body: 'Bigger Aurora floor plans mean more ground to cover. We scope the whole house up front, basement included, so nothing gets quietly left off.',
+        body: 'Bigger Aurora floor plans mean more ground to cover. Count the finished basement in the square footage you enter so it is quoted from the start rather than found on the day.',
       },
       {
         title: 'Recurring cleaning on your rotation',
@@ -133,7 +133,7 @@ export const AREAS: Area[] = [
       },
       {
         q: 'Do you clean finished basements?',
-        a: 'Yes, when they are included in the quote. Tell us about the basement when you book so it is priced in rather than added later.',
+        a: 'Yes. Include the basement’s square footage in the home size you select when booking and it is priced in from the start, rather than added later.',
       },
     ],
     nearby: ['denver', 'centennial', 'englewood', 'thornton'],
@@ -182,7 +182,7 @@ export const AREAS: Area[] = [
       },
       {
         q: 'Can you handle pet hair?',
-        a: 'Yes. Pet hair is standard in Lakewood homes and is included in a normal clean. Heavy shedding is worth mentioning when you book so we allow the right amount of time.',
+        a: 'Yes — normal pet hair is part of a standard clean. For heavy shedding there is a Pet Hair Removal add-on you can select when booking, so the extra time it takes is covered.',
       },
       {
         q: 'How often should I book recurring cleaning?',
@@ -219,7 +219,7 @@ export const AREAS: Area[] = [
       },
       {
         title: 'Apartments and condos',
-        body: 'Compact spaces priced for what they are, with the kitchen and bathroom detail those spaces actually need.',
+        body: 'Smaller units fall in the lower size brackets, so a one-bedroom is not charged at a house rate — with the kitchen and bathroom detail those spaces actually need.',
       },
       {
         title: 'Rental and Airbnb turnovers',
@@ -339,7 +339,7 @@ export const AREAS: Area[] = [
       },
       {
         q: 'Do you clean large homes over 3,000 square feet?',
-        a: 'Yes. Larger Centennial floor plans are routine for us — the quote reflects the actual size and number of bathrooms rather than a flat rate.',
+        a: 'Yes. Larger Centennial floor plans are routine for us — the size brackets in our quote run past 5,000 square feet, so a big home is priced as one instead of hitting a flat cap.',
       },
       {
         q: 'How far ahead should I book?',
@@ -357,7 +357,7 @@ export const AREAS: Area[] = [
     intro:
       'R A Pro Cleaning Services cleans both sides of Greenwood Village — the large residential properties on the west side and the offices through the Denver Tech Center.',
     body: [
-      'Greenwood Village homes are larger than metro average, often with more bathrooms than bedrooms, formal rooms that are used rarely but must still look right, and finishes that are unforgiving of the wrong product. We quote by walking the actual scope with you rather than guessing from square footage.',
+      'Greenwood Village homes are larger than metro average, often with more bathrooms than bedrooms, formal rooms that are used rarely but must still look right, and finishes that are unforgiving of the wrong product. Our online quote runs past 5,000 square feet, so a large home gets a real number up front rather than after a sales visit.',
       'On the commercial side, the Denver Tech Center is one of the largest office concentrations in Colorado. We clean offices, suites and shared spaces on evening or early-morning schedules, so the work happens around your business hours instead of through them.',
     ],
     neighborhoods: [
@@ -461,7 +461,7 @@ export const AREAS: Area[] = [
     intro:
       'R A Pro Cleaning Services cleans homes, townhomes and rentals throughout Westminster, from Standley Lake and Legacy Ridge across to Bradburn and the Westminster Station area.',
     body: [
-      'Westminster mixes single-family homes, townhomes and a growing number of rentals, and each is quoted on what it actually is. A three-story townhome with stairs between every floor is a different job from a single-level house of the same square footage, and the price should say so.',
+      'Westminster mixes single-family homes, townhomes and a growing number of rentals. A three-story townhome with stairs between every floor takes longer than a single-level house of the same square footage, so mention the layout when you book and we will schedule the time for it.',
       'For owners and property managers, we handle turnovers between tenants on a predictable schedule: full clean, inside appliances and cabinets, and a note on anything that needs attention before the next lease starts.',
     ],
     neighborhoods: [
@@ -478,7 +478,7 @@ export const AREAS: Area[] = [
     highlights: [
       {
         title: 'Townhome cleaning',
-        body: 'Multi-level townhomes quoted on their real layout, stairs and all, rather than a flat square-footage rate.',
+        body: 'Stairs and split levels take longer than the same square footage on one floor. Mention the layout when you book so the visit is scheduled with enough time.',
       },
       {
         title: 'Rental turnovers',
@@ -539,7 +539,7 @@ export const AREAS: Area[] = [
       },
       {
         title: 'Affordable recurring service',
-        body: 'Weekly, biweekly or monthly plans with clear pricing quoted online before you commit to anything.',
+        body: 'Weekly, biweekly or every-four-weeks plans take 30–40% off the base price, quoted online before you commit to anything.',
       },
     ],
     faqs: [
@@ -549,7 +549,7 @@ export const AREAS: Area[] = [
       },
       {
         q: 'Is a first clean more expensive?',
-        a: 'A first visit is usually booked as a deep clean, which costs more than the standard visits that follow. After that, recurring cleans are priced at the standard rate.',
+        a: 'Usually yes, though not because deep cleaning carries a higher base price — it does not. A one-time visit simply has no recurring discount, while weekly booking takes 40% off the base and biweekly or every-four-weeks takes 30%.',
       },
       {
         q: 'How do I get a price?',
