@@ -204,7 +204,7 @@ managed in the Formspree dashboard, not in this repo.
 - **Service area:** Denver, Aurora & the surrounding metro (no public street address)
 - **Booking:** https://link.msgsndr.com/widget/booking/a9pioIsReFA47or9v8G3
 - **Instagram:** https://www.instagram.com/raprocleaningservice/
-- **Facebook:** https://www.facebook.com/share/16NnxD6cYf/
+- **Facebook:** https://www.facebook.com/profile.php?id=100088973471805
 
 ---
 
