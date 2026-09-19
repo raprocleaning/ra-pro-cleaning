@@ -2,7 +2,6 @@ import Hero from '@/components/Hero'
 import ServicesGrid from '@/components/ServicesGrid'
 import CleaningChecklist from '@/components/CleaningChecklist'
 import WhyChooseUs from '@/components/WhyChooseUs'
-import Pricing from '@/components/Pricing'
 import BeforeAfter from '@/components/BeforeAfter'
 import Reviews from '@/components/Reviews'
 import GallerySection from '@/components/GallerySection'
@@ -66,7 +65,6 @@ export default function Home() {
       />
 
       <WhyChooseUs />
-      <Pricing />
       <BeforeAfter />
       <Reviews />
       <GallerySection />

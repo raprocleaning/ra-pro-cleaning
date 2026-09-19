@@ -49,7 +49,7 @@ const Hero = () => {
 
         {/* Content */}
         <div className="relative z-10 flex-1 flex items-center">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24 w-full">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 sm:py-24 w-full">
             <div className="max-w-4xl mx-auto text-center">
               {/* Eyebrow */}
               <div
