@@ -57,6 +57,24 @@
     to   { opacity: 1; transform: translateY(0);    }
   }
 
+  /*
+    Entrance reveal as progressive enhancement.
+    The element is visible by default and only animates where motion is
+    welcome. Applying `fadeInUp ... both` directly would hold the element at
+    opacity 0 whenever the animation does not run — reduced-motion, print, or
+    a renderer that never advances the timeline — stranding the hero copy
+    invisible. Visible-by-default can only ever fail toward readable.
+  */
+  .reveal {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: fadeInUp 0.7s ease both;
+    }
+  }
+
   /* Sticky Book Now pulse ring */
   @keyframes ping-slow {
     0%, 100% { transform: scale(1); opacity: 1; }
