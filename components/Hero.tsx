@@ -1,19 +1,15 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 const Hero = () => {
   const parallaxRef = useRef<HTMLDivElement>(null)
-  const [showStickyBtn, setShowStickyBtn] = useState(false)
 
   useEffect(() => {
     // Parallax on scroll
     const handleScroll = () => {
       if (parallaxRef.current) {
-        const scrollY = window.scrollY
-        parallaxRef.current.style.transform = `translateY(${scrollY * 0.35}px)`
+        parallaxRef.current.style.transform = `translateY(${window.scrollY * 0.35}px)`
       }
-      // Show sticky CTA after scrolling past hero
-      setShowStickyBtn(window.scrollY > 500)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -128,7 +124,7 @@ const Hero = () => {
           className="reveal relative z-10 bg-[#0F2240]/45 backdrop-blur-sm border-t border-white/20"
           style={{ animationDelay: '500ms' }}
         >
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-6 pb-36 sm:pb-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { value: '45', label: 'Five-Star Google Reviews' },
@@ -149,24 +145,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* ── FLOATING STICKY CTA (after-hours only) ───────────────── */}
-        <div
-          className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${
-            showStickyBtn ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
-          }`}
-        >
-          <a
-            href="/book"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-book-now flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-4 rounded-full shadow-2xl text-sm"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            Book Now
-          </a>
-        </div>
     </>
   )
 }

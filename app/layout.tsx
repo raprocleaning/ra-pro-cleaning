@@ -93,6 +93,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {/*
+          Runs before first paint so `.fade-in-up` can scope its hidden state
+          to `.js`. Without it, a visitor with JavaScript off (or a crawler
+          that does not run it) never fires the IntersectionObserver that adds
+          `.visible`, and every scroll-revealed section stays at opacity 0.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
