@@ -30,6 +30,21 @@ export const BASE_TIERS: Tier[] = [
 // Move In/Out runs $100 above the standard tier at every size.
 export const MOVE_TIERS: Tier[] = BASE_TIERS.map((t) => ({ ...t, price: t.price + 100 }))
 
+/**
+ * Standard maintenance cleans price below the deep-clean table.
+ *
+ * A recurring standard clean is meaningfully less labor than a top-to-bottom
+ * deep clean, and quoting both at the deep-clean number was pricing us out of
+ * the regular-cleaning market that produces long-term recurring customers.
+ */
+export const STANDARD_RATIO = 0.75
+
+export const STANDARD_TIERS: Tier[] = BASE_TIERS.map((t) => ({
+  ...t,
+  // Rounded to the nearest $5 so quotes read as prices, not as arithmetic.
+  price: Math.round((t.price * STANDARD_RATIO) / 5) * 5,
+}))
+
 export const SERVICES = [
   'Standard Cleaning',
   'Deep Cleaning',
@@ -55,14 +70,14 @@ export function isQuoteOnRequest(service: string): boolean {
 }
 
 export const PRICING: Record<string, Tier[]> = {
-  'Standard Cleaning':    BASE_TIERS,
+  'Standard Cleaning':    STANDARD_TIERS,
   'Deep Cleaning':        BASE_TIERS,
   'Move In/Out Cleaning': MOVE_TIERS,
   'Airbnb Cleaning':      BASE_TIERS,
 }
 
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
-  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$200 – $830' },
+  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$150 – $625' },
   'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
   'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
   'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$200 – $830' },
@@ -112,7 +127,13 @@ export const EXTRAS: { label: string; price: number }[] = [
   { label: 'Window Tracks Cleaning',           price: 50 },
 ]
 
-/** Minimum we will ever charge for a job, after any recurring discount. */
+/**
+ * Minimum a recurring discount may ever drag a job down to.
+ *
+ * This caps the discount — it never raises a list price. A small home whose
+ * standard-clean list price already sits below the floor is quoted that list
+ * price rather than being marked up to $200.
+ */
 export const PRICE_FLOOR = 200
 
 // ─── CALCULATION ─────────────────────────────────────────────────────────────
@@ -136,7 +157,7 @@ export type Quote = {
 /**
  * Full quote breakdown. The recurring discount applies to the base clean only —
  * add-ons are charged at list price, and the discounted base never drops below
- * PRICE_FLOOR.
+ * PRICE_FLOOR (or below the list price itself, when that is already lower).
  */
 export function getQuote(opts: {
   service: string
@@ -148,7 +169,8 @@ export function getQuote(opts: {
   if (base === null) return null
 
   const freq = FREQUENCIES.find((f) => f.label === opts.frequency) ?? FREQUENCIES[0]
-  const discountedBase = Math.max(PRICE_FLOOR, Math.round(base * (1 - freq.discount / 100)))
+  const floor = Math.min(base, PRICE_FLOOR)
+  const discountedBase = Math.max(floor, Math.round(base * (1 - freq.discount / 100)))
   const discountAmount = base - discountedBase
 
   const extrasTotal = (opts.extras ?? []).reduce((sum, label) => {
