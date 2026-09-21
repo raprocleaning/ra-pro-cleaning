@@ -36,8 +36,11 @@ export const MOVE_TIERS: Tier[] = BASE_TIERS.map((t) => ({ ...t, price: t.price 
  * A recurring standard clean is meaningfully less labor than a top-to-bottom
  * deep clean, and quoting both at the deep-clean number was pricing us out of
  * the regular-cleaning market that produces long-term recurring customers.
+ *
+ * The ratio is set so deep cleans run roughly 50% above standard, which is the
+ * spread Denver cost guides report for the two services.
  */
-export const STANDARD_RATIO = 0.75
+export const STANDARD_RATIO = 0.65
 
 export const STANDARD_TIERS: Tier[] = BASE_TIERS.map((t) => ({
   ...t,
@@ -77,10 +80,10 @@ export const PRICING: Record<string, Tier[]> = {
 }
 
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
-  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$150 – $625' },
+  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$130 – $540' },
   'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
   'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
-  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$150 – $625' },
+  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$130 – $540' },
   'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: 'Custom quote' },
 }
 
