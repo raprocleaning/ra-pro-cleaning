@@ -140,6 +140,21 @@ export const EXTRAS: { label: string; price: number }[] = [
  */
 export const PRICE_FLOOR = 150
 
+/**
+ * Per-service overrides of PRICE_FLOOR.
+ *
+ * A deep clean is the same labour whatever the schedule, so the $150 floor
+ * that makes sense for a light maintenance visit would underprice it on a
+ * recurring plan. Services absent from this map use PRICE_FLOOR.
+ */
+export const SERVICE_PRICE_FLOORS: Record<string, number> = {
+  'Deep Cleaning': 200,
+}
+
+export function getPriceFloor(service: string): number {
+  return SERVICE_PRICE_FLOORS[service] ?? PRICE_FLOOR
+}
+
 // ─── CALCULATION ─────────────────────────────────────────────────────────────
 
 /** Base price for a service at a given square footage, before discounts/extras. */
@@ -161,7 +176,7 @@ export type Quote = {
 /**
  * Full quote breakdown. The recurring discount applies to the base clean only —
  * add-ons are charged at list price, and the discounted base never drops below
- * PRICE_FLOOR (or below the list price itself, when that is already lower).
+ * the service's floor (or below the list price itself, when that is lower).
  */
 export function getQuote(opts: {
   service: string
@@ -173,7 +188,7 @@ export function getQuote(opts: {
   if (base === null) return null
 
   const freq = FREQUENCIES.find((f) => f.label === opts.frequency) ?? FREQUENCIES[0]
-  const floor = Math.min(base, PRICE_FLOOR)
+  const floor = Math.min(base, getPriceFloor(opts.service))
   const discountedBase = Math.max(floor, Math.round(base * (1 - freq.discount / 100)))
   const discountAmount = base - discountedBase
 

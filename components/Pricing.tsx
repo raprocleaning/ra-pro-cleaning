@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { FREQUENCIES, PRICE_FLOOR, SQFT_OPTIONS, getPrice } from '@/lib/pricing'
+import { FREQUENCIES, SQFT_OPTIONS, getPrice, getPriceFloor } from '@/lib/pricing'
 
 const sqftTiers = SQFT_OPTIONS.map((opt) => ({
   range: opt.label,
@@ -13,11 +13,11 @@ const sqftTiers = SQFT_OPTIONS.map((opt) => ({
 }))
 
 const serviceTypes = [
-  { key: 'standard', label: 'Standard Clean', color: 'text-[#00A896]' },
-  { key: 'deep', label: 'Deep Clean', color: 'text-[#0F2240]' },
-  { key: 'moveInOut', label: 'Move In/Out', color: 'text-[#00A896]' },
-  { key: 'airbnb', label: 'Airbnb/STR', color: 'text-[#0F2240]' },
-  { key: 'postConstruction', label: 'Post-Construction', color: 'text-[#00A896]' },
+  { key: 'standard', label: 'Standard Clean', service: 'Standard Cleaning', color: 'text-[#00A896]' },
+  { key: 'deep', label: 'Deep Clean', service: 'Deep Cleaning', color: 'text-[#0F2240]' },
+  { key: 'moveInOut', label: 'Move In/Out', service: 'Move In/Out Cleaning', color: 'text-[#00A896]' },
+  { key: 'airbnb', label: 'Airbnb/STR', service: 'Airbnb Cleaning', color: 'text-[#0F2240]' },
+  { key: 'postConstruction', label: 'Post-Construction', service: 'Post-Construction Cleaning', color: 'text-[#00A896]' },
 ]
 
 type ServiceKey = 'standard' | 'deep' | 'moveInOut' | 'airbnb' | 'postConstruction'
@@ -30,9 +30,9 @@ export default function Pricing() {
 
   // Mirrors getQuote() in lib/pricing.ts: the floor caps the discount, it never
   // marks a list price up.
-  const displayPrice = (base: number | null) => {
+  const displayPrice = (base: number | null, service: string) => {
     if (base === null) return 'Call Us'
-    const floor = Math.min(base, PRICE_FLOOR)
+    const floor = Math.min(base, getPriceFloor(service))
     return `$${Math.max(floor, Math.round(base * (1 - discount / 100)))}`
   }
 
@@ -114,7 +114,10 @@ export default function Pricing() {
               <div className="px-6 py-4 text-sm text-[#0F2240] font-medium">{tier.range}</div>
               <div className="px-6 py-4 text-right">
                 <span className="text-lg font-black text-[#00A896]">
-                  {displayPrice(tier[activeService as keyof typeof tier] as number | null)}
+                  {displayPrice(
+                    tier[activeService as keyof typeof tier] as number | null,
+                    serviceTypes.find((s) => s.key === activeService)!.service,
+                  )}
                 </span>
                 {discount > 0 && tier[activeService as keyof typeof tier] !== null && (
                   <span className="ml-2 text-xs text-[#4A6583] line-through">
