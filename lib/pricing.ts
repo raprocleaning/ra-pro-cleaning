@@ -37,10 +37,11 @@ export const MOVE_TIERS: Tier[] = BASE_TIERS.map((t) => ({ ...t, price: t.price 
  * deep clean, and quoting both at the deep-clean number was pricing us out of
  * the regular-cleaning market that produces long-term recurring customers.
  *
- * The ratio is set so deep cleans run roughly 50% above standard, which is the
- * spread Denver cost guides report for the two services.
+ * The ratio is deliberately conservative: a modest step down from the shared
+ * price rather than a move to the bottom of the Denver range, so margin is
+ * protected while the standard clean stops quoting at the deep-clean number.
  */
-export const STANDARD_RATIO = 0.65
+export const STANDARD_RATIO = 0.85
 
 export const STANDARD_TIERS: Tier[] = BASE_TIERS.map((t) => ({
   ...t,
@@ -80,10 +81,10 @@ export const PRICING: Record<string, Tier[]> = {
 }
 
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
-  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$130 – $540' },
+  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$170 – $705' },
   'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
   'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
-  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$130 – $540' },
+  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$170 – $705' },
   'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: 'Custom quote' },
 }
 
