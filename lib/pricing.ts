@@ -73,14 +73,14 @@ export const PRICING: Record<string, Tier[]> = {
   'Standard Cleaning':    STANDARD_TIERS,
   'Deep Cleaning':        BASE_TIERS,
   'Move In/Out Cleaning': MOVE_TIERS,
-  'Airbnb Cleaning':      BASE_TIERS,
+  'Airbnb Cleaning':      STANDARD_TIERS,
 }
 
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
   'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$150 – $625' },
   'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
   'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
-  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$200 – $830' },
+  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$150 – $625' },
   'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: 'Custom quote' },
 }
 
@@ -132,9 +132,13 @@ export const EXTRAS: { label: string; price: number }[] = [
  *
  * This caps the discount — it never raises a list price. A small home whose
  * standard-clean list price already sits below the floor is quoted that list
- * price rather than being marked up to $200.
+ * price rather than being marked up to the floor.
+ *
+ * Set at $150 so that recurring schedules still earn a real discount on
+ * smaller homes; at $200 the floor swallowed the discount entirely there and
+ * a weekly plan cost the same as a one-off clean.
  */
-export const PRICE_FLOOR = 200
+export const PRICE_FLOOR = 150
 
 // ─── CALCULATION ─────────────────────────────────────────────────────────────
 
