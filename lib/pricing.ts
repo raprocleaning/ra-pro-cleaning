@@ -33,9 +33,14 @@ export const MOVE_TIERS: Tier[] = BASE_TIERS.map((t) => ({ ...t, price: t.price 
 export const SERVICES = [
   'Standard Cleaning',
   'Deep Cleaning',
+  'House Cleaning',
   'Move In/Out Cleaning',
   'Airbnb Cleaning',
+  'Office Cleaning',
   'Post-Construction Cleaning',
+  'Kitchen Cleaning',
+  'Bathroom Cleaning',
+  'Bedroom Cleaning',
 ] as const
 
 export type Service = (typeof SERVICES)[number]
@@ -47,8 +52,22 @@ export type Service = (typeof SERVICES)[number]
  * debris volume, paint overspray and grout haze can swing two jobs of the same
  * size by many hours — so the site collects the details and we quote by phone
  * instead of committing to a number sight-unseen.
+ *
+ * Office work is quoted the same way: a commercial space is priced on traffic,
+ * restroom count and how often we come, not on the residential tiers below.
+ *
+ * The single-room services are here for the opposite reason — the whole-home
+ * tiers start at $200, which is far more than one kitchen or one bathroom is
+ * worth. Until those carry their own flat rates, quoting them by phone beats
+ * quoting them wrong.
  */
-export const QUOTE_ON_REQUEST: string[] = ['Post-Construction Cleaning']
+export const QUOTE_ON_REQUEST: string[] = [
+  'Post-Construction Cleaning',
+  'Office Cleaning',
+  'Kitchen Cleaning',
+  'Bathroom Cleaning',
+  'Bedroom Cleaning',
+]
 
 export function isQuoteOnRequest(service: string): boolean {
   return QUOTE_ON_REQUEST.includes(service)
@@ -57,6 +76,7 @@ export function isQuoteOnRequest(service: string): boolean {
 export const PRICING: Record<string, Tier[]> = {
   'Standard Cleaning':    BASE_TIERS,
   'Deep Cleaning':        BASE_TIERS,
+  'House Cleaning':       BASE_TIERS,
   'Move In/Out Cleaning': MOVE_TIERS,
   'Airbnb Cleaning':      BASE_TIERS,
 }
@@ -64,9 +84,14 @@ export const PRICING: Record<string, Tier[]> = {
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
   'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$200 – $830' },
   'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
+  'House Cleaning':             { icon: '🧹', desc: 'Every room, top to bottom',      range: '$200 – $830' },
   'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
   'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$200 – $830' },
+  'Office Cleaning':            { icon: '🏢', desc: 'Offices, retail & workspaces',   range: 'Custom quote' },
   'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: 'Custom quote' },
+  'Kitchen Cleaning':           { icon: '🍽️', desc: 'Appliances, cabinets & counters', range: 'Custom quote' },
+  'Bathroom Cleaning':          { icon: '🚿', desc: 'Tile, grout & full sanitizing',  range: 'Custom quote' },
+  'Bedroom Cleaning':           { icon: '🛏️', desc: 'Dust, vacuum & linen refresh',   range: 'Custom quote' },
 }
 
 // ─── SQUARE FOOTAGE OPTIONS ──────────────────────────────────────────────────
