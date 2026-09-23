@@ -5,6 +5,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import VirtualAssistant from '@/components/VirtualAssistant'
 import ConversionTracking from '@/components/ConversionTracking'
+import CampaignCapture from '@/components/CampaignCapture'
 
 const GA_ID = 'G-50JSSQ15K6'
 
@@ -124,6 +125,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
         <Navigation />
+        <CampaignCapture />
         {children}
         <Footer />
         <VirtualAssistant />

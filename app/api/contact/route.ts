@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAppointment } from '@/lib/ghlCalendar'
 import { sendLeadEmail, sendCustomerEmail } from '@/lib/leadEmail'
+import { describeCampaign, type Campaign } from '@/lib/campaign'
 
 // nodemailer needs the Node runtime; the CRM and calendar calls are happy there too.
 export const runtime = 'nodejs'
@@ -17,7 +18,26 @@ export async function POST(req: NextRequest) {
       // fields so it can be placed on a GHL calendar.
       bookingDate, bookingTime,
       source: bodySource,
+      campaign,
     } = body
+
+    // Campaign details come from the visitor's own browser, so take only the
+    // fields we asked for and cap them before they reach the CRM.
+    const trim = (value: unknown) =>
+      typeof value === 'string' && value.trim() ? value.trim().slice(0, 80) : undefined
+    const visit: Campaign | undefined = campaign && typeof campaign === 'object'
+      ? {
+          source:      trim(campaign.source) || 'direct',
+          medium:      trim(campaign.medium),
+          campaign:    trim(campaign.campaign),
+          content:     trim(campaign.content),
+          term:        trim(campaign.term),
+          clickId:     trim(campaign.clickId),
+          landingPage: trim(campaign.landingPage),
+          referrer:    typeof campaign.referrer === 'string' ? campaign.referrer.slice(0, 200) : undefined,
+        }
+      : undefined
+    const visitLabel = describeCampaign(visit)
 
     const cleanName = typeof fullName === 'string' ? fullName.trim() : ''
     const cleanPhone = typeof phone === 'string' ? phone.trim() : ''
@@ -48,6 +68,12 @@ export async function POST(req: NextRequest) {
     if (svcTag) tags.push(svcTag)
     if (preferredDate) tags.push('has-preferred-date')
     if (extras?.length) tags.push('has-extras')
+    // A tag per channel, so "how many jobs did Instagram bring" is a filter
+    // rather than an afternoon of reading notes.
+    const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40)
+    if (visit?.source) tags.push(`src-${slug(visit.source)}`)
+    if (visit?.campaign) tags.push(`camp-${slug(visit.campaign)}`)
+
     if (smsOptIn && cleanPhone) {
       tags.push('sms-opt-in')
       tags.push('needs-follow-up')
@@ -75,6 +101,9 @@ export async function POST(req: NextRequest) {
       zipCode   ? `📍 Zip: ${zipCode}` : null,
       message   ? `💬 Notes: ${message}` : null,
       `📱 SMS Opt-In: ${smsOptIn ? 'Yes' : 'No'}`,
+      visitLabel ? `📣 Came from: ${visitLabel}` : null,
+      visit?.landingPage ? `🔗 Landed on: ${visit.landingPage}` : null,
+      visit?.clickId ? `💳 Ad click: ${visit.clickId}` : null,
     ].filter(Boolean).join('\n')
 
     // ── 1. Create / update contact in GHL ────────────────────────────────────
@@ -93,7 +122,7 @@ export async function POST(req: NextRequest) {
         email: cleanEmail,
         phone: cleanPhone,
         locationId,
-        source: sourceLabel,
+        source: visitLabel ? `${sourceLabel} — ${visitLabel}` : sourceLabel,
         tags,
       }
       if (address) ghlPayload.address1   = address
@@ -198,6 +227,7 @@ export async function POST(req: NextRequest) {
       message,
       source: sourceLabel,
       smsOptIn: !!smsOptIn,
+      campaign: visitLabel || undefined,
       // Shapes the customer's copy: a confirmed slot reads differently from a
       // general enquiry, and a phone-quoted job must not claim a total.
       hasSlot: !!(preferredDate || (bookingDate && bookingTime)),

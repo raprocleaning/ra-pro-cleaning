@@ -45,6 +45,8 @@ export type Lead = {
   zip?: string
   message?: string
   smsOptIn?: boolean
+  /** Which ad, post or search produced this lead. */
+  campaign?: string
   /** A slot was chosen, rather than a general enquiry. */
   hasSlot?: boolean
   /** The customer was shown a price, rather than being quoted by phone. */
@@ -94,6 +96,7 @@ function rows(lead: Lead): Array<[string, string]> {
     ['Notes', text(lead.message)],
     ['SMS opt-in', lead.smsOptIn === undefined ? '' : lead.smsOptIn ? 'Yes' : 'No'],
     ['Submitted from', text(lead.source)],
+    ['Came from', text(lead.campaign)],
   ]
 
   return all.filter(([, value]) => value !== '')

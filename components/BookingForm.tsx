@@ -4,6 +4,7 @@ import {
   SERVICES, SERVICE_META, SQFT_OPTIONS, FREQUENCIES, EXTRAS, getQuote, isQuoteOnRequest,
 } from '@/lib/pricing'
 import { trackEvent, trackLead } from '@/lib/analytics'
+import { getCampaign } from '@/lib/campaign'
 
 /** Arrival windows we offer: 9 AM through 5 PM. */
 const TIME_SLOTS = Array.from({ length: 9 }, (_, i) => {
@@ -135,6 +136,7 @@ export default function BookingForm() {
           bookingTime: time,
           message: notes.trim(),
           smsOptIn,
+          campaign: getCampaign(),
         }),
       })
 

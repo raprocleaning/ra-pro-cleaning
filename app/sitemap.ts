@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { AREAS } from '@/lib/areas'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -13,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'kitchen-cleaning',
     'bathroom-cleaning',
     'bedroom-cleaning',
+    'post-construction',
   ]
 
   const blogSlugs = [
@@ -29,8 +31,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/blog`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${BASE_URL}/contact`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/book`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 1.0 },
-    { url: `${BASE_URL}/areas/aurora`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
   ]
+
+  const areaPages: MetadataRoute.Sitemap = AREAS.map((area) => ({
+    url: `${BASE_URL}/areas/${area.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.9,
+  }))
 
   const servicePages: MetadataRoute.Sitemap = servicesSlugs.map((slug) => ({
     url: `${BASE_URL}/services/${slug}`,
@@ -46,5 +54,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...servicePages, ...blogPages]
+  return [...staticPages, ...areaPages, ...servicePages, ...blogPages]
 }

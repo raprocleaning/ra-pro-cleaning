@@ -2,6 +2,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import { getCampaign } from '@/lib/campaign'
+import { AREAS } from '@/lib/areas'
 
 const Footer = () => {
   const [email, setEmail] = useState('')
@@ -14,7 +16,7 @@ const Footer = () => {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName: 'Newsletter Signup', email, message: 'Newsletter signup', propertyType: 'Newsletter' }),
+        body: JSON.stringify({ fullName: 'Newsletter Signup', email, message: 'Newsletter signup', propertyType: 'Newsletter', campaign: getCampaign() }),
       })
       if (res.ok) {
         setNewsletterStatus('success')
@@ -73,7 +75,7 @@ const Footer = () => {
 
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
           {/* Brand Column — spans 2 */}
           <div className="lg:col-span-2">
             <div className="mb-6">
@@ -160,6 +162,22 @@ const Footer = () => {
                 <li key={s.href}>
                   <Link href={s.href} className="text-sm text-white/50 hover:text-[#00A896] transition-colors">
                     {s.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Service Areas Column */}
+          <div>
+            <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/35 mb-6">
+              Service Areas
+            </h3>
+            <ul className="space-y-3">
+              {AREAS.map((area) => (
+                <li key={area.slug}>
+                  <Link href={`/areas/${area.slug}`} className="text-sm text-white/50 hover:text-[#00A896] transition-colors">
+                    {area.city}
                   </Link>
                 </li>
               ))}
