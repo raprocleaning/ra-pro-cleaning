@@ -36,22 +36,22 @@ export const posts: Record<string, BlogPost> = {
       {
         heading: 'What a Standard Clean Costs by Home Size',
         content: [
-          'Price is set by the square footage of your home. A standard clean starts at $200 for homes under 1,000 square feet and rises through brackets from there: $250 for 1,000–1,249 sq ft, $330 for 1,250–1,499, $380 for 1,500–1,799, $460 for 1,800–2,099, and $470 for 2,100–2,399.',
-          'Larger homes continue up the same ladder — $490 for 2,400–2,699, $540 for 2,700–2,999, $570 for 3,000–3,299, and on through to $830 for anything 5,000 square feet and above. Deep cleaning and Airbnb turnovers use the same brackets as a standard clean; what changes is the scope of work, not the base rate.',
+          'Price is set by the square footage of your home. A standard clean starts at $170 for homes under 1,000 square feet and rises through brackets from there: $215 for 1,000–1,249 sq ft, $280 for 1,250–1,499, $325 for 1,500–1,799, $390 for 1,800–2,099, and $400 for 2,100–2,399.',
+          'Larger homes continue up the same ladder — $415 for 2,400–2,699, $460 for 2,700–2,999, $485 for 3,000–3,299, and on through to $705 for anything 5,000 square feet and above. Airbnb turnovers are priced from the same table as a standard clean. Deep cleaning runs on its own, higher one — $200 at the smallest size up to $830 at the largest — because it is genuinely more work, not the same visit under another name.',
         ],
       },
       {
         heading: 'Recurring Service Is Where the Real Saving Is',
         content: [
           'A one-time clean pays the full rate. Booking on a schedule takes a straight percentage off the base: 30% for every-four-weeks and biweekly, and 40% for weekly.',
-          'On a 1,800–2,099 sq ft home, that turns a $460 clean into $322 biweekly or $276 weekly. On a 2,700–2,999 sq ft home, $540 becomes $378 biweekly. The discount applies to the base clean only — add-ons are charged at list price — and no clean is ever billed below $200, so the smallest homes hit that floor before they see the full percentage.',
-          'This is worth doing the arithmetic on. Two biweekly cleans of a 2,000 sq ft home cost $644, less than one-and-a-half one-time cleans of the same house.',
+          'On a 1,800–2,099 sq ft home, that turns a $390 clean into $273 biweekly or $234 weekly. On a 2,700–2,999 sq ft home, $460 becomes $322 biweekly. The discount applies to the base clean only — add-ons are charged at list price — and no clean is ever billed below $170, so the smallest homes hit that floor before they see the full percentage.',
+          'This is worth doing the arithmetic on. Two biweekly cleans of a 2,000 sq ft home cost $546, less than one-and-a-half one-time cleans of the same house.',
         ],
       },
       {
         heading: 'Move-Out Cleaning Runs $100 Higher',
         content: [
-          'Move in/out cleaning sits exactly $100 above the standard rate at every size bracket — $300 for the smallest homes up to $930 for the largest. So a 2,100–2,399 sq ft move-out is $570 against $470 for a standard clean of the same place.',
+          'Move in/out cleaning sits exactly $100 above the deep-clean rate at every size bracket — $300 for the smallest homes up to $930 for the largest. So a 2,100–2,399 sq ft move-out is $570, against $400 for a standard clean of the same place.',
           'The extra covers what an empty house needs and an occupied one does not: inside every cabinet and drawer, inside appliances, and the detail work on baseboards and bathrooms that a deposit inspection actually looks at.',
         ],
       },
@@ -130,7 +130,7 @@ export const posts: Record<string, BlogPost> = {
       {
         heading: 'What This Is Worth Paying Someone For',
         content: [
-          'A full move-out clean of a typical Denver apartment is most of a day of real work, and it lands in the same week as packing, a truck, and a new address. Our move in/out service runs $100 above the standard rate at every size — $300 for the smallest units, $480 for a 1,500–1,799 sq ft place, $570 for 2,100–2,399 sq ft.',
+          'A full move-out clean of a typical Denver apartment is most of a day of real work, and it lands in the same week as packing, a truck, and a new address. Our move in/out service runs $100 above the deep-clean rate at every size — $300 for the smallest units, $480 for a 1,500–1,799 sq ft place, $570 for 2,100–2,399 sq ft.',
           'Against a deposit that is usually one month of Denver rent, the arithmetic is not close. And it is far easier to clean a unit properly once it is empty, which is the other argument for booking it after the movers rather than before.',
         ],
       },
