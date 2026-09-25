@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AREAS, getArea } from '@/lib/areas'
+import ContactActions from '@/components/ContactActions'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -137,14 +138,12 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
             House Cleaning Services in {area.city}, CO
           </h1>
           <p className="text-white/70 text-lg max-w-3xl mb-8">{area.intro}</p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/book" className="bg-[#00A896] text-white font-bold px-8 py-4 text-center">
-              Get an Instant Quote
-            </Link>
-            <a href="tel:7206778799" className="border-2 border-white/40 text-white font-bold px-8 py-4 text-center">
-              Call (720) 677-8799
-            </a>
-          </div>
+          <ContactActions
+            className="flex flex-col sm:flex-row gap-4"
+            bookLabel="Get an Instant Quote"
+            primaryClassName="inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 text-center"
+            secondaryClassName="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-8 py-4 text-center"
+          />
         </div>
       </section>
 

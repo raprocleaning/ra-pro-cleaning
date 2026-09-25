@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import BookingForm from '@/components/BookingForm'
-import { isOnlineBookingOpen } from '@/lib/bookingHours'
+import { isOnlineBookingOpen } from '@/lib/contactMode'
 
 /**
  * Whether online booking is open right now. Null until mounted: the page is
@@ -32,7 +32,7 @@ function BookingClosed() {
         </h2>
         <p className="text-[#4A6583] leading-relaxed mb-8">
           During the day our team books you directly by phone. Online booking
-          opens every evening from <strong>6&nbsp;PM to 8&nbsp;AM</strong>.
+          opens every evening from <strong>5&nbsp;PM to 9&nbsp;AM</strong>.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a

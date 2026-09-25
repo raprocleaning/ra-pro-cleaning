@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AREAS } from '@/lib/areas'
+import ContactActions from '@/components/ContactActions'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -62,17 +63,12 @@ export default function ServiceAreasPage() {
           <p className="text-white/80 mb-8">
             Send us your ZIP code and we will confirm before you book.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/book" className="inline-block bg-white text-[#007A6C] font-bold px-9 py-4">
-              Get My Quote
-            </Link>
-            <a
-              href="tel:7206778799"
-              className="inline-block border-2 border-white/60 text-white font-bold px-9 py-4"
-            >
-              Call (720) 677-8799
-            </a>
-          </div>
+          <ContactActions
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            bookLabel="Get My Quote"
+            primaryClassName="inline-flex items-center justify-center gap-2 bg-white text-[#007A6C] font-bold px-9 py-4"
+            secondaryClassName="inline-flex items-center justify-center gap-2 border-2 border-white/60 text-white font-bold px-9 py-4"
+          />
         </div>
       </section>
     </main>
