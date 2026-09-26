@@ -451,9 +451,15 @@ export default function BookingForm() {
                 onChange={(e) => setSmsOptIn(e.target.checked)}
                 className="mt-0.5 w-4 h-4 accent-[#00A896] shrink-0"
               />
+              {/* Carriers check the opt-in wording itself: frequency, rates, STOP
+                  and HELP, with both policies linked beside the box. */}
               <span className="text-[#4A6583] text-xs leading-relaxed group-hover:text-[#0F2240] transition-colors">
-                Text me appointment reminders and updates at the number above. Message &amp; data
-                rates may apply. Reply STOP to opt out at any time.
+                Text me appointment reminders and updates at the number above, up to 5 messages a
+                month. Message &amp; data rates may apply. Reply STOP to opt out, HELP for help. See
+                our{' '}
+                <a href="/privacy" className="text-[#00A896] hover:underline">Privacy Policy</a>
+                {' '}and{' '}
+                <a href="/terms" className="text-[#00A896] hover:underline">Terms</a>.
               </span>
             </label>
           </Step>
