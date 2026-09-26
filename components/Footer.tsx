@@ -243,11 +243,11 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} R A Pro Cleaning Services LLC. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-xs text-white/25 hover:text-white/50 transition-colors">
+            <Link href="/privacy" className="text-xs text-white/60 hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-xs text-white/25 hover:text-white/50 transition-colors">
-              Terms of Service
+            <Link href="/terms" className="text-xs text-white/60 hover:text-white transition-colors">
+              Terms and Conditions
             </Link>
           </div>
         </div>

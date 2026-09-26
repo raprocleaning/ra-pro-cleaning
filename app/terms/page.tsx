@@ -164,15 +164,19 @@ export default function TermsPage() {
                 account activity. You may receive up to 5 messages per month.
               </p>
               <p className="mb-3">
-                <strong>Message &amp; Data Rates:</strong> Message and data rates may apply depending
-                on your mobile carrier and plan. R A Pro Cleaning Services LLC is not responsible for
-                any charges incurred by your mobile carrier.
+                <strong>Message Frequency &amp; Rates:</strong> As always, message and data rates may
+                apply for any messages sent to you from us and to us from you. You will receive up to 5
+                messages per month. If you have any questions about your text plan or data plan, it is best
+                to contact your wireless provider.
               </p>
               <p className="mb-3">
-                <strong>Opt-Out Instructions:</strong> You may opt out of receiving SMS messages at
-                any time by replying <strong>STOP</strong> to any message. After opting out, you will
-                receive a one-time confirmation message. For assistance, reply <strong>HELP</strong> or
-                contact us at ra@raprocleaningservices.com or 720-677-8799.
+                <strong>Opt-Out &amp; Support:</strong> You can cancel the SMS service at any time. Just
+                text &quot;STOP&quot; to 720-677-8799. After you send the SMS message &quot;STOP&quot; to us,
+                we will send you an SMS message to confirm that you have been unsubscribed. After this, you
+                will no longer receive SMS messages from us. If you want to join again, just sign up as you
+                did the first time and we will start sending SMS messages to you again. If you are
+                experiencing issues with the messaging program you can reply with the keyword HELP for more
+                assistance, or you can get help directly at ra@raprocleaningservices.com.
               </p>
               <p className="mb-3">
                 <strong>Carrier Liability Disclaimer:</strong> Carriers are not liable for delayed or
@@ -184,8 +188,10 @@ export default function TermsPage() {
                 of age or older. By opting in, you confirm that you are at least 18 years old.
               </p>
               <p>
-                For more information on how we handle your data, please review our{' '}
-                <a href="/privacy" className="text-[#00A896] hover:underline">Privacy Policy</a>.
+                If you have any questions regarding privacy, please read our privacy policy:{' '}
+                <a href="/privacy" className="text-[#00A896] hover:underline">
+                  https://raprocleaningservices.com/privacy
+                </a>
               </p>
             </div>
 

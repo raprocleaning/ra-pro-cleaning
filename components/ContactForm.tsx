@@ -13,6 +13,7 @@ interface FormData {
   squareFootage: string
   message: string
   smsOptIn: boolean
+  smsMarketingOptIn: boolean
 }
 
 const ContactForm = () => {
@@ -26,6 +27,7 @@ const ContactForm = () => {
     squareFootage: '',
     message: '',
     smsOptIn: false,
+    smsMarketingOptIn: false,
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
@@ -57,7 +59,7 @@ const ContactForm = () => {
         trackEvent('quote_form_submit', leadDetails)
         trackLead('quote_form', leadDetails)
         setStatus('success')
-        setFormData({ fullName: '', email: '', phone: '', service: '', zipCode: '', squareFootage: '', message: '', smsOptIn: false })
+        setFormData({ fullName: '', email: '', phone: '', service: '', zipCode: '', squareFootage: '', message: '', smsOptIn: false, smsMarketingOptIn: false })
       } else {
         setStatus('error')
       }
@@ -257,7 +259,9 @@ const ContactForm = () => {
                   />
                 </div>
 
-                {/* SMS Opt-in (only meaningful if phone provided) */}
+                {/* Service texts and marketing texts are separate decisions: the
+                    carriers require one box each, neither pre-ticked, and neither
+                    one a condition of submitting the form. */}
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox" name="smsOptIn" id="smsOptIn"
@@ -265,13 +269,24 @@ const ContactForm = () => {
                     className="mt-1 w-4 h-4 accent-[#00A896]"
                   />
                   <label htmlFor="smsOptIn" className="text-xs text-[#4A6583] leading-relaxed">
-                    I agree to receive SMS text messages from R A Pro Cleaning Services LLC at the phone number provided,
-                    including appointment confirmations, reminders, and occasional promotional offers. Message frequency
-                    varies (up to 5 messages per month). Message &amp; data rates may apply. Reply <strong>STOP</strong> to
-                    opt out or <strong>HELP</strong> for help. Consent is not a condition of purchase. See our{' '}
-                    <a href="/privacy" className="text-[#00A896] hover:underline">Privacy Policy</a>{' '}
-                    and{' '}
-                    <a href="/terms" className="text-[#00A896] hover:underline">Terms</a>.
+                    I consent to receive non-marketing text messages from R A Pro Cleaning Services LLC
+                    about appointment confirmations, scheduling updates, and cleaning reminders. Message
+                    frequency varies, message &amp; data rates may apply. Text HELP for assistance, reply
+                    STOP to opt out.
+                  </label>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox" name="smsMarketingOptIn" id="smsMarketingOptIn"
+                    checked={formData.smsMarketingOptIn} onChange={handleChange}
+                    className="mt-1 w-4 h-4 accent-[#00A896]"
+                  />
+                  <label htmlFor="smsMarketingOptIn" className="text-xs text-[#4A6583] leading-relaxed">
+                    I consent to receive marketing text messages, about special offers, discounts, and
+                    service updates, from R A Pro Cleaning Services LLC at the phone number provided.
+                    Message frequency may vary. Message &amp; data rates may apply. Text HELP for
+                    assistance, reply STOP to opt out.
                   </label>
                 </div>
 
@@ -286,6 +301,13 @@ const ContactForm = () => {
                 >
                   {status === 'sending' ? 'Sending...' : 'Get My Free Quote →'}
                 </button>
+
+                {/* Both policies must be linked in the footer of every form. */}
+                <p className="text-center text-xs text-[#4A6583]">
+                  <a href="/privacy" className="text-[#00A896] hover:underline">Privacy Policy</a>
+                  {' | '}
+                  <a href="/terms" className="text-[#00A896] hover:underline">Terms and Conditions</a>
+                </p>
               </form>
             )}
           </div>

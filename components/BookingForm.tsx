@@ -38,6 +38,7 @@ export default function BookingForm() {
   const [zip, setZip]         = useState('')
   const [notes, setNotes]     = useState('')
   const [smsOptIn, setSmsOptIn] = useState(false)
+  const [smsMarketingOptIn, setSmsMarketingOptIn] = useState(false)
 
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError]   = useState('')
@@ -136,6 +137,7 @@ export default function BookingForm() {
           bookingTime: time,
           message: notes.trim(),
           smsOptIn,
+          smsMarketingOptIn,
           attribution: getAttribution(),
         }),
       })
@@ -444,6 +446,9 @@ export default function BookingForm() {
               </div>
             </div>
 
+            {/* Service texts and marketing texts are separate decisions: the
+                carriers require one box each, neither pre-ticked, and neither one
+                a condition of submitting the form. */}
             <label className="flex items-start gap-3 mt-5 cursor-pointer group">
               <input
                 type="checkbox"
@@ -451,15 +456,26 @@ export default function BookingForm() {
                 onChange={(e) => setSmsOptIn(e.target.checked)}
                 className="mt-0.5 w-4 h-4 accent-[#00A896] shrink-0"
               />
-              {/* Carriers check the opt-in wording itself: frequency, rates, STOP
-                  and HELP, with both policies linked beside the box. */}
               <span className="text-[#4A6583] text-xs leading-relaxed group-hover:text-[#0F2240] transition-colors">
-                Text me appointment reminders and updates at the number above, up to 5 messages a
-                month. Message &amp; data rates may apply. Reply STOP to opt out, HELP for help. See
-                our{' '}
-                <a href="/privacy" className="text-[#00A896] hover:underline">Privacy Policy</a>
-                {' '}and{' '}
-                <a href="/terms" className="text-[#00A896] hover:underline">Terms</a>.
+                I consent to receive non-marketing text messages from R A Pro Cleaning Services LLC
+                about appointment confirmations, scheduling updates, and cleaning reminders. Message
+                frequency varies, message &amp; data rates may apply. Text HELP for assistance, reply
+                STOP to opt out.
+              </span>
+            </label>
+
+            <label className="flex items-start gap-3 mt-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={smsMarketingOptIn}
+                onChange={(e) => setSmsMarketingOptIn(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-[#00A896] shrink-0"
+              />
+              <span className="text-[#4A6583] text-xs leading-relaxed group-hover:text-[#0F2240] transition-colors">
+                I consent to receive marketing text messages, about special offers, discounts, and
+                service updates, from R A Pro Cleaning Services LLC at the phone number provided.
+                Message frequency may vary. Message &amp; data rates may apply. Text HELP for
+                assistance, reply STOP to opt out.
               </span>
             </label>
           </Step>
@@ -557,6 +573,13 @@ export default function BookingForm() {
                 <a href="tel:7206778799" className="text-[#00A896] font-bold hover:underline">
                   (720) 677-8799
                 </a>
+              </p>
+
+              {/* Both policies must be linked in the footer of every form. */}
+              <p className="text-[#4A6583] text-xs text-center mt-2">
+                <a href="/privacy" className="text-[#00A896] hover:underline">Privacy Policy</a>
+                {' | '}
+                <a href="/terms" className="text-[#00A896] hover:underline">Terms and Conditions</a>
               </p>
             </div>
           </div>

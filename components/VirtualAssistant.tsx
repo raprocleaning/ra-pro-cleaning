@@ -46,6 +46,7 @@ type BookingData = {
   phone: string
   email: string
   smsOptIn: boolean
+  smsMarketingOptIn: boolean
 }
 
 const SERVICES: string[] = [...SERVICE_LIST]
@@ -241,13 +242,14 @@ export default function VirtualAssistant() {
 
     if (step === 'sms-consent') {
       const userMsg: Message = { from: 'user', text: opt }
-      const consented = opt.includes('Yes')
-      setBooking((b) => ({ ...b, smsOptIn: consented }))
+      const service = opt.includes('Reminders')
+      const marketing = opt.includes('and offers')
+      setBooking((b) => ({ ...b, smsOptIn: service, smsMarketingOptIn: marketing }))
       setStep('phone')
       addMessages(userMsg, {
         from: 'bot',
-        text: consented
-          ? `Got it — you're opted in for SMS. 📱\n\nWhat's the best phone number to reach you?`
+        text: service
+          ? `Got it${marketing ? '' : ' — reminders only, no offers'}. 📱\n\nWhat's the best phone number to reach you?`
           : `No problem — we'll only call, not text. 📞\n\nWhat's the best phone number to reach you?`,
       })
       return
@@ -322,7 +324,7 @@ export default function VirtualAssistant() {
         })
         return
       }
-      setBooking((b) => ({ ...b, smsOptIn: false, phone: text }))
+      setBooking((b) => ({ ...b, smsOptIn: false, smsMarketingOptIn: false, phone: text }))
       setStep('email')
       addMessages(userMsg, {
         from: 'bot',
@@ -340,8 +342,8 @@ export default function VirtualAssistant() {
       setStep('sms-consent')
       addMessages(userMsg, {
         from: 'bot',
-        text: `Nice to meet you, ${text.split(' ')[0]}! 👋\n\nBefore I take your phone number — we use SMS to send appointment confirmations, reminders, and occasional promotional offers (up to 5 msg/month). Msg & data rates may apply. Reply STOP to opt out, HELP for help. See our Privacy Policy and Terms at raprocleaningservices.com/privacy.\n\nAre you OK receiving texts from us at the number you provide?`,
-        options: ['✅ Yes, text me', '📞 Phone calls only, no texts'],
+        text: `Nice to meet you, ${text.split(' ')[0]}! 👋\n\nBefore I take your phone number — which texts would you like from R A Pro Cleaning Services LLC?\n\n• **Reminders**: appointment confirmations, scheduling updates and cleaning reminders\n• **Offers**: special offers, discounts and service updates\n\nMessage frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out. Privacy Policy: raprocleaningservices.com/privacy · Terms and Conditions: raprocleaningservices.com/terms`,
+        options: ['✅ Reminders and offers', '✅ Reminders only', '📞 No texts'],
       })
       return
     }
@@ -384,6 +386,7 @@ export default function VirtualAssistant() {
             extras: updatedBooking.extras || [],
             preferredDate: updatedBooking.preferredDate || 'Flexible',
             smsOptIn: updatedBooking.smsOptIn === true,
+            smsMarketingOptIn: updatedBooking.smsMarketingOptIn === true,
             attribution: getAttribution(),
           }),
         })
