@@ -49,6 +49,7 @@ export type Lead = {
   zip?: string
   message?: string
   smsOptIn?: boolean
+  smsMarketingOptIn?: boolean
   /** A slot was chosen, rather than a general enquiry. */
   hasSlot?: boolean
   /** The customer was shown a price, rather than being quoted by phone. */
@@ -96,7 +97,8 @@ function rows(lead: Lead): Array<[string, string]> {
     ['Address', text(lead.address)],
     ['Zip', text(lead.zip)],
     ['Notes', text(lead.message)],
-    ['SMS opt-in', lead.smsOptIn === undefined ? '' : lead.smsOptIn ? 'Yes' : 'No'],
+    ['SMS opt-in (reminders)', lead.smsOptIn === undefined ? '' : lead.smsOptIn ? 'Yes' : 'No'],
+    ['SMS opt-in (offers)', lead.smsMarketingOptIn === undefined ? '' : lead.smsMarketingOptIn ? 'Yes' : 'No'],
     ['Submitted from', text(lead.source)],
     ['Came from', text(lead.channel)],
     ['Landed on', text(lead.landingPage)],

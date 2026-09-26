@@ -76,11 +76,10 @@ export default function PrivacyPage() {
                 <li>We will never sell your phone number to third parties.</li>
               </ul>
               <p className="mt-3">
-                <strong>Mobile information will not be shared with third parties for marketing purposes.</strong>{' '}
-                We do not share mobile information or SMS opt-in data with third parties or affiliates
-                for marketing or promotional purposes. Information sharing with subcontractors who support
-                our business operations (e.g., CRM platforms and SMS delivery providers) is limited to operational
-                purposes only.
+                No mobile information will be shared with third parties/affiliates for
+                marketing/promotional purposes. Information sharing to subcontractors in support services,
+                such as customer service, is permitted. All other use case categories exclude text messaging
+                originator opt-in data and consent; this information will not be shared with any third parties.
               </p>
               <p className="mt-3">
                 <strong>Contact:</strong> R A Pro Cleaning Services LLC, Denver, Colorado ·{' '}

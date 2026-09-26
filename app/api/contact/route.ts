@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const {
       fullName, phone, email, zipCode, squareFootage,
-      propertyType, message, smsOptIn,
+      propertyType, message, smsOptIn, smsMarketingOptIn,
       // AI booking widget + booking form fields
       service, sqft, price, extras, preferredDate, frequency, address, quoteOnRequest,
       // Booking form sends the requested slot as separate machine-readable
@@ -68,6 +68,7 @@ export async function POST(req: NextRequest) {
     } else {
       tags.push('phone-calls-only')
     }
+    if (smsMarketingOptIn && cleanPhone) tags.push('sms-marketing-opt-in')
 
     // ── Build note ────────────────────────────────────────────────────────────
     const sourceLabel = isBookingForm
@@ -88,7 +89,8 @@ export async function POST(req: NextRequest) {
       address   ? `🏠 Address: ${address}` : null,
       zipCode   ? `📍 Zip: ${zipCode}` : null,
       message   ? `💬 Notes: ${message}` : null,
-      `📱 SMS Opt-In: ${smsOptIn ? 'Yes' : 'No'}`,
+      `📱 SMS Opt-In (reminders): ${smsOptIn ? 'Yes' : 'No'}`,
+      `📣 SMS Opt-In (offers): ${smsMarketingOptIn ? 'Yes' : 'No'}`,
       channel ? `📣 Came from: ${channel}` : null,
       attr?.landingPage ? `🔗 Landed on: ${attr.landingPage}` : null,
     ].filter(Boolean).join('\n')
@@ -216,6 +218,7 @@ export async function POST(req: NextRequest) {
       channel,
       landingPage: attr?.landingPage,
       smsOptIn: !!smsOptIn,
+      smsMarketingOptIn: !!smsMarketingOptIn,
       // Shapes the customer's copy: a confirmed slot reads differently from a
       // general enquiry, and a phone-quoted job must not claim a total.
       hasSlot: !!(preferredDate || (bookingDate && bookingTime)),
