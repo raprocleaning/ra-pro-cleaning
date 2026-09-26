@@ -2,8 +2,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import { useContactMode } from '@/lib/useContactMode'
 
 const Navigation = () => {
+  const mode = useContactMode()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
@@ -123,14 +125,15 @@ const Navigation = () => {
                 </Link>
               ))}
 
+              {/* Texting reaches us at every hour, so this pill never changes. */}
               <a
-                href="tel:+17206778799"
+                href="sms:+17206778799"
                 className="flex items-center gap-1.5 text-sm font-semibold text-[#0F2240] border-2 border-[#00A896] rounded-full px-4 py-2 hover:bg-[#00A896] hover:text-white transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 01-4-.8L3 20l1.4-3.5A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
-                (720) 677-8799
+                Text us
               </a>
 
               {/* Social */}
@@ -157,11 +160,14 @@ const Navigation = () => {
                 </svg>
               </a>
 
+              {/* Call while the phone is answered; book online once it is not. */}
               <a
-                href="/book"
-                className="btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-md"
+                href={mode === 'phone' ? 'tel:+17206778799' : '/book'}
+                className={`btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-md${
+                  mode === null ? ' invisible' : ''
+                }`}
               >
-                Book Now
+                {mode === 'phone' ? '(720) 677-8799' : 'Book Now'}
               </a>
             </div>
 
@@ -223,12 +229,18 @@ const Navigation = () => {
               </Link>
             ))}
           </div>
-        <div className="flex flex-col gap-4">
+        <div className={`flex flex-col gap-4${mode === null ? ' invisible' : ''}`}>
           <a
-            href="/book"
+            href={mode === 'phone' ? 'tel:+17206778799' : '/book'}
             className="btn-book-now inline-block bg-[#00A896] text-white text-lg font-bold px-8 py-4 rounded-full shadow-lg text-center"
           >
-            Book Now &rarr;
+            {mode === 'phone' ? 'Call (720) 677-8799' : 'Book Now →'}
+          </a>
+          <a
+            href="sms:+17206778799"
+            className="inline-block border-2 border-[#00A896] text-[#00A896] text-lg font-bold px-8 py-4 rounded-full text-center"
+          >
+            Text us
           </a>
         </div>
           

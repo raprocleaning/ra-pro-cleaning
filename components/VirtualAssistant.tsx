@@ -8,6 +8,8 @@ import {
   EXTRAS, SQFT_OPTIONS, getPrice, sqftFromText,
   SERVICES as SERVICE_LIST,
 } from '@/lib/pricing'
+import { getAttribution } from '@/lib/attribution'
+import { useContactMode } from '@/lib/useContactMode'
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 type Step =
@@ -72,7 +74,10 @@ export default function VirtualAssistant() {
   const [submitting, setSubmitting] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
-  // Floating Book Now + chat trigger appear only outside 9 AM – 5 PM Mountain Time.
+  // The floating pair follows the same clock as the rest of the site: the
+  // instant-quote chat is a booking path, so it stands down while the office is
+  // answering the phone, and the button beside it offers the number instead.
+  const mode = useContactMode()
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -379,6 +384,7 @@ export default function VirtualAssistant() {
             extras: updatedBooking.extras || [],
             preferredDate: updatedBooking.preferredDate || 'Flexible',
             smsOptIn: updatedBooking.smsOptIn === true,
+            attribution: getAttribution(),
           }),
         })
         const result = await response.json().catch(() => null)
@@ -458,20 +464,32 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING BOOK NOW BUTTON → /book ─── */}
+      {/* ── FLOATING CALL / BOOK NOW BUTTON ─── */}
       <a
-        href="/book"
-        className="fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm"
+        href={mode === 'phone' ? 'tel:+17206778799' : '/book'}
+        className={`fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm${
+          mode === null ? ' invisible' : ''
+        }`}
         style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
-        aria-label="Book Now"
+        aria-label={mode === 'phone' ? 'Call us' : 'Book Now'}
       >
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        Book Now
+        {mode === 'phone' ? (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+        ) : (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        )}
+        {mode === 'phone' ? '(720) 677-8799' : 'Book Now'}
       </a>
 
       {/* ── FLOATING AI QUOTE CHAT BUTTON (after-hours only) ──────────── */}
+      {/* An open conversation is left open if the clock crosses 9 AM mid-chat —
+          pulling the window away from someone part-way through is worse than
+          letting them finish. */}
+      {(mode === 'booking' || open) && (
       <button
         onClick={open ? handleClose : handleOpen}
         className="fixed bottom-20 right-6 z-50 bg-[#0F2240] hover:bg-[#1a3460] text-white shadow-xl flex items-center gap-2 px-4 py-3 transition-all duration-300 rounded-full font-semibold text-xs"
@@ -494,6 +512,7 @@ export default function VirtualAssistant() {
           </>
         )}
       </button>
+      )}
 
       {/* ── CHAT / BOOKING WINDOW ───────────────────────────────────── */}
       {open && (

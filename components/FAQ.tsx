@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
+import ContactActions from '@/components/ContactActions'
 
 const faqs = [
   {
@@ -94,25 +95,12 @@ const FAQ = () => {
               Have a question we haven&apos;t answered here? We&apos;d love to hear from you.
             </p>
             <div className="space-y-4">
-                <a
-                  href="/book"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
-                >
-                  Book a Clean
-                </a>
-              <div>
-                <a
-                  href="tel:7206778799"
-                  className="flex items-center gap-2 text-[#0F2240] font-medium hover:text-[#00A896] transition-colors mt-4"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  720-677-8799
-                </a>
-              </div>
+              <ContactActions
+                className="flex flex-col items-start gap-4"
+                bookLabel="Book a Clean"
+                primaryClassName="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
+                secondaryClassName="flex items-center gap-2 text-[#0F2240] font-medium hover:text-[#00A896] transition-colors"
+              />
             </div>
           </div>
 

@@ -1,4 +1,6 @@
 import { MetadataRoute } from 'next'
+import { AREA_SLUGS } from '@/lib/areas'
+import { BLOG_SLUGS } from '@/lib/blog'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -13,13 +15,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'kitchen-cleaning',
     'bathroom-cleaning',
     'bedroom-cleaning',
+    'post-construction',
   ]
 
-  const blogSlugs = [
-    'how-to-deep-clean-your-kitchen',
-    'how-often-should-you-deep-clean',
-    'airbnb-cleaning-tips-5-star-rating',
-  ]
+
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE_URL,               lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
@@ -29,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/blog`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${BASE_URL}/contact`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/book`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 1.0 },
-    { url: `${BASE_URL}/areas/aurora`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE_URL}/areas`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 
   const servicePages: MetadataRoute.Sitemap = servicesSlugs.map((slug) => ({
@@ -39,12 +38,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }))
 
-  const blogPages: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
+  // Driven off the area data so a new city page is never left out of the sitemap.
+  const areaPages: MetadataRoute.Sitemap = AREA_SLUGS.map((slug) => ({
+    url: `${BASE_URL}/areas/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.9,
+  }))
+
+  const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map((slug) => ({
     url: `${BASE_URL}/blog/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'yearly',
     priority: 0.6,
   }))
 
-  return [...staticPages, ...servicePages, ...blogPages]
+  return [...staticPages, ...servicePages, ...areaPages, ...blogPages]
 }

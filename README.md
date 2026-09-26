@@ -196,6 +196,59 @@ managed in the Formspree dashboard, not in this repo.
 
 ---
 
+## Knowing where leads come from
+
+GA4 (`G-50JSSQ15K6`) reports traffic by channel, but a dashboard cannot tell you
+that *this* booking — the one in the inbox right now — came from the Google
+Business Profile. So the site captures the campaign tags when a visitor first
+lands, carries them across the visit, and prints them on the lead itself.
+
+A lead email now ends with:
+
+```
+Submitted from: Online Booking Form
+Came from: google-business-profile / organic — website-link
+Landed on: /areas/denver
+```
+
+`Submitted from` is which form they filled in. `Came from` is the marketing
+channel that produced them. The CRM contact also gets a `src-...` tag, so the
+channel is filterable there.
+
+### Link tagging
+
+For any of this to say anything useful, the links you control have to be
+tagged. Paste these in place of the plain URLs:
+
+| Where | URL to use |
+| :--- | :--- |
+| Business Profile -> website | `https://raprocleaningservices.com/?utm_source=google-business-profile&utm_medium=organic&utm_campaign=website-link` |
+| Business Profile -> bookings | `https://raprocleaningservices.com/book?utm_source=google-business-profile&utm_medium=organic&utm_campaign=booking-button` |
+| A Google Post | `https://raprocleaningservices.com/?utm_source=google-business-profile&utm_medium=organic&utm_campaign=post-<topic>` |
+| Instagram bio | `https://raprocleaningservices.com/?utm_source=instagram&utm_medium=social&utm_campaign=bio` |
+| Facebook page | `https://raprocleaningservices.com/?utm_source=facebook&utm_medium=social&utm_campaign=page` |
+
+Only `utm_source` is required; the rest add detail. Untagged visits still get a
+sensible label from the referrer (`Referred by facebook.com`) or fall back to
+`Direct or untagged`, and Google Ads clicks are recognised by their `gclid`
+whether or not the link was tagged.
+
+### How it behaves
+
+- **First touch wins.** Someone who lands on `/areas/denver` from the Business
+  Profile and clicks through to `/book` is still credited to the Business
+  Profile — a later page view never overwrites what was captured on arrival.
+- **It is per-visit, not permanent.** The tags live in `sessionStorage` and are
+  gone when the tab closes. Nothing is stored on a visitor who never submits a
+  form, and nothing leaves the browser until they submit one themselves.
+- **It never blocks a booking.** If storage is unavailable — private browsing,
+  blocked site data — the lead submits exactly as before, just without a
+  channel line.
+
+See `lib/attribution.ts`.
+
+---
+
 ## Business Information
 
 - **Business:** R A Pro Cleaning Services LLC

@@ -1,8 +1,20 @@
 'use client'
 import Link from 'next/link'
+import ContactActions from '@/components/ContactActions'
 
-const AREAS = [
-  { name: 'Denver', desc: 'All Denver neighborhoods' },
+// `slug` means we publish a landing page for that city, so the tile links to it.
+// Neighborhood tiles have no page of their own and stay as plain text.
+const AREAS: { name: string; desc: string; slug?: string }[] = [
+  { name: 'Denver', desc: 'All Denver neighborhoods', slug: 'denver' },
+  { name: 'Aurora', desc: 'Homes & commercial spaces', slug: 'aurora' },
+  { name: 'Lakewood', desc: 'Mid-century homes & recurring', slug: 'lakewood' },
+  { name: 'Englewood', desc: 'Houses & Airbnb properties', slug: 'englewood' },
+  { name: 'Littleton', desc: 'Deep clean & recurring', slug: 'littleton' },
+  { name: 'Centennial', desc: 'Luxury homes & offices', slug: 'centennial' },
+  { name: 'Greenwood Village', desc: 'Premium residential', slug: 'greenwood-village' },
+  { name: 'Arvada', desc: 'New builds & post-construction', slug: 'arvada' },
+  { name: 'Westminster', desc: 'Townhomes & rental turnovers', slug: 'westminster' },
+  { name: 'Thornton', desc: 'New builds & move-ins', slug: 'thornton' },
   { name: 'Cherry Creek', desc: 'Luxury residential & condos' },
   { name: 'Country Club', desc: 'Historic estates & townhomes' },
   { name: 'Belcaro', desc: 'Established homes & estates' },
@@ -19,12 +31,7 @@ const AREAS = [
   { name: 'LoDo', desc: 'Lofts, condos & offices' },
   { name: 'Glendale', desc: 'Condos & apartment turnovers' },
   { name: 'Cherry Hills Village', desc: 'Estates & premium residential' },
-  { name: 'Greenwood Village', desc: 'Premium residential' },
   { name: 'Denver Tech Center', desc: 'Offices & executive condos' },
-  { name: 'Englewood', desc: 'Houses & Airbnb properties' },
-  { name: 'Aurora', desc: 'Homes & commercial spaces' },
-  { name: 'Centennial', desc: 'Luxury homes & offices' },
-  { name: 'Littleton', desc: 'Deep clean & recurring' },
   { name: 'Highlands Ranch', desc: 'Family homes & move-outs' },
 ]
 
@@ -61,10 +68,10 @@ export default function ServiceAreas() {
               </div>
             )
 
-            return area.name === 'Aurora' ? (
+            return area.slug ? (
               <Link
                 key={area.name}
-                href="/areas/aurora"
+                href={`/areas/${area.slug}`}
                 data-service-area={area.name}
                 className="bg-white/5 border border-white/10 rounded-lg px-5 py-4 hover:bg-white/10 hover:border-[#00A896]/50 transition-all group"
               >
@@ -90,25 +97,12 @@ export default function ServiceAreas() {
               We may still serve you — call or message us and we&apos;ll confirm availability.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
-            <a
-              href="tel:7206778799"
-              className="inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-7 py-3.5 rounded-none hover:bg-[#007A6C] transition-colors text-sm"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              (720) 677-8799
-            </a>
-              <a
-                href="/book"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-3.5 hover:border-white hover:bg-white/10 transition-all text-sm"
-              >
-                Book Online
-              </a>
-          </div>
+          <ContactActions
+            className="flex flex-col sm:flex-row gap-3 flex-shrink-0"
+            bookLabel="Book Online"
+            primaryClassName="inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-7 py-3.5 rounded-none hover:bg-[#007A6C] transition-colors text-sm"
+            secondaryClassName="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-3.5 hover:border-white hover:bg-white/10 transition-all text-sm"
+          />
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import BookingForm from '@/components/BookingForm'
-import { isOnlineBookingOpen } from '@/lib/bookingHours'
+import { isOnlineBookingOpen } from '@/lib/contactMode'
 
 /**
  * Whether online booking is open right now. Null until mounted: the page is
@@ -32,7 +32,7 @@ function BookingClosed() {
         </h2>
         <p className="text-[#4A6583] leading-relaxed mb-8">
           During the day our team books you directly by phone. Online booking
-          opens every evening from <strong>6&nbsp;PM to 8&nbsp;AM</strong>.
+          opens every evening from <strong>5&nbsp;PM to 9&nbsp;AM</strong>.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
@@ -81,7 +81,7 @@ export default function BookPageClient() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-2.5 text-white/60 text-[13px]">
-            {['⭐ 5.0 Google Rating', '45 Reviews', '🔒 Licensed & Insured', '👩 Women-Owned'].map(b => (
+            {['⭐ 5.0 Google Rating', '46 Reviews', '🔒 Licensed & Insured', '👩 Women-Owned'].map(b => (
               <span key={b} className="bg-white/[0.07] border border-white/10 rounded-full px-4 py-1.5">
                 {b}
               </span>
@@ -139,7 +139,7 @@ export default function BookPageClient() {
           <p className="text-white text-xl md:text-2xl font-bold leading-snug mb-5">
             &ldquo;Fast response, friendly team, easy scheduling, and truly top-quality work.&rdquo;
           </p>
-          <p className="text-white/45 text-sm">45 five-star Google reviews across Denver &amp; Aurora</p>
+          <p className="text-white/45 text-sm">46 five-star Google reviews across Denver &amp; Aurora</p>
         </div>
       </section>
     </main>

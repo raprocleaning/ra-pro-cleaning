@@ -35,6 +35,10 @@ export type Lead = {
   phone: string
   email: string
   source: string
+  /** Marketing channel the visit came from, e.g. "Google Business Profile". */
+  channel?: string
+  /** First page of the visit. */
+  landingPage?: string
   service?: string
   sqft?: string | number
   frequency?: string
@@ -94,6 +98,8 @@ function rows(lead: Lead): Array<[string, string]> {
     ['Notes', text(lead.message)],
     ['SMS opt-in', lead.smsOptIn === undefined ? '' : lead.smsOptIn ? 'Yes' : 'No'],
     ['Submitted from', text(lead.source)],
+    ['Came from', text(lead.channel)],
+    ['Landed on', text(lead.landingPage)],
   ]
 
   return all.filter(([, value]) => value !== '')
