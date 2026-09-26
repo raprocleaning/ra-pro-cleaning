@@ -9,6 +9,7 @@ import {
   SERVICES as SERVICE_LIST,
 } from '@/lib/pricing'
 import { getAttribution } from '@/lib/attribution'
+import { hasGhlChatWidget } from '@/lib/ghlWidget'
 import { useContactMode } from '@/lib/useContactMode'
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
@@ -470,7 +471,7 @@ export default function VirtualAssistant() {
       {/* ── FLOATING CALL / BOOK NOW BUTTON ─── */}
       <a
         href={mode === 'phone' ? 'tel:+17206778799' : '/book'}
-        className={`fixed bottom-6 right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm${
+        className={`fixed ${hasGhlChatWidget ? 'bottom-24' : 'bottom-6'} right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm${
           mode === null ? ' invisible' : ''
         }`}
         style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
@@ -492,7 +493,7 @@ export default function VirtualAssistant() {
       {/* An open conversation is left open if the clock crosses 9 AM mid-chat —
           pulling the window away from someone part-way through is worse than
           letting them finish. */}
-      {(mode === 'booking' || open) && (
+      {!hasGhlChatWidget && (mode === 'booking' || open) && (
       <button
         onClick={open ? handleClose : handleOpen}
         className="fixed bottom-20 right-6 z-50 bg-[#0F2240] hover:bg-[#1a3460] text-white shadow-xl flex items-center gap-2 px-4 py-3 transition-all duration-300 rounded-full font-semibold text-xs"
