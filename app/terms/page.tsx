@@ -139,7 +139,15 @@ export default function TermsPage() {
             </div>
 
             <div>
+              {/* The Campaign Registry's crawler matches literal phrases when it
+                  vets an A2P campaign, so the disclosures here are worded the way
+                  the registry states them. Reword with care. */}
               <h2 className="text-xl font-bold text-[#0F2240] mb-3">13. SMS Communications Program</h2>
+              <p className="mb-3">
+                R A Pro Cleaning Services LLC operates an SMS messaging program to send booking
+                confirmations, appointment reminders, and promotional offers. Message frequency varies.
+                Message and data rates may apply. Reply STOP to cancel. Reply HELP for help.
+              </p>
               <p className="mb-3">
                 By providing your phone number and opting in through our contact form or booking system,
                 you consent to receive SMS text messages from R A Pro Cleaning Services LLC. Our SMS

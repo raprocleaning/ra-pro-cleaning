@@ -54,7 +54,15 @@ export default function PrivacyPage() {
             </div>
 
             <div>
+              {/* The Campaign Registry's crawler matches literal phrases when it
+                  vets an A2P campaign, so the four disclosures below are worded
+                  the way the registry states them. Reword with care. */}
               <h2 className="text-xl font-bold text-[#0F2240] mb-3">4. SMS Communications</h2>
+              <p className="mb-3">
+                We collect your phone number and SMS opt-in consent for the purpose of sending you
+                service-related and promotional text messages. This information will not be shared
+                with third parties for marketing purposes.
+              </p>
               <p className="mb-3">
                 If you opt in to receive SMS text messages from R A Pro Cleaning Services LLC, you agree
                 to receive text messages related to your service bookings, appointment reminders, and
@@ -63,15 +71,20 @@ export default function PrivacyPage() {
               <ul className="list-disc pl-6 space-y-2">
                 <li>Message and data rates may apply.</li>
                 <li>Message frequency varies.</li>
-                <li>Reply <strong>STOP</strong> at any time to opt out of SMS communications.</li>
-                <li>Reply <strong>HELP</strong> for help or contact us at ra@raprocleaningservices.com.</li>
+                <li>You may opt out at any time by replying <strong>STOP</strong>.</li>
+                <li>Reply <strong>HELP</strong> for help, or contact us at ra@raprocleaningservices.com or (720) 677-8799.</li>
                 <li>We will never sell your phone number to third parties.</li>
               </ul>
               <p className="mt-3">
-                <strong>We do not share mobile information or SMS opt-in data with third parties or affiliates
-                for marketing or promotional purposes.</strong> Information sharing with subcontractors who support
+                <strong>Mobile information will not be shared with third parties for marketing purposes.</strong>{' '}
+                We do not share mobile information or SMS opt-in data with third parties or affiliates
+                for marketing or promotional purposes. Information sharing with subcontractors who support
                 our business operations (e.g., CRM platforms and SMS delivery providers) is limited to operational
                 purposes only.
+              </p>
+              <p className="mt-3">
+                <strong>Contact:</strong> R A Pro Cleaning Services LLC, Denver, Colorado ·{' '}
+                ra@raprocleaningservices.com · (720) 677-8799
               </p>
             </div>
 
