@@ -47,203 +47,174 @@ const Navigation = () => {
             : 'bg-white/95 backdrop-blur-sm'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <Logo variant="color" className="h-12 w-auto" />
-            </Link>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <Logo />
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-7">
-              {/* Services Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setServicesOpen(true)}
-                onMouseLeave={() => setServicesOpen(false)}
-              >
-                <button className="flex items-center gap-1 text-sm font-medium text-[#0F2240] hover:text-[#00A896] transition-colors">
-                  Services
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {servicesOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-[#B2DFDB] shadow-xl z-50 rounded-sm overflow-hidden">
-                    {services.map((s) => (
-                      <Link
-                        key={s.href}
-                        href={s.href}
-                        className="block px-4 py-3 text-sm text-[#0F2240] hover:bg-[#E6F7F5] hover:text-[#00A896] transition-colors border-b border-[#B2DFDB]/50 last:border-0"
-                      >
-                        {s.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Why Us Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setWhyUsOpen(true)}
-                onMouseLeave={() => setWhyUsOpen(false)}
-              >
-                <button className="flex items-center gap-1 text-sm font-medium text-[#0F2240] hover:text-[#00A896] transition-colors">
-                  Why Us
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {whyUsOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-[#B2DFDB] shadow-xl z-50 rounded-sm overflow-hidden">
-                    {whyUs.map((w) => (
-                      <Link
-                        key={w.href}
-                        href={w.href}
-                        className="block px-4 py-3 text-sm text-[#0F2240] hover:bg-[#E6F7F5] hover:text-[#00A896] transition-colors border-b border-[#B2DFDB]/50 last:border-0"
-                      >
-                        {w.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {[
-                { name: 'Gallery', href: '/gallery' },
-                { name: 'Reviews', href: '/#reviews' },
-                { name: 'Blog', href: '/blog' },
-                { name: 'Contact', href: '/contact' },
-              ].map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm font-medium text-[#0F2240] hover:text-[#00A896] transition-colors"
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-              {/* Texting reaches us at every hour, so this pill never changes. */}
-              <a
-                href="sms:+17206778799"
-                className="flex items-center gap-1.5 text-sm font-semibold text-[#0F2240] border-2 border-[#00A896] rounded-full px-4 py-2 hover:bg-[#00A896] hover:text-white transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 01-4-.8L3 20l1.4-3.5A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          {/* Desktop Nav Links */}
+          <div className="hidden lg:flex items-center space-x-8">
+            {/* Services Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setServicesOpen(true)}
+              onMouseLeave={() => setServicesOpen(false)}
+            >
+              <button className="flex items-center space-x-1 text-gray-700 hover:text-[#00B894] font-medium py-2 transition-colors">
+                <span>Services</span>
+                <svg className={`w-4 h-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-                Text us
-              </a>
-
-              {/* Social */}
-              <a
-                href="https://www.instagram.com/raprocleaningservice/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-[#4A6583] hover:text-[#00A896] transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-              </a>
-              <a
-                href="https://www.facebook.com/share/16NnxD6cYf/?mibextid=wwXIfr"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="text-[#4A6583] hover:text-[#00A896] transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-              </a>
-
-              {/* Call while the phone is answered; book online once it is not. */}
-              <a
-                href={mode === 'phone' ? 'tel:+17206778799' : '/book'}
-                className={`btn-book-now bg-[#00A896] text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-md${
-                  mode === null ? ' invisible' : ''
-                }`}
-              >
-                {mode === 'phone' ? '(720) 677-8799' : 'Book Now'}
-              </a>
+              </button>
+              {servicesOpen && (
+                <div className="absolute top-full left-0 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                  {services.map((service) => (
+                    <Link
+                      key={service.href}
+                      href={service.href}
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-[#E8F8F5] hover:text-[#00B894] transition-colors"
+                    >
+                      {service.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Mobile Hamburger */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 text-[#0F2240]"
-              aria-label="Toggle menu"
+            {/* Why Us Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setWhyUsOpen(true)}
+              onMouseLeave={() => setWhyUsOpen(false)}
             >
-              {mobileOpen ? (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <button className="flex items-center space-x-1 text-gray-700 hover:text-[#00B894] font-medium py-2 transition-colors">
+                <span>Why Us</span>
+                <svg className={`w-4 h-4 transition-transform ${whyUsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              ) : (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+              </button>
+              {whyUsOpen && (
+                <div className="absolute top-full left-0 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                  {whyUs.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-[#E8F8F5] hover:text-[#00B894] transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
               )}
-            </button>
+            </div>
+
+            <Link href="/gallery" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
+              Gallery
+            </Link>
+            <Link href="/reviews" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
+              Reviews
+            </Link>
+            <Link href="/blog" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
+              Blog
+            </Link>
+            <Link href="/contact" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
+              Contact
+            </Link>
           </div>
+
+          {/* Desktop Right Side Buttons */}
+          <div className="hidden lg:flex items-center space-x-3">
+            {/* Phone/Text Button */}
+            <a
+              href={mode === 'phone' ? 'tel:7206778799' : 'sms:7206778799'}
+              className="border-2 border-[#00B894] text-[#00B894] hover:bg-[#00B894] hover:text-white font-semibold px-4 py-2 rounded-full transition-all shadow-sm text-sm"
+            >
+              {mode === 'phone' ? '(720) 677-8799' : 'Text us'}
+            </a>
+
+            {/* Permanent Book Now Button */}
+            <a
+              href="https://api.leadconnectorhq.com/widget/service-menu/6a76b1110371a03621587521"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#00B894] hover:bg-[#00a382] text-white font-semibold px-5 py-2 rounded-full transition-all shadow-md text-sm inline-block"
+            >
+              Book Now
+            </a>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2 text-[#0F2240]"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? (
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
         </div>
       </nav>
 
       {/* Mobile Full-Screen Overlay */}
       <div
-        className={`fixed inset-0 z-40 bg-[#0F2240] flex flex-col justify-center px-8 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-[#0F2240] flex flex-col justify-center px-8 transition-all duration-300 lg:hidden ${
           mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="space-y-8 overflow-y-auto py-24">
+        <div className="space-y-6 overflow-y-auto py-12">
           <div>
-            <p className="text-white/40 text-xs tracking-widest uppercase mb-4">Services</p>
+            <p className="text-white/40 text-xs tracking-widest uppercase mb-3">Services</p>
             {services.map((s) => (
               <Link
                 key={s.href}
                 href={s.href}
                 onClick={() => setMobileOpen(false)}
-                className="block text-white text-2xl font-light py-2 hover:text-[#00A896] transition-colors"
+                className="block text-white text-xl font-light py-1.5 hover:text-[#00B894] transition-colors"
               >
                 {s.name}
               </Link>
             ))}
           </div>
-          <div className="border-t border-white/10 pt-8 space-y-4">
-            {[
-              { name: 'About Us', href: '/about' },
-              { name: 'Gallery', href: '/gallery' },
-              { name: 'Reviews', href: '/#reviews' },
-              { name: 'Blog', href: '/blog' },
-              { name: 'Contact', href: '/contact' },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="block text-white text-xl font-light hover:text-[#00A896] transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
+
+          <div className="border-t border-white/10 pt-6 space-y-3">
+            <Link
+              href="/about"
+              onClick={() => setMobileOpen(false)}
+              className="block text-white text-xl font-light hover:text-[#00B894] transition-colors"
+            >
+              About Us
+            </Link>
+            <Link
+              href="/contact"
+              onClick={() => setMobileOpen(false)}
+              className="block text-white text-xl font-light hover:text-[#00B894] transition-colors"
+            >
+              Contact
+            </Link>
           </div>
-        <div className={`flex flex-col gap-4${mode === null ? ' invisible' : ''}`}>
-          <a
-            href={mode === 'phone' ? 'tel:+17206778799' : '/book'}
-            className="btn-book-now inline-block bg-[#00A896] text-white text-lg font-bold px-8 py-4 rounded-full shadow-lg text-center"
-          >
-            {mode === 'phone' ? 'Call (720) 677-8799' : 'Book Now →'}
-          </a>
-          <a
-            href="sms:+17206778799"
-            className="inline-block border-2 border-[#00A896] text-[#00A896] text-lg font-bold px-8 py-4 rounded-full text-center"
-          >
-            Text us
-          </a>
-        </div>
-          
+
+          {/* Mobile Buttons */}
+          <div className="pt-6 space-y-3">
+            <a
+              href="https://api.leadconnectorhq.com/widget/service-menu/6a76b1110371a03621587521"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center bg-[#00B894] text-white font-semibold py-3 rounded-full shadow-lg"
+            >
+              Book Now
+            </a>
+            <a
+              href="tel:7206778799"
+              className="block w-full text-center border-2 border-white text-white font-semibold py-3 rounded-full"
+            >
+              Call (720) 677-8799
+            </a>
+          </div>
         </div>
       </div>
     </>
