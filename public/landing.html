@@ -106,16 +106,6 @@
       box-shadow:0 1px 4px rgba(0,0,0,0.06);
     }
 
-    /* Price card inside chat */
-    .price-card {
-      align-self:flex-start; width:90%; background:var(--primary); color:white;
-      border-radius:16px; padding:1rem 1.25rem;
-      box-shadow:0 4px 16px rgba(0,168,150,0.35);
-    }
-    .price-card .service-label { font-size:0.72rem; opacity:0.8; text-transform:uppercase; letter-spacing:.05em; }
-    .price-card .amount { font-size:2.5rem; font-weight:900; line-height:1; margin:4px 0; }
-    .price-card .note { font-size:0.75rem; opacity:0.7; }
-
     /* Choice buttons */
     .ai-buttons {
       display:flex; flex-wrap:wrap; gap:8px;
@@ -224,8 +214,8 @@
       <span>📍 Denver Metro</span>
       <span>📞 24h Booking Response</span>
     </div>
-    <button onclick="openAIChat()" class="btn" style="margin-top:2rem;">
-      📅 Get Instant Price Quote
+    <button onclick="window.location.href='/book'" class="btn" style="margin-top:2rem;">
+      📅 See Your Exact Price
     </button>
   </div>
 </section>
@@ -269,8 +259,8 @@
       <div class="service-card">
         <div class="service-icon">🤖</div>
         <h3>Not sure what you need?</h3>
-        <p>Our AI assistant will walk you through your options and give you an instant personalized price quote.</p>
-        <button onclick="openAIChat()" class="service-link" style="background:none;border:none;cursor:pointer;font-size:inherit;padding:0;">Get Instant Quote →</button>
+        <p>Our booking assistant will walk you through your options and get your request started in about a minute.</p>
+        <button onclick="openAIChat()" class="service-link" style="background:none;border:none;cursor:pointer;font-size:inherit;padding:0;">Get Started →</button>
       </div>
     </div>
   </div>
@@ -367,7 +357,7 @@
 </footer>
 
 <!-- ── FLOATING BUTTONS ───────────────────────────────────────────────────── -->
-<button onclick="openAIChat()" class="ai-book-btn" title="Get instant price quote">
+<button onclick="openAIChat()" class="ai-book-btn" title="Book a cleaning">
   📅 Book Now
 </button>
 <a href="tel:7206778799" class="sticky-call" title="Call us now">
@@ -379,7 +369,7 @@
   <div class="ai-chat-box">
     <div class="ai-header">
       <div>
-        <h3>📅 Instant Price Quote</h3>
+        <h3>📅 Book Your Cleaning</h3>
         <div class="ai-header-sub">R A Pro Cleaning · Responds instantly</div>
       </div>
       <span onclick="closeAIChat()" class="ai-close" title="Close">×</span>
@@ -399,64 +389,6 @@
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════════════════════════════
-// AUTOMATED PRICE ESTIMATOR
-// Formula: Math.round((base + sqft * perSqft) / 5) * 5  →  rounded to nearest $5
-// No hardcoded tiers — scales continuously with square footage
-// ══════════════════════════════════════════════════════════════════════════════
-const RATES = {
-  'standard':  { base: 80,  perSqft: 0.040 },
-  'deep':      { base: 120, perSqft: 0.065 },
-  'move':      { base: 150, perSqft: 0.080 },
-  'airbnb':    { base: 90,  perSqft: 0.048 },
-  'office':    { base: 100, perSqft: 0.060 },
-}
-
-// Maps size-option labels → representative sqft midpoint
-const SIZE_SQFT = {
-  'up to 800':  600,
-  '801':       1200,
-  '1,601':     2000,
-  '2,501':     3000,
-  '3,501':     4200,
-  '1–2 bed':    850,
-  '3 bedroom': 1400,
-  '4+ bedroom':2000,
-}
-
-function getRate(serviceText) {
-  const t = serviceText.toLowerCase()
-  if (t.includes('standard') || t.includes('recurring')) return RATES.standard
-  if (t.includes('deep'))   return RATES.deep
-  if (t.includes('move'))   return RATES.move
-  if (t.includes('airbnb')) return RATES.airbnb
-  if (t.includes('office') || t.includes('commercial')) return RATES.office
-  return RATES.standard
-}
-
-function sqftFromLabel(label) {
-  const l = label.toLowerCase()
-  for (const [key, val] of Object.entries(SIZE_SQFT)) {
-    if (l.includes(key)) return val
-  }
-  // Try to parse a raw number ("1500 sqft", etc.)
-  const m = label.match(/\d{3,5}/)
-  return m ? parseInt(m[0]) : 1200
-}
-
-function calculatePrice(serviceText, sizeLabel, freqText) {
-  const r = getRate(serviceText)
-  const sqft = sqftFromLabel(sizeLabel)
-  let price = Math.round((r.base + sqft * r.perSqft) / 5) * 5
-
-  // Recurring discounts
-  const f = (freqText || '').toLowerCase()
-  if (f.includes('weekly') && !f.includes('bi'))   price = Math.round(price * 0.90 / 5) * 5
-  else if (f.includes('bi-weekly') || f.includes('bi weekly')) price = Math.round(price * 0.95 / 5) * 5
-
-  return price
-}
-
 // ══════════════════════════════════════════════════════════════════════════════
 // AI BOOKING FLOW
 // ══════════════════════════════════════════════════════════════════════════════
@@ -486,7 +418,7 @@ function closeAIChat() {
 function startChat() {
   currentStep = 1
   setProgress(1)
-  addMsg("👋 Hi! I'm the R A Pro booking assistant.\n\nI'll give you an <strong>instant price estimate</strong> in about 60 seconds.\n\nWhat type of cleaning do you need?", 'bot')
+  addMsg("👋 Hi! I'm the R A Pro booking assistant.\n\nI'll get your request started in about a minute.\n\nWhat type of cleaning do you need?", 'bot')
   showButtons([
     'Standard Cleaning', 'Deep Cleaning', 'Move In/Out Cleaning',
     'Office / Commercial', 'Airbnb Turnover', 'Weekly Recurring', 'Bi-Weekly Recurring'
@@ -508,24 +440,23 @@ function handleSize(choice) {
   userData.size = choice
   currentStep = 3; setProgress(3)
   addMsg('How often would you like the service?', 'bot')
-  showButtons(['One-Time Only', 'Weekly (save 10%)', 'Bi-Weekly (save 5%)', 'Monthly'], handleFrequency)
+  showButtons(['One-Time Only', 'Weekly', 'Bi-Weekly', 'Monthly'], handleFrequency)
 }
 
 function handleFrequency(choice) {
   userData.frequency = choice
   currentStep = 4; setProgress(4)
 
-  const price = calculatePrice(userData.service, userData.size, choice)
-  addPriceCard(userData.service, userData.size, price)
-
+  // The exact price depends on the home's exact size, which only the booking
+  // page asks for (it prices from lib/pricing.ts) — so no number is quoted here.
   setTimeout(() => {
-    addMsg("Would you like to book this service?", 'bot')
-    showButtons(['✅ Yes, Book Me In!', '🔄 Choose Different Service', '🌐 Book Online Directly'], handleConfirm)
+    addMsg("Thanks! Your exact price depends on your home's exact size, so we show it on our booking page — pick your service and size and the total appears instantly.\n\nWould you like to see it now, or have us call you?", 'bot')
+    showButtons(['🌐 See My Exact Price', '📞 Have Us Call Me', '🔄 Choose Different Service'], handleConfirm)
   }, 400)
 }
 
 function handleConfirm(choice) {
-  if (choice.includes('Online')) {
+  if (choice.includes('Exact')) {
     window.open('/book', '_blank')
     addMsg("Booking page opened! 🎉 See you there.", 'bot')
     return
@@ -557,12 +488,10 @@ function handleTextStep(text) {
     setProgress(TOTAL_STEPS)
 
     // Show summary
-    const price = calculatePrice(userData.service, userData.size, userData.frequency)
     addMsg(`🎉 <strong>Booking Request Received!</strong><br><br>
 • Service: ${userData.service}<br>
 • Size: ${userData.size}<br>
-• Frequency: ${userData.frequency}<br>
-• Estimated Price: <strong>$${price}</strong><br><br>
+• Frequency: ${userData.frequency}<br><br>
 We'll call <strong>${userData.phone}</strong> within 24 hours to confirm.`, 'bot')
 
     showButtons(['📅 Book Online Now →', '📞 Call Us Now', '✉️ Send Another Request'], handleDone)
@@ -576,7 +505,7 @@ We'll call <strong>${userData.phone}</strong> within 24 hours to confirm.`, 'bot
         phone: userData.phone,
         email: userData.email,
         propertyType: userData.service,
-        message: `AI Booking Widget — Service: ${userData.service} | Size: ${userData.size} | Frequency: ${userData.frequency} | Est. Price: $${price}`,
+        message: `AI Booking Widget — Service: ${userData.service} | Size: ${userData.size} | Frequency: ${userData.frequency}`,
       })
     }).catch(() => {})
     return
@@ -595,19 +524,6 @@ function addMsg(html, sender) {
   const d = document.createElement('div')
   d.className = `ai-msg ai-msg-${sender}`
   d.innerHTML = html.replace(/\n/g, '<br>')
-  c.appendChild(d)
-  c.scrollTop = c.scrollHeight
-}
-
-function addPriceCard(service, size, price) {
-  const c = document.getElementById('aiMessages')
-  const d = document.createElement('div')
-  d.className = 'price-card'
-  d.innerHTML = `
-    <div class="service-label">${service}</div>
-    <div class="amount">$${price}</div>
-    <div class="note">Estimated for ${size} · Flat rate, no hidden fees</div>
-  `
   c.appendChild(d)
   c.scrollTop = c.scrollHeight
 }
