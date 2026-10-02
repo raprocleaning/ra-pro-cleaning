@@ -130,15 +130,14 @@ const Navigation = () => {
               {mode === 'phone' ? '(720) 677-8799' : 'Text us'}
             </a>
 
-            {/* Permanent Book Now Button */}
-            <a
-              href="https://api.leadconnectorhq.com/widget/service-menu/6a76b1110371a03621587521"
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Permanent Book Now Button — /book prices by square footage; the
+                HighLevel service menu charges one flat price per service. */}
+            <Link
+              href="/book"
               className="bg-[#00B894] hover:bg-[#00a382] text-white font-semibold px-5 py-2 rounded-full transition-all shadow-md text-sm inline-block"
             >
               Book Now
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -200,14 +199,13 @@ const Navigation = () => {
 
           {/* Mobile Buttons */}
           <div className="pt-6 space-y-3">
-            <a
-              href="https://api.leadconnectorhq.com/widget/service-menu/6a76b1110371a03621587521"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/book"
+              onClick={() => setMobileOpen(false)}
               className="block w-full text-center bg-[#00B894] text-white font-semibold py-3 rounded-full shadow-lg"
             >
               Book Now
-            </a>
+            </Link>
             <a
               href="tel:7206778799"
               className="block w-full text-center border-2 border-white text-white font-semibold py-3 rounded-full"

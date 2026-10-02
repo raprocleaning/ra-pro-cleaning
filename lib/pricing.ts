@@ -9,16 +9,14 @@ export type Tier = { max: number; price: number }
 
 // ─── PRICE TIERS BY SQUARE FOOTAGE ───────────────────────────────────────────
 //
-// These mirror BookingKoala, which is where the business actually takes
-// bookings — the Google Business Profile's Book button points at it. Two
-// tables, because BookingKoala prices two groups differently:
+// These mirror the price list in each service's description on the HighLevel
+// service menu. Standard Cleaning, Deep Cleaning and Airbnb turnovers all run
+// off this one table, starting at $200; Move In/Out sits $100 above it.
 //
-//   BASE_TIERS      Deep Cleaning, Post-Construction
-//   STANDARD_TIERS  Standard Cleaning, Airbnb turnovers — cheaper at every size
-//
-// The site used to quote standard cleans off BASE_TIERS, which overcharged
-// every one of them: $30 on the smallest home, $125 on a 5,000 sq ft one.
-// Change a price here only after changing it in BookingKoala, never instead.
+// Standard and Airbnb briefly had a cheaper table of their own (from $170,
+// carried over from BookingKoala). The intended price is the one HighLevel
+// lists — $200 for the smallest home — so that table is gone.
+// Change a price here only after changing it in HighLevel, never instead.
 
 export const BASE_TIERS: Tier[] = [
   { max: 999,      price: 200 },
@@ -39,28 +37,9 @@ export const BASE_TIERS: Tier[] = [
   { max: Infinity, price: 830 },
 ]
 
-/** Standard Cleaning and Airbnb turnovers — BookingKoala's cheaper table. */
-export const STANDARD_TIERS: Tier[] = [
-  { max: 999,      price: 170 },
-  { max: 1249,     price: 215 },
-  { max: 1499,     price: 280 },
-  { max: 1799,     price: 325 },
-  { max: 2099,     price: 390 },
-  { max: 2399,     price: 400 },
-  { max: 2699,     price: 415 },
-  { max: 2999,     price: 460 },
-  { max: 3299,     price: 485 },
-  { max: 3599,     price: 510 },
-  { max: 3899,     price: 545 },
-  { max: 4199,     price: 585 },
-  { max: 4499,     price: 610 },
-  { max: 4799,     price: 645 },
-  { max: 4999,     price: 680 },
-  { max: Infinity, price: 705 },
-]
-
-// Move In/Out runs $100 above the deep-clean tier at every size — confirmed
-// against all sixteen BookingKoala rows, not assumed from the pattern.
+// Move In/Out runs $100 above the standard/deep tier at every size — confirmed
+// against all sixteen rows of the old BookingKoala price list, not assumed from
+// the pattern.
 export const MOVE_TIERS: Tier[] = BASE_TIERS.map((t) => ({ ...t, price: t.price + 100 }))
 
 export const SERVICES = [
@@ -88,17 +67,17 @@ export function isQuoteOnRequest(service: string): boolean {
 }
 
 export const PRICING: Record<string, Tier[]> = {
-  'Standard Cleaning':    STANDARD_TIERS,
+  'Standard Cleaning':    BASE_TIERS,
   'Deep Cleaning':        BASE_TIERS,
   'Move In/Out Cleaning': MOVE_TIERS,
-  'Airbnb Cleaning':      STANDARD_TIERS,
+  'Airbnb Cleaning':      BASE_TIERS,
 }
 
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
-  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$170 – $705' },
+  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$200 – $830' },
   'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
   'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
-  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$170 – $705' },
+  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$200 – $830' },
   'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: 'Custom quote' },
 }
 
@@ -148,9 +127,10 @@ export const EXTRAS: { label: string; price: number }[] = [
 /**
  * Minimum we will ever charge for a job, after any recurring discount.
  *
- * Sits at the cheapest tier BookingKoala actually sells — a standard clean of
- * a home under 1,000 sq ft. A floor above that would quote more than the
- * booking system takes, which is the exact bug this file exists to prevent.
+ * Sits below the cheapest tier ($200), so it only bites on recurring discounts
+ * of the smallest homes: 30% or 40% off $200 would be $140 or $120, and those
+ * bill at this floor instead. Do not raise it above the cheapest tier — that
+ * would quote a one-time clean more than the price list says.
  */
 export const PRICE_FLOOR = 170
 
