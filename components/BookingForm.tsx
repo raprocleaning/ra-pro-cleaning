@@ -4,6 +4,7 @@ import {
   SERVICES, SERVICE_META, SQFT_OPTIONS, FREQUENCIES, EXTRAS, getQuote, isQuoteOnRequest,
 } from '@/lib/pricing'
 import { trackEvent, trackLead } from '@/lib/analytics'
+import { depositFor, BOOKING_DRAFT_KEY } from '@/lib/deposit'
 import { getAttribution } from '@/lib/attribution'
 
 /** Arrival windows we offer: 9 AM through 5 PM. */
@@ -22,28 +23,61 @@ function minDate(): string {
 
 type Status = 'idle' | 'submitting' | 'done' | 'error'
 
-export default function BookingForm() {
-  const [service, setService]     = useState<string>('')
-  const [sqft, setSqft]           = useState<number | null>(null)
-  const [frequency, setFrequency] = useState<string>('One-Time')
-  const [extras, setExtras]       = useState<string[]>([])
+type Draft = {
+  service?: string; sqft?: number | null; frequency?: string; extras?: string[]
+  date?: string; time?: string; name?: string; phone?: string; email?: string
+  address?: string; zip?: string; notes?: string; smsOptIn?: boolean; smsMarketingOptIn?: boolean
+}
 
-  const [date, setDate]   = useState('')
-  const [time, setTime]   = useState('')
+/**
+ * Back from Stripe without paying (?canceled=1): the answers saved before the
+ * redirect, so the customer is not greeted by an empty form. This form is only
+ * ever created in the browser — the page waits for the clock before showing it —
+ * so reading storage while the first state is built cannot mismatch the server.
+ */
+function readCancelledDraft(): { cancelled: boolean; draft: Draft | null } {
+  if (typeof window === 'undefined') return { cancelled: false, draft: null }
+  try {
+    if (new URLSearchParams(window.location.search).get('canceled') !== '1') {
+      return { cancelled: false, draft: null }
+    }
+    const raw = window.sessionStorage.getItem(BOOKING_DRAFT_KEY)
+    return { cancelled: true, draft: raw ? (JSON.parse(raw) as Draft) : null }
+  } catch {
+    // Storage blocked: they still hear it was cancelled, the form just starts empty.
+    return { cancelled: true, draft: null }
+  }
+}
 
-  const [name, setName]       = useState('')
-  const [phone, setPhone]     = useState('')
-  const [email, setEmail]     = useState('')
-  const [address, setAddress] = useState('')
-  const [zip, setZip]         = useState('')
-  const [notes, setNotes]     = useState('')
-  const [smsOptIn, setSmsOptIn] = useState(false)
-  const [smsMarketingOptIn, setSmsMarketingOptIn] = useState(false)
+export default function BookingForm({ payOnline = false }: { payOnline?: boolean }) {
+  const [{ cancelled, draft }] = useState(readCancelledDraft)
+
+  const [service, setService]     = useState<string>(draft?.service ?? '')
+  const [sqft, setSqft]           = useState<number | null>(draft?.sqft ?? null)
+  const [frequency, setFrequency] = useState<string>(draft?.frequency ?? 'One-Time')
+  const [extras, setExtras]       = useState<string[]>(Array.isArray(draft?.extras) ? draft.extras : [])
+
+  const [date, setDate]   = useState(draft?.date ?? '')
+  const [time, setTime]   = useState(draft?.time ?? '')
+
+  const [name, setName]       = useState(draft?.name ?? '')
+  const [phone, setPhone]     = useState(draft?.phone ?? '')
+  const [email, setEmail]     = useState(draft?.email ?? '')
+  const [address, setAddress] = useState(draft?.address ?? '')
+  const [zip, setZip]         = useState(draft?.zip ?? '')
+  const [notes, setNotes]     = useState(draft?.notes ?? '')
+  const [smsOptIn, setSmsOptIn] = useState(!!draft?.smsOptIn)
+  const [smsMarketingOptIn, setSmsMarketingOptIn] = useState(!!draft?.smsMarketingOptIn)
 
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError]   = useState('')
+  const notice = cancelled
+    ? 'Payment was cancelled — nothing was charged and your booking has not been placed yet.' +
+      (draft ? ' Your answers are still here.' : '')
+    : ''
 
   const quoteOnRequest = isQuoteOnRequest(service)
+
 
   const quote = useMemo(
     () => (service && sqft && !isQuoteOnRequest(service)
@@ -115,31 +149,61 @@ export default function BookingForm() {
     setStatus('submitting')
     setError('')
 
+    const payload = JSON.stringify({
+      source: 'booking-form',
+      fullName: name.trim(),
+      phone: phone.trim(),
+      email: email.trim(),
+      zipCode: zip.trim(),
+      address: address.trim(),
+      service,
+      sqft: sqftLabel,
+      frequency,
+      price: quote?.total ?? null,
+      quoteOnRequest,
+      extras,
+      preferredDate: `${date} at ${time}`,
+      bookingDate: date,
+      bookingTime: time,
+      message: notes.trim(),
+      smsOptIn,
+      smsMarketingOptIn,
+      attribution: getAttribution(),
+    })
+
     try {
+      // A priced booking takes its deposit first; the booking is made once Stripe
+      // confirms it. Quote-on-request jobs are not charged online. The server
+      // answers `payments: false` when card payments are not switched on, and
+      // the booking then goes straight through as it always did.
+      if (payOnline && !quoteOnRequest) {
+        const checkout = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+        })
+        const session = await checkout.json().catch(() => ({}))
+        if (!checkout.ok || !session.ok) throw new Error(session.error || 'We could not start the payment. Please try again.')
+
+        if (session.url) {
+          try {
+            window.sessionStorage.setItem(BOOKING_DRAFT_KEY, JSON.stringify({
+              service, sqft, frequency, extras, date, time, name, phone, email, address, zip, notes,
+              smsOptIn, smsMarketingOptIn,
+            }))
+          } catch {
+            // Storage blocked: they just re-enter their answers if they cancel.
+          }
+          trackEvent('begin_checkout', { service, sqft: sqftLabel, value: quote?.total })
+          window.location.href = session.url
+          return // stay on 'submitting' so the button stays off while the page changes
+        }
+      }
+
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source: 'booking-form',
-          fullName: name.trim(),
-          phone: phone.trim(),
-          email: email.trim(),
-          zipCode: zip.trim(),
-          address: address.trim(),
-          service,
-          sqft: sqftLabel,
-          frequency,
-          price: quote?.total ?? null,
-          quoteOnRequest,
-          extras,
-          preferredDate: `${date} at ${time}`,
-          bookingDate: date,
-          bookingTime: time,
-          message: notes.trim(),
-          smsOptIn,
-          smsMarketingOptIn,
-          attribution: getAttribution(),
-        }),
+        body: payload,
       })
 
       const data = await res.json().catch(() => ({}))
@@ -218,6 +282,10 @@ export default function BookingForm() {
   const next = () => ++stepNo
 
   const priceLabel = quoteOnRequest ? 'Custom quote' : quote ? `$${quote.total}` : '—'
+
+  // With card payments on, a priced booking asks for its deposit up front.
+  const deposit = payOnline && quote ? depositFor(quote.total) : 0
+  const balance = quote ? quote.total - deposit : 0
 
   // ── FORM ──────────────────────────────────────────────────────────────────
   return (
@@ -537,9 +605,27 @@ export default function BookingForm() {
                     ? 'Flat rate. No hidden fees.'
                     : 'Pick a service and home size to see your price.'}
               </p>
+
+              {deposit > 0 && (
+                <div className="mt-4 pt-4 border-t border-[#D3EDE9] space-y-2 text-sm">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span className="text-[#0F2240] font-bold">Due today (deposit)</span>
+                    <span className="text-[#0F2240] font-black">${deposit}</span>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span className="text-[#4A6583]">Due after the clean</span>
+                    <span className="text-[#4A6583] font-semibold">${balance}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="px-7 py-6">
+              {notice && status !== 'error' && (
+                <p className="text-[#4A6583] text-xs mb-3 leading-relaxed bg-[#F5FAFA] border border-[#B2DFDB] rounded-xl px-3 py-2.5">
+                  {notice}
+                </p>
+              )}
               {status === 'error' && (
                 <p className="text-red-600 text-xs mb-3 leading-relaxed bg-red-50 border border-red-100 rounded-xl px-3 py-2.5">
                   {error}
@@ -553,8 +639,10 @@ export default function BookingForm() {
                 }`}
               >
                 {status === 'submitting'
-                  ? 'Booking…'
-                  : quoteOnRequest ? 'Request My Quote' : 'Confirm Booking'}
+                  ? (deposit > 0 ? 'Opening secure payment…' : 'Booking…')
+                  : quoteOnRequest
+                    ? 'Request My Quote'
+                    : deposit > 0 ? `Pay $${deposit} Deposit & Book` : 'Confirm Booking'}
               </button>
 
               {missing.length > 0 && status !== 'submitting' && (
@@ -564,7 +652,9 @@ export default function BookingForm() {
               )}
 
               <div className="flex items-center justify-center gap-4 mt-4 text-[#4A6583] text-[11px]">
-                <span className="flex items-center gap-1.5">🔒 No card required</span>
+                <span className="flex items-center gap-1.5">
+                  {payOnline && !quoteOnRequest ? '🔒 Secure card payment by Stripe' : '🔒 No card required'}
+                </span>
                 <span className="flex items-center gap-1.5">📞 We call in 24h</span>
               </div>
 

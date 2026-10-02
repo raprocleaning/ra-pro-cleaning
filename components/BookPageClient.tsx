@@ -53,7 +53,7 @@ function BookingClosed() {
   )
 }
 
-export default function BookPageClient() {
+export default function BookPageClient({ payOnline = false }: { payOnline?: boolean }) {
   const bookingOpen = useBookingOpen()
 
   return (
@@ -68,7 +68,7 @@ export default function BookPageClient() {
         />
         <div className="relative max-w-3xl mx-auto text-center">
           <span className="inline-block text-[#4ADEC8] text-[11px] font-bold tracking-[0.28em] uppercase mb-6">
-            Instant Price · No Obligation
+            {payOnline ? 'Instant Price · Book in Minutes' : 'Instant Price · No Obligation'}
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.05] tracking-tight mb-5">
             Book your cleaning.<br />
@@ -77,7 +77,9 @@ export default function BookPageClient() {
           <p className="text-white/55 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
             {bookingOpen === false
               ? 'Call or text now and we’ll price and schedule your cleaning in minutes.'
-              : 'Pick your service and home size — your total updates as you go. No phone call, no card, no surprises.'}
+              : payOnline
+                ? 'Pick your service and home size — your total updates as you go. A small deposit holds your slot. No phone call, no surprises.'
+                : 'Pick your service and home size — your total updates as you go. No phone call, no card, no surprises.'}
           </p>
 
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-2.5 text-white/60 text-[13px]">
@@ -95,7 +97,7 @@ export default function BookPageClient() {
         {bookingOpen === null ? (
           <div className="min-h-[24rem]" aria-busy="true" />
         ) : bookingOpen ? (
-          <BookingForm />
+          <BookingForm payOnline={payOnline} />
         ) : (
           <BookingClosed />
         )}

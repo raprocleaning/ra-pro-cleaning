@@ -54,6 +54,10 @@ export type Lead = {
   hasSlot?: boolean
   /** The customer was shown a price, rather than being quoted by phone. */
   hasPrice?: boolean
+  /** Dollars already taken by card as a deposit, when the booking was paid for online. */
+  depositPaid?: number
+  /** What is still owed after the clean, once a deposit has been taken. */
+  balanceDue?: number
 }
 
 export type EmailResult = { sent: boolean; error: string }
@@ -92,6 +96,8 @@ function rows(lead: Lead): Array<[string, string]> {
     ['Square footage', text(lead.sqft)],
     ['Frequency', text(lead.frequency)],
     ['Quoted total', price ? (price.startsWith('$') ? price : `$${price}`) : 'Custom quote'],
+    ['Deposit paid', lead.depositPaid !== undefined ? `$${lead.depositPaid} (card, online)` : ''],
+    ['Balance due after the cleaning', lead.depositPaid !== undefined ? `$${lead.balanceDue ?? 0}` : ''],
     ['Extras', extras],
     ['Requested date', text(lead.preferredDate)],
     ['Address', text(lead.address)],
@@ -220,6 +226,8 @@ function customerRows(lead: Lead): Array<[string, string]> {
     ['Add-ons', extras],
     ['Address', text(lead.address)],
     ['Your total', lead.hasPrice && price ? (price.startsWith('$') ? price : `$${price}`) : ''],
+    ['Deposit paid', lead.depositPaid !== undefined ? `$${lead.depositPaid}` : ''],
+    ['Due after the clean', lead.depositPaid !== undefined ? `$${lead.balanceDue ?? 0}` : ''],
   ] as Array<[string, string]>).filter(([, value]) => value !== '')
 }
 
@@ -234,6 +242,13 @@ function closingLine(lead: Lead): string {
 function nextStep(lead: Lead): string {
   if (!lead.hasSlot) {
     return `We'll get back to you within 24 hours. If it's urgent, call or text ${BUSINESS.phone}.`
+  }
+  if (lead.depositPaid !== undefined) {
+    const left = lead.balanceDue ?? 0
+    return (
+      `We've received your $${lead.depositPaid} deposit. We'll call you within 24 hours to confirm the details.` +
+      (left > 0 ? ` The remaining $${left} is due after the clean.` : ` Nothing more is due.`)
+    )
   }
   return lead.hasPrice
     ? `We'll call you within 24 hours to confirm the details. Nothing is charged now — your total is due after the clean.`
