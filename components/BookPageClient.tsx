@@ -1,60 +1,21 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import BookingForm from '@/components/BookingForm'
-import { isOnlineBookingOpen } from '@/lib/contactMode'
+
+const noSubscription = () => () => {}
 
 /**
- * Whether online booking is open right now. Null until mounted: the page is
- * prerendered, so the clock can only be read in the browser. Re-checked every
- * minute so the form appears at 6 PM without a reload.
+ * False while the server renders and during hydration, true in the browser
+ * after. The booking form reads sessionStorage (to put a cancelled payment's
+ * answers back), so it must only ever be created client-side or it would not
+ * match the server's HTML.
  */
-function useBookingOpen(): boolean | null {
-  const [open, setOpen] = useState<boolean | null>(null)
-  useEffect(() => {
-    const check = () => setOpen(isOnlineBookingOpen())
-    check()
-    const id = setInterval(check, 60_000)
-    return () => clearInterval(id)
-  }, [])
-  return open
+function useIsClient(): boolean {
+  return useSyncExternalStore(noSubscription, () => true, () => false)
 }
 
-/** Shown in place of the form during the day, when someone can pick up the phone. */
-function BookingClosed() {
-  return (
-    <section className="px-6 pb-8">
-      <div className="max-w-xl mx-auto bg-white border border-[#E3F1EF] rounded-3xl shadow-sm p-8 md:p-10 text-center">
-        <p className="text-[#00A896] text-[11px] font-bold tracking-[0.28em] uppercase mb-4">
-          We&rsquo;re open — talk to us now
-        </p>
-        <h2 className="text-2xl md:text-3xl font-black text-[#0F2240] tracking-tight mb-3">
-          Call or text for a quick quote
-        </h2>
-        <p className="text-[#4A6583] leading-relaxed mb-8">
-          During the day our team books you directly by phone. Online booking
-          opens every evening from <strong>5&nbsp;PM to 9&nbsp;AM</strong>.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a
-            href="tel:7206778799"
-            className="bg-[#00A896] text-white font-bold px-8 py-4 rounded-full hover:bg-[#007A6C] transition-colors"
-          >
-            📞 Call (720) 677-8799
-          </a>
-          <a
-            href="sms:7206778799"
-            className="border-2 border-[#00A896] text-[#007A6C] font-bold px-8 py-4 rounded-full hover:bg-[#E6F7F5] transition-colors"
-          >
-            💬 Text us
-          </a>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-export default function BookPageClient() {
-  const bookingOpen = useBookingOpen()
+export default function BookPageClient({ payOnline = false }: { payOnline?: boolean }) {
+  const isClient = useIsClient()
 
   return (
     <main className="min-h-screen bg-[#F8FFFE]">
@@ -68,15 +29,15 @@ export default function BookPageClient() {
         />
         <div className="relative max-w-3xl mx-auto text-center">
           <span className="inline-block text-[#4ADEC8] text-[11px] font-bold tracking-[0.28em] uppercase mb-6">
-            Instant Price · No Obligation
+            {payOnline ? 'Instant Price · Book in Minutes' : 'Instant Price · No Obligation'}
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.05] tracking-tight mb-5">
             Book your cleaning.<br />
             <span className="text-[#4ADEC8]">See the price first.</span>
           </h1>
           <p className="text-white/55 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-            {bookingOpen === false
-              ? 'Call or text now and we’ll price and schedule your cleaning in minutes.'
+            {payOnline
+              ? 'Pick your service and home size — your total updates as you go. A small deposit holds your slot. No phone call, no surprises.'
               : 'Pick your service and home size — your total updates as you go. No phone call, no card, no surprises.'}
           </p>
 
@@ -92,12 +53,10 @@ export default function BookPageClient() {
 
       {/* ── THE BOOKING FORM ── A light sheet lifted over the hero */}
       <div className="relative z-10 -mt-12 bg-[#F8FFFE] rounded-t-[2.5rem] pt-12">
-        {bookingOpen === null ? (
-          <div className="min-h-[24rem]" aria-busy="true" />
-        ) : bookingOpen ? (
-          <BookingForm />
+        {isClient ? (
+          <BookingForm payOnline={payOnline} />
         ) : (
-          <BookingClosed />
+          <div className="min-h-[24rem]" aria-busy="true" />
         )}
       </div>
 

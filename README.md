@@ -196,6 +196,68 @@ managed in the Formspree dashboard, not in this repo.
 
 ---
 
+## Card payments (Stripe)
+
+`/book` can take a **$50 card deposit** when the customer confirms. The balance
+is due after the clean, as the Terms already say. Customers pay on Stripe's own
+page, so card numbers never touch this site.
+
+It is **off until you add two keys** — with them blank, online booking works
+exactly as it always has.
+
+### How a booking flows
+
+1. The customer fills in `/book` and presses **Pay $50 Deposit & Book**.
+2. `/api/checkout` prices the booking again from `lib/pricing.ts` — the price
+   the browser showed is never trusted — and sends them to Stripe.
+3. When the card clears, Stripe calls `/api/stripe-webhook`. **That is when the
+   booking is made:** CRM contact tagged `deposit-paid`, the calendar slot, the
+   office email and the customer's confirmation, all showing the deposit paid and
+   the balance due.
+4. Stripe sends them back to `/book/confirmed`, which reads the payment from
+   Stripe itself so it is right even if the webhook is a second behind.
+
+Nothing is booked until step 3, so an abandoned payment never holds a slot.
+Post-construction jobs are quoted by phone and are never charged online.
+
+### Turning it on
+
+1. In the [Stripe Dashboard](https://dashboard.stripe.com), stay in **Test mode**.
+   Under **Developers → API keys**, copy the **Secret key** (`sk_test_…`).
+2. Under **Developers → Webhooks → Add endpoint**, use the URL
+   `https://raprocleaningservices.com/api/stripe-webhook`, choose the single event
+   **`checkout.session.completed`**, and copy the endpoint's **Signing secret**
+   (`whsec_…`).
+3. In Vercel → Project Settings → Environment Variables, add
+   `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET`, then **redeploy**. `/book` is
+   built ahead of time, so it only notices the keys after a new deploy.
+4. Book a test cleaning with Stripe's test card `4242 4242 4242 4242`, any future
+   expiry and any CVC. Check that you land on the "You're booked!" page, the
+   contact is tagged `deposit-paid`, the slot is on the calendar, and both emails
+   arrive.
+5. To go live, repeat steps 1–3 in **Live mode** (the live key and a live-mode
+   webhook with its own signing secret), replace the two variables, and redeploy.
+
+To switch it off again, delete `STRIPE_SECRET_KEY` and redeploy.
+
+### Good to know
+
+- **The amount** is `DEPOSIT_DOLLARS` in `lib/deposit.ts`. A job cheaper than the
+  deposit is charged its own price instead.
+- **Abandoned payments.** Someone who types in their details and leaves Stripe's
+  page is saved in the CRM as a lead tagged `deposit-pending`. If that contact
+  never gets `deposit-paid`, they dropped out at payment — worth a call.
+- **A paid booking that fails to save** (CRM and email both down) makes the
+  webhook return an error, and Stripe keeps retrying for days. Failed deliveries
+  show under Developers → Webhooks, where they can also be resent by hand.
+- **Shared Stripe account.** The webhook only acts on payments this site started,
+  so other tools on the same Stripe account (HighLevel, for instance) are ignored.
+- **Refunds and cancellations** are done by hand in the Stripe Dashboard; nothing
+  is automatic. The Terms page does not yet say whether the deposit is
+  refundable — that is a policy call for the business.
+
+---
+
 ## Knowing where leads come from
 
 GA4 (`G-50JSSQ15K6`) reports traffic by channel, but a dashboard cannot tell you
