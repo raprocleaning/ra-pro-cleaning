@@ -4,6 +4,9 @@ import { getStripe, paymentsEnabled, bookingFromMetadata, bookingToLeadBody } fr
 import { submitLead } from '@/lib/submitLead'
 
 export const runtime = 'nodejs'
+// Booking makes several calls to HighLevel and the mail servers. Allow time to finish
+// them even when those are slow; Vercel's default would cut the function off sooner.
+export const maxDuration = 60
 
 /**
  * Stripe tells us a deposit has cleared; this is where the booking is made.
