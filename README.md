@@ -225,9 +225,10 @@ Post-construction jobs are quoted by phone and are never charged online.
 1. In the [Stripe Dashboard](https://dashboard.stripe.com), stay in **Test mode**.
    Under **Developers → API keys**, copy the **Secret key** (`sk_test_…`).
 2. Under **Developers → Webhooks → Add endpoint**, use the URL
-   `https://raprocleaningservices.com/api/stripe-webhook`, choose the single event
+   `https://raprocleaningservices.com/api/stripe-webhook`, choose the event
    **`checkout.session.completed`**, and copy the endpoint's **Signing secret**
-   (`whsec_…`).
+   (`whsec_…`). Also tick **`checkout.session.async_payment_succeeded`** — it only
+   fires for slow payment methods, and it is what books a job paid that way.
 3. In Vercel → Project Settings → Environment Variables, add
    `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET`, then **redeploy**. `/book` is
    built ahead of time, so it only notices the keys after a new deploy.
@@ -239,6 +240,17 @@ Post-construction jobs are quoted by phone and are never charged online.
    webhook with its own signing secret), replace the two variables, and redeploy.
 
 To switch it off again, delete `STRIPE_SECRET_KEY` and redeploy.
+
+### Cards only
+
+The site asks Stripe for card payments only, but Stripe also applies the methods
+switched on in its own settings, and may offer Link, Klarna or bank payments
+anyway. Bank payments take days to clear, so turn them off: in the Dashboard go
+to **Settings → Payment methods** and leave only **Cards** on — in the sandbox
+and again in the live account. If a slow method is ever used regardless, the
+webhook books the job when it clears (that is what
+`checkout.session.async_payment_succeeded` is for) and the confirmation page says
+the payment is processing instead of claiming it failed.
 
 ### Good to know
 
