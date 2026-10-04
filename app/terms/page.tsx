@@ -58,7 +58,7 @@ export default function TermsPage() {
                 <li>Cancellations or rescheduling requests must be made at least <strong>24 hours</strong> before the scheduled appointment.</li>
                 <li>Cancellations made with less than 24 hours&apos; notice may be subject to a cancellation fee.</li>
                 <li>No-shows or lockouts (where our team cannot access the property) may also be subject to a fee.</li>
-                <li><strong>Booking deposit:</strong> If you cancel or reschedule at least 24 hours before your appointment, your ${DEPOSIT_DOLLARS} deposit is refunded in full to your card (or moved to your new date, if you prefer). With less than 24 hours&apos; notice, or if our team cannot access the property, we may keep the deposit as the cancellation fee. If we cancel or reschedule, your deposit is always refunded in full.</li>
+                <li><strong>Booking deposit:</strong> Your ${DEPOSIT_DOLLARS} deposit is non-refundable if you cancel. If you reschedule at least 24 hours before your appointment, your deposit moves to your new date. If we cancel or reschedule for any reason, your deposit is refunded in full to your card, or moved to your new date if you prefer.</li>
                 <li>We reserve the right to cancel or reschedule appointments due to weather, staff emergencies, or other unforeseen circumstances. We will notify you as soon as possible in such cases.</li>
               </ul>
             </div>
