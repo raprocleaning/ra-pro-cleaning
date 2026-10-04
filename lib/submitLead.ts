@@ -319,7 +319,11 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
 
     return {
       status: 200,
-      json: { ok: true, crmSaved, emailSent, customerEmailSent, appointmentCreated, appointmentError },
+      json: {
+        ok: true, crmSaved, emailSent, customerEmailSent, appointmentCreated, appointmentError,
+        // Reason text goes only to the Stripe webhook (which Stripe signs for us), never to the public form.
+        ...(payment ? { crmError, emailError } : {}),
+      },
     }
   } catch (err) {
     console.error('Contact API error:', err)
