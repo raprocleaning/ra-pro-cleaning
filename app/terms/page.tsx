@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { DEPOSIT_DOLLARS } from '@/lib/deposit'
 
 export const metadata: Metadata = {
   title: 'Terms of Service | R A Pro Cleaning Services',
@@ -57,6 +58,7 @@ export default function TermsPage() {
                 <li>Cancellations or rescheduling requests must be made at least <strong>24 hours</strong> before the scheduled appointment.</li>
                 <li>Cancellations made with less than 24 hours&apos; notice may be subject to a cancellation fee.</li>
                 <li>No-shows or lockouts (where our team cannot access the property) may also be subject to a fee.</li>
+                <li><strong>Booking deposit:</strong> If you cancel or reschedule at least 24 hours before your appointment, your ${DEPOSIT_DOLLARS} deposit is refunded in full to your card (or moved to your new date, if you prefer). With less than 24 hours&apos; notice, or if our team cannot access the property, we may keep the deposit as the cancellation fee. If we cancel or reschedule, your deposit is always refunded in full.</li>
                 <li>We reserve the right to cancel or reschedule appointments due to weather, staff emergencies, or other unforeseen circumstances. We will notify you as soon as possible in such cases.</li>
               </ul>
             </div>
@@ -65,6 +67,8 @@ export default function TermsPage() {
               <h2 className="text-xl font-bold text-[#0F2240] mb-3">5. Pricing &amp; Payment</h2>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Prices are provided as estimates and may be adjusted based on the actual condition and size of the property.</li>
+                <li>Online bookings take a ${DEPOSIT_DOLLARS} deposit by card when you book. The deposit is credited toward your total, and the remaining balance is due upon completion of services.</li>
+                <li>Card payments are processed securely by Stripe. We never see or store your full card number.</li>
                 <li>Payment is due upon completion of services unless alternative arrangements have been agreed upon in advance.</li>
                 <li>We accept major credit cards, debit cards, and other payment methods as indicated at the time of booking.</li>
                 <li>Prices are subject to change with reasonable notice.</li>
