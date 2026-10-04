@@ -114,6 +114,7 @@ export default async function BookingConfirmedPage({
               )}
             </div>
             <p className="text-[#4A6583] text-sm mb-2">A confirmation is on its way to your email, and Stripe will send your receipt.</p>
+            <p className="text-[#4A6583] text-sm mb-2">Your deposit isn&rsquo;t refundable if you cancel. Need another day? Tell us at least 24 hours ahead and we&rsquo;ll move it.</p>
           </>
         )}
 

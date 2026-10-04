@@ -616,6 +616,10 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
                     <span className="text-[#4A6583]">Due after the clean</span>
                     <span className="text-[#4A6583] font-semibold">${balance}</span>
                   </div>
+                  <p className="text-[#4A6583] text-xs leading-relaxed pt-1">
+                    Your ${deposit} deposit comes off your total and isn&rsquo;t refundable if you cancel. Need another day? Move it with 24 hours&rsquo; notice.{' '}
+                    <a href="/terms" target="_blank" rel="noopener" className="underline">Terms</a>
+                  </p>
                 </div>
               )}
             </div>

@@ -36,6 +36,7 @@ export default function PrivacyPage() {
               <ul className="list-disc pl-6 space-y-2">
                 <li><strong>Personal Identification Information:</strong> Name, email address, phone number, and mailing address when you fill out our contact or booking forms.</li>
                 <li><strong>Property Information:</strong> Zip code, square footage, and property type you provide when requesting a quote.</li>
+                <li><strong>Payment Information:</strong> When you pay a booking deposit by card, the payment is handled by our payment processor, Stripe. We receive confirmation that a payment was made and its amount, but never your full card number.</li>
                 <li><strong>Communications:</strong> Messages, inquiries, and feedback you send us.</li>
                 <li><strong>Usage Data:</strong> Pages visited, time spent on pages, and browser type collected automatically via cookies and analytics tools.</li>
               </ul>
@@ -91,7 +92,7 @@ export default function PrivacyPage() {
               <h2 className="text-xl font-bold text-[#0F2240] mb-3">5. Sharing Your Information</h2>
               <p className="mb-3">We do not sell or rent your personal information. We may share it with:</p>
               <ul className="list-disc pl-6 space-y-2">
-                <li><strong>Service Providers:</strong> Third-party vendors who assist us in operating our website or conducting our business (e.g., Formspree for form submissions, BookingKoala for scheduling).</li>
+                <li><strong>Service Providers:</strong> Third-party vendors who assist us in operating our website or conducting our business (e.g., Formspree for form submissions, BookingKoala for scheduling, Stripe for card payments).</li>
                 <li><strong>Legal Requirements:</strong> When required by law or to protect our rights.</li>
               </ul>
             </div>
