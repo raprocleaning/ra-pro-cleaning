@@ -51,13 +51,13 @@ export function calendarIdFor(service: string): string | undefined {
 type CalendarSummary = { id: string; name: string; teamMemberIds: string[] }
 
 // Calendars change rarely; re-read occasionally so a rename or a newly created
-// calendar is picked up without a redeploy.
+// calendar is picked up without a redeploy. The request itself is cached, not
+// just its answer, so it can be started early (see warmCalendars) and shared by
+// whoever asks while it is still in flight.
 const CACHE_MS = 10 * 60 * 1000
-let cache: { at: number; calendars: CalendarSummary[] } | null = null
+let cache: { at: number; calendars: Promise<CalendarSummary[]> } | null = null
 
-async function listCalendars(apiKey: string, locationId: string): Promise<CalendarSummary[]> {
-  if (cache && Date.now() - cache.at < CACHE_MS) return cache.calendars
-
+async function fetchCalendars(apiKey: string, locationId: string): Promise<CalendarSummary[]> {
   const res = await fetch(`${GHL_API}/calendars/?locationId=${encodeURIComponent(locationId)}`, {
     headers: {
       'Authorization': `Bearer ${apiKey}`,
@@ -68,16 +68,33 @@ async function listCalendars(apiKey: string, locationId: string): Promise<Calend
   if (!res.ok) throw new Error(`GHL calendar list failed (${res.status}): ${await res.text()}`)
 
   const data = await res.json().catch(() => ({}))
-  const calendars: CalendarSummary[] = (data?.calendars ?? [])
+  return (data?.calendars ?? [])
     .filter((c: { id?: string; name?: string }) => c?.id && c?.name)
     .map((c: { id: string; name: string; teamMembers?: { userId?: string }[] }) => ({
       id: c.id,
       name: c.name,
       teamMemberIds: (c.teamMembers ?? []).map((m) => m?.userId).filter((id): id is string => !!id),
     }))
+}
 
-  cache = { at: Date.now(), calendars }
+function listCalendars(apiKey: string, locationId: string): Promise<CalendarSummary[]> {
+  if (cache && Date.now() - cache.at < CACHE_MS) return cache.calendars
+
+  const calendars = fetchCalendars(apiKey, locationId)
+  const entry = { at: Date.now(), calendars }
+  cache = entry
+  // A failed read is not worth remembering: the next booking should try again.
+  calendars.catch(() => { if (cache === entry) cache = null })
   return calendars
+}
+
+/**
+ * Start reading the calendar list without waiting for it, so it is already in
+ * hand when createAppointment needs it. Never throws; createAppointment reports
+ * a failed read itself.
+ */
+export function warmCalendars(apiKey: string, locationId: string): void {
+  listCalendars(apiKey, locationId).catch(() => {})
 }
 
 /** Pick the calendar whose name best matches the service. */

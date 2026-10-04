@@ -1,4 +1,4 @@
-import { createAppointment } from '@/lib/ghlCalendar'
+import { createAppointment, warmCalendars } from '@/lib/ghlCalendar'
 import { sendLeadEmail, sendCustomerEmail } from '@/lib/leadEmail'
 import { describeAttribution, type Attribution } from '@/lib/attribution'
 
@@ -139,105 +139,120 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
     ].filter(Boolean).join('\n')
 
     // ── 1. Create / update contact in GHL ────────────────────────────────────
-    let crmSaved = false
-    let emailSent = false
-    let customerEmailSent = false
-    let crmError = ''
-    let emailError = ''
-    let appointmentCreated = false
-    let appointmentError = ''
+    // Runs alongside the emails in step 2, not before them: the two do not depend
+    // on each other, and a Stripe webhook only has a few seconds to answer. One
+    // after the other they took 5–9 seconds, too close to Stripe's limit.
+    //
+    // Quote requests are not confirmed jobs, so they do not take a calendar slot.
+    const slotWhen =
+      isBookingForm && !quoteOnRequest && bookingDate && bookingTime
+        ? { date: bookingDate, time: bookingTime }
+        : null
 
-    if (ghlApiKey) {
-      const ghlPayload: Record<string, unknown> = {
-        firstName,
-        lastName,
-        email: cleanEmail,
-        phone: cleanPhone,
-        locationId,
-        source: sourceLabel,
-        tags,
+    const saveToCrm = async () => {
+      const out = { crmSaved: false, crmError: '', appointmentCreated: false, appointmentError: '' }
+
+      if (!ghlApiKey) {
+        out.crmError = 'GHL_API_KEY is not configured'
+        console.warn(out.crmError)
+        return out
       }
-      if (address) ghlPayload.address1   = address
-      if (zipCode) ghlPayload.postalCode = zipCode
 
-      const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${ghlApiKey}`,
-          'Version': '2021-07-28',
-        },
-        body: JSON.stringify(ghlPayload),
-      })
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${ghlApiKey}`,
+        'Version': '2021-07-28',
+      }
 
-      if (ghlRes.ok) {
-        crmSaved = true
-        const ghlData = await ghlRes.json()
-        const contactId = ghlData?.contact?.id
+      try {
+        const ghlPayload: Record<string, unknown> = {
+          firstName,
+          lastName,
+          email: cleanEmail,
+          phone: cleanPhone,
+          locationId,
+          source: sourceLabel,
+          tags,
+        }
+        if (address) ghlPayload.address1   = address
+        if (zipCode) ghlPayload.postalCode = zipCode
 
-        // Add detailed note
-        if (contactId) {
-          await fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
+        // The calendar list is needed once the contact is saved; read it now so
+        // that is not one more wait.
+        if (slotWhen) warmCalendars(ghlApiKey, locationId)
+
+        const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(ghlPayload),
+        })
+
+        if (!ghlRes.ok) {
+          out.crmError = `GHL contact upsert failed (${ghlRes.status}): ${await ghlRes.text()}`
+          console.error(out.crmError)
+          return out
+        }
+
+        out.crmSaved = true
+        const contactId = (await ghlRes.json())?.contact?.id
+        if (!contactId) return out
+
+        // A note that will not save must not lose the contact or the booking.
+        const addNote = (text: string) =>
+          fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${ghlApiKey}`,
-              'Version': '2021-07-28',
-            },
-            body: JSON.stringify({ body: noteLines, userId: '' }),
+            headers,
+            body: JSON.stringify({ body: text, userId: '' }),
+          }).catch((err) => {
+            console.error('Could not add a note to the contact:', err)
           })
 
-          // Place the job on the matching GHL calendar. A failure here must not
-          // lose the booking — the contact and note are already saved.
-          // Quote requests are not confirmed jobs, so they do not take a slot.
-          if (isBookingForm && !quoteOnRequest && bookingDate && bookingTime) {
-            const result = await createAppointment({
-              apiKey: ghlApiKey,
-              locationId,
-              contactId,
-              service: service ?? '',
-              date: bookingDate,
-              time: bookingTime,
-              title: `${service} — ${cleanName}${price ? ` ($${price})` : ''}`,
-            })
-            appointmentCreated = result.created
-            if (!result.created) {
-              appointmentError = result.reason
-              console.error('GHL appointment not created:', result.reason)
-
-              // Say so on the contact itself. A booking that never reached the
-              // calendar looks identical to one that did from the Contacts
-              // list, so the only warning used to be a server log nobody reads
-              // — and the job quietly went unscheduled.
-              await fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${ghlApiKey}`,
-                  'Version': '2021-07-28',
-                },
-                body: JSON.stringify({
-                  body: [
-                    `⚠️ NOT ON A CALENDAR — add this job by hand.`,
-                    `📅 Requested: ${bookingDate} at ${bookingTime}`,
-                    `❗ Reason: ${result.reason}`,
-                  ].join('\n'),
-                  userId: '',
-                }),
-              }).catch((err) => {
-                console.error('Could not record the calendar failure on the contact:', err)
+        // The detailed note and the calendar slot do not depend on each other. A
+        // failure placing the job must not lose the booking — the contact is
+        // already saved.
+        const [, slot] = await Promise.all([
+          addNote(noteLines),
+          slotWhen
+            ? createAppointment({
+                apiKey: ghlApiKey,
+                locationId,
+                contactId,
+                service: service ?? '',
+                date: slotWhen.date,
+                time: slotWhen.time,
+                title: `${service} — ${cleanName}${price ? ` ($${price})` : ''}`,
               })
-            }
+            : null,
+        ])
+
+        if (slot) {
+          out.appointmentCreated = slot.created
+          if (!slot.created) {
+            out.appointmentError = slot.reason
+            console.error('GHL appointment not created:', slot.reason)
+
+            // Say so on the contact itself. A booking that never reached the
+            // calendar looks identical to one that did from the Contacts
+            // list, so the only warning used to be a server log nobody reads
+            // — and the job quietly went unscheduled.
+            await addNote([
+              `⚠️ NOT ON A CALENDAR — add this job by hand.`,
+              `📅 Requested: ${slotWhen?.date} at ${slotWhen?.time}`,
+              `❗ Reason: ${slot.reason}`,
+            ].join('\n'))
           }
         }
-      } else {
-        crmError = `GHL contact upsert failed (${ghlRes.status}): ${await ghlRes.text()}`
-        console.error(crmError)
+      } catch (err) {
+        // HighLevel being unreachable must not stop the emails below going out.
+        const msg = `GHL request failed: ${err instanceof Error ? err.message : 'Unknown error'}`
+        console.error(msg)
+        if (!out.crmSaved) out.crmError = msg
       }
-    } else {
-      crmError = 'GHL_API_KEY is not configured'
-      console.warn(crmError)
+
+      return out
     }
+
+    const crmWork = saveToCrm()
 
     // ── 2. Email the office ───────────────────────────────────────────────────
     // Two independent paths, because they fail for different reasons: Formspree
@@ -299,15 +314,17 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
 
     // The customer's own copy goes out alongside — their booking stands whether
     // or not it arrives, so it never gates the response.
-    const [formspreeResult, smtpResult, customerResult] = await Promise.all([
+    const [formspreeResult, smtpResult, customerResult, crm] = await Promise.all([
       formspree,
       sendLeadEmail(lead),
       isNewsletter ? Promise.resolve({ sent: false, error: '' }) : sendCustomerEmail(lead),
+      crmWork,
     ])
 
-    emailSent = formspreeResult.sent || smtpResult.sent
-    customerEmailSent = customerResult.sent
-    emailError = [formspreeResult.error, smtpResult.error, customerResult.error].filter(Boolean).join(' | ')
+    const { crmSaved, crmError, appointmentCreated, appointmentError } = crm
+    const emailSent = formspreeResult.sent || smtpResult.sent
+    const customerEmailSent = customerResult.sent
+    const emailError = [formspreeResult.error, smtpResult.error, customerResult.error].filter(Boolean).join(' | ')
     if (emailError) console.error(emailError)
 
     if (!crmSaved && !emailSent) {
@@ -319,7 +336,11 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
 
     return {
       status: 200,
-      json: { ok: true, crmSaved, emailSent, customerEmailSent, appointmentCreated, appointmentError },
+      json: {
+        ok: true, crmSaved, emailSent, customerEmailSent, appointmentCreated, appointmentError,
+        // Reason text goes only to the Stripe webhook (which Stripe signs for us), never to the public form.
+        ...(payment ? { crmError, emailError } : {}),
+      },
     }
   } catch (err) {
     console.error('Contact API error:', err)
