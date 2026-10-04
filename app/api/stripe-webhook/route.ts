@@ -10,7 +10,9 @@ export const runtime = 'nodejs'
  *
  * Set up once in the Stripe Dashboard (Developers → Webhooks) pointing at
  * https://raprocleaningservices.com/api/stripe-webhook, listening for
- * `checkout.session.completed`, with its signing secret in STRIPE_WEBHOOK_SECRET.
+ * `checkout.session.completed` — and `checkout.session.async_payment_succeeded`
+ * if any delayed payment method is switched on — with its signing secret in
+ * STRIPE_WEBHOOK_SECRET.
  */
 export async function POST(req: NextRequest) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET
@@ -32,7 +34,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature.' }, { status: 400 })
   }
 
-  if (event.type !== 'checkout.session.completed') return NextResponse.json({ received: true })
+  // A card clears at once and is booked from checkout.session.completed. A
+  // delayed method (a bank debit, say) completes the Session *unpaid* and says
+  // so again, days later, in checkout.session.async_payment_succeeded — so both
+  // are heard. Either way, only a Session that really is paid is ever booked.
+  if (event.type !== 'checkout.session.completed' && event.type !== 'checkout.session.async_payment_succeeded') {
+    return NextResponse.json({ received: true })
+  }
 
   const session = event.data.object as Stripe.Checkout.Session
   if (session.payment_status !== 'paid') return NextResponse.json({ received: true })

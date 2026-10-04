@@ -22,6 +22,7 @@ type Outcome =
       deposit: number
       balance: number
     }
+  | { kind: 'processing' }
   | { kind: 'unpaid' }
   | { kind: 'unknown' }
 
@@ -43,7 +44,10 @@ async function lookup(sessionId: string | undefined): Promise<Outcome> {
     const session = await getStripe().checkout.sessions.retrieve(sessionId)
     const booking = bookingFromMetadata(session.metadata) // null for anything this site did not create
     if (!booking) return { kind: 'unknown' }
-    if (session.payment_status !== 'paid') return { kind: 'unpaid' }
+    if (session.payment_status !== 'paid') {
+      // A delayed method (a bank debit) finishes Checkout before the money lands.
+      return session.status === 'complete' ? { kind: 'processing' } : { kind: 'unpaid' }
+    }
 
     const total = Number(session.metadata?.ra_total) || 0
     const deposit = Math.round((session.amount_total ?? 0) / 100)
@@ -110,6 +114,16 @@ export default async function BookingConfirmedPage({
               )}
             </div>
             <p className="text-[#4A6583] text-sm mb-2">A confirmation is on its way to your email, and Stripe will send your receipt.</p>
+          </>
+        )}
+
+        {outcome.kind === 'processing' && (
+          <>
+            <h1 className="text-3xl font-black text-[#0F2240] tracking-tight mb-4">Your payment is processing</h1>
+            <p className="text-[#4A6583] leading-relaxed mb-8">
+              Thank you — your bank is still confirming your deposit. We’ll book your cleaning as soon as it clears and let you
+              know. If you’d rather not wait, call us and we’ll sort it out right away.
+            </p>
           </>
         )}
 
