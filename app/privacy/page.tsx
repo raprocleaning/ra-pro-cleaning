@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Privacy Policy | R A Pro Cleaning Services',
   description: 'Privacy Policy for R A Pro Cleaning Services LLC — how we collect, use, and protect your personal information.',
+  alternates: { canonical: 'https://raprocleaningservices.com/privacy' },
 }
 
 export default function PrivacyPage() {

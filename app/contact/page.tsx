@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Contact Us | R A Pro Cleaning Services Denver',
   description:
     'Contact R A Pro Cleaning Services in Denver. Call, text, or email us for a free cleaning quote. Serving all of Denver and the surrounding metro area.',
+  alternates: { canonical: 'https://raprocleaningservices.com/contact' },
 }
 
 export default function ContactPage() {

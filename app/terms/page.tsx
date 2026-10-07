@@ -4,6 +4,7 @@ import { DEPOSIT_DOLLARS } from '@/lib/deposit'
 export const metadata: Metadata = {
   title: 'Terms of Service | R A Pro Cleaning Services',
   description: 'Terms of Service for R A Pro Cleaning Services LLC — the terms and conditions governing use of our website and services.',
+  alternates: { canonical: 'https://raprocleaningservices.com/terms' },
 }
 
 export default function TermsPage() {
