@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Cleaning Tips & Blog | R A Pro Cleaning Services Denver',
   description:
     'Expert cleaning tips, guides, and insights from Denver\'s professional cleaning team at R A Pro Cleaning Services.',
+  alternates: { canonical: 'https://raprocleaningservices.com/blog' },
 }
 
 

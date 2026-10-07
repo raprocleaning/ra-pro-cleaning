@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Our Services | R A Pro Cleaning Services Denver',
   description:
     'Professional cleaning services in Denver: deep cleaning, standard cleaning, house cleaning, office cleaning, Airbnb turnover, move in/out, and more.',
+  alternates: { canonical: 'https://raprocleaningservices.com/services' },
 }
 
 const services = [

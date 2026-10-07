@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | R A Pro Cleaning Services Blog`,
     description: post.intro.slice(0, 160),
+    alternates: { canonical: `https://raprocleaningservices.com/blog/${slug}` },
   }
 }
 

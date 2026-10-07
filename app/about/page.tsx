@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'About Us | R A Pro Cleaning Services Denver',
   description:
     'Learn about R A Pro Cleaning Services LLC — Denver\'s trusted professional cleaning company. Licensed, insured, and dedicated to exceptional results.',
+  alternates: { canonical: 'https://raprocleaningservices.com/about' },
 }
 
 const teamMembers = [

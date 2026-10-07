@@ -231,6 +231,7 @@ export async function generateMetadata({
   return {
     title: `${service.name} in Denver | R A Pro Cleaning Services`,
     description: service.description,
+    alternates: { canonical: `https://raprocleaningservices.com/services/${slug}` },
   }
 }
 

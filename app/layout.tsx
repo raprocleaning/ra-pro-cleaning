@@ -16,13 +16,9 @@ export const metadata: Metadata = {
     '5.0-star cleaning services serving Denver, Aurora and the Denver metro. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning.',
   keywords:
     'cleaning services Denver, house cleaning Aurora CO, cleaning services Aurora, house cleaning Denver CO, deep cleaning Denver, move out cleaning Aurora, Airbnb cleaning Denver, office cleaning Denver',
-  alternates: {
-    canonical: 'https://raprocleaningservices.com',
-  },
   openGraph: {
     title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
     description: '5.0-star cleaning services serving Denver, Aurora and surrounding communities. Get a fast online quote.',
-    url: 'https://raprocleaningservices.com',
     siteName: 'R A Pro Cleaning Services',
     locale: 'en_US',
     type: 'website',
@@ -35,7 +31,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     '@type': 'LocalBusiness',
     '@id': 'https://raprocleaningservices.com',
     name: 'R A Pro Cleaning Services LLC',
-    image: 'https://raprocleaningservices.com/logo.png',
+    image: 'https://raprocleaningservices.com/ra-logo.jpeg',
+    logo: 'https://raprocleaningservices.com/ra-logo.jpeg',
     description:
       'Top-rated professional cleaning services in Denver, CO. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning. Licensed & insured.',
     // We clean at the customer's address and have no storefront to visit, so
