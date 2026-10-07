@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import VirtualAssistant from '@/components/VirtualAssistant'
 import GhlChatWidget from '@/components/GhlChatWidget'
 import ConversionTracking from '@/components/ConversionTracking'
+import { SITE_OPEN_GRAPH } from '@/lib/openGraph'
 
 const GA_ID = 'G-50JSSQ15K6'
 
@@ -16,13 +17,7 @@ export const metadata: Metadata = {
     '5.0-star cleaning services serving Denver, Aurora and the Denver metro. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning.',
   keywords:
     'cleaning services Denver, house cleaning Aurora CO, cleaning services Aurora, house cleaning Denver CO, deep cleaning Denver, move out cleaning Aurora, Airbnb cleaning Denver, office cleaning Denver',
-  openGraph: {
-    title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
-    description: '5.0-star cleaning services serving Denver, Aurora and surrounding communities. Get a fast online quote.',
-    siteName: 'R A Pro Cleaning Services',
-    locale: 'en_US',
-    type: 'website',
-  },
+  openGraph: SITE_OPEN_GRAPH,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

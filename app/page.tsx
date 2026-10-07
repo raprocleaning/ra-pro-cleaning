@@ -11,12 +11,14 @@ import CTABand from '@/components/CTABand'
 import FAQ from '@/components/FAQ'
 import ContactForm from '@/components/ContactForm'
 import ServiceAreas from '@/components/ServiceAreas'
+import { SITE_OPEN_GRAPH } from '@/lib/openGraph'
 
 // Each page names its own canonical URL. Setting it once in the root layout
 // made every page inherit the homepage's, which told Google the service, blog
 // and about pages were duplicates of the homepage and kept them out of search.
 export const metadata: Metadata = {
   alternates: { canonical: 'https://raprocleaningservices.com' },
+  openGraph: { ...SITE_OPEN_GRAPH, url: 'https://raprocleaningservices.com' },
 }
 
 export default function Home() {
