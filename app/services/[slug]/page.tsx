@@ -244,8 +244,30 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     .map((s) => servicesData[s])
     .filter(Boolean)
 
+  // Mirrors the visible Home / Services / <name> trail, so search results can
+  // show it under the page title the way they do for the area pages.
+  const breadcrumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://raprocleaningservices.com' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://raprocleaningservices.com/services' },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: service.name,
+        item: `https://raprocleaningservices.com/services/${service.slug}`,
+      },
+    ],
+  }
+
   return (
     <main className="pt-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
+
       {/* Hero */}
       <section className="bg-[#0F2240] py-28 relative overflow-hidden">
         <div
