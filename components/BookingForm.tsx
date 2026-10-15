@@ -23,6 +23,8 @@ function minDate(): string {
 
 type Status = 'idle' | 'submitting' | 'done' | 'error'
 
+const SEND_FAILED = "We couldn't send your booking just now. Please call or text us at (720) 677-8799 and we'll book you in."
+
 type Draft = {
   service?: string; sqft?: number | null; frequency?: string; extras?: string[]
   date?: string; time?: string; name?: string; phone?: string; email?: string
@@ -207,13 +209,16 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
       })
 
       const data = await res.json().catch(() => ({}))
-      if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong.')
+      // A 4xx carries a message meant for the customer (a missing field, the
+      // deposit notice); a 5xx says "Internal error", which tells them nothing.
+      if (!res.ok || !data.ok) throw new Error(res.status < 500 && data.error ? data.error : SEND_FAILED)
 
       trackEvent('booking_submitted', { service, sqft: sqftLabel, value: quote?.total })
       trackLead('booking-form', { service, value: quote?.total })
       setStatus('done')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong.')
+      // fetch throws a TypeError ("Failed to fetch") when the connection drops.
+      setError(err instanceof Error && !(err instanceof TypeError) ? err.message : SEND_FAILED)
       setStatus('error')
     }
   }
