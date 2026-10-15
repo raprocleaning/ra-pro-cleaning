@@ -38,6 +38,15 @@ const Navigation = () => {
     { name: 'Cleaning Checklist', href: '/about#checklist' },
   ]
 
+  const mobileLinks = [
+    { name: 'About Us', href: '/about' },
+    { name: 'Gallery', href: '/gallery' },
+    { name: 'Reviews', href: '/#reviews' },
+    { name: 'Service Areas', href: '/areas' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Contact', href: '/contact' },
+  ]
+
   return (
     <>
       <nav
@@ -48,7 +57,11 @@ const Navigation = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Logo />
+          {/* The logo file is nearly square, so without a height it renders
+              taller than the 80px bar and hangs down over the page. */}
+          <Link href="/" aria-label="R A Pro Cleaning Services home" className="flex items-center">
+            <Logo className="h-16 w-auto" />
+          </Link>
 
           {/* Desktop Nav Links */}
           <div className="hidden lg:flex items-center space-x-8">
@@ -58,7 +71,12 @@ const Navigation = () => {
               onMouseEnter={() => setServicesOpen(true)}
               onMouseLeave={() => setServicesOpen(false)}
             >
-              <button className="flex items-center space-x-1 text-gray-700 hover:text-[#00B894] font-medium py-2 transition-colors">
+              <button
+                type="button"
+                onClick={() => setServicesOpen(true)}
+                aria-expanded={servicesOpen}
+                className="flex items-center space-x-1 text-gray-700 hover:text-[#00B894] font-medium py-2 transition-colors"
+              >
                 <span>Services</span>
                 <svg className={`w-4 h-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -85,7 +103,12 @@ const Navigation = () => {
               onMouseEnter={() => setWhyUsOpen(true)}
               onMouseLeave={() => setWhyUsOpen(false)}
             >
-              <button className="flex items-center space-x-1 text-gray-700 hover:text-[#00B894] font-medium py-2 transition-colors">
+              <button
+                type="button"
+                onClick={() => setWhyUsOpen(true)}
+                aria-expanded={whyUsOpen}
+                className="flex items-center space-x-1 text-gray-700 hover:text-[#00B894] font-medium py-2 transition-colors"
+              >
                 <span>Why Us</span>
                 <svg className={`w-4 h-4 transition-transform ${whyUsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -109,7 +132,7 @@ const Navigation = () => {
             <Link href="/gallery" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
               Gallery
             </Link>
-            <Link href="/reviews" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
+            <Link href="/#reviews" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
               Reviews
             </Link>
             <Link href="/blog" className="text-gray-700 hover:text-[#00B894] font-medium transition-colors">
@@ -181,20 +204,16 @@ const Navigation = () => {
           </div>
 
           <div className="border-t border-white/10 pt-6 space-y-3">
-            <Link
-              href="/about"
-              onClick={() => setMobileOpen(false)}
-              className="block text-white text-xl font-light hover:text-[#00B894] transition-colors"
-            >
-              About Us
-            </Link>
-            <Link
-              href="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="block text-white text-xl font-light hover:text-[#00B894] transition-colors"
-            >
-              Contact
-            </Link>
+            {mobileLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="block text-white text-xl font-light hover:text-[#00B894] transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
 
           {/* Mobile Buttons */}

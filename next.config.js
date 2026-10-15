@@ -37,6 +37,8 @@ const nextConfig = {
     return [
       // WordPress published an RSS feed under every post; send it to the post.
       { source: '/blog/:slug/feed', destination: '/blog/:slug', permanent: true },
+      // The menu once linked to /reviews, but the reviews are a homepage section.
+      { source: '/reviews', destination: '/#reviews', permanent: true },
       ...OLD_SITE_REDIRECTS.map(([source, destination]) => ({
         source,
         destination,
