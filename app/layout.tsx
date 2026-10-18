@@ -46,6 +46,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     telephone: '+17206778799',
     email: 'ra@raprocleaningservices.com',
     url: 'https://raprocleaningservices.com',
+    // The business's own social profiles, so search engines tie them to this listing.
+    sameAs: [
+      'https://www.instagram.com/raprocleaningservice/',
+      'https://www.facebook.com/raprocleaningservice',
+      'https://www.linkedin.com/in/ra-pro-cleaning-service/',
+    ],
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5',
