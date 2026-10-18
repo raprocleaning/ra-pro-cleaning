@@ -14,10 +14,15 @@ const TIME_SLOTS = Array.from({ length: 9 }, (_, i) => {
   return `${hour12}:00 ${hour < 12 ? 'AM' : 'PM'}`
 })
 
-/** Tomorrow, as YYYY-MM-DD — the earliest date a customer may book. */
+/**
+ * Tomorrow in Denver, as YYYY-MM-DD — the earliest date a customer may book,
+ * matching the server's own check. Read in UTC it ran a day ahead from about
+ * 6 PM Mountain time, so evening visitors could not choose tomorrow.
+ */
 function minDate(): string {
-  const d = new Date()
-  d.setDate(d.getDate() + 1)
+  const todayDenver = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Denver' }).format(new Date())
+  const d = new Date(`${todayDenver}T12:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + 1)
   return d.toISOString().split('T')[0]
 }
 

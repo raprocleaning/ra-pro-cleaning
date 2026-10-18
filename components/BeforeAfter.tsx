@@ -37,7 +37,7 @@ export default function BeforeAfter() {
   const onTouchEnd = () => {
     if (!touchStart.current || !touchEnd.current) return
     const dist = touchStart.current - touchEnd.current
-    if (Math.abs(dist) >= MIN_SWIPE) dist > 0 ? next() : prev()
+    if (Math.abs(dist) >= MIN_SWIPE) (dist > 0 ? next : prev)()
     touchStart.current = null
     touchEnd.current = null
   }

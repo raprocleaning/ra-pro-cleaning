@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import {
   DEFAULT_COSTS,
   JOB_STATUSES,
@@ -150,20 +150,25 @@ function Field({
 
 // ─── DASHBOARD ───────────────────────────────────────────────────────────────
 
+const noSubscription = () => () => {}
+
+/**
+ * Storage only exists in the browser, so the dashboard is created there and
+ * nowhere else — the server and the first client render both show the
+ * placeholder, and the real dashboard starts with the saved numbers in hand.
+ */
 export default function MoneyDashboard() {
-  const [state, setState] = useState<Stored>(EMPTY)
-  const [ready, setReady] = useState(false)
+  const isClient = useSyncExternalStore(noSubscription, () => true, () => false)
+  if (!isClient) return <p className="text-slate-400 text-sm">Loading your numbers…</p>
+  return <Dashboard />
+}
 
-  // Storage is read after mount so server and first client render agree.
-  useEffect(() => {
-    setState(load())
-    setReady(true)
-  }, [])
+function Dashboard() {
+  const [state, setState] = useState<Stored>(load)
 
   useEffect(() => {
-    if (!ready) return
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
-  }, [state, ready])
+  }, [state])
 
   const { jobs, contracts, costs, cashOnHand } = state
 
@@ -231,16 +236,18 @@ export default function MoneyDashboard() {
     sqft: SQFT_OPTIONS[0].value,
     source: LEAD_SOURCES[0] as LeadSource,
     status: 'quoted' as JobStatus,
-    amount: 0,
+    amount: getPrice(SERVICES[0], SQFT_OPTIONS[0].value) ?? 0,
   })
 
   // Auto-fill the price from the site's own tables, so the ledger and the
   // quote a customer was given can never drift apart.
   const suggested = getPrice(draft.service, draft.sqft)
-  useEffect(() => {
-    const price = getPrice(draft.service, draft.sqft)
-    if (price !== null) setDraft((d) => ({ ...d, amount: price }))
-  }, [draft.service, draft.sqft])
+  const repriceDraft = (patch: { service?: string; sqft?: number }) =>
+    setDraft((d) => {
+      const next = { ...d, ...patch }
+      const price = getPrice(next.service, next.sqft)
+      return price !== null ? { ...next, amount: price } : next
+    })
 
   function addJob() {
     if (!draft.client.trim()) return
@@ -299,10 +306,6 @@ export default function MoneyDashboard() {
     a.download = `ra-pro-jobs-${today()}.csv`
     a.click()
     URL.revokeObjectURL(url)
-  }
-
-  if (!ready) {
-    return <p className="text-slate-400 text-sm">Loading your numbers…</p>
   }
 
   return (
@@ -480,7 +483,7 @@ export default function MoneyDashboard() {
             </span>
             <select
               value={draft.service}
-              onChange={(e) => setDraft((d) => ({ ...d, service: e.target.value }))}
+              onChange={(e) => repriceDraft({ service: e.target.value })}
               className="w-full px-3 py-2 text-sm border border-slate-300 rounded outline-none focus:border-[#00A896] bg-white"
             >
               {SERVICES.map((s) => (
@@ -496,7 +499,7 @@ export default function MoneyDashboard() {
             </span>
             <select
               value={draft.sqft}
-              onChange={(e) => setDraft((d) => ({ ...d, sqft: parseInt(e.target.value, 10) }))}
+              onChange={(e) => repriceDraft({ sqft: parseInt(e.target.value, 10) })}
               className="w-full px-3 py-2 text-sm border border-slate-300 rounded outline-none focus:border-[#00A896] bg-white"
             >
               {SQFT_OPTIONS.map((o) => (

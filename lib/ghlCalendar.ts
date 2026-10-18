@@ -117,7 +117,7 @@ export async function resolveCalendarId(
   apiKey: string,
   locationId: string,
   service: string
-): Promise<{ id: string; assignedUserId?: string } | { error: string }> {
+): Promise<{ id: string; assignedUserId?: string; teamMemberIds: string[] } | { error: string }> {
   const envUser = process.env.GHL_ASSIGNED_USER_ID || undefined
   const override = calendarIdFor(service)
 
@@ -129,16 +129,17 @@ export async function resolveCalendarId(
       ? calendars.find((c) => c.id === override)
       : matchCalendar(service, calendars)
 
-    if (override) return { id: override, assignedUserId: envUser ?? match?.teamMemberIds[0] }
+    const teamMemberIds = match?.teamMemberIds ?? []
+    if (override) return { id: override, assignedUserId: envUser ?? teamMemberIds[0], teamMemberIds }
 
     if (!match) {
       const names = calendars.map((c) => c.name).join(', ') || 'none returned'
       return { error: `No calendar matched "${service}". Calendars found: ${names}` }
     }
-    return { id: match.id, assignedUserId: envUser ?? match.teamMemberIds[0] }
+    return { id: match.id, assignedUserId: envUser ?? teamMemberIds[0], teamMemberIds }
   } catch (err) {
     // An override lets us still book even if the calendar list is unreadable.
-    if (override) return { id: override, assignedUserId: envUser }
+    if (override) return { id: override, assignedUserId: envUser, teamMemberIds: [] }
     return { error: err instanceof Error ? err.message : 'Calendar lookup failed' }
   }
 }
@@ -194,8 +195,102 @@ export function toAppointmentWindow(
   return { startTime, endTime: end.toISOString() }
 }
 
+// ─── WHICH CLEANER ───────────────────────────────────────────────────────────
+//
+// The form offers the same nine arrival windows every day and never asks the
+// calendar, and the job always went to the calendar's first team member. Two
+// customers picking 10 AM on the same Tuesday were both handed to the same
+// cleaner while a second one sat free, and nobody was told.
+
+type Job = { start: number; end: number; title: string }
+
+/** Statuses that no longer hold a cleaner's time. */
+const FREED = new Set(['cancelled', 'invalid', 'noshow'])
+
+/** One cleaner's jobs on a day, across every calendar they work. */
+async function cleanerDay(
+  apiKey: string, locationId: string, userId: string, from: number, to: number
+): Promise<Job[]> {
+  const url =
+    `${GHL_API}/calendars/events?locationId=${encodeURIComponent(locationId)}` +
+    `&userId=${encodeURIComponent(userId)}&startTime=${from}&endTime=${to}`
+  const res = await fetch(url, {
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Version': '2021-04-15', 'Accept': 'application/json' },
+  })
+  if (!res.ok) throw new Error(`GHL events read failed (${res.status})`)
+
+  const data = await res.json().catch(() => ({}))
+  return ((data?.events ?? []) as Array<Record<string, unknown>>)
+    .filter((e) => !FREED.has(String(e.appointmentStatus ?? '').toLowerCase()))
+    .map((e) => ({
+      start: new Date(e.startTime as string).getTime(),
+      end: new Date(e.endTime as string).getTime(),
+      title: typeof e.title === 'string' ? e.title : 'another job',
+    }))
+    .filter((j) => !isNaN(j.start) && !isNaN(j.end))
+}
+
+const clock = (ms: number, timeZone: string) =>
+  new Date(ms).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone })
+
+/**
+ * The team member to give the job to: someone free for the whole window, the
+ * one with the fewest jobs that day when several are (ties keep the
+ * calendar's own order). When nobody is free the least-busy one still gets it
+ * and `clash` says what it collides with — the booking is never refused, but
+ * the office hears about it before the customer is promised the time.
+ *
+ * Best effort: if HighLevel will not show the day, the first team member gets
+ * the job exactly as before.
+ */
+export async function pickCleaner(opts: {
+  apiKey: string
+  locationId: string
+  candidates: string[]
+  date: string
+  window: { startTime: string; endTime: string }
+  timeZone?: string
+}): Promise<{ userId?: string; clash?: string }> {
+  const { candidates } = opts
+  if (candidates.length === 0) return {}
+  const timeZone = opts.timeZone || process.env.GHL_TIMEZONE || 'America/Denver'
+
+  const start = new Date(opts.window.startTime).getTime()
+  const end = new Date(opts.window.endTime).getTime()
+  const dayStart = new Date(`${opts.date}T00:00:00${zoneOffset(opts.date, timeZone)}`).getTime()
+
+  let days: Job[][]
+  try {
+    days = await Promise.all(
+      candidates.map((id) => cleanerDay(opts.apiKey, opts.locationId, id, dayStart, dayStart + 86_400_000))
+    )
+  } catch (err) {
+    console.error('Could not read the cleaners\' day; giving the job to the first one:', err)
+    return { userId: candidates[0] }
+  }
+
+  const ranked = candidates
+    .map((userId, i) => ({
+      userId,
+      jobs: days[i].length,
+      overlaps: days[i].filter((j) => j.start < end && start < j.end),
+    }))
+    .sort((a, b) => Number(a.overlaps.length > 0) - Number(b.overlaps.length > 0) || a.jobs - b.jobs)
+
+  const best = ranked[0]
+  if (best.overlaps.length === 0) return { userId: best.userId }
+
+  const hit = best.overlaps[0]
+  return {
+    userId: best.userId,
+    clash:
+      (candidates.length > 1 ? 'Every cleaner on this calendar is already booked then' : 'The cleaner is already booked then') +
+      ` — overlaps "${hit.title}" (${clock(hit.start, timeZone)}–${clock(hit.end, timeZone)}). Move one of the jobs or reassign it.`,
+  }
+}
+
 export type AppointmentResult =
-  | { created: true; appointmentId?: string }
+  | { created: true; appointmentId?: string; assignedUserId?: string; clash?: string }
   | { created: false; reason: string }
 
 export async function createAppointment(opts: {
@@ -209,12 +304,23 @@ export async function createAppointment(opts: {
 }): Promise<AppointmentResult> {
   const resolved = await resolveCalendarId(opts.apiKey, opts.locationId, opts.service)
   if ('error' in resolved) return { created: false, reason: resolved.error }
-  const { id: calendarId, assignedUserId } = resolved
+  const { id: calendarId } = resolved
 
   const window = toAppointmentWindow(opts.date, opts.time)
   if (!window) {
     return { created: false, reason: `Could not read date/time "${opts.date} ${opts.time}"` }
   }
+
+  // A fixed owner from configuration is still checked, so a clash is reported.
+  const envUser = process.env.GHL_ASSIGNED_USER_ID
+  const { userId, clash } = await pickCleaner({
+    apiKey: opts.apiKey,
+    locationId: opts.locationId,
+    candidates: envUser ? [envUser] : resolved.teamMemberIds,
+    date: opts.date,
+    window,
+  })
+  const assignedUserId = userId ?? resolved.assignedUserId
 
   try {
     const res = await fetch(`${GHL_API}/calendars/events/appointments`, {
@@ -249,7 +355,7 @@ export async function createAppointment(opts: {
     }
 
     const data = await res.json().catch(() => ({}))
-    return { created: true, appointmentId: data?.id ?? data?.appointment?.id }
+    return { created: true, appointmentId: data?.id ?? data?.appointment?.id, assignedUserId, clash }
   } catch (err) {
     return { created: false, reason: err instanceof Error ? err.message : 'Unknown error' }
   }

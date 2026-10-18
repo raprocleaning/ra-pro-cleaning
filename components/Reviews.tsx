@@ -68,7 +68,7 @@ const Reviews = () => {
   const onTouchEnd = () => {
     if (!touchStart.current || !touchEnd.current) return
     const dist = touchStart.current - touchEnd.current
-    if (Math.abs(dist) >= 50) dist > 0 ? next() : prev()
+    if (Math.abs(dist) >= 50) (dist > 0 ? next : prev)()
     touchStart.current = null; touchEnd.current = null
   }
 

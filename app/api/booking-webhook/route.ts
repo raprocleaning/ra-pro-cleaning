@@ -1,5 +1,27 @@
+import { timingSafeEqual } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { getQuote, sqftFromText } from '@/lib/pricing'
+
+export const runtime = 'nodejs'
+
+/**
+ * Anyone who found this URL could post to it and write contacts and notes
+ * into the CRM. BookingKoala only lets you paste a URL, so the shared secret
+ * rides in it: https://raprocleaningservices.com/api/booking-webhook?secret=…
+ * (an `x-webhook-secret` header works too). Until BOOKING_WEBHOOK_SECRET is set
+ * the endpoint stays open, so an integration still in use is not cut off by a
+ * deploy — set it, then update the URL in BookingKoala.
+ */
+function authorised(req: NextRequest): boolean {
+  const secret = process.env.BOOKING_WEBHOOK_SECRET
+  if (!secret) {
+    console.warn('BOOKING_WEBHOOK_SECRET is not set: /api/booking-webhook accepts posts from anyone')
+    return true
+  }
+  const given = req.nextUrl.searchParams.get('secret') ?? req.headers.get('x-webhook-secret') ?? ''
+  const a = Buffer.from(given), b = Buffer.from(secret)
+  return a.length === b.length && timingSafeEqual(a, b)
+}
 
 /**
  * BookingKoala → GoHighLevel Webhook
@@ -12,6 +34,8 @@ import { getQuote, sqftFromText } from '@/lib/pricing'
  * the money-flow ledger.
  */
 export async function POST(req: NextRequest) {
+  if (!authorised(req)) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+
   try {
     const body = await req.json()
 
@@ -58,6 +82,8 @@ export async function POST(req: NextRequest) {
     }
 
     // ── 1. Create / update contact in GHL ─────────────────────────────────
+    // Upsert, not create: HighLevel refuses a second contact with the same email
+    // or phone, so every returning customer's booking used to fail here.
     const ghlPayload: Record<string, unknown> = {
       firstName,
       lastName,
@@ -72,7 +98,7 @@ export async function POST(req: NextRequest) {
       tags: ['bookingkoala', 'booked-appointment', serviceType?.toLowerCase().replace(/\s+/g, '-')].filter(Boolean),
     }
 
-    const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/', {
+    const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

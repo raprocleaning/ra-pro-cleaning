@@ -58,6 +58,8 @@ export type Lead = {
   depositPaid?: number
   /** What is still owed after the clean, once a deposit has been taken. */
   balanceDue?: number
+  /** Something the office must act on, such as a double-booked cleaner. Office copy only. */
+  warning?: string
 }
 
 export type EmailResult = { sent: boolean; error: string }
@@ -89,6 +91,7 @@ function rows(lead: Lead): Array<[string, string]> {
   const price = text(lead.price)
 
   const all: Array<[string, string]> = [
+    ['⚠️ Action needed', text(lead.warning)],
     ['Name', text(lead.name)],
     ['Phone', text(lead.phone)],
     ['Email', text(lead.email)],
@@ -116,6 +119,7 @@ function rows(lead: Lead): Array<[string, string]> {
 export function leadSubject(lead: Lead): string {
   const service = text(lead.service)
   const who = text(lead.name) || text(lead.email) || 'New lead'
+  if (text(lead.warning)) return `⚠️ Schedule clash: ${who}${service ? ` — ${service}` : ''}`
   return `New ${text(lead.source) || 'website'} lead: ${who}${service ? ` — ${service}` : ''}`
 }
 

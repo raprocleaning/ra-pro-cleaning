@@ -102,6 +102,7 @@ export async function POST(req: NextRequest) {
       booked: true,
       crmSaved: r.crmSaved,
       appointmentCreated: r.appointmentCreated,
+      scheduleClash: r.scheduleClash,
       emailSent: r.emailSent,
       customerEmailSent: r.customerEmailSent,
       crmError: short(r.crmError),

@@ -1,6 +1,15 @@
 # R A Pro Cleaning Services — Next.js Website
 
-Denver's premium cleaning experience. Built with Next.js 14 (App Router), Tailwind CSS, and TypeScript.
+Denver's premium cleaning experience. Built with Next.js 16 (App Router), Tailwind CSS, and TypeScript.
+
+**How the automations fit together, what is working, and the HighLevel workflow
+recipes for reminders, reviews and invoices: see [AUTOMATIONS.md](AUTOMATIONS.md).**
+
+To check every workflow end to end without contacting anyone:
+
+```bash
+npm run build && npm run test:e2e
+```
 
 ## Getting Started
 
@@ -337,7 +346,7 @@ See `lib/attribution.ts`.
 
 ## Tech Stack
 
-- **Framework:** Next.js 14 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **Styling:** Tailwind CSS 3
 - **Language:** TypeScript
 - **Animations:** CSS transitions + Intersection Observer API

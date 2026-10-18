@@ -63,11 +63,22 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
       attribution,
     } = body
 
-    const cleanName = typeof fullName === 'string' ? fullName.trim() : ''
+    // The footer's newsletter box asks for an email and nothing else. It used to
+    // be held to the same name-and-phone rule as a booking, so every signup was
+    // refused and the box only ever showed its error.
+    const isNewsletter = propertyType === 'Newsletter'
+
+    const rawName = typeof fullName === 'string' ? fullName.trim() : ''
+    // The footer once sent a placeholder name; never save it as the reader's.
+    const cleanName = isNewsletter && rawName === 'Newsletter Signup' ? '' : rawName
     const cleanPhone = typeof phone === 'string' ? phone.trim() : ''
     const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : ''
 
-    if (!cleanName || !cleanPhone || !cleanEmail) {
+    if (isNewsletter) {
+      if (!/^\S+@\S+\.\S+$/.test(cleanEmail)) {
+        return { status: 400, json: { ok: false, error: 'Please enter a valid email address.' } }
+      }
+    } else if (!cleanName || !cleanPhone || !cleanEmail) {
       return {
         status: 400,
         json: { ok: false, error: 'Name, phone, and email are required.' },
@@ -91,7 +102,7 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
     const channel = describeAttribution(attr)
 
     // ── Build tags ────────────────────────────────────────────────────────────
-    const tags: string[] = ['website-lead']
+    const tags: string[] = [isNewsletter ? 'newsletter' : 'website-lead']
     if (isAIBooking)   tags.push('ai-booking')
     if (isBookingForm) tags.push('online-booking', 'booked-appointment')
     if (quoteOnRequest) tags.push('needs-quote')
@@ -106,18 +117,20 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
     if (smsOptIn && cleanPhone) {
       tags.push('sms-opt-in')
       tags.push('needs-follow-up')
-    } else {
+    } else if (!isNewsletter) {
       tags.push('phone-calls-only')
     }
     if (smsMarketingOptIn && cleanPhone) tags.push('sms-marketing-opt-in')
     if (payment) tags.push('deposit-paid')
 
     // ── Build note ────────────────────────────────────────────────────────────
-    const sourceLabel = isBookingForm
-      ? 'Online Booking Form'
-      : isAIBooking
-        ? 'AI Chat Widget'
-        : 'Contact Form'
+    const sourceLabel = isNewsletter
+      ? 'Newsletter Signup'
+      : isBookingForm
+        ? 'Online Booking Form'
+        : isAIBooking
+          ? 'AI Chat Widget'
+          : 'Contact Form'
 
     const noteLines = [
       `📋 Source: ${sourceLabel}`,
@@ -150,7 +163,7 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
         : null
 
     const saveToCrm = async () => {
-      const out = { crmSaved: false, crmError: '', appointmentCreated: false, appointmentError: '' }
+      const out = { crmSaved: false, crmError: '', appointmentCreated: false, appointmentError: '', scheduleClash: '' }
 
       if (!ghlApiKey) {
         out.crmError = 'GHL_API_KEY is not configured'
@@ -166,10 +179,12 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
 
       try {
         const ghlPayload: Record<string, unknown> = {
-          firstName,
-          lastName,
+          // Blank fields are left out, so a newsletter signup from an existing
+          // customer never wipes the name or phone already on their contact.
+          ...(firstName ? { firstName } : {}),
+          ...(lastName ? { lastName } : {}),
           email: cleanEmail,
-          phone: cleanPhone,
+          ...(cleanPhone ? { phone: cleanPhone } : {}),
           locationId,
           source: sourceLabel,
           tags,
@@ -227,6 +242,14 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
 
         if (slot) {
           out.appointmentCreated = slot.created
+          if (slot.created && slot.clash) {
+            out.scheduleClash = slot.clash
+            await addNote([
+              `⚠️ SCHEDULE CLASH — the job is on the calendar, but double-booked.`,
+              `📅 Requested: ${slotWhen?.date} at ${slotWhen?.time}`,
+              `❗ ${slot.clash}`,
+            ].join('\n'))
+          }
           if (!slot.created) {
             out.appointmentError = slot.reason
             console.error('GHL appointment not created:', slot.reason)
@@ -260,7 +283,7 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
     // addresses in LEAD_NOTIFY_TO (the office mailbox). One delivering is
     // enough to consider the lead notified.
     const lead = {
-      name: cleanName,
+      name: cleanName || (isNewsletter ? 'Newsletter reader' : ''),
       phone: cleanPhone,
       email: cleanEmail,
       service: service || propertyType,
@@ -287,8 +310,6 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
     }
 
     // A newsletter box is not a booking, so nobody gets a booking confirmation.
-    const isNewsletter = propertyType === 'Newsletter'
-
     const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/meerbldr'
     const formspree = fetch(formspreeEndpoint, {
       method: 'POST',
@@ -321,7 +342,14 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
       crmWork,
     ])
 
-    const { crmSaved, crmError, appointmentCreated, appointmentError } = crm
+    const { crmSaved, crmError, appointmentCreated, appointmentError, scheduleClash } = crm
+
+    // The booking email has already gone, so a clash gets its own message: the
+    // office has to call before the customer turns up expecting that time.
+    if (scheduleClash) {
+      const alert = await sendLeadEmail({ ...lead, warning: scheduleClash })
+      if (!alert.sent) console.error('Schedule clash alert not sent:', alert.error)
+    }
     const emailSent = formspreeResult.sent || smtpResult.sent
     const customerEmailSent = customerResult.sent
     const emailError = [formspreeResult.error, smtpResult.error, customerResult.error].filter(Boolean).join(' | ')
@@ -338,6 +366,7 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
       status: 200,
       json: {
         ok: true, crmSaved, emailSent, customerEmailSent, appointmentCreated, appointmentError,
+        ...(scheduleClash ? { scheduleClash: true } : {}),
         // Reason text goes only to the Stripe webhook (which Stripe signs for us), never to the public form.
         ...(payment ? { crmError, emailError } : {}),
       },

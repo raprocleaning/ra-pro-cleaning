@@ -17,6 +17,12 @@ const config = [
   ...nextCoreWebVitals,
   ...nextTypeScript,
 
+  // The end-to-end harness runs under plain Node, where require() is the norm.
+  {
+    files: ['scripts/**/*.cjs'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
+
   {
     rules: {
       // Two deliberate idioms in this codebase, not oversights:

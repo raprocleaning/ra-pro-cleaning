@@ -14,7 +14,7 @@ const Footer = () => {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName: 'Newsletter Signup', email, message: 'Newsletter signup', propertyType: 'Newsletter' }),
+        body: JSON.stringify({ email, message: 'Newsletter signup', propertyType: 'Newsletter' }),
       })
       if (res.ok) {
         setNewsletterStatus('success')
