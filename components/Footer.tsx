@@ -37,6 +37,21 @@ const Footer = () => {
     { name: 'Post-Construction Cleaning', href: '/services/post-construction' },
   ]
 
+  // Kept as a short list rather than importing lib/areas, which would ship
+  // every city's page copy to the browser on every page.
+  const areas = [
+    { name: 'Denver', href: '/areas/denver' },
+    { name: 'Aurora', href: '/areas/aurora' },
+    { name: 'Lakewood', href: '/areas/lakewood' },
+    { name: 'Englewood', href: '/areas/englewood' },
+    { name: 'Littleton', href: '/areas/littleton' },
+    { name: 'Centennial', href: '/areas/centennial' },
+    { name: 'Greenwood Village', href: '/areas/greenwood-village' },
+    { name: 'Arvada', href: '/areas/arvada' },
+    { name: 'Westminster', href: '/areas/westminster' },
+    { name: 'Thornton', href: '/areas/thornton' },
+  ]
+
   const company = [
     { name: 'About Us', href: '/about' },
     { name: 'Service Areas', href: '/areas' },
@@ -74,7 +89,7 @@ const Footer = () => {
 
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
           {/* Brand Column — spans 2 */}
           <div className="lg:col-span-2">
             <div className="mb-6">
@@ -161,6 +176,22 @@ const Footer = () => {
                 <li key={s.href}>
                   <Link href={s.href} className="text-sm text-white/50 hover:text-[#00A896] transition-colors">
                     {s.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Service Areas Column */}
+          <div>
+            <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/35 mb-6">
+              Service Areas
+            </h3>
+            <ul className="space-y-3">
+              {areas.map((a) => (
+                <li key={a.href}>
+                  <Link href={a.href} className="text-sm text-white/50 hover:text-[#00A896] transition-colors">
+                    {a.name}
                   </Link>
                 </li>
               ))}
