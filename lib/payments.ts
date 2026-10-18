@@ -75,7 +75,7 @@ const clip = (value: unknown, max: number): string =>
 function cleanAttribution(value: unknown): Attribution | undefined {
   if (!value || typeof value !== 'object') return undefined
   const out: Record<string, string> = {}
-  for (const key of ['source', 'medium', 'campaign', 'term', 'content', 'gclid', 'referrer', 'landingPage', 'firstSeen']) {
+  for (const key of ['source', 'medium', 'campaign', 'term', 'content', 'gclid', 'fbclid', 'msclkid', 'referrer', 'landingPage', 'firstSeen']) {
     const v = clip((value as Record<string, unknown>)[key], 120)
     if (v) out[key] = v
   }

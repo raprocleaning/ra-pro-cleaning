@@ -100,8 +100,12 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
     if (preferredDate) tags.push('has-preferred-date')
     if (extras?.length) tags.push('has-extras')
     // A campaign tag on the lead makes the CRM filterable by channel.
-    if (attr?.source) {
-      tags.push(`src-${String(attr.source).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`)
+    // Ad platforms add their click id even when the ad has no UTM tags.
+    const tagSource =
+      attr?.source ||
+      (attr?.gclid ? 'google-ads' : attr?.fbclid ? 'facebook-ads' : attr?.msclkid ? 'bing-ads' : '')
+    if (tagSource) {
+      tags.push(`src-${String(tagSource).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`)
     }
     if (smsOptIn && cleanPhone) {
       tags.push('sms-opt-in')

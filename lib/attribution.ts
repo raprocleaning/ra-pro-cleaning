@@ -27,6 +27,10 @@ export type Attribution = {
   content?: string
   /** Google Ads / Local Services click id, when present. */
   gclid?: string
+  /** Facebook / Instagram Ads click id, when present. */
+  fbclid?: string
+  /** Microsoft (Bing) Ads click id, when present. */
+  msclkid?: string
   /** Where they came from, when the browser tells us. */
   referrer?: string
   /** The first page of the visit. */
@@ -68,6 +72,8 @@ export function captureAttribution(): void {
     term: params.get('utm_term') || undefined,
     content: params.get('utm_content') || undefined,
     gclid: params.get('gclid') || undefined,
+    fbclid: params.get('fbclid') || undefined,
+    msclkid: params.get('msclkid') || undefined,
     referrer: referrer && !sameSite ? referrer : undefined,
     landingPage: window.location.pathname || undefined,
     firstSeen: new Date().toISOString(),
@@ -106,6 +112,8 @@ export function describeAttribution(a: Attribution | null | undefined): string {
     return a.campaign ? `${parts} — ${a.campaign}` : parts
   }
   if (a.gclid) return 'Google Ads (click id)'
+  if (a.fbclid) return 'Facebook / Instagram Ads (click id)'
+  if (a.msclkid) return 'Microsoft Bing Ads (click id)'
 
   if (a.referrer) {
     try {
