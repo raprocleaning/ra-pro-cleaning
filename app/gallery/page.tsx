@@ -156,8 +156,6 @@ export default function GalleryPage() {
           <p className="text-[#4A6583] mb-8">Book your cleaning today and see the transformation yourself.</p>
             <a
               href="/book"
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
             >
               Book Now

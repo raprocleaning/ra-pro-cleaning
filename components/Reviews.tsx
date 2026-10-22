@@ -205,8 +205,6 @@ const Reviews = () => {
             <p className="text-[#4A6583] text-sm mb-4">Join satisfied homeowners across Denver and Aurora</p>
             <a
               href="/book"
-              target="_blank"
-              rel="noopener noreferrer"
               className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-md"
             >
               Book Your Clean Today

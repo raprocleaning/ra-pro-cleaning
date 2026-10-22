@@ -101,8 +101,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </p>
               <a
                 href="/book"
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors text-sm"
               >
                 Book a Professional Clean
