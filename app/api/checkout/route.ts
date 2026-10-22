@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
-  paymentsEnabled, parseBooking, createDepositSession, recordCheckoutStarted,
+  depositsOn, parseBooking, createDepositSession, recordCheckoutStarted,
 } from '@/lib/payments'
 
 export const runtime = 'nodejs'
@@ -11,8 +11,8 @@ export const runtime = 'nodejs'
  * confirms the payment (see /api/stripe-webhook).
  */
 export async function POST(req: NextRequest) {
-  // Card payments are optional: with no Stripe key the form books directly.
-  if (!paymentsEnabled()) return NextResponse.json({ ok: true, payments: false })
+  // Card payments are optional: with deposits off the form books directly.
+  if (!depositsOn()) return NextResponse.json({ ok: true, payments: false })
 
   try {
     const parsed = parseBooking(await req.json())
