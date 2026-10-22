@@ -30,6 +30,7 @@ type Draft = {
   service?: string; sqft?: number | null; frequency?: string; extras?: string[]
   date?: string; time?: string; name?: string; phone?: string; email?: string
   address?: string; zip?: string; notes?: string; smsOptIn?: boolean; smsMarketingOptIn?: boolean
+  newClient?: boolean
 }
 
 /**
@@ -71,6 +72,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
   const [notes, setNotes]     = useState(draft?.notes ?? '')
   const [smsOptIn, setSmsOptIn] = useState(!!draft?.smsOptIn)
   const [smsMarketingOptIn, setSmsMarketingOptIn] = useState(!!draft?.smsMarketingOptIn)
+  const [newClient, setNewClient] = useState(!!draft?.newClient)
 
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError]   = useState('')
@@ -90,6 +92,11 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
   )
 
   const sqftLabel = SQFT_OPTIONS.find((o) => o.value === sqft)?.label ?? ''
+
+  // New clients take the offer off their first cleaning; the office checks
+  // the box against its records when it confirms.
+  const newClientOff = quote && newClient ? Math.round(quote.total * OFFER.percent / 100) : 0
+  const total = quote ? quote.total - newClientOff : 0
 
   const toggleExtra = (label: string) =>
     setExtras((prev) =>
@@ -162,13 +169,16 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
       service,
       sqft: sqftLabel,
       frequency,
-      price: quote?.total ?? null,
+      price: quote ? total : null,
       quoteOnRequest,
       extras,
       preferredDate: `${date} at ${time}`,
       bookingDate: date,
       bookingTime: time,
-      message: notes.trim(),
+      message: [
+        newClientOff > 0 ? `NEW CLIENT: ${OFFER.percent}% first-cleaning discount applied (−$${newClientOff}, list price $${quote?.total}).` : '',
+        notes.trim(),
+      ].filter(Boolean).join('\n'),
       smsOptIn,
       smsMarketingOptIn,
       attribution: getAttribution(),
@@ -192,12 +202,12 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
           try {
             window.sessionStorage.setItem(BOOKING_DRAFT_KEY, JSON.stringify({
               service, sqft, frequency, extras, date, time, name, phone, email, address, zip, notes,
-              smsOptIn, smsMarketingOptIn,
+              smsOptIn, smsMarketingOptIn, newClient,
             }))
           } catch {
             // Storage blocked: they just re-enter their answers if they cancel.
           }
-          trackEvent('begin_checkout', { service, sqft: sqftLabel, value: quote?.total })
+          trackEvent('begin_checkout', { service, sqft: sqftLabel, value: quote ? total : undefined })
           window.location.href = session.url
           return // stay on 'submitting' so the button stays off while the page changes
         }
@@ -214,8 +224,8 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
       // deposit notice); a 5xx says "Internal error", which tells them nothing.
       if (!res.ok || !data.ok) throw new Error(res.status < 500 && data.error ? data.error : SEND_FAILED)
 
-      trackEvent('booking_submitted', { service, sqft: sqftLabel, value: quote?.total })
-      trackLead('booking-form', { service, value: quote?.total })
+      trackEvent('booking_submitted', { service, sqft: sqftLabel, value: quote ? total : undefined })
+      trackLead('booking-form', { service, value: quote ? total : undefined })
       setStatus('done')
     } catch (err) {
       // fetch throws a TypeError ("Failed to fetch") when the connection drops.
@@ -253,7 +263,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
               <p className="text-[#4A6583] text-xs font-semibold uppercase tracking-[0.15em] mb-2">
                 Your quoted total
               </p>
-              <p className="text-[#00A896] font-black text-5xl tracking-tight">${quote.total}</p>
+              <p className="text-[#00A896] font-black text-5xl tracking-tight">${total}</p>
             </>
           ) : (
             <>
@@ -287,11 +297,11 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
   let stepNo = 0
   const next = () => ++stepNo
 
-  const priceLabel = quoteOnRequest ? 'Custom quote' : quote ? `$${quote.total}` : '—'
+  const priceLabel = quoteOnRequest ? 'Custom quote' : quote ? `$${total}` : '—'
 
   // With card payments on, a priced booking asks for its deposit up front.
-  const deposit = payOnline && quote ? depositFor(quote.total) : 0
-  const balance = quote ? quote.total - deposit : 0
+  const deposit = payOnline && quote ? depositFor(total) : 0
+  const balance = quote ? total - deposit : 0
 
   // ── FORM ──────────────────────────────────────────────────────────────────
   return (
@@ -584,6 +594,9 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
                       const x = EXTRAS.find((e) => e.label === label)
                       return x ? <Row key={label} label={x.label} value={`+$${x.price}`} muted /> : null
                     })}
+                    {newClientOff > 0 && (
+                      <Row label={`${OFFER.percent}% new-client discount`} value={`−$${newClientOff}`} accent />
+                    )}
                   </div>
                 </>
               )}
@@ -611,6 +624,21 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
                     ? 'Flat rate. No hidden fees.'
                     : 'Pick a service and home size to see your price.'}
               </p>
+
+              {quote && !quoteOnRequest && (
+                <label className="mt-3 flex items-start gap-2.5 cursor-pointer bg-[#FFF4D6] border border-[#FFD166] text-[#0F2240] text-xs font-semibold px-3 py-2.5 rounded-lg">
+                  <input
+                    type="checkbox"
+                    checked={newClient}
+                    onChange={(e) => setNewClient(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 accent-[#00A896] shrink-0"
+                  />
+                  <span>
+                    This is my first cleaning with R A Pro: take {OFFER.percent}% off
+                    (−${Math.round(quote.total * OFFER.percent / 100)})
+                  </span>
+                </label>
+              )}
 
               {deposit > 0 && (
                 <div className="mt-4 pt-4 border-t border-[#D3EDE9] space-y-2 text-sm">
@@ -669,7 +697,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
               </div>
 
               <p className="text-[#4A6583] text-xs text-center mt-4 pt-4 border-t border-[#EEF6F5]">
-                Prefer to talk? New clients get <strong className="text-[#0F2240]">{OFFER.percent}% off</strong> their first cleaning when they call{' '}
+                Prefer to talk? New clients get <strong className="text-[#0F2240]">{OFFER.percent}% off</strong> their first cleaning by phone too:{' '}
                 <a href={OFFER.phoneHref} className="text-[#00A896] font-bold hover:underline">
                   {OFFER.phoneDisplay}
                 </a>{' '}

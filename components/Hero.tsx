@@ -98,7 +98,7 @@ const Hero = () => {
                   className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-[#FFD166] text-[#0F2240] font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-lg hover:bg-[#FFC233] transition-colors"
                 >
                   <span>New clients: {OFFER.percent}% off your first cleaning</span>
-                  <span className="font-semibold">when you call {OFFER.phoneDisplay}</span>
+                  <span className="font-semibold">call {OFFER.phoneDisplay} or book today</span>
                 </a>
               </div>
 

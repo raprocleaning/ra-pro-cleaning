@@ -1,6 +1,7 @@
 /**
- * The new-client phone offer. It is honoured by whoever answers the phone, not
- * by the online price, so nothing here touches lib/pricing.ts. Change or remove
+ * The new-client offer, for a first cleaning booked by phone or online. The
+ * online total stays the list price; the office takes the discount off when it
+ * confirms a new client, so nothing here touches lib/pricing.ts. Change or remove
  * it here and every place that mentions it follows.
  */
 export const NEW_CLIENT_CALL_OFFER = {
