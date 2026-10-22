@@ -45,8 +45,6 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                 <a
                   href="/book"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 rounded-full shadow-md"
                 >
                   Book Now

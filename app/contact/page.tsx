@@ -177,8 +177,6 @@ export default function ContactPage() {
                   <p className="text-[#4A6583] text-sm mb-4">Skip the form — book online in 60 seconds.</p>
                   <a
                     href="/book"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-3 text-sm shadow-md"
                   >
                     Book Online Now →

@@ -78,8 +78,6 @@ const Footer = () => {
             </div>
             <a
               href="/book"
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-[#00A896] font-bold px-8 py-3.5 hover:bg-white/90 transition-colors text-sm flex-shrink-0"
             >
               Book Now &rarr;
@@ -214,8 +212,6 @@ const Footer = () => {
                 <li>
                   <a
                     href="/book"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="text-sm text-[#00A896] hover:text-[#00C9B5] transition-colors font-semibold"
                   >
                     Book Now →

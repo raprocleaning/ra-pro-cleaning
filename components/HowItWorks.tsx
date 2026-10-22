@@ -92,8 +92,6 @@ const HowItWorks = () => {
           <div className="text-center mt-16 fade-in-up">
             <a
               href="/book"
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#0F2240] text-white font-semibold px-8 py-4 hover:bg-[#00A896] transition-colors duration-300"
             >
               Start Now — Book in 60 Seconds
