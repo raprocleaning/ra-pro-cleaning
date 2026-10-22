@@ -5,7 +5,8 @@
  * it here and every place that mentions it follows.
  */
 export const NEW_CLIENT_CALL_OFFER = {
-  percent: 15,
+  /** Dollars off the first cleaning. */
+  amount: 50,
   phoneDisplay: '(720) 677-8799',
   phoneHref: 'tel:+17206778799',
   hours: '9 AM–5 PM',

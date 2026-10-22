@@ -95,7 +95,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
 
   // New clients take the offer off their first cleaning; the office checks
   // the box against its records when it confirms.
-  const newClientOff = quote && newClient ? Math.round(quote.total * OFFER.percent / 100) : 0
+  const newClientOff = quote && newClient ? Math.min(OFFER.amount, quote.total) : 0
   const total = quote ? quote.total - newClientOff : 0
 
   const toggleExtra = (label: string) =>
@@ -176,7 +176,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
       bookingDate: date,
       bookingTime: time,
       message: [
-        newClientOff > 0 ? `NEW CLIENT: ${OFFER.percent}% first-cleaning discount applied (−$${newClientOff}, list price $${quote?.total}).` : '',
+        newClientOff > 0 ? `NEW CLIENT: $${OFFER.amount} first-cleaning discount applied (−$${newClientOff}, list price $${quote?.total}).` : '',
         notes.trim(),
       ].filter(Boolean).join('\n'),
       smsOptIn,
@@ -595,7 +595,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
                       return x ? <Row key={label} label={x.label} value={`+$${x.price}`} muted /> : null
                     })}
                     {newClientOff > 0 && (
-                      <Row label={`${OFFER.percent}% new-client discount`} value={`−$${newClientOff}`} accent />
+                      <Row label="New-client discount" value={`−$${newClientOff}`} accent />
                     )}
                   </div>
                 </>
@@ -634,8 +634,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
                     className="mt-0.5 w-4 h-4 accent-[#00A896] shrink-0"
                   />
                   <span>
-                    This is my first cleaning with R A Pro: take {OFFER.percent}% off
-                    (−${Math.round(quote.total * OFFER.percent / 100)})
+                    This is my first cleaning with R A Pro: take ${Math.min(OFFER.amount, quote.total)} off
                   </span>
                 </label>
               )}
@@ -697,7 +696,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
               </div>
 
               <p className="text-[#4A6583] text-xs text-center mt-4 pt-4 border-t border-[#EEF6F5]">
-                Prefer to talk? New clients get <strong className="text-[#0F2240]">{OFFER.percent}% off</strong> their first cleaning by phone too:{' '}
+                Prefer to talk? New clients get <strong className="text-[#0F2240]">${OFFER.amount} off</strong> their first cleaning by phone too:{' '}
                 <a href={OFFER.phoneHref} className="text-[#00A896] font-bold hover:underline">
                   {OFFER.phoneDisplay}
                 </a>{' '}
