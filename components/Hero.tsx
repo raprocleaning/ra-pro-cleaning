@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import ContactActions from '@/components/ContactActions'
+import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 const Hero = () => {
   const parallaxRef = useRef<HTMLDivElement>(null)
@@ -89,6 +90,17 @@ const Hero = () => {
               >
                 Spotless Results On YOUR Schedule!
               </p>
+
+              {/* New-client phone offer */}
+              <div className="reveal mb-7" style={{ animationDelay: '300ms' }}>
+                <a
+                  href={OFFER.phoneHref}
+                  className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-[#FFD166] text-[#0F2240] font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-lg hover:bg-[#FFC233] transition-colors"
+                >
+                  <span>New clients: {OFFER.percent}% off your first cleaning</span>
+                  <span className="font-semibold">when you call {OFFER.phoneDisplay}</span>
+                </a>
+              </div>
 
               {/* CTAs */}
               <div className="reveal" style={{ animationDelay: '360ms' }}>

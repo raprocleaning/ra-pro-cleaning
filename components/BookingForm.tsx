@@ -6,6 +6,7 @@ import {
 import { trackEvent, trackLead } from '@/lib/analytics'
 import { depositFor, BOOKING_DRAFT_KEY } from '@/lib/deposit'
 import { getAttribution } from '@/lib/attribution'
+import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 /** Arrival windows we offer: 9 AM through 5 PM. */
 const TIME_SLOTS = Array.from({ length: 9 }, (_, i) => {
@@ -668,10 +669,11 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
               </div>
 
               <p className="text-[#4A6583] text-xs text-center mt-4 pt-4 border-t border-[#EEF6F5]">
-                Prefer to talk?{' '}
-                <a href="tel:7206778799" className="text-[#00A896] font-bold hover:underline">
-                  (720) 677-8799
-                </a>
+                Prefer to talk? New clients get <strong className="text-[#0F2240]">{OFFER.percent}% off</strong> their first cleaning when they call{' '}
+                <a href={OFFER.phoneHref} className="text-[#00A896] font-bold hover:underline">
+                  {OFFER.phoneDisplay}
+                </a>{' '}
+                ({OFFER.hours}).
               </p>
 
               {/* Both policies must be linked in the footer of every form. */}
