@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEPOSIT_DOLLARS } from '@/lib/deposit'
 import { depositsOn } from '@/lib/payments'
+import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 export const metadata: Metadata = {
   title: 'Terms of Service | R A Pro Cleaning Services',
@@ -74,6 +75,7 @@ export default function TermsPage() {
               <h2 className="text-xl font-bold text-[#0F2240] mb-3">5. Pricing &amp; Payment</h2>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Prices are provided as estimates and may be adjusted based on the actual condition and size of the property.</li>
+                <li><strong>New-client offer:</strong> {OFFER.percent}% off the first cleaning for new clients who book online or by calling {OFFER.phoneDisplay}. Online, tick the new-client box to see it in your total; we check it when we confirm the booking. One per household, first cleaning only.</li>
                 {deposit && (
                   <>
                     <li>Online bookings take a ${DEPOSIT_DOLLARS} deposit by card when you book. The deposit is credited toward your total, and the remaining balance is due upon completion of services.</li>
