@@ -23,11 +23,21 @@ import {
   SERVICES, SQFT_OPTIONS, FREQUENCIES, EXTRAS, getQuote, isQuoteOnRequest,
 } from '@/lib/pricing'
 import { toAppointmentWindow } from '@/lib/ghlCalendar'
-import { depositFor } from '@/lib/deposit'
+import { depositFor, TAKE_DEPOSIT } from '@/lib/deposit'
 import type { Attribution } from '@/lib/attribution'
 
 export function paymentsEnabled(): boolean {
   return !!process.env.STRIPE_SECRET_KEY
+}
+
+/**
+ * Whether new online bookings take a deposit. Stripe being configured is not
+ * enough: the owner can switch deposits off in lib/deposit.ts. The webhook and
+ * confirmation page keep using paymentsEnabled() so a checkout already under
+ * way when deposits are switched off still books.
+ */
+export function depositsOn(): boolean {
+  return paymentsEnabled() && TAKE_DEPOSIT
 }
 
 let client: Stripe | null = null

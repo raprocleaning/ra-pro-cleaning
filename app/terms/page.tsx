@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { DEPOSIT_DOLLARS } from '@/lib/deposit'
-import { paymentsEnabled } from '@/lib/payments'
+import { depositsOn } from '@/lib/payments'
 
 export const metadata: Metadata = {
   title: 'Terms of Service | R A Pro Cleaning Services',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   // The deposit terms only apply while /book takes a card deposit.
-  const deposit = paymentsEnabled()
+  const deposit = depositsOn()
 
   return (
     <main className="pt-20">

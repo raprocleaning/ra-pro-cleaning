@@ -5,6 +5,13 @@
  * form needs these two to show "Pay $50 now" and must not bundle server code.
  */
 
+/**
+ * Whether online bookings ask for the card deposit. Switched off by the owner
+ * (Oct 2026); set back to true to take deposits again. Stripe stays configured
+ * either way, so payments already started still complete.
+ */
+export const TAKE_DEPOSIT = false
+
 /** Charged by card when the customer books. The balance is due after the clean. */
 export const DEPOSIT_DOLLARS = 50
 

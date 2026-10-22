@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import BookPageClient from '@/components/BookPageClient'
-import { paymentsEnabled } from '@/lib/payments'
+import { depositsOn } from '@/lib/payments'
 
 export const metadata: Metadata = {
   title: 'Book a Cleaning | R A Pro Cleaning Services Denver',
@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 export default function BookPage() {
   // Read on the server so the key itself never reaches the browser — the page
   // only learns whether card payments are switched on.
-  return <BookPageClient payOnline={paymentsEnabled()} />
+  return <BookPageClient payOnline={depositsOn()} />
 }
