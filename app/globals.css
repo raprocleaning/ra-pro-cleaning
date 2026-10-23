@@ -145,6 +145,7 @@
   @media (prefers-reduced-motion: reduce) {
     .reviews-viewport { overflow-x: auto; }
     .reviews-marquee { animation: none; }
+    .reviews-toggle { display: none; }
   }
 
   /* Scrollbar hide */

@@ -53,7 +53,11 @@ const reviews = [
 ]
 
 const Reviews = () => {
-  const [paused, setPaused] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  // Set by the Pause button, so keyboard and screen-reader visitors can stop
+  // the motion too, not only people with a mouse or a finger.
+  const [stopped, setStopped] = useState(false)
+  const paused = hovered || stopped
 
   return (
     <section className="py-24 bg-[#F0FAFA]" id="reviews">
@@ -94,13 +98,14 @@ const Reviews = () => {
 
         {/* Every review rolls past on its own, phone and desktop alike. The
             list is drawn twice so the loop has no gap; the second copy is
-            hidden from screen readers. Hovering or touching pauses it. */}
+            hidden from screen readers. Hovering, touching or the Pause button
+            stops it. */}
         <div
           className="reviews-viewport -mx-6 lg:-mx-8"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onTouchStart={() => setPaused(true)}
-          onTouchEnd={() => setPaused(false)}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onTouchStart={() => setHovered(true)}
+          onTouchEnd={() => setHovered(false)}
         >
           <div className={`reviews-marquee${paused ? ' is-paused' : ''}`}>
             {[0, 1].map((copy) =>
@@ -131,6 +136,22 @@ const Reviews = () => {
               ))
             )}
           </div>
+        </div>
+
+        <div className="flex justify-center mt-6">
+          <button
+            type="button"
+            onClick={() => setStopped((v) => !v)}
+            aria-pressed={stopped}
+            className="reviews-toggle inline-flex items-center gap-2 text-xs font-semibold text-[#0F2240] border border-[#B2DFDB] bg-white px-4 py-2 hover:border-[#00A896] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#00A896]"
+          >
+            {stopped ? (
+              <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6 4l10 6-10 6V4z" /></svg>
+            ) : (
+              <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 4h3v12H5zM12 4h3v12h-3z" /></svg>
+            )}
+            {stopped ? 'Play reviews' : 'Pause reviews'}
+          </button>
         </div>
 
         {/* CTA */}
