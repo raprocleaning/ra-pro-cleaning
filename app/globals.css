@@ -118,6 +118,35 @@
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
+  /* Client reviews rolling past on their own. The track holds the list twice,
+     so sliding it by half its width lands exactly where it started. */
+  @keyframes reviews-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .reviews-viewport {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+  }
+
+  .reviews-marquee {
+    display: flex;
+    width: max-content;
+    animation: reviews-marquee 70s linear infinite;
+  }
+
+  .reviews-marquee.is-paused {
+    animation-play-state: paused;
+  }
+
+  /* No motion wanted: the reviews stay put and can be scrolled sideways. */
+  @media (prefers-reduced-motion: reduce) {
+    .reviews-viewport { overflow-x: auto; }
+    .reviews-marquee { animation: none; }
+  }
+
   /* Scrollbar hide */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
