@@ -26,6 +26,10 @@ export default function Home() {
     <main>
       <Hero />
 
+      {/* Reviews come straight after the hero: social proof is the first
+          thing a visitor from an ad or a search sees. */}
+      <Reviews />
+
       {/* About / Intro */}
       <section className="py-20 bg-[#E6F7F5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -74,7 +78,6 @@ export default function Home() {
 
       <WhyChooseUs />
       <BeforeAfter />
-      <Reviews />
       <GallerySection />
       <HowItWorks />
       <ServiceAreas />
