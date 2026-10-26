@@ -11,6 +11,13 @@ interface ServiceData {
   longDescription: string
   includes: string[]
   relatedSlugs: string[]
+  // Overrides for the search result, when the default "<name> in Denver" title
+  // and the on-page description don't match how people search for the service.
+  metaTitle?: string
+  metaDescription?: string
+  // Shown as a FAQ section and sent to Google as FAQPage data.
+  faqs?: { q: string; a: string }[]
+  quoteLinkLabel?: string
 }
 
 const servicesData: Record<string, ServiceData> = {
@@ -93,6 +100,28 @@ const servicesData: Record<string, ServiceData> = {
       'After-hours scheduling available',
     ],
     relatedSlugs: ['deep-cleaning', 'standard-cleaning', 'move-in-out'],
+    metaTitle: 'Office Cleaning Service in Denver & Aurora | R A Pro Cleaning',
+    metaDescription:
+      'Office and commercial cleaning in Denver and Aurora: desks, break rooms, restrooms and floors, with after-hours scheduling available. Request a free office quote.',
+    quoteLinkLabel: 'Request an office cleaning quote',
+    faqs: [
+      {
+        q: 'Do you clean offices after business hours?',
+        a: 'Yes. We offer flexible scheduling, including after-hours cleaning, so your team and your clients are never interrupted.',
+      },
+      {
+        q: 'What kinds of workplaces do you clean?',
+        a: 'Offices, co-working spaces, retail locations and other business environments that need to look spotless for clients and staff.',
+      },
+      {
+        q: 'Which areas do you serve?',
+        a: 'Denver, Aurora and the surrounding metro, including Lakewood, Englewood, Littleton, Centennial, Greenwood Village, Arvada, Westminster and Thornton.',
+      },
+      {
+        q: 'How do I get a quote for my office?',
+        a: 'Call or text (720) 677-8799, or send the contact form with the size of your space and how often you would like it cleaned. We reply with a quote within 24 hours.',
+      },
+    ],
   },
   'move-in-out': {
     slug: 'move-in-out',
@@ -229,8 +258,8 @@ export async function generateMetadata({
   const service = servicesData[slug]
   if (!service) return {}
   return {
-    title: `${service.name} in Denver | R A Pro Cleaning Services`,
-    description: service.description,
+    title: service.metaTitle ?? `${service.name} in Denver | R A Pro Cleaning Services`,
+    description: service.metaDescription ?? service.description,
     alternates: { canonical: `https://raprocleaningservices.com/services/${slug}` },
   }
 }
@@ -261,12 +290,28 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     ],
   }
 
+  const faqSchema = service.faqs && {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: service.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  }
+
   return (
     <main className="pt-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       {/* Hero */}
       <section className="bg-[#0F2240] py-28 relative overflow-hidden">
@@ -326,6 +371,22 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   ))}
                 </ul>
               </div>
+
+              {service.faqs && (
+                <div className="mt-12">
+                  <h2 className="text-2xl font-bold text-[#0F2240] mb-6 tracking-tight">
+                    {service.name} Questions
+                  </h2>
+                  <dl className="space-y-6">
+                    {service.faqs.map((faq) => (
+                      <div key={faq.q}>
+                        <dt className="font-semibold text-[#0F2240] mb-1">{faq.q}</dt>
+                        <dd className="text-[#4A6583] text-sm leading-relaxed">{faq.a}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -345,7 +406,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   href="/contact"
                   className="block w-full text-center text-sm text-[#4A6583] hover:text-[#00A896] transition-colors"
                 >
-                  Get a custom quote &rarr;
+                  {service.quoteLinkLabel ?? 'Get a custom quote'} &rarr;
                 </a>
 
                 <div className="mt-8 pt-8 border-t border-[#B2DFDB]">
