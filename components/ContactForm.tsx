@@ -3,6 +3,7 @@ import { useState, FormEvent } from 'react'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 import { trackEvent, trackLead } from '@/lib/analytics'
 import { getAttribution } from '@/lib/attribution'
+import { HONEYPOT_FIELD } from '@/lib/spamCheck'
 
 interface FormData {
   fullName: string
@@ -45,11 +46,14 @@ const ContactForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setStatus('sending')
+    // The hidden trap box: people never see it, bots fill in every field.
+    const trap = (e.currentTarget as HTMLFormElement).elements.namedItem(HONEYPOT_FIELD)
+    const trapValue = trap instanceof HTMLInputElement ? trap.value : ''
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, attribution: getAttribution() }),
+        body: JSON.stringify({ ...formData, [HONEYPOT_FIELD]: trapValue, attribution: getAttribution() }),
       })
       if (res.ok) {
         const leadDetails = {
@@ -160,6 +164,13 @@ const ContactForm = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 bg-[#F5FAFA] border border-[#B2DFDB] p-8">
+                {/* Spam trap: hidden from people and screen readers, filled in by bots. */}
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+                  <label>
+                    Leave this empty
+                    <input type="text" name={HONEYPOT_FIELD} tabIndex={-1} autoComplete="off" defaultValue="" />
+                  </label>
+                </div>
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-[#0F2240]">Free Quote in 24hrs</h3>
                   <p className="text-[#4A6583] text-sm mt-1">No commitment needed — just honest pricing.</p>

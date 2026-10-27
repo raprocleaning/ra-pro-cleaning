@@ -81,7 +81,9 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
     const ghlApiKey   = process.env.GHL_API_KEY
     const locationId  = process.env.GHL_LOCATION_ID || 'pjyNLih2iktAcHvgpRiN'
     const isBookingForm = bodySource === 'booking-form'
-    const isAIBooking   = bodySource === 'ai-chat' || (!!service && !isBookingForm)
+    // Only the chat sends source 'ai-chat'. The contact form also sends a
+    // service, so guessing from that labelled contact-form leads as chat leads.
+    const isAIBooking   = bodySource === 'ai-chat'
 
     // Which marketing channel produced this lead, as opposed to which form
     // they filled in. Comes from the browser, so treat it as untrusted: it is
