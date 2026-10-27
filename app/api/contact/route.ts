@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { submitLead, type LeadBody } from '@/lib/submitLead'
 import { depositsOn } from '@/lib/payments'
 import { isQuoteOnRequest } from '@/lib/pricing'
+import { checkSpam } from '@/lib/spamCheck'
 
 // nodemailer needs the Node runtime; the CRM and calendar calls are happy there too.
 export const runtime = 'nodejs'
@@ -20,6 +21,14 @@ export async function POST(req: NextRequest) {
         { ok: false, error: 'Online bookings now take a card deposit. Please refresh the page and book again.' },
         { status: 402 }
       )
+    }
+
+    // Bot submissions are answered as if they succeeded, so the bot has no
+    // reason to change tactics, but nothing is saved, emailed or texted.
+    const verdict = checkSpam(body as Record<string, unknown>)
+    if (verdict.spam) {
+      console.warn('Spam submission dropped:', verdict.reasons.join('; '))
+      return NextResponse.json({ ok: true }, { status: 200 })
     }
 
     const result = await submitLead(body)
