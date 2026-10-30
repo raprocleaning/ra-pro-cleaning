@@ -45,7 +45,7 @@ export default function GalleryPage() {
             Our Work
           </p>
           <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
-            Gallery
+            Cleaning Photo Gallery
           </h1>
           <p className="text-white/60 text-lg max-w-xl mx-auto">
             Real results from our Denver clients. Every photo tells the story of a space brought back to life.

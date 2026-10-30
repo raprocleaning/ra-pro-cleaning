@@ -2,10 +2,26 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ContactActions from '@/components/ContactActions'
+import CTABand from '@/components/CTABand'
+import { AREAS } from '@/lib/areas'
+import { BASE_TIERS, MOVE_TIERS, FREQUENCIES } from '@/lib/pricing'
+import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
+
+const BASE_URL = 'https://raprocleaningservices.com'
+
+// Read off the price list so an FAQ answer can never quote a stale number.
+const FROM_PRICE = `$${BASE_TIERS[0].price}`
+const MOVE_FROM_PRICE = `$${MOVE_TIERS[0].price}`
+const discountFor = (label: string) => FREQUENCIES.find((f) => f.label === label)?.discount ?? 0
+const WEEKLY_OFF = `${discountFor('Weekly')}%`
+const BIWEEKLY_OFF = `${discountFor('Bi-Weekly')}%`
+const AREA_LIST = AREAS.map((a) => a.city).join(', ')
 
 interface ServiceData {
   slug: string
   name: string
+  /** The page heading, when it should carry the city and not just the service name. */
+  h1?: string
   tagline: string
   description: string
   longDescription: string
@@ -40,10 +56,33 @@ const servicesData: Record<string, ServiceData> = {
       'Trash removed from all rooms',
     ],
     relatedSlugs: ['standard-cleaning', 'house-cleaning', 'move-in-out'],
+    h1: 'Deep Cleaning Services in Denver, CO',
+    metaTitle: 'Deep Cleaning Services in Denver, CO | R A Pro Cleaning',
+    metaDescription:
+      'Top-to-bottom deep house cleaning in Denver and the metro: baseboards, fixtures, grout, closets and behind appliances. See your price online and book.',
+    quoteLinkLabel: 'Request a deep cleaning quote',
+    faqs: [
+      {
+        q: 'What is the difference between a deep clean and a standard clean?',
+        a: 'A standard clean keeps up a home that is already in good shape. A deep clean goes after built-up grime: baseboards, door frames, vents, grout, inside closets and pantries, and behind and under major appliances and furniture.',
+      },
+      {
+        q: 'How much does a deep clean cost in Denver?',
+        a: `The price is set by your home’s square footage and starts at ${FROM_PRICE} for homes under 1,000 sq ft. The online booking form shows the exact price for your home size, plus any add-ons, before you book.`,
+      },
+      {
+        q: 'When should I book a deep clean?',
+        a: 'Common times are a seasonal reset, after a renovation, before starting recurring service, or when you move into a home that has not been cleaned in a while.',
+      },
+      {
+        q: 'Which areas do you deep clean?',
+        a: `Denver and the surrounding metro, including ${AREA_LIST}.`,
+      },
+    ],
   },
   'standard-cleaning': {
     slug: 'standard-cleaning',
-    name: 'Standard Cleaning',
+    name: 'Recurring Cleaning',
     tagline: 'Keep your home consistently clean with recurring service.',
     description:
       'Our standard cleaning service maintains your home on a regular schedule. Choose weekly, bi-weekly, or monthly visits for a home that always looks its best.',
@@ -60,6 +99,28 @@ const servicesData: Record<string, ServiceData> = {
       'Beds made with existing linens',
     ],
     relatedSlugs: ['deep-cleaning', 'house-cleaning', 'bedroom-cleaning'],
+    h1: 'Recurring House Cleaning & Maid Service in Denver',
+    metaTitle: 'Recurring Maid Service in Denver | Weekly & Biweekly Cleaning',
+    metaDescription: `Weekly, biweekly or every-4-weeks house cleaning in Denver and the metro. Save ${WEEKLY_OFF} on weekly visits and ${BIWEEKLY_OFF} on biweekly. See your price online.`,
+    quoteLinkLabel: 'Request a recurring cleaning quote',
+    faqs: [
+      {
+        q: 'How often can you come?',
+        a: 'Weekly, biweekly (every two weeks) or every four weeks. You pick a standing day and time that fits your schedule.',
+      },
+      {
+        q: 'Do recurring cleanings cost less?',
+        a: `Yes. Weekly visits are ${WEEKLY_OFF} off the one-time price, and biweekly or every-four-weeks visits are ${BIWEEKLY_OFF} off. The discount applies to the base clean; add-ons are charged at their listed price.`,
+      },
+      {
+        q: 'What is covered on each visit?',
+        a: 'Kitchen counters, sink and stovetop, appliance exteriors, bathrooms scrubbed, dusting throughout, floors vacuumed and mopped, mirrors and glass, trash, and beds made with existing linens.',
+      },
+      {
+        q: 'Can I skip or reschedule a visit?',
+        a: 'Yes. Give us at least 24 hours’ notice to cancel or reschedule. Changes with less notice may carry a cancellation fee.',
+      },
+    ],
   },
   'house-cleaning': {
     slug: 'house-cleaning',
@@ -80,6 +141,31 @@ const servicesData: Record<string, ServiceData> = {
       'Full home dusting including hard-to-reach areas',
     ],
     relatedSlugs: ['deep-cleaning', 'standard-cleaning', 'bedroom-cleaning'],
+    // /areas/denver already answers "house cleaning in Denver"; this page is
+    // worded around the service and the cleaners so the two do not compete.
+    h1: 'Professional House Cleaning in Denver',
+    metaTitle: 'Professional House Cleaners in Denver | R A Pro Cleaning',
+    metaDescription:
+      'Professional house cleaners for Denver homes: kitchens, bathrooms, bedrooms and living areas, one-time or recurring. See your price online and book in minutes.',
+    quoteLinkLabel: 'Request a house cleaning quote',
+    faqs: [
+      {
+        q: 'How much does house cleaning cost in Denver?',
+        a: `Pricing is based on your home’s square footage, starting at ${FROM_PRICE} for homes under 1,000 sq ft. Recurring visits are discounted ${BIWEEKLY_OFF}–${WEEKLY_OFF}. The online booking form shows your exact price before you commit.`,
+      },
+      {
+        q: 'Do you offer one-time and recurring house cleaning?',
+        a: 'Both. Book a single clean, or set up weekly, biweekly or every-four-weeks service on a standing day and time.',
+      },
+      {
+        q: 'Can you use specific products or work around allergies?',
+        a: 'Yes. Tell us about allergies, preferred products or areas to avoid when you book. Pet-friendly and eco-friendly products are available on request.',
+      },
+      {
+        q: 'Which areas do you serve?',
+        a: `Denver and the surrounding metro, including ${AREA_LIST}. Send us your ZIP code if you want it confirmed before booking.`,
+      },
+    ],
   },
   'office-cleaning': {
     slug: 'office-cleaning',
@@ -100,6 +186,7 @@ const servicesData: Record<string, ServiceData> = {
       'After-hours scheduling available',
     ],
     relatedSlugs: ['deep-cleaning', 'standard-cleaning', 'move-in-out'],
+    h1: 'Office Cleaning Services in Denver & Aurora',
     metaTitle: 'Office Cleaning Service in Denver & Aurora | R A Pro Cleaning',
     metaDescription:
       'Office and commercial cleaning in Denver and Aurora: desks, break rooms, restrooms and floors, with after-hours scheduling available. Request a free office quote.',
@@ -142,6 +229,29 @@ const servicesData: Record<string, ServiceData> = {
       'Garage sweep if applicable',
     ],
     relatedSlugs: ['deep-cleaning', 'house-cleaning', 'airbnb-cleaning'],
+    h1: 'Move-In & Move-Out Cleaning in Denver, CO',
+    metaTitle: 'Move-Out Cleaning in Denver, CO | Move-In Cleaning Too',
+    metaDescription:
+      'Move-in and move-out cleaning in Denver and the metro: inside cabinets, closets and appliances, bathrooms, baseboards and floors. See your price online.',
+    quoteLinkLabel: 'Request a move-out cleaning quote',
+    faqs: [
+      {
+        q: 'What does a move-out clean include?',
+        a: 'Inside all cabinets, drawers and closets; inside the oven, refrigerator, microwave and dishwasher; bathrooms deep cleaned; walls spot-wiped; baseboards, sills and ledges; ceiling fans and light fixtures; floors; and a garage sweep if there is one.',
+      },
+      {
+        q: 'How much does move-out cleaning cost?',
+        a: `Move-in and move-out cleans are priced by square footage, starting at ${MOVE_FROM_PRICE} for homes under 1,000 sq ft. The online booking form shows the exact price for your home.`,
+      },
+      {
+        q: 'Can you clean on short notice?',
+        a: `Often, yes. Move dates rarely go to plan, so call or text ${OFFER.phoneDisplay} with your date and we will tell you honestly what we can fit.`,
+      },
+      {
+        q: 'Do you clean for landlords and property managers?',
+        a: 'Yes. We clean between tenants for landlords and property managers as well as for renters and buyers moving in or out.',
+      },
+    ],
   },
   'airbnb-cleaning': {
     slug: 'airbnb-cleaning',
@@ -162,6 +272,29 @@ const servicesData: Record<string, ServiceData> = {
       'Inspection and damage reporting',
     ],
     relatedSlugs: ['deep-cleaning', 'standard-cleaning', 'move-in-out'],
+    h1: 'Airbnb & Short-Term Rental Cleaning in Denver',
+    metaTitle: 'Airbnb Cleaning in Denver | Short-Term Rental Turnovers',
+    metaDescription:
+      'Airbnb and short-term rental turnover cleaning in Denver: full clean, linens, restocking and damage reporting between guests. Get a quote for your property.',
+    quoteLinkLabel: 'Request an Airbnb cleaning quote',
+    faqs: [
+      {
+        q: 'Can you clean between a check-out and the next check-in?',
+        a: 'Yes. Tell us your check-out and check-in times and we schedule the turnover inside that window.',
+      },
+      {
+        q: 'Do you change linens and restock supplies?',
+        a: 'Yes, using the linens, towels, toiletries and essentials you keep at the property.',
+      },
+      {
+        q: 'Will you tell me about damage or missing items?',
+        a: 'Every turnover includes an inspection, and we report anything you need to know before the next guest arrives.',
+      },
+      {
+        q: 'How much does an Airbnb turnover cost?',
+        a: `Turnovers are priced by the unit’s square footage, starting at ${FROM_PRICE} for units under 1,000 sq ft. The online booking form shows the exact price.`,
+      },
+    ],
   },
   'kitchen-cleaning': {
     slug: 'kitchen-cleaning',
@@ -242,6 +375,29 @@ const servicesData: Record<string, ServiceData> = {
       'Final ready-for-occupancy detail cleaning',
     ],
     relatedSlugs: ['deep-cleaning', 'office-cleaning', 'move-in-out'],
+    h1: 'Post-Construction Cleaning in Denver, CO',
+    metaTitle: 'Post-Construction Cleaning in Denver, CO | R A Pro Cleaning',
+    metaDescription:
+      'Post-construction and post-renovation cleaning in Denver: fine dust, residue, labels, fixtures, windows and floors, cleaned ready for move-in. Request a quote.',
+    quoteLinkLabel: 'Request a post-construction quote',
+    faqs: [
+      {
+        q: 'Why is there no instant price for post-construction cleaning?',
+        a: 'Two jobs of the same size can differ by many hours depending on dust, paint overspray and grout haze. We collect the details first and then give you a quote, rather than guessing a number sight unseen.',
+      },
+      {
+        q: 'Who do you clean for after construction?',
+        a: 'Homeowners after a remodel, landlords and property managers getting a unit ready for tenants, and contractors handing over a finished job.',
+      },
+      {
+        q: 'What do you remove?',
+        a: 'Fine construction dust, residue, light debris and stickers or labels, plus a full clean of cabinets, counters, fixtures, interior windows, trim and floors. Tell us about anything larger when you request the quote.',
+      },
+      {
+        q: 'How do I get a quote?',
+        a: `Call or text ${OFFER.phoneDisplay}, or send the contact form with the size of the space and what work was done.`,
+      },
+    ],
   },
 }
 
@@ -260,7 +416,7 @@ export async function generateMetadata({
   return {
     title: service.metaTitle ?? `${service.name} in Denver | R A Pro Cleaning Services`,
     description: service.metaDescription ?? service.description,
-    alternates: { canonical: `https://raprocleaningservices.com/services/${slug}` },
+    alternates: { canonical: `${BASE_URL}/services/${slug}` },
   }
 }
 
@@ -290,6 +446,20 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     ],
   }
 
+  // The service itself, tied to the business in the root layout by its @id so
+  // search engines read it as one company offering this across these cities.
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${BASE_URL}/services/${service.slug}#service`,
+    name: service.h1 ?? service.name,
+    serviceType: service.name,
+    description: service.metaDescription ?? service.description,
+    url: `${BASE_URL}/services/${service.slug}`,
+    provider: { '@id': `${BASE_URL}/#business` },
+    areaServed: AREAS.map((area) => ({ '@type': 'City', name: `${area.city}, CO` })),
+  }
+
   const faqSchema = service.faqs && {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -306,6 +476,10 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       {faqSchema && (
         <script
           type="application/ld+json"
@@ -314,7 +488,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* Hero */}
-      <section className="bg-[#0F2240] py-28 relative overflow-hidden">
+      <section className="bg-[#0F2240] py-16 md:py-28 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -333,10 +507,18 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           <p className="text-[#00A896] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             Our Services
           </p>
-          <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-4">
-            {service.name}
+          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4">
+            {service.h1 ?? service.name}
           </h1>
-          <p className="text-white/70 text-xl">{service.tagline}</p>
+          <p className="text-white/70 text-xl mb-8">{service.tagline}</p>
+          {/* On a phone the sidebar quote box stacks below the whole page, so
+              the hero carries the first call to action. */}
+          <ContactActions
+            className="flex flex-col sm:flex-row gap-4"
+            bookLabel="Get a Free Quote"
+            primaryClassName="inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 text-center"
+            secondaryClassName="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-8 py-4 text-center"
+          />
         </div>
       </section>
 
@@ -457,6 +639,37 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           </div>
         </section>
       )}
+
+      {/* Where we do it: links each service to the city pages, and back */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-[#0F2240] mb-4 tracking-tight">
+            {service.name} Across the Denver Metro
+          </h2>
+          <p className="text-[#4A6583] leading-relaxed mb-6 max-w-3xl">
+            We provide {service.name.toLowerCase()} in Denver and these nearby communities. Not
+            sure if your street is covered? Send us your ZIP code and we will confirm.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {AREAS.map((area) => (
+              <Link
+                key={area.slug}
+                href={`/areas/${area.slug}`}
+                className="border border-[#B2DFDB] text-[#0F2240] text-sm px-4 py-2 hover:border-[#00A896] hover:text-[#00A896] transition-colors"
+              >
+                {area.city}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CTABand
+        eyebrow={`New clients: $${OFFER.amount} off your first cleaning`}
+        heading={`Ready to Book ${service.name}?`}
+        subheading="Call, text or book online. Send a quote request and we reply within 24 hours."
+        variant="navy"
+      />
     </main>
   )
 }

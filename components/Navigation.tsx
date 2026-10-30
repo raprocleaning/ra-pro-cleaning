@@ -25,7 +25,7 @@ const Navigation = () => {
   const services = [
     { name: 'House Cleaning', href: '/services/house-cleaning' },
     { name: 'Deep Cleaning', href: '/services/deep-cleaning' },
-    { name: 'Standard Cleaning', href: '/services/standard-cleaning' },
+    { name: 'Recurring Cleaning', href: '/services/standard-cleaning' },
     { name: 'Office Cleaning', href: '/services/office-cleaning' },
     { name: 'Move In/Out Cleaning', href: '/services/move-in-out' },
     { name: 'Airbnb Cleaning', href: '/services/airbnb-cleaning' },
@@ -35,6 +35,7 @@ const Navigation = () => {
   const whyUs = [
     { name: 'About Us', href: '/about' },
     { name: 'Gallery', href: '/gallery' },
+    { name: 'Service Areas', href: '/areas' },
     { name: 'Cleaning Checklist', href: '/about#checklist' },
   ]
 
@@ -160,6 +161,26 @@ const Navigation = () => {
               className="bg-[#00B894] hover:bg-[#00a382] text-white font-semibold px-5 py-2 rounded-full transition-all shadow-md text-sm inline-block"
             >
               Book Now
+            </Link>
+          </div>
+
+          {/* Mobile call/text + Book, so a phone visitor can act without opening
+              the menu. Same time-of-day rule as the desktop button. */}
+          <div className="flex lg:hidden items-center gap-2 ml-auto mr-2">
+            <a
+              href={mode === 'phone' ? 'tel:7206778799' : 'sms:7206778799'}
+              aria-label={mode === 'phone' ? 'Call (720) 677-8799' : 'Text (720) 677-8799'}
+              className={`border-2 border-[#00B894] text-[#00B894] font-semibold px-3 py-1.5 rounded-full text-sm ${
+                mode === null ? 'invisible' : ''
+              }`}
+            >
+              {mode === 'phone' ? 'Call' : 'Text'}
+            </a>
+            <Link
+              href="/book"
+              className="bg-[#00B894] text-white font-semibold px-4 py-2 rounded-full shadow-md text-sm"
+            >
+              Book
             </Link>
           </div>
 

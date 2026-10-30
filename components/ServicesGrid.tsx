@@ -15,7 +15,7 @@ const services = [
   },
   {
     slug: 'standard-cleaning',
-    name: 'Standard Cleaning',
+    name: 'Recurring Cleaning',
     description: 'Recurring maintenance cleaning to keep your home consistently pristine and welcoming.',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">

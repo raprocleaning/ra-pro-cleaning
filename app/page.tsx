@@ -24,6 +24,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main>
+      {/* The hero photo is a CSS background, which the browser only finds after
+          the stylesheet loads. Preloading it starts the download with the HTML,
+          since it is the largest thing on screen at first paint. */}
+      <link rel="preload" as="image" href="/gallery/kitchen-3.jpg" fetchPriority="high" />
       <Hero />
 
       {/* Reviews come straight after the hero: social proof is the first

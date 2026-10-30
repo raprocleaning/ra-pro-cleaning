@@ -59,13 +59,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
         serviceType: 'House Cleaning',
         name: `House Cleaning Services in ${area.city}, CO`,
         description: area.metaDescription,
-        provider: {
-          '@type': 'LocalBusiness',
-          name: 'R A Pro Cleaning Services LLC',
-          telephone: '+1-720-677-8799',
-          email: 'ra@raprocleaningservices.com',
-          url: BASE_URL,
-        },
+        provider: { '@id': `${BASE_URL}/#business` },
         areaServed: {
           '@type': 'City',
           name: area.city,
