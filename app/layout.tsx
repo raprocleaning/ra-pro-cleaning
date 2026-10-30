@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://raprocleaningservices.com'),
   title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
   description:
-    '5.0-star cleaning services serving Denver, Aurora and the Denver metro. House cleaning, deep cleaning, move in/out, Airbnb, office and post-construction cleaning.',
+    'House cleaning, deep cleaning, move-out, Airbnb, office and post-construction cleaning across Denver, Aurora and the metro. See your price online and book.',
   keywords:
     'cleaning services Denver, house cleaning Aurora CO, cleaning services Aurora, house cleaning Denver CO, deep cleaning Denver, move out cleaning Aurora, Airbnb cleaning Denver, office cleaning Denver',
   openGraph: SITE_OPEN_GRAPH,
@@ -23,8 +23,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    '@id': 'https://raprocleaningservices.com',
+    // HousekeepingService is schema.org's LocalBusiness subtype for cleaning
+    // companies (there is no "CleaningService" type). The @id is what the
+    // service and area pages point their `provider` at.
+    '@type': 'HousekeepingService',
+    '@id': 'https://raprocleaningservices.com/#business',
     name: 'R A Pro Cleaning Services LLC',
     image: 'https://raprocleaningservices.com/ra-logo.jpeg',
     logo: 'https://raprocleaningservices.com/ra-logo.jpeg',
@@ -52,13 +55,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       'https://www.facebook.com/raprocleaningservice',
       'https://www.linkedin.com/in/ra-pro-cleaning-service/',
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '5',
-      reviewCount: '48',
-      bestRating: '5',
-      worstRating: '1',
-    },
+    // No aggregateRating here: Google does not show stars for a business's
+    // ratings of itself, and a hand-typed review count goes stale the day a new
+    // review lands. The Google Business Profile carries the real number.
     priceRange: '$$',
     // When somebody answers the phone. Online booking never closes, but that
     // is not what openingHours means to a search result.

@@ -3,9 +3,9 @@ import Link from 'next/link'
 import ContactActions from '@/components/ContactActions'
 
 export const metadata: Metadata = {
-  title: 'Our Services | R A Pro Cleaning Services Denver',
+  title: 'Cleaning Services in Denver, CO | R A Pro Cleaning Services',
   description:
-    'Professional cleaning services in Denver: deep cleaning, standard cleaning, house cleaning, office cleaning, Airbnb turnover, move in/out, and more.',
+    'House, recurring, deep, move-in/out, Airbnb, office and post-construction cleaning in Denver and the metro. Compare services, see your price and book online.',
   alternates: { canonical: 'https://raprocleaningservices.com/services' },
 }
 
@@ -19,7 +19,7 @@ const services = [
   },
   {
     slug: 'standard-cleaning',
-    name: 'Standard Cleaning',
+    name: 'Recurring Cleaning',
     description:
       'Recurring maintenance cleaning that keeps your home consistently clean and welcoming. Choose weekly, bi-weekly, or monthly visits.',
     badge: 'Best Value',
@@ -100,7 +100,7 @@ export default function ServicesPage() {
             What We Offer
           </p>
           <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
-            Our Services
+            Cleaning Services in Denver
           </h1>
           <p className="text-white/60 text-lg max-w-xl mx-auto">
             Professional cleaning solutions for every space in Denver and the surrounding metro area.

@@ -90,7 +90,6 @@ export default function BeforeAfter() {
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 896px"
-                        priority
                       />
                       {/* Before / After labels */}
                       <div className="absolute inset-0 flex">

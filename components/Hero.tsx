@@ -76,8 +76,8 @@ const Hero = () => {
                   textShadow: '0 3px 24px rgba(15,34,64,0.75), 0 1px 3px rgba(15,34,64,0.5)',
                 }}
               >
-                Residential Cleaning<br className="hidden sm:inline" />
-                {' '}Service Denver Metro
+                House Cleaning Services<br className="hidden sm:inline" />
+                {' '}in the Denver Metro
               </h1>
 
               {/* Italic tagline on a translucent band */}

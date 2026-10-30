@@ -3,6 +3,19 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { posts } from '@/lib/blog'
 
+const BASE_URL = 'https://raprocleaningservices.com'
+
+/** The intro cut to fit a search snippet, on a word boundary rather than mid-word. */
+function snippet(text: string, max = 155): string {
+  if (text.length <= max) return text
+  return text.slice(0, text.lastIndexOf(' ', max - 1)).replace(/[,;:.]$/, '') + '…'
+}
+
+/** "September 13, 2026" → "2026-09-13", the form structured data expects. */
+function isoDate(date: string): string | undefined {
+  const parsed = new Date(`${date} 12:00 UTC`)
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed.toISOString().slice(0, 10)
+}
 
 export async function generateStaticParams() {
   return Object.keys(posts).map((slug) => ({ slug }))
@@ -13,9 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = posts[slug]
   if (!post) return {}
   return {
-    title: `${post.title} | R A Pro Cleaning Services Blog`,
-    description: post.intro.slice(0, 160),
-    alternates: { canonical: `https://raprocleaningservices.com/blog/${slug}` },
+    // The short brand suffix keeps most post titles inside the ~60 characters
+    // a search result shows before cutting them off.
+    title: `${post.title} | R A Pro Cleaning`,
+    description: snippet(post.intro),
+    alternates: { canonical: `${BASE_URL}/blog/${slug}` },
   }
 }
 
@@ -26,8 +41,38 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const otherPosts = Object.values(posts).filter((p) => p.slug !== post.slug)
 
+  const url = `${BASE_URL}/blog/${post.slug}`
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${url}#article`,
+        headline: post.title,
+        description: snippet(post.intro),
+        datePublished: isoDate(post.date),
+        mainEntityOfPage: url,
+        image: `${BASE_URL}/ra-logo.jpeg`,
+        author: { '@id': `${BASE_URL}/#business` },
+        publisher: { '@id': `${BASE_URL}/#business` },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE_URL}/blog` },
+          { '@type': 'ListItem', position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
+  }
+
   return (
     <main className="pt-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       {/* Hero */}
       <section className="bg-[#1A2B4B] py-24 relative overflow-hidden">
         <div
