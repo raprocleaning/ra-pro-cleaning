@@ -79,7 +79,7 @@ const Reviews = () => {
               ))}
             </div>
             <p className="text-[#4A6583] text-base">
-              <span className="font-bold text-[#0F2240]">48</span> Verified Five-Star Google Reviews
+              <span className="font-bold text-[#0F2240]">49</span> Verified Five-Star Google Reviews
             </p>
           </div>
         </div>
