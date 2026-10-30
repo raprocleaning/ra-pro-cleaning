@@ -69,7 +69,7 @@ const rooms = [
       'Tables, shelves & decor wiped',
       'TV screens & electronics dusted',
       'Stairs vacuumed',
-      'Baseboards & door frames wiped',
+      'Baseboards dusted & door frames wiped',
       'Hard floors vacuumed & mopped',
       'Cobwebs removed from corners',
     ],

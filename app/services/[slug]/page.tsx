@@ -72,8 +72,8 @@ const servicesData: Record<string, ServiceData> = {
         a: `The price is set by your home’s square footage and starts at ${FROM_PRICE} for homes under 1,000 sq ft. The online booking form shows the exact price for your home size, plus any add-ons, before you book.`,
       },
       {
-        q: 'Is inside the oven or baseboard cleaning included?',
-        a: `Those are add-ons you choose when you book, so you only pay for what your home needs: inside the oven ${extraPrice('Inside Oven')}, inside the fridge ${extraPrice('Inside Fridge')}, inside cabinets ${extraPrice('Inside Cabinets')} and baseboards ${extraPrice('Baseboards')}. The booking form adds them to your total before you confirm.`,
+        q: 'Are inside the oven and baseboard wipe-downs included?',
+        a: `Those are add-ons you choose when you book, so you only pay for what your home needs: inside the oven ${extraPrice('Inside Oven')}, inside the fridge ${extraPrice('Inside Fridge')}, inside cabinets ${extraPrice('Inside Cabinets')} and a full baseboard wipe-down ${extraPrice('Baseboards')}. The booking form adds them to your total before you confirm.`,
       },
       {
         q: 'When should I book a deep clean?',
