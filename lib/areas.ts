@@ -252,7 +252,7 @@ export const AREAS: Area[] = [
       'R A Pro Cleaning Services cleans family homes across Littleton — downtown’s older streets, the Ken Caryl valley, Columbine and the newer developments toward Roxborough.',
     body: [
       'Littleton is family-home territory: multi-level houses, several bathrooms, finished basements and garages that see constant traffic. Those homes reward a consistent recurring schedule more than an occasional rescue clean, and most of our Littleton clients run biweekly year-round.',
-      'We also do seasonal deep cleans, which in this part of the metro usually means spring and the run-up to the holidays — inside the oven and refrigerator, cabinet fronts, window sills, baseboards and light fixtures, on top of the standard clean.',
+      'We also do seasonal deep cleans, which in this part of the metro usually means spring and the run-up to the holidays — cabinet fronts, window sills, light fixtures and detailed bathrooms on top of the standard clean, with inside the oven, inside the refrigerator and baseboards available as add-ons.',
     ],
     neighborhoods: [
       'Downtown Littleton',
@@ -272,7 +272,7 @@ export const AREAS: Area[] = [
       },
       {
         title: 'Seasonal deep cleans',
-        body: 'Spring and pre-holiday deep cleans covering inside appliances, cabinet fronts, sills, baseboards and fixtures.',
+        body: 'Spring and pre-holiday deep cleans covering cabinet fronts, sills, light fixtures and detailed bathrooms, plus inside-appliance and baseboard add-ons when you want them.',
       },
       {
         title: 'Post-construction cleanup',
@@ -286,7 +286,7 @@ export const AREAS: Area[] = [
       },
       {
         q: 'What is the difference between a standard and a deep clean?',
-        a: 'A standard clean covers the regular surfaces, floors, kitchen and bathrooms. A deep clean adds inside the oven and refrigerator, cabinet fronts, window sills, baseboards, light fixtures and detailed bathroom work. Most homes start with a deep clean and continue on standard visits.',
+        a: 'A standard clean covers the regular surfaces, floors, kitchen and bathrooms. A deep clean adds cabinet fronts, window sills, light fixtures and detailed bathroom work. Inside the oven, inside the refrigerator and baseboards are add-ons you can choose when booking. Most homes start with a deep clean and continue on standard visits.',
       },
       {
         q: 'Do you clean after a remodel?',

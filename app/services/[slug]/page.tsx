@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import ContactActions from '@/components/ContactActions'
 import CTABand from '@/components/CTABand'
 import { AREAS } from '@/lib/areas'
-import { BASE_TIERS, MOVE_TIERS, FREQUENCIES } from '@/lib/pricing'
+import { BASE_TIERS, MOVE_TIERS, FREQUENCIES, EXTRAS } from '@/lib/pricing'
 import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 const BASE_URL = 'https://raprocleaningservices.com'
@@ -16,6 +16,7 @@ const discountFor = (label: string) => FREQUENCIES.find((f) => f.label === label
 const WEEKLY_OFF = `${discountFor('Weekly')}%`
 const BIWEEKLY_OFF = `${discountFor('Bi-Weekly')}%`
 const AREA_LIST = AREAS.map((a) => a.city).join(', ')
+const extraPrice = (label: string) => `$${EXTRAS.find((e) => e.label === label)?.price ?? ''}`
 
 interface ServiceData {
   slug: string
@@ -42,14 +43,14 @@ const servicesData: Record<string, ServiceData> = {
     name: 'Deep Cleaning',
     tagline: 'The most thorough clean your home has ever had.',
     description:
-      'Our deep cleaning service covers every inch of your home — from ceiling fans to baseboards, inside appliances, behind furniture, and every surface in between.',
+      'Our deep cleaning service covers your home top to bottom — from ceiling fans and light fixtures to grout lines, closets, and the spots behind and under furniture and appliances.',
     longDescription:
-      "Deep cleaning goes beyond surface-level tidying. We target the buildup that accumulates over time: inside your oven, behind your refrigerator, grout lines in your bathroom tiles, and all the hard-to-reach spots that standard cleaning skips. Ideal for a seasonal reset, after a renovation, or when you're taking over a new home.",
+      "Deep cleaning goes beyond surface-level tidying. We target the buildup that accumulates over time: behind your refrigerator, grout lines in your bathroom tiles, and all the hard-to-reach spots that standard cleaning skips. Ideal for a seasonal reset, after a renovation, or when you're taking over a new home.",
     includes: [
       'All rooms: ceiling fans, light fixtures, and vents dusted',
-      'Kitchen: inside oven, microwave, refrigerator exterior, all cabinets wiped',
+      'Kitchen: inside microwave, refrigerator exterior, cabinet fronts wiped',
       'Bathrooms: scrubbing grout, descaling fixtures, sanitizing all surfaces',
-      'All baseboards, window sills, and door frames cleaned',
+      'Window sills and door frames wiped',
       'Inside all closets and pantries',
       'Behind and under major appliances and furniture',
       'Floors vacuumed and mopped throughout',
@@ -59,16 +60,20 @@ const servicesData: Record<string, ServiceData> = {
     h1: 'Deep Cleaning Services in Denver, CO',
     metaTitle: 'Deep Cleaning Services in Denver, CO | R A Pro Cleaning',
     metaDescription:
-      'Top-to-bottom deep house cleaning in Denver and the metro: baseboards, fixtures, grout, closets and behind appliances. See your price online and book.',
+      'Top-to-bottom deep house cleaning in Denver and the metro: fixtures, vents, grout, closets and behind appliances. See your price online and book.',
     quoteLinkLabel: 'Request a deep cleaning quote',
     faqs: [
       {
         q: 'What is the difference between a deep clean and a standard clean?',
-        a: 'A standard clean keeps up a home that is already in good shape. A deep clean goes after built-up grime: baseboards, door frames, vents, grout, inside closets and pantries, and behind and under major appliances and furniture.',
+        a: 'A standard clean keeps up a home that is already in good shape. A deep clean goes after built-up grime: door frames, vents, light fixtures, grout, inside closets and pantries, and behind and under major appliances and furniture.',
       },
       {
         q: 'How much does a deep clean cost in Denver?',
         a: `The price is set by your home’s square footage and starts at ${FROM_PRICE} for homes under 1,000 sq ft. The online booking form shows the exact price for your home size, plus any add-ons, before you book.`,
+      },
+      {
+        q: 'Is inside the oven or baseboard cleaning included?',
+        a: `Those are add-ons you choose when you book, so you only pay for what your home needs: inside the oven ${extraPrice('Inside Oven')}, inside the fridge ${extraPrice('Inside Fridge')}, inside cabinets ${extraPrice('Inside Cabinets')} and baseboards ${extraPrice('Baseboards')}. The booking form adds them to your total before you confirm.`,
       },
       {
         q: 'When should I book a deep clean?',
