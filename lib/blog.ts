@@ -254,7 +254,7 @@ export const posts: Record<string, BlogPost> = {
         heading: 'The Difference Between Standard and Deep Cleaning',
         content: [
           'Standard cleaning covers the surfaces you see and use every day: counters, sinks, floors, dusting. It\'s maintenance — essential, but not enough on its own.',
-          'Deep cleaning goes further: inside appliances, behind furniture, inside cabinets, baseboards, ceiling fans, grout, and all the areas that accumulate grime over weeks and months. It\'s the reset that standard cleaning maintains.',
+          'Deep cleaning goes further: behind furniture, ceiling fans, light fixtures, vents, grout, and all the areas that accumulate grime over weeks and months. It\'s the reset that standard cleaning maintains. Inside appliances, inside cabinets and baseboards are often added on at the same visit.',
         ],
       },
       {

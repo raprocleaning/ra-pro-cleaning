@@ -27,6 +27,25 @@ const OLD_SITE_REDIRECTS = [
   ['/blog/office-cleaning-checklist-daily-weekly-and-monthly-tasks', '/services/office-cleaning'],
   ['/blog/homemade-bathroom-cleaners', '/blog'],
   ['/blog/the-10-best-cleaning-tools', '/blog'],
+
+  // Addresses WordPress generates on every site (feeds, archives, paging),
+  // plus the usual names for pages this site keeps elsewhere. Only ones with
+  // a real match are listed: sending a dead address to an unrelated page is
+  // something Google reports as a "soft 404" anyway.
+  ['/feed', '/blog'],
+  ['/comments/feed', '/blog'],
+  ['/category/:slug*', '/blog'],
+  ['/tag/:slug*', '/blog'],
+  ['/author/:slug*', '/about'],
+  ['/blog/page/:n', '/blog'],
+  ['/page/:n', '/blog'],
+  ['/home', '/'],
+  ['/contact-us', '/contact'],
+  ['/book-now', '/book'],
+  ['/booking', '/book'],
+  ['/faq', '/#faq'],
+  ['/faqs', '/#faq'],
+  ['/service-areas', '/areas'],
 ]
 
 const nextConfig = {
