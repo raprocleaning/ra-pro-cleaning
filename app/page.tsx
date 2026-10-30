@@ -47,7 +47,7 @@ export default function Home() {
             <p className="text-[#4A6583] text-lg leading-relaxed">
               R A Pro Cleaning Services LLC brings Denver and Aurora homeowners and businesses a premium
               cleaning experience built on trust, attention to detail, and exceptional results.
-              With 48 five-star Google reviews and a team of fully licensed and insured professionals,
+              With 49 five-star Google reviews and a team of fully licensed and insured professionals,
               we deliver the kind of clean that makes you proud of your space.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
@@ -89,7 +89,7 @@ export default function Home() {
       <CTABand
         eyebrow="Denver & Aurora"
         heading="Book Your Clean In 60 Seconds"
-        subheading="Licensed, insured, and rated 5.0 across 48 Google reviews. Pick a time that works for you — we'll handle the rest."
+        subheading="Licensed, insured, and rated 5.0 across 49 Google reviews. Pick a time that works for you — we'll handle the rest."
         variant="navy"
       />
 
