@@ -42,7 +42,7 @@ export default function BookPageClient({ payOnline = false }: { payOnline?: bool
           </p>
 
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-2.5 text-white/60 text-[13px]">
-            {['⭐ 4.9 Google Rating', '49 Reviews', '🔒 Licensed & Insured', '👩 Women-Owned'].map(b => (
+            {['⭐ 4.9 Google Rating', '49 Reviews', '🔒 Licensed & Insured', '✅ 24-Hour Re-Clean Guarantee', '👩 Women-Owned'].map(b => (
               <span key={b} className="bg-white/[0.07] border border-white/10 rounded-full px-4 py-1.5">
                 {b}
               </span>

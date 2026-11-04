@@ -142,6 +142,7 @@ export const AREAS: Area[] = [
           { title: 'Upfront pricing', body: 'You see your price before you book. No in-home sales visit and no surprise fees.' },
           { title: 'Women-owned and multilingual', body: 'A locally owned Denver business. We speak English, Arabic and French.' },
           { title: 'Licensed and insured', body: 'For your peace of mind in your home or office.' },
+          { title: '24-hour re-clean guarantee', body: 'Not happy with something? Tell us within 24 hours of your clean and we come back to fix it at no extra charge.' },
           { title: 'Flexible scheduling', body: 'Standing weekly or biweekly slots, one-time cleans, and after-hours office cleaning.' },
           { title: '4.9★ on Google', body: 'Rated by Denver-area homeowners, renters, hosts and businesses.' },
         ],

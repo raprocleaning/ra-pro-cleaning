@@ -137,7 +137,7 @@ const ContactForm = () => {
 
             {/* Badges */}
             <div className="flex flex-wrap gap-3">
-              {['Licensed', 'Insured', '4.9★ on Google', 'Denver Metro Local'].map((b) => (
+              {['Licensed & Insured', '4.9★ on Google', '24-Hour Re-Clean Guarantee', 'Denver Metro Local'].map((b) => (
                 <span key={b} className="inline-flex items-center gap-1.5 bg-[#E6F7F5] text-[#007A6C] text-xs font-semibold px-3 py-1.5">
                   <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

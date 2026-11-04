@@ -18,7 +18,7 @@ const slides = [
   {
     label: 'Airbnb Turnover',
     src: '/gallery/fridge-before-after.jpg',
-    desc: 'Fast professional turnover between guests — 5-star host rating guaranteed',
+    desc: 'Fast professional turnover between guests, ready for 5-star guest reviews',
     tag: 'Airbnb',
   },
 ]
