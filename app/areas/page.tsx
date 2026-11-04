@@ -29,7 +29,7 @@ export default function ServiceAreasPage() {
             Cleaning Services Across the Denver Metro
           </h1>
           <p className="text-white/70 text-lg max-w-3xl">
-            Licensed, insured and rated 5.0 on Google. Pick your city below for local details, or
+            Licensed, insured and rated 4.9 on Google. Pick your city below for local details, or
             call (720) 677-8799 if you do not see yours — we may still cover it.
           </p>
         </div>

@@ -13,7 +13,7 @@ const teamMembers = [
     name: 'Houda',
     role: 'Cleaning Service Manager',
     initials: 'H',
-    bio: 'With years of hands-on experience in professional cleaning, Houda leads every job with an eye for detail and a commitment to going above and beyond. Her clients\' consistent 5-star reviews reflect her dedication to exceptional work.',
+    bio: 'With years of hands-on experience in professional cleaning, Houda leads every job with an eye for detail and a commitment to going above and beyond. Her clients\' strong Google reviews reflect her dedication to exceptional work.',
   },
   {
     name: 'Timothy Powell',
@@ -132,14 +132,14 @@ export default function AboutPage() {
                 surface, paying attention to the details that other cleaners overlook.
               </p>
               <p className="text-[#4A6583] leading-relaxed">
-                With 49 five-star Google reviews, a fully licensed and insured team, and a track record of
+                Rated 4.9★ across 49 Google reviews, with a fully licensed and insured team, and a track record of
                 excellence throughout the Denver metro area, we&apos;re proud to be the cleaning service
                 that Denver trusts.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { value: '49', label: '5-Star Reviews' },
+                { value: '4.9★', label: '49 Google Reviews' },
                 { value: '100%', label: 'Licensed & Insured' },
                 { value: '5+', label: 'Years in Denver' },
                 { value: '200+', label: 'Homes Cleaned' },
