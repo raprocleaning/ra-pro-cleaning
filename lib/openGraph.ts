@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 // add its own `url` without losing the rest.
 export const SITE_OPEN_GRAPH: NonNullable<Metadata['openGraph']> = {
   title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
-  description: '5.0-star cleaning services serving Denver, Aurora and surrounding communities. Get a fast online quote.',
+  description: '4.9-star cleaning services serving Denver, Aurora and surrounding communities. Get a fast online quote.',
   siteName: 'R A Pro Cleaning Services',
   locale: 'en_US',
   type: 'website',

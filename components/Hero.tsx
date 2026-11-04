@@ -123,9 +123,9 @@ const Hero = () => {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-6 pb-36 sm:pb-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { value: '49', label: 'Five-Star Google Reviews' },
+                { value: '49', label: 'Google Reviews' },
                 { value: '100%', label: 'Licensed & Insured' },
-                { value: '5.0★', label: 'Google Rating' },
+                { value: '4.9★', label: 'Google Rating' },
                 { value: '< 24h', label: 'Quote Response' },
               ].map((b) => (
                 <div key={b.label} className="flex items-center gap-3">
