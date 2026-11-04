@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AREAS, getArea } from '@/lib/areas'
 import ContactActions from '@/components/ContactActions'
+import { BASE_TIERS, MOVE_TIERS, SQFT_OPTIONS, EXTRAS } from '@/lib/pricing'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -129,7 +130,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
             Serving {area.city}, Colorado
           </p>
           <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-6">
-            House Cleaning Services in {area.city}, CO
+            {area.h1 ?? `House Cleaning Services in ${area.city}, CO`}
           </h1>
           <p className="text-white/70 text-lg max-w-3xl mb-8">{area.intro}</p>
           <ContactActions
@@ -146,7 +147,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
         <div className="max-w-5xl mx-auto px-6 lg:px-8 grid md:grid-cols-2 gap-14">
           <div>
             <h2 className="text-3xl font-black text-[#0F2240] mb-5">
-              Cleaning for {area.city} Homes and Businesses
+              {area.bodyHeading ?? `Cleaning for ${area.city} Homes and Businesses`}
             </h2>
             {area.body.map((paragraph) => (
               <p key={paragraph.slice(0, 40)} className="text-[#4A6583] leading-relaxed mb-6">
@@ -186,6 +187,109 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
           </div>
         </div>
       </section>
+
+      {/* Optional long-form sections */}
+      {area.sections?.map((section, i) => (
+        <section
+          key={section.heading}
+          className={`py-20 ${i % 2 === 0 ? 'bg-white' : 'bg-[#F7FAFC]'}`}
+        >
+          <div className="max-w-5xl mx-auto px-6 lg:px-8">
+            <h2 className="text-3xl font-black text-[#0F2240] mb-8">{section.heading}</h2>
+            {section.paragraphs?.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)} className="text-[#4A6583] leading-relaxed mb-6 max-w-3xl">
+                {paragraph}
+              </p>
+            ))}
+            {section.items && (
+              <div className="grid md:grid-cols-2 gap-6">
+                {section.items.map((item) => (
+                  <div key={item.title} className="border border-[#E2E8F0] bg-white p-7">
+                    <h3 className="text-lg font-bold text-[#0F2240] mb-3">
+                      {item.href ? (
+                        <Link href={item.href} className="hover:text-[#00A896] transition-colors">
+                          {item.title} →
+                        </Link>
+                      ) : (
+                        item.title
+                      )}
+                    </h3>
+                    <p className="text-[#4A6583] text-sm leading-relaxed">{item.body}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {section.steps && (
+              <ol className="grid md:grid-cols-3 gap-6">
+                {section.steps.map((step, n) => (
+                  <li key={step.title} className="border border-[#E2E8F0] bg-white p-7">
+                    <span className="text-[#00A896] font-black text-2xl">{n + 1}</span>
+                    <h3 className="text-lg font-bold text-[#0F2240] mt-2 mb-3">{step.title}</h3>
+                    <p className="text-[#4A6583] text-sm leading-relaxed">{step.body}</p>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        </section>
+      ))}
+
+      {/* Optional price table, read live from lib/pricing.ts so it can never drift */}
+      {area.showPricing && (
+        <section className="py-20 bg-white">
+          <div className="max-w-5xl mx-auto px-6 lg:px-8">
+            <h2 className="text-3xl font-black text-[#0F2240] mb-5">
+              Upfront {area.city} Cleaning Prices
+            </h2>
+            <p className="text-[#4A6583] leading-relaxed mb-8 max-w-3xl">
+              Your price is based on your home&apos;s size, not a guess. You see the exact total on
+              our booking page before you confirm. Include a finished basement in your square footage
+              so your price is accurate.
+            </p>
+            <div className="overflow-x-auto mb-8">
+              <table className="w-full text-left border border-[#E2E8F0] text-sm">
+                <thead className="bg-[#0F2240] text-white">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold">Home size</th>
+                    <th className="px-4 py-3 font-semibold">Standard or deep clean</th>
+                    <th className="px-4 py-3 font-semibold">Move-in / move-out clean</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {SQFT_OPTIONS.map((option, idx) => (
+                    <tr key={option.label} className={idx % 2 ? 'bg-[#F7FAFC]' : 'bg-white'}>
+                      <td className="px-4 py-3 text-[#0F2240]">{option.label}</td>
+                      <td className="px-4 py-3 text-[#4A6583]">
+                        ${BASE_TIERS.find((t) => option.value <= t.max)?.price}
+                      </td>
+                      <td className="px-4 py-3 text-[#4A6583]">
+                        ${MOVE_TIERS.find((t) => option.value <= t.max)?.price}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="text-[#4A6583] leading-relaxed mb-3">
+              <strong className="text-[#0F2240]">Popular add-ons:</strong>{' '}
+              {EXTRAS.map((extra) => `${extra.label} $${extra.price}`).join(' · ')}
+            </p>
+            <p className="text-[#4A6583] leading-relaxed mb-8">
+              Recurring discounts: 30% off every-four-weeks and biweekly service, 40% off weekly.
+              Post-construction cleaning is quoted by phone.{' '}
+              <Link
+                href="/blog/how-much-does-house-cleaning-cost-in-denver"
+                className="text-[#00A896] font-semibold hover:underline"
+              >
+                Read the full price guide →
+              </Link>
+            </p>
+            <Link href="/book" className="inline-block bg-[#00A896] text-white font-bold px-8 py-4">
+              See My Exact Price
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Neighborhoods + ZIPs */}
       <section className="py-20 bg-white">

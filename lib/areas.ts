@@ -23,34 +23,58 @@ export type Area = {
   faqs: AreaFaq[]
   /** Slugs of neighbouring areas, for internal links. */
   nearby: string[]
+  /** Optional H1 override. Defaults to "House Cleaning Services in {city}, CO". */
+  h1?: string
+  /** Optional heading for the body section. Defaults to "Cleaning for {city} Homes and Businesses". */
+  bodyHeading?: string
+  /** Optional extra long-form sections, rendered after the highlights. */
+  sections?: AreaSection[]
+  /** Show the full price table (read live from lib/pricing.ts). */
+  showPricing?: boolean
+}
+
+export type AreaSection = {
+  heading: string
+  paragraphs?: string[]
+  /** Titled items, e.g. one per service. `href` makes the title a link. */
+  items?: { title: string; body: string; href?: string }[]
+  /** Numbered steps. */
+  steps?: { title: string; body: string }[]
 }
 
 export const AREAS: Area[] = [
   {
     slug: 'denver',
     city: 'Denver',
-    metaTitle: 'House Cleaning Services in Denver, CO | R A Pro Cleaning',
+    metaTitle: 'Cleaning Services in Denver, CO | R A Pro Cleaning',
     metaDescription:
-      'Professional house cleaning in Denver, CO. Recurring, deep, move in/out, Airbnb and office cleaning across Cherry Creek, Wash Park, Highlands, LoDo and every Denver neighborhood.',
+      'Trusted house and office cleaning in Denver, CO. 4.9★ on Google, women-owned, upfront prices from $200. See your price and book online in minutes.',
+    h1: 'Cleaning Services in Denver, CO',
     intro:
-      'R A Pro Cleaning Services cleans homes and offices across the whole city — century-old bungalows in Wash Park, downtown lofts, and everything between. Licensed, insured, and rated 5.0 on Google.',
+      'R A Pro Cleaning Services is a women-owned, locally run cleaning company serving homes, rentals and offices across Denver. From 1920s bungalows in Wash Park to lofts in LoDo and newer homes in Central Park, we clean on your schedule, with upfront prices you see before you book. Licensed, insured, rated 4.9★ on Google, and we speak English, Arabic and French.',
+    bodyHeading: 'Why Denver Homes Need a Different Kind of Clean',
     body: [
-      'Denver housing runs from 1920s brick bungalows with original woodwork to new-build condos downtown, and the two need very different cleaning. Older homes mean detailed dusting around trim, radiators and built-ins; a downtown loft means glass, hard floors and exposed surfaces that show every mark. Tell us which you have when you book so the crew arrives set up for it — the price itself comes off your home’s size and the service you choose, and the online quote shows it before you commit.',
-      'We handle recurring weekly, biweekly and monthly cleaning, one-time deep cleans, move-in and move-out cleaning for Denver renters and buyers, and same-day-standard turnovers for short-term rental hosts. Office and commercial cleaning is available across downtown and the surrounding business districts.',
+      'Denver is a great place to live, but it is hard on a clean house. Our dry, windy climate brings fine dust inside fast. It settles on baseboards, blinds, ceiling fans and air vents, often within days of a cleaning. In winter, snow, mud and de-icer get tracked onto entryways, rugs and hardwood floors. Spring brings mud season, and summer brings open windows and more dust.',
+      'Denver housing also runs from 1920s brick bungalows with original woodwork to new-build condos downtown, and the two need very different cleaning. Older homes in Wash Park, Congress Park and the Highlands mean detailed dusting around trim, radiators and built-ins. Newer homes in Central Park and Lowry tend to be larger, with finished basements and more bathrooms. A downtown loft means glass, hard floors and exposed surfaces that show every mark. Tell us which you have when you book, and the crew arrives set up for it.',
     ],
     neighborhoods: [
       'Cherry Creek',
+      'Country Club',
       'Washington Park',
+      'Bonnie Brae',
+      'Belcaro',
       'Highlands',
+      'Berkeley',
       'LoDo & Downtown',
       'Capitol Hill',
       'Congress Park',
       'Hilltop',
+      'Crestmoor',
       'Central Park',
       'Lowry',
-      'Berkeley',
       'Baker',
       'Observatory Park',
+      'University Hills',
     ],
     zips: ['80202', '80203', '80205', '80206', '80209', '80210', '80211', '80218', '80220', '80230', '80238'],
     highlights: [
@@ -67,18 +91,91 @@ export const AREAS: Area[] = [
         body: 'Downtown offices, studios and clinics on a schedule that works around your hours rather than through them.',
       },
     ],
+    sections: [
+      {
+        heading: 'Our Cleaning Services in Denver',
+        items: [
+          {
+            title: 'Recurring (standard) cleaning',
+            href: '/services/standard-cleaning',
+            body: 'Weekly, every two weeks or every four weeks. We dust, vacuum, mop, clean kitchens and bathrooms, and reset your home so it stays under control. Recurring clients save 30% on biweekly and every-four-weeks service, and 40% on weekly service.',
+          },
+          {
+            title: 'Deep cleaning',
+            href: '/services/deep-cleaning',
+            body: 'A top-to-bottom clean for homes that need extra attention: baseboards, vents, light fixtures, grout, closets and behind appliances. Great as a first clean, before guests arrive, or as a seasonal reset after a Denver winter.',
+          },
+          {
+            title: 'Move-in and move-out cleaning',
+            href: '/services/move-in-out',
+            body: 'Leaving a rental or getting a home ready to sell? We clean inside cabinets, closets and appliances, plus bathrooms, baseboards and floors, so the home is ready for inspection, the next tenant or your own move-in day.',
+          },
+          {
+            title: 'Airbnb and short-term rental cleaning',
+            href: '/services/airbnb-cleaning',
+            body: 'Fast, reliable turnovers between guests, scheduled around your check-out and check-in times, for hosts across Denver.',
+          },
+          {
+            title: 'Commercial and office cleaning',
+            href: '/services/office-cleaning',
+            body: 'Offices, studios and shared workspaces from LoDo to the Denver Tech Center. We clean desks, break rooms, restrooms and floors, with after-hours scheduling so your team is not interrupted.',
+          },
+          {
+            title: 'Post-construction cleaning',
+            href: '/services/post-construction',
+            body: 'Remodels and new builds leave fine dust everywhere. We remove construction dust and debris so the space is ready to use. Because every job is different, we quote these by phone.',
+          },
+        ],
+      },
+      {
+        heading: 'How Booking Works',
+        steps: [
+          { title: 'Choose your service and home size', body: 'Your price updates as you go, so you see the total before you confirm.' },
+          { title: 'Pick a day and time', body: 'Online booking is open 24/7. Same-day cleaning depends on availability, so call us to check.' },
+          { title: 'We confirm and show up ready', body: 'We confirm within 24 hours. Prefer to talk? Call or text (720) 677-8799, Monday to Sunday, 9 AM to 5 PM.' },
+        ],
+      },
+      {
+        heading: 'Why Denver Clients Choose R A Pro',
+        items: [
+          { title: 'Owner-run', body: 'Houda, our owner and cleaning service manager, oversees the work and holds every job to the same standard.' },
+          { title: 'Upfront pricing', body: 'You see your price before you book. No in-home sales visit and no surprise fees.' },
+          { title: 'Women-owned and multilingual', body: 'A locally owned Denver business. We speak English, Arabic and French.' },
+          { title: 'Licensed and insured', body: 'For your peace of mind in your home or office.' },
+          { title: 'Flexible scheduling', body: 'Standing weekly or biweekly slots, one-time cleans, and after-hours office cleaning.' },
+          { title: '4.9★ on Google', body: 'Rated by Denver-area homeowners, renters, hosts and businesses.' },
+        ],
+      },
+    ],
+    showPricing: true,
     faqs: [
       {
-        q: 'Do you clean every Denver neighborhood?',
-        a: 'Yes — every Denver ZIP code, from downtown to the far edges of the city, plus the surrounding metro. If you are unsure whether your street is covered, send us your ZIP code and we will confirm before you book.',
+        q: 'How much does house cleaning cost in Denver?',
+        a: 'Standard and deep cleans start at $200 for homes under 1,000 sq ft, and move-out cleans start at $300. Add-ons like inside the oven or refrigerator are charged separately, and recurring visits are discounted 30–40%. The online quote takes about a minute and gives you a real number up front, with no in-home sales visit.',
+      },
+      {
+        q: 'What is the difference between a standard and a deep clean?',
+        a: 'A standard clean keeps your home in good shape week to week. A deep clean goes further: baseboards, vents, light fixtures, grout, closets and behind appliances. Most first-time clients start with a deep clean.',
+      },
+      {
+        q: 'Can you clean before my move-out inspection?',
+        a: 'Yes. Our move-out clean covers inside cabinets, closets and appliances, plus bathrooms, baseboards and floors, so the home is ready for your landlord or buyer.',
       },
       {
         q: 'Can you clean a Denver Airbnb between guests?',
         a: 'Yes. Short-term rental turnovers are one of our regular services. Tell us your check-out and check-in times and we will schedule the turnover inside that window.',
       },
       {
-        q: 'How much does house cleaning cost in Denver?',
-        a: 'Price comes off your home’s square footage, with add-ons like inside the oven or refrigerator charged separately and recurring visits discounted 30–40%. Our online quote takes about a minute and gives you a real number up front — no in-home sales visit.',
+        q: 'Do you clean offices after business hours?',
+        a: 'Yes. We offer after-hours office cleaning across Denver. Request a free quote and we will reply within 24 hours.',
+      },
+      {
+        q: 'Do you clean every Denver neighborhood?',
+        a: 'Yes — every Denver ZIP code, from downtown to the far edges of the city, plus the surrounding metro. If you are unsure whether your street is covered, send us your ZIP code and we will confirm before you book.',
+      },
+      {
+        q: 'Do you speak languages other than English?',
+        a: 'Yes. We speak English, Arabic and French.',
       },
     ],
     nearby: ['aurora', 'lakewood', 'englewood', 'arvada'],
