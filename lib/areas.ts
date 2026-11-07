@@ -48,7 +48,7 @@ export const AREAS: Area[] = [
     city: 'Denver',
     metaTitle: 'Cleaning Services in Denver, CO | R A Pro Cleaning',
     metaDescription:
-      'Trusted house and office cleaning in Denver, CO. 4.9★ on Google, women-owned, upfront prices from $170. Get a free quote in under a minute.',
+      'Trusted house and office cleaning in Denver, CO. 4.9★ on Google, women-owned, free quotes by phone or online.',
     h1: 'Cleaning Services in Denver, CO',
     intro:
       'R A Pro Cleaning Services is a women-owned, locally run cleaning company serving homes, rentals and offices across Denver. From 1920s bungalows in Wash Park to lofts in LoDo and newer homes in Central Park, we clean on your schedule, with upfront prices you see before you book. Licensed, insured, rated 4.9★ on Google, and we speak English, Arabic and French.',
@@ -152,7 +152,7 @@ export const AREAS: Area[] = [
     faqs: [
       {
         q: 'How much does house cleaning cost in Denver?',
-        a: 'Standard cleans start at $170 and deep cleans at $260 for homes under 1,000 sq ft, and move-out cleans start at $360. Add-ons like inside the oven or refrigerator are charged separately, and recurring visits are discounted 10–20%. The quote form takes about a minute, and we give you a real number up front, with no in-home sales visit.',
+        a: 'Your price depends on your home size, the type of cleaning and any add-ons like inside the oven or refrigerator. Recurring visits are discounted 10–20%. Send the free quote form or call us, and we give you an exact price up front, with no in-home sales visit.',
       },
       {
         q: 'What is the difference between a standard and a deep clean?',

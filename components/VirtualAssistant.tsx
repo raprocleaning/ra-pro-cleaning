@@ -5,7 +5,7 @@ import { trackEvent, trackLead } from '@/lib/analytics'
 // Pricing lives in lib/pricing.ts so the chat, the booking form and the pricing
 // table can never quote different numbers for the same home.
 import {
-  EXTRAS, SQFT_OPTIONS, getPrice, sqftFromText,
+  EXTRAS, SQFT_OPTIONS, sqftFromText,
   SERVICES as SERVICE_LIST,
 } from '@/lib/pricing'
 import { getAttribution } from '@/lib/attribution'
@@ -66,7 +66,7 @@ export default function VirtualAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       from: 'bot',
-      text: "👋 Hi! I'll get you an instant price quote and collect your booking info.\n\nWhat service are you interested in?",
+      text: "👋 Hi! I'll take a few details and we'll call or text you back with a free quote.\n\nWhat service are you interested in?",
       options: SERVICES,
     },
   ])
@@ -100,7 +100,7 @@ export default function VirtualAssistant() {
     setMessages([
       {
         from: 'bot',
-        text: "👋 Hi! I'll get you an instant price quote and collect your booking info.\n\nWhat service are you interested in?",
+        text: "👋 Hi! I'll take a few details and we'll call or text you back with a free quote.\n\nWhat service are you interested in?",
         options: SERVICES,
       },
     ])
@@ -129,30 +129,14 @@ export default function VirtualAssistant() {
     if (step === 'sqft') {
       const sqft = sqftFromOption(opt)
       const service = booking.service!
-      const price = getPrice(service, sqft)
       const userMsg: Message = { from: 'user', text: opt }
-
-      setBooking((b) => ({ ...b, sqft, price: price ?? 0 }))
-      setStep('price')
-
-      if (price) {
-        addMessages(userMsg, {
-          from: 'bot',
-          isPrice: true,
-          price,
-          service,
-          sqft,
-          text: `✅ Estimated price for **${service}** (~${sqft.toLocaleString()} sqft):\n\n💰 **$${price}**\n\nWould you like to book this service?`,
-          options: ['Yes, book me in!', 'Choose a different service'],
-        })
-      } else {
-        addMessages(userMsg, {
-          from: 'bot',
-          text: `For ${service}, we'll give you a custom quote based on your space. Let's collect your info and we'll reach out within 24 hours!`,
-          options: ['Continue'],
-        })
-        setStep('name')
-      }
+      // No price is shown on the site: the office quotes on the call back.
+      setBooking((b) => ({ ...b, sqft, price: 0 }))
+      setStep('date')
+      addMessages(userMsg, {
+        from: 'bot',
+        text: `Thanks! We'll give you an exact price for **${service}** when we call you back.\n\n📅 What day would you like your cleaning? (e.g. "next Tuesday" or "Nov 20")`,
+      })
       return
     }
 
@@ -290,21 +274,11 @@ export default function VirtualAssistant() {
         return
       }
       const service = booking.service!
-      const price = getPrice(service, sqft)
-      setBooking((b) => ({ ...b, sqft, price: price ?? 0 }))
-      setStep('price')
+      setBooking((b) => ({ ...b, sqft, price: 0 }))
+      setStep('date')
       addMessages(userMsg, {
         from: 'bot',
-        isPrice: true,
-        price: price ?? undefined,
-        service,
-        sqft,
-        text: price
-          ? `✅ Estimated price for **${service}** (${sqft.toLocaleString()} sqft):\n\n💰 **$${price}**\n\nWould you like to book this service?`
-          : `For ${service} at ${sqft.toLocaleString()} sqft, we'll provide a custom quote. Shall we collect your contact info?`,
-        options: price
-          ? ['Yes, book me in!', 'Choose a different service']
-          : ['Continue'],
+        text: `Thanks! We'll give you an exact price for **${service}** when we call you back.\n\n📅 What day would you like your cleaning? (e.g. "next Tuesday" or "Nov 20")`,
       })
       return
     }
@@ -410,7 +384,7 @@ export default function VirtualAssistant() {
       trackLead('ai_assistant', { service: updatedBooking.service || 'Not selected' })
       addMessages({
         from: 'bot',
-        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll ${updatedBooking.smsOptIn ? 'call or text' : 'call'} you at ${updatedBooking.phone} within 24 hours to confirm.${updatedBooking.smsOptIn ? '\n\n⭐ After your clean, we\'ll send a quick text to ask how we did and schedule your next one!' : ''}`,
+        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour quote request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Price: we'll confirm it when we call\n\nWe'll ${updatedBooking.smsOptIn ? 'call or text' : 'call'} you at ${updatedBooking.phone} within 24 hours to confirm.${updatedBooking.smsOptIn ? '\n\n⭐ After your clean, we\'ll send a quick text to ask how we did and schedule your next one!' : ''}`,
         options: ['Ask another question'],
       })
       return

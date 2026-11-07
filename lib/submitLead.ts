@@ -123,7 +123,9 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
       ? 'Online Booking Form'
       : isAIBooking
         ? 'AI Chat Widget'
-        : 'Contact Form'
+        : bodySource === 'quote-form'
+          ? 'Free Quote Form'
+          : 'Contact Form'
 
     const noteLines = [
       `📋 Source: ${sourceLabel}`,
@@ -286,7 +288,9 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
       smsMarketingOptIn: !!smsMarketingOptIn,
       // Shapes the customer's copy: a confirmed slot reads differently from a
       // general enquiry, and a phone-quoted job must not claim a total.
-      hasSlot: !!(preferredDate || (bookingDate && bookingTime)),
+      // A quote-form day is only a wish until the office calls back, so the
+      // customer is thanked for a request, not told a booking is confirmed.
+      hasSlot: bodySource !== 'quote-form' && !!(preferredDate || (bookingDate && bookingTime)),
       hasPrice: !!price && !quoteOnRequest,
       depositPaid: payment?.deposit,
       balanceDue: payment?.balanceDue,

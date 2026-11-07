@@ -3,15 +3,30 @@ import { useState, FormEvent } from 'react'
 import { trackEvent, trackLead } from '@/lib/analytics'
 import { getAttribution } from '@/lib/attribution'
 import { HONEYPOT_FIELD } from '@/lib/spamCheck'
+import { SQFT_OPTIONS } from '@/lib/pricing'
+
+/** What the visitor picks under "Type of cleaning". */
+const CLEANING_TYPES = [
+  'Standard Cleaning',
+  'Deep Cleaning',
+  'Move In/Out Cleaning',
+  'Airbnb Cleaning',
+  'Office / Commercial Cleaning',
+  'Post-Construction Cleaning',
+  'Not sure yet',
+]
+
+/** Today in the visitor's own time zone, as YYYY-MM-DD for the date picker's minimum. */
+const todayIso = () => {
+  const d = new Date()
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10)
+}
 
 /**
- * The short free-quote form: name, email, phone, one button.
- *
- * It replaced online booking as the site's main call to action. Three fields
- * are quick to fill in on a phone; the office calls or texts back to get the
- * home size and service and give the price. It posts to /api/contact like the
- * longer contact form, so the lead lands in HighLevel and the office inbox the
- * same way.
+ * The free-quote form: name, phone, email, home size, type of cleaning and the
+ * day they would like. No price is shown anywhere on the site; the office calls
+ * or texts back with the price. It posts to /api/contact like the longer contact
+ * form, so the lead lands in HighLevel and the office inbox the same way.
  */
 
 type Props = {
@@ -42,6 +57,9 @@ export default function QuoteForm({
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [sqft, setSqft] = useState('')
+  const [service, setService] = useState('')
+  const [preferredDate, setPreferredDate] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -58,16 +76,18 @@ export default function QuoteForm({
           fullName,
           email,
           phone,
-          service: 'Free Quote Request',
-          message: `Free quote form (${placement}) — call or text back for home size and service.`,
+          service,
+          squareFootage: sqft,
+          preferredDate,
+          message: `Free quote form (${placement}) — call or text back with the price.`,
           source: 'quote-form',
           [HONEYPOT_FIELD]: trapValue,
           attribution: getAttribution(),
         }),
       })
       if (res.ok) {
-        trackEvent('quote_form_submit', { form_placement: placement })
-        trackLead('quote_form', { form_placement: placement })
+        trackEvent('quote_form_submit', { form_placement: placement, service })
+        trackLead('quote_form', { form_placement: placement, service })
         setStatus('success')
       } else {
         setStatus('error')
@@ -91,8 +111,8 @@ export default function QuoteForm({
           </div>
           <h3 className="text-2xl font-black text-[#007A6C] mb-2">You&apos;re All Set!</h3>
           <p className="text-[#4A6583]">
-            Thanks{fullName ? `, ${fullName.split(/\s+/)[0]}` : ''}! We&apos;ll call or text you shortly to
-            finish your free quote.
+            Thanks{fullName ? `, ${fullName.split(/\s+/)[0]}` : ''}! We&apos;ll call or text you shortly with
+            your price and to confirm your date.
           </p>
           <p className="text-[#4A6583] text-sm mt-4">
             Need us sooner? Call{' '}
@@ -112,13 +132,13 @@ export default function QuoteForm({
           </div>
 
           <h2 className="text-xl sm:text-2xl font-black text-[#0F2240] text-center mb-1">{heading}</h2>
-          <p className="text-[#4A6583] text-sm text-center mb-2">Takes less than a minute. No obligation.</p>
+          <p className="text-[#4A6583] text-sm text-center mb-2">We call or text you back with your price. No obligation.</p>
 
           <label className="block">
-            <span className="sr-only">Name</span>
+            <span className="sr-only">Full name</span>
             <input
               type="text" name="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)}
-              required autoComplete="name" placeholder="Name" className={inputClass}
+              required autoComplete="name" placeholder="Full Name" className={inputClass}
             />
           </label>
           <label className="block">
@@ -133,6 +153,41 @@ export default function QuoteForm({
             <input
               type="tel" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)}
               required autoComplete="tel" placeholder="Phone Number" className={inputClass}
+            />
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label className="block">
+              <span className="sr-only">Home size</span>
+              <select
+                name="squareFootage" value={sqft} onChange={(e) => setSqft(e.target.value)}
+                required className={`${inputClass} ${sqft ? '' : 'text-[#4A6583]/70'}`}
+              >
+                <option value="" disabled>Square Feet</option>
+                {SQFT_OPTIONS.map((o) => (
+                  <option key={o.label} value={o.label}>{o.label}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="sr-only">Type of cleaning</span>
+              <select
+                name="service" value={service} onChange={(e) => setService(e.target.value)}
+                required className={`${inputClass} ${service ? '' : 'text-[#4A6583]/70'}`}
+              >
+                <option value="" disabled>Type of Cleaning</option>
+                {CLEANING_TYPES.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <label className="block">
+            <span className="block text-sm font-semibold text-[#0F2240] mb-1.5">Preferred cleaning day</span>
+            <input
+              type="date" name="preferredDate" value={preferredDate}
+              // Set in the browser, not at build time, so the earliest pickable day is today.
+              onFocus={(e) => { e.currentTarget.min = todayIso() }}
+              onChange={(e) => setPreferredDate(e.target.value)} required className={inputClass}
             />
           </label>
 
