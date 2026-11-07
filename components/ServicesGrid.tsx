@@ -159,7 +159,7 @@ const ServicesGrid = () => {
         {/* CTA */}
           <div className="text-center mt-12 fade-in-up">
             <a
-              href="/book"
+              href="/quote"
               className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-10 py-4 shadow-lg"
             >
               Book Any Service

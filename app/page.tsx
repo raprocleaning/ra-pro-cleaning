@@ -52,10 +52,10 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                 <a
-                  href="/book"
+                  href="/quote"
                   className="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-8 py-4 rounded-full shadow-md"
                 >
-                  Book Now
+                  Get a Free Quote
                 </a>
               <a
                 href="/about"
@@ -88,8 +88,8 @@ export default function Home() {
 
       <CTABand
         eyebrow="Denver & Aurora"
-        heading="Book Your Clean In 60 Seconds"
-        subheading="Licensed, insured, and rated 4.9 across 49 Google reviews. Pick a time that works for you — we'll handle the rest."
+        heading="Get Your Free Quote In 60 Seconds"
+        subheading="Licensed, insured, and rated 4.9 across 49 Google reviews. Leave your details and we'll call or text you back."
         variant="navy"
       />
 

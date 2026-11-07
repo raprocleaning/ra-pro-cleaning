@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import ContactActions from '@/components/ContactActions'
+import QuoteForm from '@/components/QuoteForm'
 import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 const Hero = () => {
@@ -49,67 +49,83 @@ const Hero = () => {
         {/* Teal accent top line */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-[#00A896] z-10" />
 
-        {/* Content */}
+        {/* Content: the pitch on the left, the free-quote form on the right
+            (stacked on phones, form second so the headline is seen first). */}
         <div className="relative z-10 flex-1 flex items-center">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 sm:py-24 w-full">
-            <div className="max-w-4xl mx-auto text-center">
-              {/* Eyebrow */}
-              <div
-                className="reveal inline-flex items-center gap-3 mb-6"
-                style={{ animationDelay: '0ms' }}
-              >
-                <div className="w-10 h-px bg-white/70" />
-                <span
-                  className="text-white text-xs font-semibold tracking-[0.35em] uppercase"
-                  style={{ textShadow: '0 1px 6px rgba(15,34,64,0.7)' }}
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-12 sm:py-24 w-full">
+            <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-center">
+              <div className="text-center lg:text-left">
+                {/* Eyebrow */}
+                <div
+                  className="reveal inline-flex items-center gap-3 mb-6"
+                  style={{ animationDelay: '0ms' }}
                 >
-                  Denver &amp; Aurora Cleaning Professionals
-                </span>
-                <div className="w-10 h-px bg-white/70" />
+                  <div className="w-10 h-px bg-white/70" />
+                  <span
+                    className="text-white text-xs font-semibold tracking-[0.35em] uppercase"
+                    style={{ textShadow: '0 1px 6px rgba(15,34,64,0.7)' }}
+                  >
+                    Denver &amp; Aurora Cleaning Professionals
+                  </span>
+                </div>
+
+                {/* H1 */}
+                <h1
+                  className="reveal text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.05] tracking-tight mb-6"
+                  style={{
+                    animationDelay: '120ms',
+                    textShadow: '0 3px 24px rgba(15,34,64,0.75), 0 1px 3px rgba(15,34,64,0.5)',
+                  }}
+                >
+                  House Cleaning Services in the Denver Metro
+                </h1>
+
+                {/* Italic tagline on a translucent band */}
+                <p
+                  className="reveal inline-block bg-[#0F2240]/45 backdrop-blur-[2px] px-6 py-2.5 text-xl md:text-2xl font-light italic text-white leading-snug mb-7"
+                  style={{
+                    animationDelay: '240ms',
+                    textShadow: '0 2px 10px rgba(15,34,64,0.6)',
+                  }}
+                >
+                  Spotless Results On YOUR Schedule!
+                </p>
+
+                {/* Why us, in four lines */}
+                <ul
+                  className="reveal hidden sm:block space-y-2.5 mb-7 text-white text-base md:text-lg text-left max-w-md mx-auto lg:mx-0"
+                  style={{ animationDelay: '280ms', textShadow: '0 1px 6px rgba(15,34,64,0.7)' }}
+                >
+                  {[
+                    'Licensed, insured, women-owned local team',
+                    'Standard, deep, move-in/out & commercial cleaning',
+                    'Rated 4.9★ on Google',
+                    'Free quote — we call or text you back fast',
+                  ].map((line) => (
+                    <li key={line} className="flex items-start gap-2.5">
+                      <svg className="w-5 h-5 mt-0.5 text-[#5EEAD4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* New-client phone offer */}
+                <div className="reveal" style={{ animationDelay: '320ms' }}>
+                  <a
+                    href={OFFER.phoneHref}
+                    className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-[#FFD166] text-[#0F2240] font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-lg hover:bg-[#FFC233] transition-colors"
+                  >
+                    <span>New clients: ${OFFER.amount} off your first cleaning</span>
+                    <span className="font-semibold">call {OFFER.phoneDisplay}</span>
+                  </a>
+                </div>
               </div>
 
-              {/* H1 */}
-              <h1
-                className="reveal text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6"
-                style={{
-                  animationDelay: '120ms',
-                  textShadow: '0 3px 24px rgba(15,34,64,0.75), 0 1px 3px rgba(15,34,64,0.5)',
-                }}
-              >
-                House Cleaning Services<br className="hidden sm:inline" />
-                {' '}in the Denver Metro
-              </h1>
-
-              {/* Italic tagline on a translucent band */}
-              <p
-                className="reveal inline-block bg-[#0F2240]/45 backdrop-blur-[2px] px-6 py-2.5 text-xl md:text-3xl font-light italic text-white leading-snug mb-9"
-                style={{
-                  animationDelay: '240ms',
-                  textShadow: '0 2px 10px rgba(15,34,64,0.6)',
-                }}
-              >
-                Spotless Results On YOUR Schedule!
-              </p>
-
-              {/* New-client phone offer */}
-              <div className="reveal mb-7" style={{ animationDelay: '300ms' }}>
-                <a
-                  href={OFFER.phoneHref}
-                  className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-[#FFD166] text-[#0F2240] font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-lg hover:bg-[#FFC233] transition-colors"
-                >
-                  <span>New clients: ${OFFER.amount} off your first cleaning</span>
-                  <span className="font-semibold">call {OFFER.phoneDisplay} or book today</span>
-                </a>
-              </div>
-
-              {/* CTAs */}
-              <div className="reveal" style={{ animationDelay: '360ms' }}>
-                <ContactActions
-                  className="flex flex-col sm:flex-row gap-4 justify-center"
-                  bookLabel="Get A Free Quote"
-                  primaryClassName="btn-book-now inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold text-base px-10 py-4 rounded-full shadow-lg"
-                  secondaryClassName="inline-flex items-center justify-center gap-2 border-2 border-white/70 bg-white/10 backdrop-blur-sm text-white font-semibold text-base px-8 py-4 rounded-full hover:bg-white hover:text-[#0F2240] transition-all"
-                />
+              {/* Free-quote form */}
+              <div className="reveal w-full max-w-md mx-auto lg:max-w-none" style={{ animationDelay: '360ms' }}>
+                <QuoteForm id="quote" placement="hero" heading="Get Your Free Quote Today" />
               </div>
             </div>
           </div>

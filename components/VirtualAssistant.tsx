@@ -143,7 +143,7 @@ export default function VirtualAssistant() {
           service,
           sqft,
           text: `✅ Estimated price for **${service}** (~${sqft.toLocaleString()} sqft):\n\n💰 **$${price}**\n\nWould you like to book this service?`,
-          options: ['Yes, book me in!', 'Choose a different service', 'I want to book online directly'],
+          options: ['Yes, book me in!', 'Choose a different service'],
         })
       } else {
         addMessages(userMsg, {
@@ -177,7 +177,7 @@ export default function VirtualAssistant() {
           options: SERVICES,
         })
       } else if (opt === 'I want to book online directly') {
-        window.open('/book', '_blank')
+        window.open('/quote', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: "Booking page opened! 🎉 We'll see you there. Any other questions?",
@@ -218,7 +218,7 @@ export default function VirtualAssistant() {
           : `\n💰 Total: **$${basePrice}**`
 
         setStep('greeting')
-        window.open('/book', '_blank')
+        window.open('/quote', '_blank')
         addMessages(userMsg, {
           from: 'bot',
           text: `🎉 Your estimate is ready!${extrasLine}\n\nYour booking page just opened — pick your date & time and enter your details to confirm. See you soon! 🧹`,
@@ -303,7 +303,7 @@ export default function VirtualAssistant() {
           ? `✅ Estimated price for **${service}** (${sqft.toLocaleString()} sqft):\n\n💰 **$${price}**\n\nWould you like to book this service?`
           : `For ${service} at ${sqft.toLocaleString()} sqft, we'll provide a custom quote. Shall we collect your contact info?`,
         options: price
-          ? ['Yes, book me in!', 'Choose a different service', 'I want to book online directly']
+          ? ['Yes, book me in!', 'Choose a different service']
           : ['Continue'],
       })
       return
@@ -410,14 +410,14 @@ export default function VirtualAssistant() {
       trackLead('ai_assistant', { service: updatedBooking.service || 'Not selected' })
       addMessages({
         from: 'bot',
-        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll ${updatedBooking.smsOptIn ? 'call or text' : 'call'} you at ${updatedBooking.phone} within 24 hours to confirm.${updatedBooking.smsOptIn ? '\n\n⭐ After your clean, we\'ll send a quick text to ask how we did and schedule your next one!' : ''}\n\nOr book online right now:`,
-        options: ['Book Online Now →', 'Ask another question'],
+        text: `🎉 All set, ${updatedBooking.name?.split(' ')[0]}!\n\nYour booking request has been received:\n• Service: ${updatedBooking.service}\n• Extras: ${updatedBooking.extras?.length ? updatedBooking.extras.map((e: string) => e.split(' (+')[0]).join(', ') : 'None'}\n• Date: ${updatedBooking.preferredDate || 'Flexible'}\n• Est. Price: **$${updatedBooking.price || 'Custom quote'}**\n\nWe'll ${updatedBooking.smsOptIn ? 'call or text' : 'call'} you at ${updatedBooking.phone} within 24 hours to confirm.${updatedBooking.smsOptIn ? '\n\n⭐ After your clean, we\'ll send a quick text to ask how we did and schedule your next one!' : ''}`,
+        options: ['Ask another question'],
       })
       return
     }
 
     if (text === 'Book Online Now →') {
-      window.open('/book', '_blank')
+      window.open('/quote', '_blank')
       return
     }
 
@@ -439,7 +439,7 @@ export default function VirtualAssistant() {
 
   const handleOptionClick = (opt: string) => {
     if (opt === 'Book Online Now →') {
-      window.open('/book', '_blank')
+      window.open('/quote', '_blank')
       addMessages({ from: 'user', text: opt }, {
         from: 'bot',
         text: "Opening booking page... 🎉 See you there!",
@@ -468,14 +468,14 @@ export default function VirtualAssistant() {
 
   return (
     <>
-      {/* ── FLOATING CALL / BOOK NOW BUTTON ─── */}
+      {/* ── FLOATING CALL / FREE QUOTE BUTTON ─── */}
       <a
-        href={mode === 'phone' ? 'tel:+17206778799' : '/book'}
+        href={mode === 'phone' ? 'tel:+17206778799' : '/quote'}
         className={`fixed ${hasGhlChatWidget ? 'bottom-24' : 'bottom-6'} right-6 z-50 bg-[#00A896] hover:bg-[#007A6C] text-white shadow-2xl flex items-center gap-2 px-5 py-3.5 transition-all duration-300 rounded-full font-bold text-sm${
           mode === null ? ' invisible' : ''
         }`}
         style={{ boxShadow: '0 8px 30px rgba(0,168,150,0.45)' }}
-        aria-label={mode === 'phone' ? 'Call us' : 'Book Now'}
+        aria-label={mode === 'phone' ? 'Call us' : 'Get a free quote'}
       >
         {mode === 'phone' ? (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -486,7 +486,7 @@ export default function VirtualAssistant() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         )}
-        {mode === 'phone' ? '(720) 677-8799' : 'Book Now'}
+        {mode === 'phone' ? '(720) 677-8799' : 'Free Quote'}
       </a>
 
       {/* ── FLOATING AI QUOTE CHAT BUTTON (after-hours only) ──────────── */}
@@ -527,7 +527,7 @@ export default function VirtualAssistant() {
               RA
             </div>
             <div>
-              <p className="text-white text-sm font-bold">Book & Get Instant Price</p>
+              <p className="text-white text-sm font-bold">Get a Free Quote</p>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 <p className="text-white/60 text-xs">Responds instantly</p>

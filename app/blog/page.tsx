@@ -102,7 +102,7 @@ export default function BlogPage() {
             Reading tips is one thing. Having experts do it for you is another. Book today and experience the difference.
           </p>
             <a
-              href="/book"
+              href="/quote"
               className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
             >
               Book a Professional Clean

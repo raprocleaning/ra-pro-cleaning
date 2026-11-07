@@ -60,11 +60,11 @@ const Footer = () => {
     { name: 'Contact', href: '/contact' },
   ]
 
-  // Booking runs itself around the clock; the phone is answered by a person,
+  // Quote requests come in around the clock; the phone is answered by a person,
   // and saying otherwise just means a 3am caller reaches nobody.
   const hours = [
     { day: 'Phone — Monday to Sunday', hours: '9:00 AM – 5:00 PM' },
-    { day: 'Online booking', hours: '24 hours a day' },
+    { day: 'Online quote requests', hours: '24 hours a day' },
   ]
 
   return (
@@ -74,13 +74,13 @@ const Footer = () => {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
               <h3 className="text-white font-bold text-xl">Ready for a spotless home?</h3>
-              <p className="text-white/80 text-sm mt-1">Book online in 60 seconds — no phone call needed.</p>
+              <p className="text-white/80 text-sm mt-1">Free quote in under a minute — we call or text you back.</p>
             </div>
             <a
-              href="/book"
+              href="/quote"
               className="inline-flex items-center gap-2 bg-white text-[#00A896] font-bold px-8 py-3.5 hover:bg-white/90 transition-colors text-sm flex-shrink-0"
             >
-              Book Now &rarr;
+              Get a Free Quote &rarr;
             </a>
           </div>
         </div>
@@ -211,10 +211,10 @@ const Footer = () => {
               ))}
                 <li>
                   <a
-                    href="/book"
+                    href="/quote"
                     className="text-sm text-[#00A896] hover:text-[#00C9B5] transition-colors font-semibold"
                   >
-                    Book Now →
+                    Get a Free Quote →
                   </a>
                 </li>
             </ul>

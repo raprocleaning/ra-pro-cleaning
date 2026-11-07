@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 }
 
 export default function ContactPage() {
-  // Booking runs itself around the clock; the phone is answered by a person,
+  // Quote requests come in around the clock; the phone is answered by a person,
   // and saying otherwise just means a 3am caller reaches nobody.
   const hours = [
     { day: 'Phone — Monday to Sunday', hours: '9:00 AM – 5:00 PM' },
-    { day: 'Online booking', hours: '24 hours a day' },
+    { day: 'Online quote requests', hours: '24 hours a day' },
   ]
 
   return (
@@ -173,13 +173,13 @@ export default function ContactPage() {
 
               {/* Book CTA */}
                 <div className="mt-8 p-6 bg-[#E6F7F5] border border-[#B2DFDB]">
-                  <p className="font-bold text-[#0F2240] mb-2">Ready to book?</p>
-                  <p className="text-[#4A6583] text-sm mb-4">Skip the form — book online in 60 seconds.</p>
+                  <p className="font-bold text-[#0F2240] mb-2">Want the quick way?</p>
+                  <p className="text-[#4A6583] text-sm mb-4">Just your name, email and phone — we call or text you back.</p>
                   <a
-                    href="/book"
+                    href="/quote"
                     className="btn-book-now inline-flex items-center gap-2 bg-[#00A896] text-white font-bold px-6 py-3 text-sm shadow-md"
                   >
-                    Book Online Now →
+                    Get a Free Quote →
                   </a>
                 </div>
             </div>
