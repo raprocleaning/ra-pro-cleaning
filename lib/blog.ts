@@ -26,7 +26,7 @@ export const posts: Record<string, BlogPost> = {
     slug: 'how-much-does-house-cleaning-cost-in-denver',
     title: 'How Much Does House Cleaning Cost in Denver? (2026 Prices)',
     category: 'Pricing',
-    date: 'September 13, 2026',
+    date: 'November 7, 2026',
     readTime: '8 min read',
     excerpt:
       'Most Denver cleaning companies make you book a call before they will tell you a number. Here are ours in full — every size bracket, every add-on, and the discounts that actually change what you pay.',
@@ -34,32 +34,32 @@ export const posts: Record<string, BlogPost> = {
       'Ask most Denver cleaning companies what they charge and you get a form, a phone call, and a salesperson in your living room before anybody says a number. We would rather just publish it. Below is what R A Pro Cleaning Services actually charges in 2026 — the full size brackets, every add-on, what recurring service does to the total, and the one service we genuinely cannot quote sight-unseen.',
     sections: [
       {
-        heading: 'What a Standard Clean Costs by Home Size',
+        heading: 'What Standard and Deep Cleans Cost by Home Size',
         content: [
-          'Price is set by the square footage of your home. A standard clean starts at $200 for homes under 1,000 square feet and rises through brackets from there: $250 for 1,000–1,249 sq ft, $330 for 1,250–1,499, $380 for 1,500–1,799, $460 for 1,800–2,099, and $470 for 2,100–2,399.',
-          'Larger homes continue up the same ladder — $490 for 2,400–2,699, $540 for 2,700–2,999, $570 for 3,000–3,299, and on through to $830 for anything 5,000 square feet and above. Deep cleans and Airbnb turnovers are priced from the same table as a standard clean, so it is the size of your home that sets the number, not the name of the service.',
+          'Price is set by the square footage of your home. A standard clean starts at $170 for homes under 1,000 square feet and rises through brackets from there: $200 for 1,000–1,249 sq ft, $220 for 1,250–1,499, $250 for 1,500–1,799, $280 for 1,800–2,099, and $300 for 2,100–2,399. Larger homes continue up the same ladder — $320 for 2,400–2,699, $340 for 2,700–2,999, $360 for 3,000–3,299, and on through to $520 for anything 5,000 square feet and above. Airbnb turnovers use the standard-clean prices.',
+          'A deep clean takes much longer, so it costs more: $260 for homes under 1,000 square feet, $300 for 1,000–1,249, $340 for 1,250–1,499, $390 for 1,500–1,799, $430 for 1,800–2,099, $460 for 2,100–2,399, $490 for 2,400–2,699, $520 for 2,700–2,999, $550 for 3,000–3,299, and up to $800 for 5,000 square feet and above. These sit in the middle of what Denver cleaning companies charge.',
         ],
       },
       {
         heading: 'Recurring Service Is Where the Real Saving Is',
         content: [
-          'A one-time clean pays the full rate. Booking on a schedule takes a straight percentage off the base: 30% for every-four-weeks and biweekly, and 40% for weekly.',
-          'On a 1,800–2,099 sq ft home, that turns a $460 clean into $322 biweekly or $276 weekly. On a 2,700–2,999 sq ft home, $540 becomes $378 biweekly. The discount applies to the base clean only — add-ons are charged at list price — and no clean is ever billed below $170, so the smallest homes hit that floor before they see the full percentage.',
-          'This is worth doing the arithmetic on. Two biweekly cleans of a 2,000 sq ft home cost $644, less than one-and-a-half one-time cleans of the same house.',
+          'A one-time clean pays the full rate. Booking on a schedule takes a straight percentage off the base: 10% for every four weeks, 15% for biweekly, and 20% for weekly.',
+          'On a 1,800–2,099 sq ft home, that turns a $280 standard clean into $238 biweekly or $224 weekly. On a 2,700–2,999 sq ft home, $340 becomes $289 biweekly. The discount applies to the base clean only — add-ons are charged at list price — and no clean is ever billed below $150.',
+          'Most people start with one deep clean, then keep the home that way with recurring standard visits. On a 2,000 sq ft home that is $430 once, then $238 every two weeks.',
         ],
       },
       {
         heading: 'Move-Out Cleaning Runs $100 Higher',
         content: [
-          'Move in/out cleaning sits exactly $100 above the standard and deep-clean rate at every size bracket — $300 for the smallest homes up to $930 for the largest. So a 2,100–2,399 sq ft move-out is $570, against $470 for a standard clean of the same place.',
+          'Move in/out cleaning sits exactly $100 above the deep-clean rate at every size bracket — $360 for the smallest homes up to $900 for the largest. So a 2,100–2,399 sq ft move-out is $560, against $460 for a deep clean of the same place.',
           'The extra covers what an empty house needs and an occupied one does not: inside every cabinet and drawer, inside appliances, and the detail work on baseboards and bathrooms that a deposit inspection actually looks at.',
         ],
       },
       {
         heading: 'Add-Ons, and What Each One Costs',
         content: [
-          'Add-ons are flat-priced regardless of home size. Inside cabinets is $80, and extra heavy dirt or extra scrubbing is also $80. Inside the oven and inside the refrigerator are $60 each.',
-          'At $50 each: interior windows (up to 10), pet hair removal, wall spot cleaning, and window track cleaning. Baseboards are $40. You pick these when you book, and they are added to the total at list price — the recurring discount does not apply to them.',
+          'Add-ons are flat-priced regardless of home size. Extra heavy dirt or extra scrubbing is $80. Inside cabinets is $60, and inside the oven and inside the refrigerator are $60 each.',
+          'At $50 each: interior windows (up to 10), wall spot cleaning, and window track cleaning. Baseboards are $40 and pet hair removal is $35. They are added to the total at list price — the recurring discount does not apply to them.',
         ],
       },
       {

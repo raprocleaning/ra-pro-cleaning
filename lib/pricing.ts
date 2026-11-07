@@ -9,38 +9,61 @@ export type Tier = { max: number; price: number }
 
 // ─── PRICE TIERS BY SQUARE FOOTAGE ───────────────────────────────────────────
 //
-// These mirror the price list in each service's description on the HighLevel
-// service menu. Standard Cleaning, Deep Cleaning and Airbnb turnovers all run
-// off this one table, starting at $200; Move In/Out sits $100 above it.
+// Set in November 2026 to sit in the middle of the Denver market (published
+// price lists from Kathy Clean, Mop Stars, Deep Clean Colorado and L&G, plus
+// Angi's Denver averages). Deep cleaning stayed close to where it was; standard
+// cleaning dropped to about 65% of the deep price, as most Denver companies
+// charge; move in/out stays $100 above deep at every size.
 //
-// Standard and Airbnb briefly had a cheaper table of their own (from $170,
-// carried over from BookingKoala). The intended price is the one HighLevel
-// lists — $200 for the smallest home — so that table is gone.
-// Change a price here only after changing it in HighLevel, never instead.
+// These must match the price list in each service's description on the
+// HighLevel service menu. Change a price here only after changing it in
+// HighLevel, never instead.
 
-export const BASE_TIERS: Tier[] = [
-  { max: 999,      price: 200 },
-  { max: 1249,     price: 250 },
-  { max: 1499,     price: 330 },
-  { max: 1799,     price: 380 },
-  { max: 2099,     price: 460 },
-  { max: 2399,     price: 470 },
+/** Deep cleaning, one-time. */
+export const DEEP_TIERS: Tier[] = [
+  { max: 999,      price: 260 },
+  { max: 1249,     price: 300 },
+  { max: 1499,     price: 340 },
+  { max: 1799,     price: 390 },
+  { max: 2099,     price: 430 },
+  { max: 2399,     price: 460 },
   { max: 2699,     price: 490 },
-  { max: 2999,     price: 540 },
-  { max: 3299,     price: 570 },
-  { max: 3599,     price: 600 },
-  { max: 3899,     price: 640 },
-  { max: 4199,     price: 690 },
-  { max: 4499,     price: 720 },
-  { max: 4799,     price: 760 },
-  { max: 4999,     price: 800 },
-  { max: Infinity, price: 830 },
+  { max: 2999,     price: 520 },
+  { max: 3299,     price: 550 },
+  { max: 3599,     price: 580 },
+  { max: 3899,     price: 620 },
+  { max: 4199,     price: 660 },
+  { max: 4499,     price: 690 },
+  { max: 4799,     price: 730 },
+  { max: 4999,     price: 770 },
+  { max: Infinity, price: 800 },
 ]
 
-// Move In/Out runs $100 above the standard/deep tier at every size — confirmed
-// against all sixteen rows of the old BookingKoala price list, not assumed from
-// the pattern.
-export const MOVE_TIERS: Tier[] = BASE_TIERS.map((t) => ({ ...t, price: t.price + 100 }))
+/** Standard cleaning, before any recurring discount. Also used for Airbnb turnovers. */
+export const STANDARD_TIERS: Tier[] = [
+  { max: 999,      price: 170 },
+  { max: 1249,     price: 200 },
+  { max: 1499,     price: 220 },
+  { max: 1799,     price: 250 },
+  { max: 2099,     price: 280 },
+  { max: 2399,     price: 300 },
+  { max: 2699,     price: 320 },
+  { max: 2999,     price: 340 },
+  { max: 3299,     price: 360 },
+  { max: 3599,     price: 380 },
+  { max: 3899,     price: 400 },
+  { max: 4199,     price: 430 },
+  { max: 4499,     price: 450 },
+  { max: 4799,     price: 470 },
+  { max: 4999,     price: 500 },
+  { max: Infinity, price: 520 },
+]
+
+/** The cheapest table, kept under its old name for "prices from $X" wording. */
+export const BASE_TIERS: Tier[] = STANDARD_TIERS
+
+// Move In/Out runs $100 above the deep-clean tier at every size.
+export const MOVE_TIERS: Tier[] = DEEP_TIERS.map((t) => ({ ...t, price: t.price + 100 }))
 
 export const SERVICES = [
   'Standard Cleaning',
@@ -67,17 +90,17 @@ export function isQuoteOnRequest(service: string): boolean {
 }
 
 export const PRICING: Record<string, Tier[]> = {
-  'Standard Cleaning':    BASE_TIERS,
-  'Deep Cleaning':        BASE_TIERS,
+  'Standard Cleaning':    STANDARD_TIERS,
+  'Deep Cleaning':        DEEP_TIERS,
   'Move In/Out Cleaning': MOVE_TIERS,
-  'Airbnb Cleaning':      BASE_TIERS,
+  'Airbnb Cleaning':      STANDARD_TIERS,
 }
 
 export const SERVICE_META: Record<string, { icon: string; desc: string; range: string }> = {
-  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$200 – $830' },
-  'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$200 – $830' },
-  'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$300 – $930' },
-  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$200 – $830' },
+  'Standard Cleaning':          { icon: '🏠', desc: 'Regular maintenance clean',      range: '$170 – $520' },
+  'Deep Cleaning':              { icon: '✨', desc: 'Top-to-bottom thorough clean',   range: '$260 – $800' },
+  'Move In/Out Cleaning':       { icon: '📦', desc: 'Full clean for transitions',     range: '$360 – $900' },
+  'Airbnb Cleaning':            { icon: '🛎️', desc: 'Fast turnovers, 5-star ready',   range: '$170 – $520' },
   'Post-Construction Cleaning': { icon: '🔨', desc: 'Debris, dust & deep scrub',      range: 'Custom quote' },
 }
 
@@ -106,19 +129,19 @@ export const SQFT_OPTIONS: { label: string; value: number }[] = [
 // ─── FREQUENCY DISCOUNTS ─────────────────────────────────────────────────────
 export const FREQUENCIES: { label: string; discount: number; badge: string | null }[] = [
   { label: 'One-Time',      discount: 0,  badge: null },
-  { label: 'Every 4 Weeks', discount: 30, badge: '30% OFF' },
-  { label: 'Bi-Weekly',     discount: 30, badge: '30% OFF' },
-  { label: 'Weekly',        discount: 40, badge: '40% OFF' },
+  { label: 'Every 4 Weeks', discount: 10, badge: '10% OFF' },
+  { label: 'Bi-Weekly',     discount: 15, badge: '15% OFF' },
+  { label: 'Weekly',        discount: 20, badge: '20% OFF' },
 ]
 
 // ─── ADD-ONS ─────────────────────────────────────────────────────────────────
 export const EXTRAS: { label: string; price: number }[] = [
-  { label: 'Inside Cabinets',                  price: 80 },
+  { label: 'Inside Cabinets',                  price: 60 },
   { label: 'Baseboards',                       price: 40 },
   { label: 'Interior Windows (Up To 10)',      price: 50 },
   { label: 'Inside Oven',                      price: 60 },
   { label: 'Inside Fridge',                    price: 60 },
-  { label: 'Pet Hair Removal',                 price: 50 },
+  { label: 'Pet Hair Removal',                 price: 35 },
   { label: 'Wall Spot Cleaning',               price: 50 },
   { label: 'Extra Heavy Dirt/Extra Scrubbing', price: 80 },
   { label: 'Window Tracks Cleaning',           price: 50 },
@@ -127,12 +150,12 @@ export const EXTRAS: { label: string; price: number }[] = [
 /**
  * Minimum we will ever charge for a job, after any recurring discount.
  *
- * Sits below the cheapest tier ($200), so it only bites on recurring discounts
- * of the smallest homes: 30% or 40% off $200 would be $140 or $120, and those
- * bill at this floor instead. Do not raise it above the cheapest tier — that
- * would quote a one-time clean more than the price list says.
+ * Sits below the cheapest tier ($170), so it only bites on recurring discounts
+ * of the smallest homes: 20% off $170 would be $136, and that bills at this
+ * floor instead. Do not raise it above the cheapest tier — that would quote a
+ * one-time clean more than the price list says.
  */
-export const PRICE_FLOOR = 170
+export const PRICE_FLOOR = 150
 
 // ─── CALCULATION ─────────────────────────────────────────────────────────────
 

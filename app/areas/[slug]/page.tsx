@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AREAS, getArea } from '@/lib/areas'
 import ContactActions from '@/components/ContactActions'
-import { BASE_TIERS, MOVE_TIERS, SQFT_OPTIONS, EXTRAS } from '@/lib/pricing'
+import { STANDARD_TIERS, DEEP_TIERS, MOVE_TIERS, SQFT_OPTIONS, EXTRAS, FREQUENCIES } from '@/lib/pricing'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -242,8 +242,8 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
               Upfront {area.city} Cleaning Prices
             </h2>
             <p className="text-[#4A6583] leading-relaxed mb-8 max-w-3xl">
-              Your price is based on your home&apos;s size, not a guess. You see the exact total on
-              our booking page before you confirm. Include a finished basement in your square footage
+              Your price is based on your home&apos;s size, not a guess. We confirm the exact total
+              with you before you book. Include a finished basement in your square footage
               so your price is accurate.
             </p>
             <div className="overflow-x-auto mb-8">
@@ -251,7 +251,8 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
                 <thead className="bg-[#0F2240] text-white">
                   <tr>
                     <th className="px-4 py-3 font-semibold">Home size</th>
-                    <th className="px-4 py-3 font-semibold">Standard or deep clean</th>
+                    <th className="px-4 py-3 font-semibold">Standard clean</th>
+                    <th className="px-4 py-3 font-semibold">Deep clean</th>
                     <th className="px-4 py-3 font-semibold">Move-in / move-out clean</th>
                   </tr>
                 </thead>
@@ -260,7 +261,10 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
                     <tr key={option.label} className={idx % 2 ? 'bg-[#F7FAFC]' : 'bg-white'}>
                       <td className="px-4 py-3 text-[#0F2240]">{option.label}</td>
                       <td className="px-4 py-3 text-[#4A6583]">
-                        ${BASE_TIERS.find((t) => option.value <= t.max)?.price}
+                        ${STANDARD_TIERS.find((t) => option.value <= t.max)?.price}
+                      </td>
+                      <td className="px-4 py-3 text-[#4A6583]">
+                        ${DEEP_TIERS.find((t) => option.value <= t.max)?.price}
                       </td>
                       <td className="px-4 py-3 text-[#4A6583]">
                         ${MOVE_TIERS.find((t) => option.value <= t.max)?.price}
@@ -275,7 +279,10 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
               {EXTRAS.map((extra) => `${extra.label} $${extra.price}`).join(' · ')}
             </p>
             <p className="text-[#4A6583] leading-relaxed mb-8">
-              Recurring discounts: 30% off every-four-weeks and biweekly service, 40% off weekly.
+              Recurring discounts on standard cleaning:{' '}
+              {FREQUENCIES.filter((f) => f.discount > 0)
+                .map((f) => `${f.discount}% off ${f.label.toLowerCase()}`)
+                .join(', ') + '.'}
               Post-construction cleaning is quoted by phone.{' '}
               <Link
                 href="/blog/how-much-does-house-cleaning-cost-in-denver"

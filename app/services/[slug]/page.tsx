@@ -4,17 +4,19 @@ import { notFound } from 'next/navigation'
 import ContactActions from '@/components/ContactActions'
 import CTABand from '@/components/CTABand'
 import { AREAS } from '@/lib/areas'
-import { BASE_TIERS, MOVE_TIERS, FREQUENCIES, EXTRAS } from '@/lib/pricing'
+import { BASE_TIERS, DEEP_TIERS, MOVE_TIERS, FREQUENCIES, EXTRAS } from '@/lib/pricing'
 import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
 // Read off the price list so an FAQ answer can never quote a stale number.
 const FROM_PRICE = `$${BASE_TIERS[0].price}`
+const DEEP_FROM_PRICE = `$${DEEP_TIERS[0].price}`
 const MOVE_FROM_PRICE = `$${MOVE_TIERS[0].price}`
 const discountFor = (label: string) => FREQUENCIES.find((f) => f.label === label)?.discount ?? 0
 const WEEKLY_OFF = `${discountFor('Weekly')}%`
 const BIWEEKLY_OFF = `${discountFor('Bi-Weekly')}%`
+const FOUR_WEEKS_OFF = `${discountFor('Every 4 Weeks')}%`
 const AREA_LIST = AREAS.map((a) => a.city).join(', ')
 const extraPrice = (label: string) => `$${EXTRAS.find((e) => e.label === label)?.price ?? ''}`
 
@@ -69,7 +71,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'How much does a deep clean cost in Denver?',
-        a: `The price is set by your home’s square footage and starts at ${FROM_PRICE} for homes under 1,000 sq ft. We give you the exact price for your home size, plus any add-ons, when we call you back.`,
+        a: `The price is set by your home’s square footage and starts at ${DEEP_FROM_PRICE} for homes under 1,000 sq ft. We give you the exact price for your home size, plus any add-ons, when we call you back.`,
       },
       {
         q: 'Are inside the oven and baseboard wipe-downs included?',
@@ -115,7 +117,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'Do recurring cleanings cost less?',
-        a: `Yes. Weekly visits are ${WEEKLY_OFF} off the one-time price, and biweekly or every-four-weeks visits are ${BIWEEKLY_OFF} off. The discount applies to the base clean; add-ons are charged at their listed price.`,
+        a: `Yes. Weekly visits are ${WEEKLY_OFF} off the one-time price, biweekly visits are ${BIWEEKLY_OFF} off, and every-four-weeks visits are ${FOUR_WEEKS_OFF} off. The discount applies to the base clean; add-ons are charged at their listed price.`,
       },
       {
         q: 'What is covered on each visit?',
@@ -156,7 +158,7 @@ const servicesData: Record<string, ServiceData> = {
     faqs: [
       {
         q: 'How much does house cleaning cost in Denver?',
-        a: `Pricing is based on your home’s square footage, starting at ${FROM_PRICE} for homes under 1,000 sq ft. Recurring visits are discounted ${BIWEEKLY_OFF}–${WEEKLY_OFF}. We give you your exact price before you commit.`,
+        a: `Pricing is based on your home’s square footage, starting at ${FROM_PRICE} for homes under 1,000 sq ft. Recurring visits are discounted ${FOUR_WEEKS_OFF}–${WEEKLY_OFF}. We give you your exact price before you commit.`,
       },
       {
         q: 'Do you offer one-time and recurring house cleaning?',

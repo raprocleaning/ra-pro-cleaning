@@ -2,8 +2,8 @@
 
 Everything below is ready to paste. Facts pulled from the site: phone
 720-677-8799 (call & text), raprocleaningservices.com, Denver / Aurora / metro,
-pricing from $200 by square footage, 30% off bi-weekly or every-4-weeks,
-40% off weekly, and real client reviews.
+pricing from $170 by square footage, 15% off bi-weekly, 10% off every-4-weeks,
+20% off weekly, and real client reviews.
 
 ---
 
@@ -21,7 +21,7 @@ pricing from $200 by square footage, 30% off bi-weekly or every-4-weeks,
 > the nooks most cleaners skip
 > 🏠 Denver, Aurora & the whole metro
 > 💵 Upfront pricing — you know the total before we ever walk in
-> 🔁 Book bi-weekly and take **30% OFF every single clean** (weekly = 40% OFF)
+> 🔁 Book bi-weekly and take **15% OFF every single clean** (weekly = 20% OFF)
 >
 > "They cleaned every nook and cranny. Professional, friendly, positive and an
 > absolute pleasure to work with." — Kelli R.
@@ -117,7 +117,7 @@ the left, after on the right. Stop scrolling with the BEFORE.
 > Things I am doing:
 > ✅ Nothing. R A Pro handled it. 💅✨
 >
-> Denver & Aurora · from $200 · book bi-weekly for 30% off
+> Denver & Aurora · from $170 · book bi-weekly for 15% off
 > 📲 (720) 677-8799
 >
 > #CleanTok #DenverCleaning #SatisfyingClean #HouseCleaning #DenverColorado
