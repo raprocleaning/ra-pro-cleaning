@@ -20,7 +20,7 @@ const ArrowIcon = () => (
 )
 
 type Props = {
-  /** Classes for the leading button — Call during the day, Book Now otherwise. */
+  /** Classes for the leading button — Call during the day, Get a Free Quote otherwise. */
   primaryClassName: string
   /** Classes for the Text button, which is offered at every hour. */
   secondaryClassName: string
@@ -41,7 +41,7 @@ export default function ContactActions({
   primaryClassName,
   secondaryClassName,
   className = 'flex flex-col sm:flex-row gap-4 justify-center',
-  bookLabel = 'Book Now',
+  bookLabel = 'Get a Free Quote',
 }: Props) {
   const mode = useContactMode()
 
@@ -53,7 +53,7 @@ export default function ContactActions({
           (720) 677-8799
         </a>
       ) : (
-        <a href="/book" className={primaryClassName}>
+        <a href="/quote" className={primaryClassName}>
           {bookLabel}
           <ArrowIcon />
         </a>

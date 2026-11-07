@@ -145,7 +145,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               Denver&apos;s trusted professional cleaning team rated 4.9★ across 49 Google reviews.
             </p>
               <a
-                href="/book"
+                href="/quote"
                 className="inline-flex items-center gap-2 bg-[#4A90D9] text-white font-semibold px-6 py-3 hover:bg-[#357ABD] transition-colors text-sm"
               >
                 Book a Professional Clean

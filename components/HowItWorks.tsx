@@ -4,9 +4,9 @@ import { useScrollAnimationMultiple } from '@/hooks/useScrollAnimation'
 const steps = [
   {
     number: '01',
-    title: 'Book Online',
+    title: 'Get Your Free Quote',
     description:
-      'Schedule in 60 seconds through our easy online booking portal. Choose your service, date, and any special instructions.',
+      'Leave your name, email and phone in under a minute. We call or text you back to learn about your home, give you a price, and set a date.',
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -91,7 +91,7 @@ const HowItWorks = () => {
         {/* CTA */}
           <div className="text-center mt-16 fade-in-up">
             <a
-              href="/book"
+              href="/quote"
               className="inline-flex items-center gap-2 bg-[#0F2240] text-white font-semibold px-8 py-4 hover:bg-[#00A896] transition-colors duration-300"
             >
               Start Now — Book in 60 Seconds

@@ -220,7 +220,7 @@ export default function AboutPage() {
             insurance. Your home and your peace of mind are fully protected.
           </p>
             <a
-              href="/book"
+              href="/quote"
               className="inline-flex items-center gap-2 bg-[#00A896] text-white font-semibold px-8 py-4 hover:bg-[#007A6C] transition-colors"
             >
               Book with Confidence
@@ -276,10 +276,10 @@ export default function AboutPage() {
           </div>
           <div className="flex gap-4">
               <a
-                href="/book"
+                href="/quote"
                 className="bg-[#00A896] text-white font-semibold px-6 py-3 hover:bg-[#007A6C] transition-colors"
               >
-                Book Now
+                Get a Free Quote
               </a>
             <Link
               href="/contact"

@@ -154,17 +154,17 @@ const Navigation = () => {
               {mode === 'phone' ? '(720) 677-8799' : 'Text us'}
             </a>
 
-            {/* Permanent Book Now Button — /book prices by square footage; the
-                HighLevel service menu charges one flat price per service. */}
+            {/* Permanent free-quote button. Online booking (/book) is switched off and
+                forwards to /quote; the office prices each job on the call back. */}
             <Link
-              href="/book"
+              href="/quote"
               className="bg-[#00B894] hover:bg-[#00a382] text-white font-semibold px-5 py-2 rounded-full transition-all shadow-md text-sm inline-block"
             >
-              Book Now
+              Get a Free Quote
             </Link>
           </div>
 
-          {/* Mobile call/text + Book, so a phone visitor can act without opening
+          {/* Mobile call/text + Quote, so a phone visitor can act without opening
               the menu. Same time-of-day rule as the desktop button. */}
           <div className="flex lg:hidden items-center gap-2 ml-auto mr-2">
             <a
@@ -177,10 +177,10 @@ const Navigation = () => {
               {mode === 'phone' ? 'Call' : 'Text'}
             </a>
             <Link
-              href="/book"
+              href="/quote"
               className="bg-[#00B894] text-white font-semibold px-4 py-2 rounded-full shadow-md text-sm"
             >
-              Book
+              Free Quote
             </Link>
           </div>
 
@@ -240,11 +240,11 @@ const Navigation = () => {
           {/* Mobile Buttons */}
           <div className="pt-6 space-y-3">
             <Link
-              href="/book"
+              href="/quote"
               onClick={() => setMobileOpen(false)}
               className="block w-full text-center bg-[#00B894] text-white font-semibold py-3 rounded-full shadow-lg"
             >
-              Book Now
+              Get a Free Quote
             </Link>
             <a
               href="tel:7206778799"

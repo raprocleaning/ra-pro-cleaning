@@ -284,7 +284,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
                 Read the full price guide →
               </Link>
             </p>
-            <Link href="/book" className="inline-block bg-[#00A896] text-white font-bold px-8 py-4">
+            <Link href="/quote" className="inline-block bg-[#00A896] text-white font-bold px-8 py-4">
               See My Exact Price
             </Link>
           </div>
@@ -367,7 +367,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
             Ready for a Cleaner {area.city} Home?
           </h2>
           <p className="text-white/80 mb-8">Get a personalized quote in about 60 seconds.</p>
-          <Link href="/book" className="inline-block bg-white text-[#007A6C] font-bold px-9 py-4">
+          <Link href="/quote" className="inline-block bg-white text-[#007A6C] font-bold px-9 py-4">
             Get My Quote
           </Link>
         </div>

@@ -184,10 +184,10 @@ export default function Pricing() {
         {/* CTA */}
         <div className="text-center">
             <a
-              href="/book"
+              href="/quote"
               className="inline-block bg-[#00A896] text-white font-bold tracking-wide px-10 py-4 hover:bg-[#007A6C] transition-colors text-sm mr-4"
             >
-              Book Now & Get an Instant Price
+              Get My Free Quote
             </a>
           <Link
             href="/contact"

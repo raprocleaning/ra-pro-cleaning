@@ -5,7 +5,7 @@ import ContactActions from '@/components/ContactActions'
 export const metadata: Metadata = {
   title: 'Cleaning Services in Denver, CO | R A Pro Cleaning Services',
   description:
-    'House, recurring, deep, move-in/out, Airbnb, office and post-construction cleaning in Denver and the metro. Compare services, see your price and book online.',
+    'House, recurring, deep, move-in/out, Airbnb, office and post-construction cleaning in Denver and the metro. Compare services, get a free quote.',
   alternates: { canonical: 'https://raprocleaningservices.com/services' },
 }
 

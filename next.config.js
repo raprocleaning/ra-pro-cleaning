@@ -41,8 +41,8 @@ const OLD_SITE_REDIRECTS = [
   ['/page/:n', '/blog'],
   ['/home', '/'],
   ['/contact-us', '/contact'],
-  ['/book-now', '/book'],
-  ['/booking', '/book'],
+  ['/book-now', '/quote'],
+  ['/booking', '/quote'],
   ['/faq', '/#faq'],
   ['/faqs', '/#faq'],
   ['/service-areas', '/areas'],
@@ -56,6 +56,11 @@ const nextConfig = {
     return [
       // WordPress published an RSS feed under every post; send it to the post.
       { source: '/blog/:slug/feed', destination: '/blog/:slug', permanent: true },
+      // Online booking is switched off: the old booking page (linked from ads,
+      // texts and the Google Business Profile) now opens the free-quote form.
+      // Temporary on purpose, so it can be switched back on. /book/confirmed is
+      // left alone for any card payment still finishing.
+      { source: '/book', destination: '/quote', permanent: false },
       // The menu once linked to /reviews, but the reviews are a homepage section.
       { source: '/reviews', destination: '/#reviews', permanent: true },
       ...OLD_SITE_REDIRECTS.map(([source, destination]) => ({

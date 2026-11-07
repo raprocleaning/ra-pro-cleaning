@@ -99,7 +99,7 @@ export default function ServiceAreas() {
           </div>
           <ContactActions
             className="flex flex-col sm:flex-row gap-3 flex-shrink-0"
-            bookLabel="Book Online"
+            bookLabel="Get a Free Quote"
             primaryClassName="inline-flex items-center justify-center gap-2 bg-[#00A896] text-white font-bold px-7 py-3.5 rounded-none hover:bg-[#007A6C] transition-colors text-sm"
             secondaryClassName="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-3.5 hover:border-white hover:bg-white/10 transition-all text-sm"
           />

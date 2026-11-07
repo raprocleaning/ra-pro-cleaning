@@ -69,7 +69,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'How much does a deep clean cost in Denver?',
-        a: `The price is set by your home’s square footage and starts at ${FROM_PRICE} for homes under 1,000 sq ft. The online booking form shows the exact price for your home size, plus any add-ons, before you book.`,
+        a: `The price is set by your home’s square footage and starts at ${FROM_PRICE} for homes under 1,000 sq ft. We give you the exact price for your home size, plus any add-ons, when we call you back.`,
       },
       {
         q: 'Are inside the oven and baseboard wipe-downs included?',
@@ -156,7 +156,7 @@ const servicesData: Record<string, ServiceData> = {
     faqs: [
       {
         q: 'How much does house cleaning cost in Denver?',
-        a: `Pricing is based on your home’s square footage, starting at ${FROM_PRICE} for homes under 1,000 sq ft. Recurring visits are discounted ${BIWEEKLY_OFF}–${WEEKLY_OFF}. The online booking form shows your exact price before you commit.`,
+        a: `Pricing is based on your home’s square footage, starting at ${FROM_PRICE} for homes under 1,000 sq ft. Recurring visits are discounted ${BIWEEKLY_OFF}–${WEEKLY_OFF}. We give you your exact price before you commit.`,
       },
       {
         q: 'Do you offer one-time and recurring house cleaning?',
@@ -246,7 +246,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'How much does move-out cleaning cost?',
-        a: `Move-in and move-out cleans are priced by square footage, starting at ${MOVE_FROM_PRICE} for homes under 1,000 sq ft. The online booking form shows the exact price for your home.`,
+        a: `Move-in and move-out cleans are priced by square footage, starting at ${MOVE_FROM_PRICE} for homes under 1,000 sq ft. We give you the exact price for your home when we call you back.`,
       },
       {
         q: 'Can you clean on short notice?',
@@ -297,7 +297,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'How much does an Airbnb turnover cost?',
-        a: `Turnovers are priced by the unit’s square footage, starting at ${FROM_PRICE} for units under 1,000 sq ft. The online booking form shows the exact price.`,
+        a: `Turnovers are priced by the unit’s square footage, starting at ${FROM_PRICE} for units under 1,000 sq ft. We give you the exact price when we call you back.`,
       },
     ],
   },
@@ -672,7 +672,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <CTABand
         eyebrow={`New clients: $${OFFER.amount} off your first cleaning`}
         heading={`Ready to Book ${service.name}?`}
-        subheading="Call, text or book online. Send a quote request and we reply within 24 hours."
+        subheading="Call, text or send a free quote request, and we'll get back to you fast."
         variant="navy"
       />
     </main>
