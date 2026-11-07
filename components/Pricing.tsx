@@ -1,25 +1,17 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { SQFT_OPTIONS, FREQUENCIES, PRICE_FLOOR, getPrice as listPrice } from '@/lib/pricing'
 
-const sqftTiers = [
-  { range: '0 – 999 sq ft',       standard: 200, deep: 200, moveInOut: 300, airbnb: 200, postConstruction: null },
-  { range: '1,000 – 1,249 sq ft', standard: 250, deep: 250, moveInOut: 350, airbnb: 250, postConstruction: null },
-  { range: '1,250 – 1,499 sq ft', standard: 330, deep: 330, moveInOut: 430, airbnb: 330, postConstruction: null },
-  { range: '1,500 – 1,799 sq ft', standard: 380, deep: 380, moveInOut: 480, airbnb: 380, postConstruction: null },
-  { range: '1,800 – 2,099 sq ft', standard: 460, deep: 460, moveInOut: 560, airbnb: 460, postConstruction: null },
-  { range: '2,100 – 2,399 sq ft', standard: 470, deep: 470, moveInOut: 570, airbnb: 470, postConstruction: null },
-  { range: '2,400 – 2,699 sq ft', standard: 490, deep: 490, moveInOut: 590, airbnb: 490, postConstruction: null },
-  { range: '2,700 – 2,999 sq ft', standard: 540, deep: 540, moveInOut: 640, airbnb: 540, postConstruction: null },
-  { range: '3,000 – 3,299 sq ft', standard: 570, deep: 570, moveInOut: 670, airbnb: 570, postConstruction: null },
-  { range: '3,300 – 3,599 sq ft', standard: 600, deep: 600, moveInOut: 700, airbnb: 600, postConstruction: null },
-  { range: '3,600 – 3,899 sq ft', standard: 640, deep: 640, moveInOut: 740, airbnb: 640, postConstruction: null },
-  { range: '3,900 – 4,199 sq ft', standard: 690, deep: 690, moveInOut: 790, airbnb: 690, postConstruction: null },
-  { range: '4,200 – 4,499 sq ft', standard: 720, deep: 720, moveInOut: 820, airbnb: 720, postConstruction: null },
-  { range: '4,500 – 4,799 sq ft', standard: 760, deep: 760, moveInOut: 860, airbnb: 760, postConstruction: null },
-  { range: '4,800 – 4,999 sq ft', standard: 800, deep: 800, moveInOut: 900, airbnb: 800, postConstruction: null },
-  { range: '5,000+ sq ft',        standard: 830, deep: 830, moveInOut: 930, airbnb: 830, postConstruction: null },
-]
+// Read from lib/pricing so this table can never drift from the price list.
+const sqftTiers = SQFT_OPTIONS.map((o) => ({
+  range: o.label,
+  standard: listPrice('Standard Cleaning', o.value),
+  deep: listPrice('Deep Cleaning', o.value),
+  moveInOut: listPrice('Move In/Out Cleaning', o.value),
+  airbnb: listPrice('Airbnb Cleaning', o.value),
+  postConstruction: null as number | null,
+}))
 
 const serviceTypes = [
   { key: 'standard', label: 'Standard Clean', color: 'text-[#00A896]' },
@@ -29,12 +21,8 @@ const serviceTypes = [
   { key: 'postConstruction', label: 'Post-Construction', color: 'text-[#00A896]' },
 ]
 
-const frequencies = [
-  { label: 'One-Time',      discount: 0,  badge: null },
-  { label: 'Every 4 Weeks', discount: 30, badge: '30% OFF' },
-  { label: 'Bi-Weekly',     discount: 30, badge: '30% OFF' },
-  { label: 'Weekly',        discount: 40, badge: '40% OFF' },
-]
+const frequencies = FREQUENCIES
+const offFor = (label: string) => FREQUENCIES.find((f) => f.label === label)?.discount ?? 0
 
 type ServiceKey = 'standard' | 'deep' | 'moveInOut' | 'airbnb' | 'postConstruction'
 
@@ -47,7 +35,7 @@ export default function Pricing() {
   const getPrice = (base: number | null) => {
     if (base === null) return 'Call Us'
     const discounted = base * (1 - discount / 100)
-    return `$${Math.max(200, Math.round(discounted))}`
+    return `$${Math.max(PRICE_FLOOR, Math.round(discounted))}`
   }
 
   return (
@@ -139,7 +127,7 @@ export default function Pricing() {
             </div>
           ))}
           <div className="px-6 py-3 bg-[#E6F7F5] text-xs text-[#4A6583]">
-            * Prices vary by service type. Deep Clean is ~30% more than Standard; Move In/Out is ~50% more; Post-Construction is priced per sq ft. Final price confirmed at booking.
+            * Prices vary by service type. Deep Clean costs more than Standard; Move In/Out is $100 above Deep; Post-Construction is quoted by phone. Recurring discounts apply to the cleaning price; add-ons are extra. Final price confirmed before you book.
           </div>
         </div>
 
@@ -153,7 +141,7 @@ export default function Pricing() {
             </div>
             <div>
               <p className="font-bold text-[#0F2240] text-sm">Bi-Weekly / Every 4 Weeks</p>
-              <p className="text-[#4A6583] text-sm">Save <span className="text-[#00A896] font-bold">30%</span> on every cleaning with a recurring schedule</p>
+              <p className="text-[#4A6583] text-sm">Save <span className="text-[#00A896] font-bold">{offFor('Bi-Weekly')}%</span> biweekly or <span className="text-[#00A896] font-bold">{offFor('Every 4 Weeks')}%</span> every 4 weeks</p>
             </div>
           </div>
           <div className="bg-[#0F2240] p-6 flex items-center gap-4">
@@ -164,7 +152,7 @@ export default function Pricing() {
             </div>
             <div>
               <p className="font-bold text-white text-sm">Weekly Service</p>
-              <p className="text-white/70 text-sm">Save <span className="text-[#00A896] font-bold">40%</span> on every cleaning when you schedule weekly</p>
+              <p className="text-white/70 text-sm">Save <span className="text-[#00A896] font-bold">{offFor('Weekly')}%</span> on every cleaning when you schedule weekly</p>
             </div>
           </div>
         </div>

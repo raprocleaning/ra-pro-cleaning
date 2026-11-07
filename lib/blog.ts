@@ -24,62 +24,52 @@ export interface BlogPost {
 export const posts: Record<string, BlogPost> = {
   'how-much-does-house-cleaning-cost-in-denver': {
     slug: 'how-much-does-house-cleaning-cost-in-denver',
-    title: 'How Much Does House Cleaning Cost in Denver? (2026 Prices)',
+    title: 'How Much Does House Cleaning Cost in Denver? What Sets the Price',
     category: 'Pricing',
-    date: 'September 13, 2026',
-    readTime: '8 min read',
+    date: 'November 7, 2026',
+    readTime: '5 min read',
     excerpt:
-      'Most Denver cleaning companies make you book a call before they will tell you a number. Here are ours in full — every size bracket, every add-on, and the discounts that actually change what you pay.',
+      'Every home is different, so we quote each one. Here is what actually sets the price of a cleaning in Denver, and how to get an exact number from us in a few minutes.',
     intro:
-      'Ask most Denver cleaning companies what they charge and you get a form, a phone call, and a salesperson in your living room before anybody says a number. We would rather just publish it. Below is what R A Pro Cleaning Services actually charges in 2026 — the full size brackets, every add-on, what recurring service does to the total, and the one service we genuinely cannot quote sight-unseen.',
+      'Two homes with the same number of bedrooms can need very different amounts of work. That is why R A Pro Cleaning Services gives every client a quote for their own home instead of a one-size price list. Below is what moves the price up or down, what you can do to keep it down, and how to get your exact number.',
     sections: [
       {
-        heading: 'What a Standard Clean Costs by Home Size',
+        heading: 'Home Size Matters Most',
         content: [
-          'Price is set by the square footage of your home. A standard clean starts at $200 for homes under 1,000 square feet and rises through brackets from there: $250 for 1,000–1,249 sq ft, $330 for 1,250–1,499, $380 for 1,500–1,799, $460 for 1,800–2,099, and $470 for 2,100–2,399.',
-          'Larger homes continue up the same ladder — $490 for 2,400–2,699, $540 for 2,700–2,999, $570 for 3,000–3,299, and on through to $830 for anything 5,000 square feet and above. Deep cleans and Airbnb turnovers are priced from the same table as a standard clean, so it is the size of your home that sets the number, not the name of the service.',
+          'The biggest factor is your home\u2019s square footage. A larger home simply takes the crew longer. Include finished basements when you tell us your size. Guessing low does not save money; it just means the crew arrives with too little time booked.',
+          'The number of bedrooms, whether it is a house or a condo, and how many floors it has matter much less than total square footage.',
         ],
       },
       {
-        heading: 'Recurring Service Is Where the Real Saving Is',
+        heading: 'The Type of Cleaning',
         content: [
-          'A one-time clean pays the full rate. Booking on a schedule takes a straight percentage off the base: 30% for every-four-weeks and biweekly, and 40% for weekly.',
-          'On a 1,800–2,099 sq ft home, that turns a $460 clean into $322 biweekly or $276 weekly. On a 2,700–2,999 sq ft home, $540 becomes $378 biweekly. The discount applies to the base clean only — add-ons are charged at list price — and no clean is ever billed below $170, so the smallest homes hit that floor before they see the full percentage.',
-          'This is worth doing the arithmetic on. Two biweekly cleans of a 2,000 sq ft home cost $644, less than one-and-a-half one-time cleans of the same house.',
+          'A standard clean keeps a home that is already in good shape looking that way. A deep clean goes after built-up grime: baseboards, vents, light fixtures, grout and the areas behind and under furniture and appliances. It takes longer, so it costs more.',
+          'Move-in and move-out cleans cost the most, because an empty home needs the inside of every cabinet, drawer and appliance done, plus the details a deposit inspection looks at. Post-construction cleaning is always quoted after a conversation, because dust, debris and paint overspray vary so much from job to job.',
         ],
       },
       {
-        heading: 'Move-Out Cleaning Runs $100 Higher',
+        heading: 'Recurring Service Costs Less Per Visit',
         content: [
-          'Move in/out cleaning sits exactly $100 above the standard and deep-clean rate at every size bracket — $300 for the smallest homes up to $930 for the largest. So a 2,100–2,399 sq ft move-out is $570, against $470 for a standard clean of the same place.',
-          'The extra covers what an empty house needs and an occupied one does not: inside every cabinet and drawer, inside appliances, and the detail work on baseboards and bathrooms that a deposit inspection actually looks at.',
+          'A one-time clean pays the full rate. Booking weekly, every two weeks or every four weeks lowers the price of each visit, and weekly saves the most.',
+          'Most people start with one deep clean, then keep the home that way with recurring standard visits, which are quicker and cost less.',
         ],
       },
       {
-        heading: 'Add-Ons, and What Each One Costs',
+        heading: 'Add-Ons You Choose',
         content: [
-          'Add-ons are flat-priced regardless of home size. Inside cabinets is $80, and extra heavy dirt or extra scrubbing is also $80. Inside the oven and inside the refrigerator are $60 each.',
-          'At $50 each: interior windows (up to 10), pet hair removal, wall spot cleaning, and window track cleaning. Baseboards are $40. You pick these when you book, and they are added to the total at list price — the recurring discount does not apply to them.',
+          'Some jobs are optional, so you only pay for what your home needs: inside the oven, inside the refrigerator, inside cabinets, interior windows, window tracks, baseboards, wall spot cleaning and pet hair removal. Tell us which ones you want and we include them in your quote.',
         ],
       },
       {
-        heading: 'The One Service We Will Not Quote Instantly',
+        heading: 'How to Get Your Exact Price',
         content: [
-          'Post-construction cleaning is quoted after a conversation, not by the calculator. This is not a sales tactic — it is that square footage genuinely does not predict the work. Debris volume, paint overspray and grout haze can swing two jobs of identical size by many hours.',
-          'Quoting it instantly would mean either padding every estimate to cover the worst case or under-quoting and coming back to renegotiate. Tell us the scope and we will give you a real number by phone.',
-        ],
-      },
-      {
-        heading: 'What Changes the Price — and What Does Not',
-        content: [
-          'What moves the number: your home’s square footage, which service you pick, how often we come, and which add-ons you choose.',
-          'What does not: the number of bedrooms or bathrooms, whether it is a house or a condo, and how many floors it has. We price on size because size is what we can measure honestly before seeing the place. If your home has something unusual about it — a finished basement, three storeys of stairs, heavy pet traffic — include the basement in the square footage you enter and mention the rest when you book, so the visit is scheduled with enough time.',
-          'The one practical thing to get right is the square footage itself. Include finished basements. Guessing low does not save you money; it just means the crew arrives with too little time booked.',
+          'Fill in the free quote form on our website with your name, phone, email, home size, the type of cleaning and the day you would like, or call us at (720) 677-8799. We call or text you back with an exact price before anything is booked.',
+          'No in-home sales visit, no pressure, and the price we quote is the price you pay unless you add something on the day.',
         ],
       },
     ],
     conclusion:
-      'Every number on this page is what the booking form will quote you — there is no different price waiting behind a phone call. Enter your home size and service at raprocleaningservices.com and you will have a real total in about a minute, no in-home sales visit required.',
+      'The fastest way to know what your cleaning will cost is to ask. Send the free quote form at raprocleaningservices.com/quote or call (720) 677-8799, and we will get back to you with your exact price.',
   },
   'move-out-cleaning-checklist-denver-renters': {
     slug: 'move-out-cleaning-checklist-denver-renters',
@@ -130,7 +120,7 @@ export const posts: Record<string, BlogPost> = {
       {
         heading: 'What This Is Worth Paying Someone For',
         content: [
-          'A full move-out clean of a typical Denver apartment is most of a day of real work, and it lands in the same week as packing, a truck, and a new address. Our move in/out service runs $100 above the deep-clean rate at every size — $300 for the smallest units, $480 for a 1,500–1,799 sq ft place, $570 for 2,100–2,399 sq ft.',
+          'A full move-out clean of a typical Denver apartment is most of a day of real work, and it lands in the same week as packing, a truck, and a new address. Our move in/out service is priced by the size of the place; send the free quote form or call us for your exact price.',
           'Against a deposit that is usually one month of Denver rent, the arithmetic is not close. And it is far easier to clean a unit properly once it is empty, which is the other argument for booking it after the movers rather than before.',
         ],
       },

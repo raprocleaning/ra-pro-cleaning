@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     // ── Attach a dollar value to every booking ────────────────────────────
     // A quoted price from the payload always wins. The fallback runs the same
     // getQuote the booking form uses rather than a bare tier lookup, because a
-    // recurring clean is discounted 30–40% and add-ons are charged on top —
+    // recurring clean is discounted 10–20% and add-ons are charged on top —
     // pricing off the base tier alone would record a bi-weekly job in GHL at
     // half again what the customer was actually quoted.
     const sqft = typeof sqftRaw === 'number' ? sqftRaw : sqftFromText(String(sqftRaw))

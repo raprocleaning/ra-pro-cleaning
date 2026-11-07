@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AREAS, getArea } from '@/lib/areas'
 import ContactActions from '@/components/ContactActions'
-import { BASE_TIERS, MOVE_TIERS, SQFT_OPTIONS, EXTRAS } from '@/lib/pricing'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
@@ -234,59 +233,30 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
         </section>
       ))}
 
-      {/* Optional price table, read live from lib/pricing.ts so it can never drift */}
+      {/* How pricing works. No prices are published: the office quotes by phone. */}
       {area.showPricing && (
         <section className="py-20 bg-white">
           <div className="max-w-5xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl font-black text-[#0F2240] mb-5">
-              Upfront {area.city} Cleaning Prices
+              How {area.city} Cleaning Is Priced
             </h2>
+            <p className="text-[#4A6583] leading-relaxed mb-4 max-w-3xl">
+              Your price depends on your home&apos;s size, the type of cleaning and how often you want
+              us to come. Tell us those in the free quote form, or call us, and we&apos;ll give you an
+              exact price before anything is booked. No hidden fees, no in-home sales visit.
+            </p>
             <p className="text-[#4A6583] leading-relaxed mb-8 max-w-3xl">
-              Your price is based on your home&apos;s size, not a guess. You see the exact total on
-              our booking page before you confirm. Include a finished basement in your square footage
-              so your price is accurate.
+              Weekly, biweekly and every-four-weeks plans cost less per visit than a one-time clean.
+              Include a finished basement in your square footage so your quote is accurate.
             </p>
-            <div className="overflow-x-auto mb-8">
-              <table className="w-full text-left border border-[#E2E8F0] text-sm">
-                <thead className="bg-[#0F2240] text-white">
-                  <tr>
-                    <th className="px-4 py-3 font-semibold">Home size</th>
-                    <th className="px-4 py-3 font-semibold">Standard or deep clean</th>
-                    <th className="px-4 py-3 font-semibold">Move-in / move-out clean</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {SQFT_OPTIONS.map((option, idx) => (
-                    <tr key={option.label} className={idx % 2 ? 'bg-[#F7FAFC]' : 'bg-white'}>
-                      <td className="px-4 py-3 text-[#0F2240]">{option.label}</td>
-                      <td className="px-4 py-3 text-[#4A6583]">
-                        ${BASE_TIERS.find((t) => option.value <= t.max)?.price}
-                      </td>
-                      <td className="px-4 py-3 text-[#4A6583]">
-                        ${MOVE_TIERS.find((t) => option.value <= t.max)?.price}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="text-[#4A6583] leading-relaxed mb-3">
-              <strong className="text-[#0F2240]">Popular add-ons:</strong>{' '}
-              {EXTRAS.map((extra) => `${extra.label} $${extra.price}`).join(' · ')}
-            </p>
-            <p className="text-[#4A6583] leading-relaxed mb-8">
-              Recurring discounts: 30% off every-four-weeks and biweekly service, 40% off weekly.
-              Post-construction cleaning is quoted by phone.{' '}
-              <Link
-                href="/blog/how-much-does-house-cleaning-cost-in-denver"
-                className="text-[#00A896] font-semibold hover:underline"
-              >
-                Read the full price guide →
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/quote" className="inline-block text-center bg-[#00A896] text-white font-bold px-8 py-4">
+                Get My Free Quote
               </Link>
-            </p>
-            <Link href="/quote" className="inline-block bg-[#00A896] text-white font-bold px-8 py-4">
-              See My Exact Price
-            </Link>
+              <a href="tel:+17206778799" className="inline-block text-center border-2 border-[#00A896] text-[#007A6C] font-bold px-8 py-4">
+                Call (720) 677-8799
+              </a>
+            </div>
           </div>
         </section>
       )}

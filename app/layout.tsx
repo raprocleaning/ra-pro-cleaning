@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://raprocleaningservices.com'),
   title: 'R A Pro Cleaning Services | Denver Metro House Cleaning',
   description:
-    'House cleaning, deep cleaning, move-out, Airbnb, office and post-construction cleaning across Denver, Aurora and the metro. See your price online and book.',
+    'House cleaning, deep cleaning, move-out, Airbnb, office and post-construction cleaning across Denver, Aurora and the metro. Get a free quote by phone or online.',
   keywords:
     'cleaning services Denver, house cleaning Aurora CO, cleaning services Aurora, house cleaning Denver CO, deep cleaning Denver, move out cleaning Aurora, Airbnb cleaning Denver, office cleaning Denver',
   openGraph: SITE_OPEN_GRAPH,

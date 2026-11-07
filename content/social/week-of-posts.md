@@ -42,7 +42,7 @@ One ask per post. Reply to every comment within the hour.
 > ✨ Deep clean, top to bottom — baseboards, window tracks, inside the oven
 > 🏠 Denver, Aurora & the whole metro
 > 💵 Upfront pricing — you know the total before we walk in
-> 🔁 Bi-weekly = **30% OFF every clean.** Weekly = **40% OFF.**
+> 🔁 Bi-weekly = **15% OFF every clean.** Weekly = **20% OFF.**
 >
 > You don't need a cleaner life. You need a clean house and your Saturday
 > back. 💙
@@ -84,7 +84,7 @@ One ask per post. Reply to every comment within the hour.
 > Things I am doing:
 > ✅ Nothing. R A Pro handled it. 💅✨
 >
-> Denver & Aurora · from $200 · bi-weekly for 30% off
+> Denver & Aurora · from $170 · bi-weekly for 15% off
 > 📲 (720) 677-8799
 >
 > #CleanTok #SatisfyingClean #DenverCleaning #CleaningMotivation #HouseCleaning
@@ -146,7 +146,7 @@ One ask per post. Reply to every comment within the hour.
 > ⭐⭐⭐⭐⭐ "She even cleaned the windows and all the baseboards — details most
 > cleaners skip." — Jeannie S.
 >
-> We have openings this week in Denver & Aurora. Book bi-weekly and take 30%
+> We have openings this week in Denver & Aurora. Book bi-weekly and take 15%
 > off every clean. 🔁
 >
 > 📲 Message us or text (720) 677-8799 — we'll have your price back to you

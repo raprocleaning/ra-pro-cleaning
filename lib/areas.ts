@@ -48,7 +48,7 @@ export const AREAS: Area[] = [
     city: 'Denver',
     metaTitle: 'Cleaning Services in Denver, CO | R A Pro Cleaning',
     metaDescription:
-      'Trusted house and office cleaning in Denver, CO. 4.9★ on Google, women-owned, upfront prices from $200. See your price and book online in minutes.',
+      'Trusted house and office cleaning in Denver, CO. 4.9★ on Google, women-owned, free quotes by phone or online.',
     h1: 'Cleaning Services in Denver, CO',
     intro:
       'R A Pro Cleaning Services is a women-owned, locally run cleaning company serving homes, rentals and offices across Denver. From 1920s bungalows in Wash Park to lofts in LoDo and newer homes in Central Park, we clean on your schedule, with upfront prices you see before you book. Licensed, insured, rated 4.9★ on Google, and we speak English, Arabic and French.',
@@ -98,7 +98,7 @@ export const AREAS: Area[] = [
           {
             title: 'Recurring (standard) cleaning',
             href: '/services/standard-cleaning',
-            body: 'Weekly, every two weeks or every four weeks. We dust, vacuum, mop, clean kitchens and bathrooms, and reset your home so it stays under control. Recurring clients save 30% on biweekly and every-four-weeks service, and 40% on weekly service.',
+            body: 'Weekly, every two weeks or every four weeks. We dust, vacuum, mop, clean kitchens and bathrooms, and reset your home so it stays under control. Recurring clients save 10% every four weeks, 15% biweekly and 20% weekly.',
           },
           {
             title: 'Deep cleaning',
@@ -152,7 +152,7 @@ export const AREAS: Area[] = [
     faqs: [
       {
         q: 'How much does house cleaning cost in Denver?',
-        a: 'Standard and deep cleans start at $200 for homes under 1,000 sq ft, and move-out cleans start at $300. Add-ons like inside the oven or refrigerator are charged separately, and recurring visits are discounted 30–40%. The online quote takes about a minute and gives you a real number up front, with no in-home sales visit.',
+        a: 'Your price depends on your home size, the type of cleaning and any add-ons like inside the oven or refrigerator. Recurring visits are discounted 10–20%. Send the free quote form or call us, and we give you an exact price up front, with no in-home sales visit.',
       },
       {
         q: 'What is the difference between a standard and a deep clean?',
@@ -637,7 +637,7 @@ export const AREAS: Area[] = [
       },
       {
         title: 'Affordable recurring service',
-        body: 'Weekly, biweekly or every-four-weeks plans take 30–40% off the base price, quoted online before you commit to anything.',
+        body: 'Weekly, biweekly or every-four-weeks plans take 10–20% off the base price, quoted before you commit to anything.',
       },
     ],
     faqs: [
@@ -647,7 +647,7 @@ export const AREAS: Area[] = [
       },
       {
         q: 'Is a first clean more expensive?',
-        a: 'Usually yes, though not because deep cleaning carries a higher base price — it does not. A one-time visit simply has no recurring discount, while weekly booking takes 40% off the base and biweekly or every-four-weeks takes 30%.',
+        a: 'Usually, because most homes start with a deep clean, which covers much more and costs more than a standard clean of the same size. Recurring standard visits also get a discount: 20% off weekly, 15% biweekly and 10% every four weeks.',
       },
       {
         q: 'How do I get a price?',

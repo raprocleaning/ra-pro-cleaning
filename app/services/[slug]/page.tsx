@@ -4,19 +4,17 @@ import { notFound } from 'next/navigation'
 import ContactActions from '@/components/ContactActions'
 import CTABand from '@/components/CTABand'
 import { AREAS } from '@/lib/areas'
-import { BASE_TIERS, MOVE_TIERS, FREQUENCIES, EXTRAS } from '@/lib/pricing'
+import { FREQUENCIES } from '@/lib/pricing'
 import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 const BASE_URL = 'https://raprocleaningservices.com'
 
 // Read off the price list so an FAQ answer can never quote a stale number.
-const FROM_PRICE = `$${BASE_TIERS[0].price}`
-const MOVE_FROM_PRICE = `$${MOVE_TIERS[0].price}`
 const discountFor = (label: string) => FREQUENCIES.find((f) => f.label === label)?.discount ?? 0
 const WEEKLY_OFF = `${discountFor('Weekly')}%`
 const BIWEEKLY_OFF = `${discountFor('Bi-Weekly')}%`
+const FOUR_WEEKS_OFF = `${discountFor('Every 4 Weeks')}%`
 const AREA_LIST = AREAS.map((a) => a.city).join(', ')
-const extraPrice = (label: string) => `$${EXTRAS.find((e) => e.label === label)?.price ?? ''}`
 
 interface ServiceData {
   slug: string
@@ -60,7 +58,7 @@ const servicesData: Record<string, ServiceData> = {
     h1: 'Deep Cleaning Services in Denver, CO',
     metaTitle: 'Deep Cleaning Services in Denver, CO | R A Pro Cleaning',
     metaDescription:
-      'Top-to-bottom deep house cleaning in Denver and the metro: fixtures, vents, grout, closets and behind appliances. See your price online and book.',
+      'Top-to-bottom deep house cleaning in Denver and the metro: fixtures, vents, grout, closets and behind appliances. Get a free quote by phone or online.',
     quoteLinkLabel: 'Request a deep cleaning quote',
     faqs: [
       {
@@ -69,11 +67,11 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'How much does a deep clean cost in Denver?',
-        a: `The price is set by your home’s square footage and starts at ${FROM_PRICE} for homes under 1,000 sq ft. We give you the exact price for your home size, plus any add-ons, when we call you back.`,
+        a: `The price is set by your home’s square footage and any add-ons you choose. Send a free quote request or call us, and we give you the exact price for your home before anything is booked.`,
       },
       {
         q: 'Are inside the oven and baseboard wipe-downs included?',
-        a: `Those are add-ons you choose when you book, so you only pay for what your home needs: inside the oven ${extraPrice('Inside Oven')}, inside the fridge ${extraPrice('Inside Fridge')}, inside cabinets ${extraPrice('Inside Cabinets')} and a full baseboard wipe-down ${extraPrice('Baseboards')}. The booking form adds them to your total before you confirm.`,
+        a: `Those are add-ons you choose, so you only pay for what your home needs: inside the oven, inside the fridge, inside cabinets and a full baseboard wipe-down. Tell us which ones you want and we include them in your quote.`,
       },
       {
         q: 'When should I book a deep clean?',
@@ -106,7 +104,7 @@ const servicesData: Record<string, ServiceData> = {
     relatedSlugs: ['deep-cleaning', 'house-cleaning', 'bedroom-cleaning'],
     h1: 'Recurring House Cleaning & Maid Service in Denver',
     metaTitle: 'Recurring Maid Service in Denver | Weekly & Biweekly Cleaning',
-    metaDescription: `Weekly, biweekly or every-4-weeks house cleaning in Denver and the metro. Save ${WEEKLY_OFF} on weekly visits and ${BIWEEKLY_OFF} on biweekly. See your price online.`,
+    metaDescription: `Weekly, biweekly or every-4-weeks house cleaning in Denver and the metro. Save ${WEEKLY_OFF} on weekly visits and ${BIWEEKLY_OFF} on biweekly. Get a free quote.`,
     quoteLinkLabel: 'Request a recurring cleaning quote',
     faqs: [
       {
@@ -115,7 +113,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'Do recurring cleanings cost less?',
-        a: `Yes. Weekly visits are ${WEEKLY_OFF} off the one-time price, and biweekly or every-four-weeks visits are ${BIWEEKLY_OFF} off. The discount applies to the base clean; add-ons are charged at their listed price.`,
+        a: `Yes. Weekly visits are ${WEEKLY_OFF} off the one-time price, biweekly visits are ${BIWEEKLY_OFF} off, and every-four-weeks visits are ${FOUR_WEEKS_OFF} off. The discount applies to the base clean; add-ons are charged at their listed price.`,
       },
       {
         q: 'What is covered on each visit?',
@@ -151,12 +149,12 @@ const servicesData: Record<string, ServiceData> = {
     h1: 'Professional House Cleaning in Denver',
     metaTitle: 'Professional House Cleaners in Denver | R A Pro Cleaning',
     metaDescription:
-      'Professional house cleaners for Denver homes: kitchens, bathrooms, bedrooms and living areas, one-time or recurring. See your price online and book in minutes.',
+      'Professional house cleaners for Denver homes: kitchens, bathrooms, bedrooms and living areas, one-time or recurring. Get a free quote by phone or online.',
     quoteLinkLabel: 'Request a house cleaning quote',
     faqs: [
       {
         q: 'How much does house cleaning cost in Denver?',
-        a: `Pricing is based on your home’s square footage, starting at ${FROM_PRICE} for homes under 1,000 sq ft. Recurring visits are discounted ${BIWEEKLY_OFF}–${WEEKLY_OFF}. We give you your exact price before you commit.`,
+        a: `Pricing is based on your home’s square footage and how often we come. Recurring visits are discounted ${FOUR_WEEKS_OFF}–${WEEKLY_OFF}. We give you your exact price before you commit.`,
       },
       {
         q: 'Do you offer one-time and recurring house cleaning?',
@@ -237,7 +235,7 @@ const servicesData: Record<string, ServiceData> = {
     h1: 'Move-In & Move-Out Cleaning in Denver, CO',
     metaTitle: 'Move-Out Cleaning in Denver, CO | Move-In Cleaning Too',
     metaDescription:
-      'Move-in and move-out cleaning in Denver and the metro: inside cabinets, closets and appliances, bathrooms, baseboards and floors. See your price online.',
+      'Move-in and move-out cleaning in Denver and the metro: inside cabinets, closets and appliances, bathrooms, baseboards and floors. Get a free quote.',
     quoteLinkLabel: 'Request a move-out cleaning quote',
     faqs: [
       {
@@ -246,7 +244,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'How much does move-out cleaning cost?',
-        a: `Move-in and move-out cleans are priced by square footage, starting at ${MOVE_FROM_PRICE} for homes under 1,000 sq ft. We give you the exact price for your home when we call you back.`,
+        a: `Move-in and move-out cleans are priced by square footage. Send a free quote request or call us, and we give you the exact price for your home.`,
       },
       {
         q: 'Can you clean on short notice?',
@@ -297,7 +295,7 @@ const servicesData: Record<string, ServiceData> = {
       },
       {
         q: 'How much does an Airbnb turnover cost?',
-        a: `Turnovers are priced by the unit’s square footage, starting at ${FROM_PRICE} for units under 1,000 sq ft. We give you the exact price when we call you back.`,
+        a: `Turnovers are priced by the unit’s square footage. Send a free quote request or call us, and we give you the exact price.`,
       },
     ],
   },
