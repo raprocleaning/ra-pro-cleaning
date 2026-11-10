@@ -3,6 +3,13 @@ import { sendLeadEmail, sendCustomerEmail } from '@/lib/leadEmail'
 import { describeAttribution, type Attribution } from '@/lib/attribution'
 
 /**
+ * Added afresh to the contact on every website submission. A HighLevel
+ * workflow ("New website request alert") triggers on this tag being added and
+ * notifies the office by email and text.
+ */
+export const LEAD_ALERT_TAG = 'new-website-request'
+
+/**
  * What a form submission becomes: a CRM contact with a note, a calendar slot for
  * a confirmed booking, and the emails to the office and the customer.
  *
@@ -215,11 +222,27 @@ export async function submitLead(body: LeadBody, payment?: PaymentInfo): Promise
             console.error('Could not add a note to the contact:', err)
           })
 
+        // Re-add the alert tag so HighLevel's "Contact Tag Added" workflow fires
+        // for every submission, including returning customers who already have
+        // it. That workflow emails and texts the office; the addresses and the
+        // phone number live in HighLevel, not in this public repo.
+        const retagForAlert = async () => {
+          const tagUrl = `https://services.leadconnectorhq.com/contacts/${contactId}/tags`
+          const tagBody = JSON.stringify({ tags: [LEAD_ALERT_TAG] })
+          try {
+            await fetch(tagUrl, { method: 'DELETE', headers, body: tagBody })
+            const res = await fetch(tagUrl, { method: 'POST', headers, body: tagBody })
+            if (!res.ok) console.error(`Lead alert tag not added (${res.status}): ${await res.text()}`)
+          } catch (err) {
+            console.error('Could not add the lead alert tag:', err)
+          }
+        }
+
         // The detailed note and the calendar slot do not depend on each other. A
         // failure placing the job must not lose the booking — the contact is
         // already saved.
         const [, slot] = await Promise.all([
-          addNote(noteLines),
+          addNote(noteLines).then(retagForAlert),
           slotWhen
             ? createAppointment({
                 apiKey: ghlApiKey,
