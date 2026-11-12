@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import QuoteForm from '@/components/QuoteForm'
-import { NEW_CLIENT_CALL_OFFER as OFFER } from '@/lib/offers'
 
 export const metadata: Metadata = {
   title: 'Get a Free Cleaning Quote | R A Pro Cleaning Services Denver',
@@ -53,12 +52,6 @@ export default function QuotePage() {
                   </li>
                 ))}
               </ul>
-              <a
-                href={OFFER.phoneHref}
-                className="inline-flex flex-wrap items-center justify-center gap-x-2 bg-[#FFD166] text-[#0F2240] font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-lg hover:bg-[#FFC233] transition-colors"
-              >
-                New clients: ${OFFER.amount} off your first cleaning · call {OFFER.phoneDisplay}
-              </a>
             </div>
 
             <div className="w-full max-w-md mx-auto lg:max-w-none">

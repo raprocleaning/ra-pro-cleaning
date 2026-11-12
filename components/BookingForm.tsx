@@ -72,7 +72,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
   const [notes, setNotes]     = useState(draft?.notes ?? '')
   const [smsOptIn, setSmsOptIn] = useState(!!draft?.smsOptIn)
   const [smsMarketingOptIn, setSmsMarketingOptIn] = useState(!!draft?.smsMarketingOptIn)
-  const [newClient, setNewClient] = useState(!!draft?.newClient)
+  const [newClient] = useState(!!draft?.newClient)
 
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError]   = useState('')
@@ -93,10 +93,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
 
   const sqftLabel = SQFT_OPTIONS.find((o) => o.value === sqft)?.label ?? ''
 
-  // New clients take the offer off their first cleaning; the office checks
-  // the box against its records when it confirms.
-  const newClientOff = quote && newClient ? Math.min(OFFER.amount, quote.total) : 0
-  const total = quote ? quote.total - newClientOff : 0
+  const total = quote ? quote.total : 0
 
   const toggleExtra = (label: string) =>
     setExtras((prev) =>
@@ -176,7 +173,6 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
       bookingDate: date,
       bookingTime: time,
       message: [
-        newClientOff > 0 ? `NEW CLIENT: $${OFFER.amount} first-cleaning discount applied (−$${newClientOff}, list price $${quote?.total}).` : '',
         notes.trim(),
       ].filter(Boolean).join('\n'),
       smsOptIn,
@@ -594,9 +590,6 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
                       const x = EXTRAS.find((e) => e.label === label)
                       return x ? <Row key={label} label={x.label} value={`+$${x.price}`} muted /> : null
                     })}
-                    {newClientOff > 0 && (
-                      <Row label="New-client discount" value={`−$${newClientOff}`} accent />
-                    )}
                   </div>
                 </>
               )}
@@ -624,20 +617,6 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
                     ? 'Flat rate. No hidden fees.'
                     : 'Pick a service and home size to see your price.'}
               </p>
-
-              {quote && !quoteOnRequest && (
-                <label className="mt-3 flex items-start gap-2.5 cursor-pointer bg-[#FFF4D6] border border-[#FFD166] text-[#0F2240] text-xs font-semibold px-3 py-2.5 rounded-lg">
-                  <input
-                    type="checkbox"
-                    checked={newClient}
-                    onChange={(e) => setNewClient(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 accent-[#00A896] shrink-0"
-                  />
-                  <span>
-                    This is my first cleaning with R A Pro: take ${Math.min(OFFER.amount, quote.total)} off
-                  </span>
-                </label>
-              )}
 
               {deposit > 0 && (
                 <div className="mt-4 pt-4 border-t border-[#D3EDE9] space-y-2 text-sm">
@@ -696,7 +675,7 @@ export default function BookingForm({ payOnline = false }: { payOnline?: boolean
               </div>
 
               <p className="text-[#4A6583] text-xs text-center mt-4 pt-4 border-t border-[#EEF6F5]">
-                Prefer to talk? New clients get <strong className="text-[#0F2240]">${OFFER.amount} off</strong> their first cleaning by phone too:{' '}
+                Prefer to talk? Call or text{' '}
                 <a href={OFFER.phoneHref} className="text-[#00A896] font-bold hover:underline">
                   {OFFER.phoneDisplay}
                 </a>{' '}

@@ -668,7 +668,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       </section>
 
       <CTABand
-        eyebrow={`New clients: $${OFFER.amount} off your first cleaning`}
         heading={`Ready to Book ${service.name}?`}
         subheading="Call, text or send a free quote request, and we'll get back to you fast."
         variant="navy"
